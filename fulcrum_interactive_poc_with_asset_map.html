@@ -1,0 +1,350 @@
+<h2 class="sr-only">Interactive concept for the capacity-aware remediation planner: adjust three capacity pools, view the company system map with hop distance from crown-jewel assets, and compare a severity-first plan against the capacity-optimized plan with a full score breakdown for any finding.</h2>
+
+<div style="border: 0.5px solid var(--border); border-radius: 12px; overflow: hidden;">
+
+  <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; border-bottom: 0.5px solid var(--border); background: var(--surface-1);">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <i class="ti ti-scale" style="font-size: 20px; color: var(--text-accent);" aria-hidden="true"></i>
+      <div>
+        <p style="margin: 0; font-size: 15px; font-weight: 500;">Fulcrum — capacity-aware remediation planner</p>
+        <p style="margin: 0; font-size: 12px; color: var(--text-muted);">18 assets · 16 open findings · NVD, EPSS, and CISA KEV</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 14px 16px;">
+
+    <div id="fx-caps" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 4px;">
+      <div>
+        <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary);"><span>General / patching</span><span id="fx-v-general" style="color: var(--text-primary);">12 h</span></div>
+        <input type="range" id="fx-general" min="0" max="20" step="1" value="12" style="width: 100%;" />
+        <div style="height: 6px; border-radius: 3px; background: var(--surface-0); overflow: hidden;"><div id="fx-u-general" style="height: 100%; width: 0%; background: #378ADD;"></div></div>
+        <p id="fx-t-general" style="margin: 4px 0 0; font-size: 11px; color: var(--text-muted);">&nbsp;</p>
+      </div>
+      <div>
+        <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary);"><span>Application security</span><span id="fx-v-appsec" style="color: var(--text-primary);">10 h</span></div>
+        <input type="range" id="fx-appsec" min="0" max="30" step="1" value="10" style="width: 100%;" />
+        <div style="height: 6px; border-radius: 3px; background: var(--surface-0); overflow: hidden;"><div id="fx-u-appsec" style="height: 100%; width: 0%; background: #1D9E75;"></div></div>
+        <p id="fx-t-appsec" style="margin: 4px 0 0; font-size: 11px; color: var(--text-muted);">&nbsp;</p>
+      </div>
+      <div>
+        <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary);"><span>Change window</span><span id="fx-v-change" style="color: var(--text-primary);">8 h</span></div>
+        <input type="range" id="fx-change" min="0" max="16" step="1" value="8" style="width: 100%;" />
+        <div style="height: 6px; border-radius: 3px; background: var(--surface-0); overflow: hidden;"><div id="fx-u-change" style="height: 100%; width: 0%; background: #EF9F27;"></div></div>
+        <p id="fx-t-change" style="margin: 4px 0 0; font-size: 11px; color: var(--text-muted);">&nbsp;</p>
+      </div>
+    </div>
+
+    <div id="fx-alert" style="margin: 12px 0 0;"></div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin: 14px 0;">
+      <div style="background: var(--surface-1); border-radius: var(--radius); padding: 10px 12px;">
+        <p style="margin: 0 0 2px; font-size: 12px; color: var(--text-secondary);">Severity-first risk</p>
+        <p id="fx-m-base" style="margin: 0; font-size: 24px; font-weight: 500;">—</p>
+      </div>
+      <div style="background: var(--surface-1); border-radius: var(--radius); padding: 10px 12px;">
+        <p style="margin: 0 0 2px; font-size: 12px; color: var(--text-secondary);">Optimized risk</p>
+        <p id="fx-m-opt" style="margin: 0; font-size: 24px; font-weight: 500;">—</p>
+      </div>
+      <div style="background: var(--surface-1); border-radius: var(--radius); padding: 10px 12px;">
+        <p style="margin: 0 0 2px; font-size: 12px; color: var(--text-secondary);">Improvement</p>
+        <p id="fx-m-imp" style="margin: 0; font-size: 24px; font-weight: 500; color: var(--text-success);">—</p>
+      </div>
+      <div style="background: var(--surface-1); border-radius: var(--radius); padding: 10px 12px;">
+        <p style="margin: 0 0 2px; font-size: 12px; color: var(--text-secondary);">Crown jewels covered</p>
+        <p id="fx-m-cj" style="margin: 0; font-size: 24px; font-weight: 500;">—</p>
+      </div>
+    </div>
+
+    <div style="border: 0.5px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 14px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; margin-bottom: 6px;">
+        <p style="margin: 0; font-size: 13px; font-weight: 500;">Company system map</p>
+        <p style="margin: 0; font-size: 11px; color: var(--text-muted);">importance by hops from crown jewel · 0–1 critical · 2–3 high · 4–5 medium · 6+ low</p>
+      </div>
+      <div id="fx-map" style="width: 100%;"></div>
+      <p id="fx-map-note" style="margin: 6px 0 0; font-size: 12px; color: var(--text-secondary);">Select a system to see its distance, importance weight, and open findings.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin-bottom: 14px;">
+      <div style="border: 0.5px solid var(--border); border-radius: 12px; padding: 12px; min-width: 0;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px;">
+          <p style="margin: 0; font-size: 13px; font-weight: 500; color: var(--text-secondary);">Severity-first plan</p>
+          <span id="fx-base-total" style="font-size: 12px; color: var(--text-muted);"></span>
+        </div>
+        <p style="margin: 0 0 8px; font-size: 11px; color: var(--text-muted);">Sorted by CVSS only</p>
+        <div id="fx-base-list"></div>
+      </div>
+      <div style="border: 2px solid var(--border-accent); border-radius: 12px; padding: 12px; min-width: 0;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px;">
+          <p style="margin: 0; font-size: 13px; font-weight: 500;">Capacity-optimized plan</p>
+          <span id="fx-opt-total" style="font-size: 12px; color: var(--text-success);"></span>
+        </div>
+        <p style="margin: 0 0 8px; font-size: 11px; color: var(--text-muted);">Maximizes risk reduction per hour</p>
+        <div id="fx-opt-list"></div>
+      </div>
+    </div>
+
+    <div id="fx-detail" style="border: 0.5px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 12px;"></div>
+
+    <button id="fx-inject" style="width: 100%; font-size: 13px;">Inject new active-exploitation alert</button>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  var TIER = [
+    {max:1, name:'critical', w:30, c:'#E24B4A'},
+    {max:3, name:'high', w:20, c:'#EF9F27'},
+    {max:5, name:'medium', w:20, c:'#378ADD'},
+    {max:99, name:'low', w:0, c:'#888780'}
+  ];
+  TIER[2].w = 10;
+
+  var NODES = [
+    {id:'customer-db', label:'Customer DB', col:0, y:120, crown:true},
+    {id:'payment-gw', label:'Payment gateway', col:0, y:215, crown:true},
+    {id:'app-server', label:'App server', col:1, y:70},
+    {id:'auth-service', label:'Auth service', col:1, y:150},
+    {id:'backup-server', label:'Backup server', col:1, y:235},
+    {id:'api-gateway', label:'API gateway', col:2, y:60},
+    {id:'internal-lb', label:'Internal LB', col:2, y:130},
+    {id:'jenkins', label:'Build server', col:2, y:200},
+    {id:'cloud-storage', label:'Cloud storage', col:2, y:270},
+    {id:'vpn-gateway', label:'VPN gateway', col:3, y:60},
+    {id:'web-frontend', label:'Web frontend', col:3, y:130},
+    {id:'file-server', label:'File server', col:3, y:215},
+    {id:'laptops', label:'Employee laptops', col:4, y:60},
+    {id:'marketing', label:'Marketing site', col:4, y:130},
+    {id:'print-server', label:'Print server', col:4, y:215},
+    {id:'iot', label:'IoT sensors', col:5, y:120},
+    {id:'guest-wifi', label:'Guest wifi', col:5, y:190},
+    {id:'sandbox', label:'Dev sandbox', col:5, y:260}
+  ];
+  var EDGES = [['app-server','customer-db'],['app-server','payment-gw'],['auth-service','customer-db'],['backup-server','customer-db'],['api-gateway','app-server'],['internal-lb','app-server'],['jenkins','app-server'],['cloud-storage','backup-server'],['vpn-gateway','api-gateway'],['web-frontend','api-gateway'],['file-server','internal-lb'],['laptops','vpn-gateway'],['marketing','web-frontend'],['print-server','file-server'],['iot','print-server'],['guest-wifi','iot'],['sandbox','guest-wifi']];
+
+  var adj = {};
+  NODES.forEach(function(n){ adj[n.id] = []; });
+  EDGES.forEach(function(e){ adj[e[0]].push(e[1]); adj[e[1]].push(e[0]); });
+
+  var hop = {};
+  var q = [];
+  NODES.forEach(function(n){ if(n.crown){ hop[n.id] = 0; q.push(n.id); } });
+  while(q.length){
+    var cur = q.shift();
+    adj[cur].forEach(function(nb){
+      if(hop[nb] === undefined){ hop[nb] = hop[cur] + 1; q.push(nb); }
+    });
+  }
+  function tierOf(id){ var h = hop[id]; for(var i=0;i<TIER.length;i++){ if(h <= TIER[i].max) return TIER[i]; } return TIER[3]; }
+  var byId = {}; NODES.forEach(function(n){ byId[n.id] = n; });
+
+  var F = [
+    {cve:'CVE-2026-1001', name:'VPN gateway auth bypass', asset:'vpn-gateway', cvss:9.8, epss:0.82, kev:true, hrs:6, pool:'change', also:0},
+    {cve:'CVE-2026-1002', name:'Customer DB deserialization flaw', asset:'customer-db', cvss:9.4, epss:0.09, kev:false, hrs:10, pool:'appsec', also:0},
+    {cve:'CVE-2026-1003', name:'Auth service token leak', asset:'auth-service', cvss:7.5, epss:0.44, kev:false, hrs:3, pool:'appsec', also:1},
+    {cve:'CVE-2026-1004', name:'Legacy file server SMB flaw', asset:'file-server', cvss:9.1, epss:0.12, kev:false, hrs:4, pool:'general', also:0},
+    {cve:'CVE-2026-1005', name:'Payment gateway auth flaw', asset:'payment-gw', cvss:7.2, epss:0.71, kev:true, hrs:8, pool:'appsec', also:2},
+    {cve:'CVE-2026-1006', name:'Dev sandbox outdated library', asset:'sandbox', cvss:9.6, epss:0.05, kev:false, hrs:1, pool:'general', also:0},
+    {cve:'CVE-2026-1007', name:'Employee laptop patch gap', asset:'laptops', cvss:6.8, epss:0.38, kev:false, hrs:2, pool:'general', also:0},
+    {cve:'CVE-2026-1008', name:'Cloud storage bucket misconfig', asset:'cloud-storage', cvss:7.8, epss:0.21, kev:false, hrs:2, pool:'general', also:0},
+    {cve:'CVE-2026-1009', name:'App server remote code execution', asset:'app-server', cvss:8.8, epss:0.55, kev:false, hrs:5, pool:'change', also:1},
+    {cve:'CVE-2026-1010', name:'Build server plugin RCE', asset:'jenkins', cvss:8.1, epss:0.63, kev:false, hrs:3, pool:'appsec', also:0},
+    {cve:'CVE-2026-1011', name:'Marketing site outdated plugin', asset:'marketing', cvss:7.4, epss:0.18, kev:false, hrs:1, pool:'general', also:0},
+    {cve:'CVE-2026-1012', name:'Backup server privilege escalation', asset:'backup-server', cvss:7.9, epss:0.27, kev:false, hrs:4, pool:'change', also:0},
+    {cve:'CVE-2026-1013', name:'API gateway request smuggling', asset:'api-gateway', cvss:8.3, epss:0.49, kev:false, hrs:3, pool:'appsec', also:1},
+    {cve:'CVE-2026-1014', name:'Guest wifi weak encryption', asset:'guest-wifi', cvss:8.9, epss:0.04, kev:false, hrs:2, pool:'general', also:0},
+    {cve:'CVE-2026-1015', name:'Print server RCE', asset:'print-server', cvss:9.2, epss:0.07, kev:false, hrs:3, pool:'general', also:0},
+    {cve:'CVE-2026-1016', name:'IoT sensor default credentials', asset:'iot', cvss:9.0, epss:0.11, kev:false, hrs:2, pool:'general', also:0}
+  ];
+
+  var POOLS = [{k:'general', label:'General / patching'},{k:'appsec', label:'Application security'},{k:'change', label:'Change window'}];
+  var injected = false;
+  var selectedCve = 'CVE-2026-1005';
+  var selectedAsset = null;
+
+  function score(f){
+    var t = tierOf(f.asset);
+    var s = 25*(f.cvss/10) + 30*f.epss + (f.kev?20:0) + 25*(t.w/30) + 4*f.also;
+    return Math.round(s);
+  }
+  function fill(list, budget){
+    var out = [], used = 0;
+    for(var i=0;i<list.length;i++){
+      if(used + list[i].hrs <= budget){ out.push(list[i]); used += list[i].hrs; }
+    }
+    return {items: out, used: used};
+  }
+  function buildPlans(caps){
+    var base = {}, opt = {};
+    POOLS.forEach(function(p){
+      var pool = F.filter(function(f){ return f.pool === p.k; });
+      var b = pool.slice().sort(function(a,c){ return c.cvss - a.cvss; });
+      var o = pool.slice().sort(function(a,c){ return (score(c)/c.hrs) - (score(a)/a.hrs); });
+      base[p.k] = fill(b, caps[p.k]);
+      opt[p.k] = fill(o, caps[p.k]);
+    });
+    return {base: base, opt: opt};
+  }
+  function totalOf(plan){
+    var t = 0, u = 0;
+    POOLS.forEach(function(p){ plan[p.k].items.forEach(function(f){ t += score(f); }); u += plan[p.k].used; });
+    return {risk: t, used: u};
+  }
+
+  function badge(text, bg, fg){
+    return '<span style="font-size:11px; padding:1px 6px; border-radius:4px; background:'+bg+'; color:'+fg+'; white-space:nowrap;">'+text+'</span>';
+  }
+  function rowHtml(f, rank, showScore){
+    var t = tierOf(f.asset);
+    var sel = (f.cve === selectedCve);
+    var hi = selectedAsset && f.asset === selectedAsset;
+    var bg = sel ? 'var(--surface-1)' : (hi ? 'var(--bg-accent)' : 'transparent');
+    var pills = badge(t.name, 'var(--surface-0)', 'var(--text-secondary)');
+    if(f.kev) pills += ' ' + badge('actively exploited', 'var(--bg-danger)', 'var(--text-danger)');
+    return '<div class="fx-row" data-cve="'+f.cve+'" style="display:flex; gap:8px; justify-content:space-between; align-items:flex-start; padding:6px; border-radius:6px; cursor:pointer; background:'+bg+';">'
+      + '<div style="min-width:0;">'
+      + '<p style="margin:0; font-size:12px; line-height:1.35;">'+rank+'. '+f.cve+' — '+f.name+'</p>'
+      + '<div style="margin-top:3px; display:flex; gap:4px; flex-wrap:wrap;">'+pills+'</div>'
+      + '</div>'
+      + '<div style="text-align:right; white-space:nowrap;"><p style="margin:0; font-size:13px; font-weight:500;">'+(showScore?score(f):f.cvss.toFixed(1))+'</p><p style="margin:0; font-size:11px; color:var(--text-muted);">'+f.hrs+' h</p></div>'
+      + '</div>';
+  }
+
+  function mapHtml(optAssets){
+    var X = [62,188,314,440,566,686];
+    var s = '<svg viewBox="0 0 756 320" style="width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg">';
+    EDGES.forEach(function(e){
+      var a = byId[e[0]], b = byId[e[1]];
+      s += '<line x1="'+X[a.col]+'" y1="'+a.y+'" x2="'+X[b.col]+'" y2="'+b.y+'" stroke="var(--border-strong)" stroke-width="1"/>';
+    });
+    NODES.forEach(function(n){
+      var t = tierOf(n.id);
+      var x = X[n.col] - 52;
+      var inPlan = optAssets.indexOf(n.id) !== -1;
+      var isSel = selectedAsset === n.id;
+      s += '<g class="fx-node" data-asset="'+n.id+'" style="cursor:pointer;">';
+      s += '<rect x="'+x+'" y="'+(n.y-14)+'" width="104" height="28" rx="6" fill="var(--surface-1)" stroke="'+t.c+'" stroke-width="'+(isSel?3:(inPlan?2:1))+'"/>';
+      if(n.crown) s += '<circle cx="'+(x+8)+'" cy="'+(n.y-8)+'" r="4" fill="'+t.c+'"/>';
+      if(inPlan) s += '<circle cx="'+(x+98)+'" cy="'+(n.y-8)+'" r="4" fill="#1D9E75"/>';
+      s += '<text x="'+X[n.col]+'" y="'+(n.y+4)+'" text-anchor="middle" font-size="11" fill="var(--text-primary)">'+n.label+'</text>';
+      s += '</g>';
+    });
+    s += '<text x="62" y="308" text-anchor="middle" font-size="11" fill="var(--text-muted)">crown jewels</text>';
+    s += '<text x="686" y="308" text-anchor="middle" font-size="11" fill="var(--text-muted)">6+ hops away</text>';
+    s += '</svg>';
+    return s;
+  }
+
+  function detailHtml(f){
+    var t = tierOf(f.asset);
+    function row(k, v, extra){
+      return '<div style="display:flex; justify-content:space-between; gap:12px; padding:4px 0; font-size:12px;"><span style="color:var(--text-secondary);">'+k+'</span><span style="text-align:right;'+(extra||'')+'">'+v+'</span></div>';
+    }
+    var why = [];
+    if(f.kev) why.push('it is already being actively exploited');
+    if(f.epss >= 0.4) why.push('exploitation likelihood is high at ' + Math.round(f.epss*100) + '%');
+    why.push('the affected system sits ' + hop[f.asset] + ' hop' + (hop[f.asset]===1?'':'s') + ' from a crown jewel (' + t.name + ' importance)');
+    if(f.also > 0) why.push('one fix clears ' + (f.also+1) + ' findings on the same component');
+    var s = '<p style="margin:0 0 2px; font-size:13px; font-weight:500;">Finding breakdown</p>'
+      + '<p style="margin:0 0 10px; font-size:12px; color:var(--text-muted);">'+f.cve+' — '+f.name+'</p>'
+      + row('CVSS severity', f.cvss.toFixed(1) + ' of 10')
+      + row('Exploitation likelihood (EPSS)', Math.round(f.epss*100) + '%')
+      + row('Active exploitation (CISA KEV)', f.kev ? badge('yes — on KEV', 'var(--bg-danger)', 'var(--text-danger)') : 'not listed')
+      + row('Affected system', byId[f.asset].label)
+      + row('Hops from crown jewel', hop[f.asset] + ' → ' + t.name + ' (weight ' + t.w + ')')
+      + row('Assigned pool', POOLS.filter(function(p){return p.k===f.pool;})[0].label)
+      + row('Effort estimate', f.hrs + ' h (heuristic)')
+      + row('Also resolves', f.also > 0 ? f.also + ' related finding' + (f.also===1?'':'s') : 'none')
+      + '<div style="border-top:0.5px solid var(--border); margin-top:8px; padding-top:8px; display:flex; justify-content:space-between; font-size:13px;"><span style="font-weight:500;">Composite risk score</span><span style="font-weight:500;">'+score(f)+' of 100</span></div>'
+      + '<p style="margin:8px 0 0; font-size:12px; color:var(--text-secondary); line-height:1.5;">Ranked where it is because ' + why.join(', ') + '.</p>';
+    return s;
+  }
+
+  function render(){
+    var caps = {
+      general: parseInt(document.getElementById('fx-general').value, 10),
+      appsec: parseInt(document.getElementById('fx-appsec').value, 10),
+      change: parseInt(document.getElementById('fx-change').value, 10)
+    };
+    POOLS.forEach(function(p){
+      document.getElementById('fx-v-' + p.k).textContent = caps[p.k] + ' h';
+    });
+    var plans = buildPlans(caps);
+    var b = totalOf(plans.base), o = totalOf(plans.opt);
+    POOLS.forEach(function(p){
+      var used = plans.opt[p.k].used, cap = caps[p.k];
+      var pct = cap > 0 ? Math.round(used / cap * 100) : 0;
+      document.getElementById('fx-u-' + p.k).style.width = Math.min(pct, 100) + '%';
+      document.getElementById('fx-t-' + p.k).textContent = used + ' of ' + cap + ' h used · ' + plans.opt[p.k].items.length + ' fixes';
+    });
+
+    document.getElementById('fx-m-base').textContent = b.risk;
+    document.getElementById('fx-m-opt').textContent = o.risk;
+    var imp = b.risk > 0 ? Math.round((o.risk - b.risk) / b.risk * 100) : 0;
+    var impEl = document.getElementById('fx-m-imp');
+    impEl.textContent = (imp >= 0 ? '+' : '') + imp + '%';
+    impEl.style.color = imp >= 0 ? 'var(--text-success)' : 'var(--text-danger)';
+
+    var optItems = [], baseItems = [];
+    POOLS.forEach(function(p){
+      optItems = optItems.concat(plans.opt[p.k].items);
+      baseItems = baseItems.concat(plans.base[p.k].items);
+    });
+    optItems.sort(function(a,c){ return (score(c)/c.hrs) - (score(a)/a.hrs); });
+    baseItems.sort(function(a,c){ return c.cvss - a.cvss; });
+
+    var optAssets = optItems.map(function(f){ return f.asset; });
+    var crowns = NODES.filter(function(n){ return n.crown; }).map(function(n){ return n.id; });
+    var covered = crowns.filter(function(c){ return optAssets.indexOf(c) !== -1; }).length;
+    document.getElementById('fx-m-cj').textContent = covered + ' of ' + crowns.length;
+
+    document.getElementById('fx-base-list').innerHTML = baseItems.map(function(f, i){ return rowHtml(f, i+1, false); }).join('');
+    document.getElementById('fx-opt-list').innerHTML = optItems.map(function(f, i){ return rowHtml(f, i+1, true); }).join('');
+    document.getElementById('fx-base-total').textContent = b.risk + ' risk · ' + b.used + ' h';
+    document.getElementById('fx-opt-total').textContent = o.risk + ' risk · ' + o.used + ' h';
+
+    document.getElementById('fx-map').innerHTML = mapHtml(optAssets);
+    if(selectedAsset){
+      var n = byId[selectedAsset], t = tierOf(selectedAsset);
+      var open = F.filter(function(f){ return f.asset === selectedAsset; });
+      document.getElementById('fx-map-note').textContent = n.label + ' · ' + hop[selectedAsset] + ' hop' + (hop[selectedAsset]===1?'':'s') + ' from crown jewel · ' + t.name + ' importance (weight ' + t.w + ') · ' + open.length + ' open finding' + (open.length===1?'':'s');
+    }
+
+    var sel = F.filter(function(f){ return f.cve === selectedCve; })[0];
+    document.getElementById('fx-detail').innerHTML = detailHtml(sel);
+
+    Array.prototype.forEach.call(document.querySelectorAll('.fx-row'), function(el){
+      el.addEventListener('click', function(){ selectedCve = el.getAttribute('data-cve'); render(); });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.fx-node'), function(el){
+      el.addEventListener('click', function(){
+        var a = el.getAttribute('data-asset');
+        selectedAsset = (selectedAsset === a) ? null : a;
+        var first = F.filter(function(f){ return f.asset === a; })[0];
+        if(first && selectedAsset) selectedCve = first.cve;
+        render();
+      });
+    });
+  }
+
+  ['fx-general','fx-appsec','fx-change'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', render);
+  });
+
+  document.getElementById('fx-inject').addEventListener('click', function(){
+    injected = !injected;
+    var f = F.filter(function(x){ return x.cve === 'CVE-2026-1013'; })[0];
+    f.kev = injected;
+    f.epss = injected ? 0.88 : 0.49;
+    document.getElementById('fx-alert').innerHTML = injected
+      ? '<div style="display:flex; gap:8px; align-items:center; padding:8px 10px; border-left:3px solid var(--border-warning); border-radius:0; background:var(--bg-warning);"><i class="ti ti-alert-triangle" style="font-size:16px; color:var(--text-warning);" aria-hidden="true"></i><span style="font-size:12px; color:var(--text-warning);">CVE-2026-1013 added to CISA KEV — API gateway sits 2 hops from a crown jewel. Plan re-optimized.</span></div>'
+      : '';
+    this.textContent = injected ? 'Reset alert feed' : 'Inject new active-exploitation alert';
+    if(injected) selectedCve = 'CVE-2026-1013';
+    render();
+  });
+
+  render();
+})();
+</script>

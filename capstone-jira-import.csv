@@ -1,0 +1,46 @@
+Issue Type,Epic Name,Epic Link,Summary,Description,Story Points,Labels,Sprint,Priority
+Epic,Data Pipeline & Vulnerability Ingestion,,Data Pipeline & Vulnerability Ingestion,,,data,Sprint 1,Medium
+Story,,Data Pipeline & Vulnerability Ingestion,Decide CVE-to-asset mapping method,Choose CPE-based NVD query vs. curated CVE list. Unresolved decision that blocks the rest of the ingestion epic - tackle first.,2,data,Sprint 1,Highest
+Story,,Data Pipeline & Vulnerability Ingestion,Build NVD API client,Fetch CVE records and CVSS scores from the NVD API.,3,data,Sprint 1,Medium
+Story,,Data Pipeline & Vulnerability Ingestion,Integrate FIRST.org EPSS API,Fetch and merge exploitation-likelihood (EPSS) scores.,2,data,Sprint 1,Medium
+Story,,Data Pipeline & Vulnerability Ingestion,Integrate CISA KEV feed,Flag actively-exploited CVEs using the CISA Known Exploited Vulnerabilities feed.,2,data,Sprint 1,Medium
+Story,,Data Pipeline & Vulnerability Ingestion,Combine feeds into one clean DataFrame,"Merge NVD, EPSS, and KEV data into a single clean pandas DataFrame.",2,data,Sprint 1,Medium
+Epic,Asset Graph Setup,,Asset Graph Setup,,,data,Sprint 1,Medium
+Story,,Asset Graph Setup,Author the asset CSV,"Create 15-20 fictional assets with connections, criticality tags, and crown-jewel designation.",2,data,Sprint 1,Medium
+Story,,Asset Graph Setup,Build networkx graph loader,Load the asset CSV into a networkx graph.,2,data,Sprint 1,Medium
+Story,,Asset Graph Setup,Implement hop-distance calculation,Calculate hop-distance from each asset to the crown jewel.,3,data,Sprint 1,Medium
+Story,,Asset Graph Setup,Map hop-distance into importance tiers,"0-1 hop = critical, 2-3 = high, 4-5 = medium, 6+ = low.",1,data,Sprint 1,Medium
+Epic,Agile Process,,Agile Process,,,docs,Sprint 1,Medium
+Story,,Agile Process,Sprint 1 planning session,Plan sprint scope and tickets.,1,docs,Sprint 1,Medium
+Story,,Agile Process,Sprint 1 standups,Daily/regular standup check-ins for the sprint.,1,docs,Sprint 1,Medium
+Story,,Agile Process,Sprint 1 review + retro,Sprint review and retrospective.,1,docs,Sprint 1,Medium
+Story,,Agile Process,Sprint 2 planning session,Plan sprint scope and tickets.,1,docs,Sprint 2,Medium
+Story,,Agile Process,Sprint 2 standups,Daily/regular standup check-ins for the sprint.,1,docs,Sprint 2,Medium
+Story,,Agile Process,Sprint 2 review + retro,Sprint review and retrospective.,1,docs,Sprint 2,Medium
+Story,,Agile Process,Sprint 3 planning session,Plan sprint scope and tickets.,1,docs,Sprint 3,Medium
+Story,,Agile Process,Sprint 3 standups,Daily/regular standup check-ins for the sprint.,1,docs,Sprint 3,Medium
+Story,,Agile Process,Sprint 3 review + retro,Sprint review and retrospective.,1,docs,Sprint 3,Medium
+Epic,Composite Risk Scoring,,Composite Risk Scoring,,,scoring,Sprint 2,Medium
+Story,,Composite Risk Scoring,Implement scoring formula,Combine CVSS + EPSS + KEV + computed importance into a composite risk score.,3,scoring,Sprint 2,Medium
+Story,,Composite Risk Scoring,Implement adjustable weighting,Make scoring weights configurable inputs rather than hardcoded.,2,scoring,Sprint 2,Medium
+Story,,Composite Risk Scoring,Implement security-lead override field,"Allow manual override of a score, with logging of who/when/why.",2,scoring,Sprint 2,Medium
+Story,,Composite Risk Scoring,Unit test scoring against sample vulnerabilities,Cover the scoring formula with unit tests on representative sample data.,2,scoring,Sprint 2,Medium
+Epic,Capacity-Aware Optimizer,,Capacity-Aware Optimizer,,,optimizer,Sprint 2,Medium
+Story,,Capacity-Aware Optimizer,Define capacity-pool data structure,"Model general/patching, AppSec, and change-window capacity pools.",2,optimizer,Sprint 2,Medium
+Story,,Capacity-Aware Optimizer,Build greedy optimizer,Fill each capacity pool by risk-reduction / effort ratio.,3,optimizer,Sprint 2,Medium
+Story,,Capacity-Aware Optimizer,Build naive severity-first baseline,Baseline approach for comparison against the optimizer.,2,optimizer,Sprint 2,Medium
+Story,,Capacity-Aware Optimizer,Compute headline improvement metric,Percentage-improvement of optimizer vs. naive baseline.,1,optimizer,Sprint 2,Medium
+Story,,Capacity-Aware Optimizer,(Stretch) PuLP/ILP comparison,Only if ahead of schedule: compare greedy result against an ILP solution via PuLP.,3,optimizer,Sprint 2,Low
+Story,,Capacity-Aware Optimizer,Mid-sprint checkpoint: optimizer beats baseline,Confirm the optimizer beats the naive baseline on sample data before moving into Sprint 3.,1,optimizer,Sprint 2,High
+Epic,Dashboard,,Dashboard,,,dashboard,Sprint 3,Medium
+Story,,Dashboard,Streamlit app skeleton,Set up the base Streamlit app structure.,2,dashboard,Sprint 3,Medium
+Story,,Dashboard,Capacity-pool + weighting sliders,Interactive sliders for capacity pools and scoring weights.,2,dashboard,Sprint 3,Medium
+Story,,Dashboard,Findings table + naive-vs-optimized view,Side-by-side comparison view of naive vs optimized remediation plans.,3,dashboard,Sprint 3,Medium
+Story,,Dashboard,Inject new KEV alert demo trigger,Live re-optimization triggered by a simulated new KEV alert.,3,dashboard,Sprint 3,Medium
+Epic,Demo Preparation,,Demo Preparation,,,demo,Sprint 3,Medium
+Story,,Demo Preparation,Script the live demo flow,Write the 3-5 minute live demo script.,1,demo,Sprint 3,Medium
+Story,,Demo Preparation,Rehearse full timing,Rehearse the demo to fit inside the 20-minute slot.,1,demo,Sprint 3,Medium
+Story,,Demo Preparation,Build slides,Build slides following the TTPR guide's required structure.,3,demo,Sprint 3,Medium
+Epic,Documentation & Report,,Documentation & Report,,,docs,Sprint 3,Medium
+Story,,Documentation & Report,Write project report,"Overview/motivation, tools/methodology, implementation/results, conclusion/next steps.",5,docs,Sprint 3,Medium
+Story,,Documentation & Report,Write Risks & Limitations section,"Cover heuristic effort estimates, fictional CSV, greedy-not-optimal, override subjectivity, CVE-only scope.",2,docs,Sprint 3,Medium

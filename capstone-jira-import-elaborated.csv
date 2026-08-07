@@ -1,0 +1,453 @@
+Issue Type,Epic Name,Epic Link,Summary,Description,Story Points,Labels,Sprint,Priority
+Epic,Data Pipeline & Vulnerability Ingestion,,Data Pipeline & Vulnerability Ingestion,,,data,Sprint 1,Medium
+Story,,Data Pipeline & Vulnerability Ingestion,Decide CVE-to-asset mapping method,"Key concept: CPE (Common Platform Enumeration) is a standardized way to query NVD directly by product/version; a curated CVE list means the team manually picks a fixed set of CVEs to work with instead. This decision blocks every other Data Pipeline ticket.
+
+Roles:
+- Deliverable Architect: researches both options and makes the technical call.
+- Scrum Master: makes sure this doesn't sit unresolved and quietly stall the sprint.
+- Project Coordinator: communicates the decision and its impact to the rest of the team once made.
+- Tech Auditor: won't let dependent tickets move to In Progress until this one is actually closed out.
+
+Project Coordinator talking points: which method was chosen, why, and what it means for how much CVE data we'll realistically have.
+Tech Auditor checklist: the decision and reasoning are written in the ticket itself, not just talked about verbally.
+
+Requires: a short comparison written in the ticket (pros/cons, data volume, complexity) before marking it Done.",2.0,data,Sprint 1,Highest
+Story,,Data Pipeline & Vulnerability Ingestion,Build NVD API client,"Key concept: the NVD (National Vulnerability Database) API returns CVE records including their CVSS severity scores — this is the base data everything else scores against.
+
+Roles:
+- Deliverable Architect: builds the client, handles pagination/rate limits, requests an API key if needed.
+- Scrum Master: unblocks any access/API-key delays fast.
+- Project Coordinator: flags if NVD access issues will affect the Sprint 1 timeline.
+- Tech Auditor: only marks Done once the client returns real CVE + CVSS data, not a stub.
+
+Project Coordinator talking points: this is the foundational data source — nothing else in the pipeline works without it.
+Tech Auditor checklist: client runs end-to-end and produces CVE records with CVSS scores attached.
+
+Requires: an NVD API key, Python (requests), and basic error/rate-limit handling.",3.0,data,Sprint 1,Medium
+Story,,Data Pipeline & Vulnerability Ingestion,Integrate FIRST.org EPSS API,"Key concept: EPSS (Exploit Prediction Scoring System) estimates the probability a CVE will actually be exploited in the next 30 days — this is what separates our tool from a static severity list.
+
+Roles:
+- Deliverable Architect: builds the integration and merges EPSS scores onto existing CVE records.
+- Scrum Master: keeps this from slipping since it feeds directly into scoring next epic.
+- Project Coordinator: can explain why EPSS matters if a stakeholder asks ""why not just use CVSS.""
+- Tech Auditor: confirms EPSS values are actually joined to the right CVE, not just fetched and dropped.
+
+Project Coordinator talking points: EPSS is the ""is this likely to be exploited"" signal — the core differentiator of the project.
+Tech Auditor checklist: sample output shows CVE + CVSS + EPSS together correctly matched by CVE ID.
+
+Requires: FIRST.org EPSS API access and matching records to the NVD data by CVE ID.",2.0,data,Sprint 1,Medium
+Story,,Data Pipeline & Vulnerability Ingestion,Integrate CISA KEV feed,"Key concept: CISA's Known Exploited Vulnerabilities (KEV) catalog lists CVEs confirmed to be actively exploited right now — this is the strongest possible signal in our scoring formula.
+
+Roles:
+- Deliverable Architect: pulls the feed and flags matching CVEs in the dataset.
+- Scrum Master: treats this as high-value/low-effort and helps prioritize it if time gets tight.
+- Project Coordinator: can explain KEV as ""confirmed attacks happening now,"" not a prediction.
+- Tech Auditor: verifies the KEV flag is present and correct on the right rows.
+
+Project Coordinator talking points: KEV is the clearest, most defensible reason to jump a vulnerability to the top of the plan.
+Tech Auditor checklist: a boolean/flag column exists and correctly marks actively-exploited CVEs.
+
+Requires: pulling the public CISA KEV JSON/CSV feed and matching entries by CVE ID.",2.0,data,Sprint 1,Medium
+Story,,Data Pipeline & Vulnerability Ingestion,Combine feeds into one clean DataFrame,"Key concept: this is the join step — NVD, EPSS, and KEV data all need to line up on CVE ID into one table with no duplicate or missing-key rows before scoring can start.
+
+Roles:
+- Deliverable Architect: writes the merge logic and handles missing/unmatched records.
+- Scrum Master: confirms this closes out the Data Pipeline epic on schedule.
+- Project Coordinator: can state that this is the single source of truth the rest of the tool builds on.
+- Tech Auditor: checks the merged DataFrame for row-count sanity and no silently dropped CVEs.
+
+Project Coordinator talking points: this ticket marks the pipeline epic as functionally complete.
+Tech Auditor checklist: final DataFrame has one row per CVE with CVSS, EPSS, and KEV columns all populated (or explicitly null, not missing).
+
+Requires: pandas merge/join logic and a documented approach for CVEs missing from one of the three sources.",2.0,data,Sprint 1,Medium
+Epic,Asset Graph Setup,,Asset Graph Setup,,,data,Sprint 1,Medium
+Story,,Asset Graph Setup,Author the asset CSV,"Key concept: this is fictional company data — a set of systems, how they connect to each other, and which one is the ""crown jewel"" (the most valuable system to protect).
+
+Roles:
+- Deliverable Architect: designs a realistic, connected asset map (not a random list).
+- Scrum Master: keeps scope to 15-20 assets so it doesn't balloon.
+- Project Coordinator: can explain that this CSV stands in for what a real audit team would provide.
+- Tech Auditor: confirms every asset has connections, a criticality tag, and exactly one crown-jewel designation.
+
+Project Coordinator talking points: this is simulated input data representing what a real client would hand us.
+Tech Auditor checklist: CSV has 15-20 rows, each with connections and criticality filled in, and one clear crown jewel.
+
+Requires: designing plausible asset names, relationships, and criticality levels by hand.",2.0,data,Sprint 1,Medium
+Story,,Asset Graph Setup,Build networkx graph loader,"Key concept: networkx is a Python library for representing networks as graphs (nodes = assets, edges = connections) so distance/importance can be calculated algorithmically instead of guessed.
+
+Roles:
+- Deliverable Architect: writes the loader that turns the asset CSV into a graph object.
+- Scrum Master: makes sure this doesn't block hop-distance work behind it.
+- Project Coordinator: can describe this as ""turning the asset list into a map the tool can actually reason about.""
+- Tech Auditor: confirms the graph's node/edge count matches the source CSV.
+
+Project Coordinator talking points: this is what replaces subjective ""how important is this system"" guesses with an actual map.
+Tech Auditor checklist: loader runs cleanly on the asset CSV and produces a graph with the expected number of nodes and edges.
+
+Requires: Python networkx and a CSV parser matching the schema from the asset CSV ticket.",2.0,data,Sprint 1,Medium
+Story,,Asset Graph Setup,Implement hop-distance calculation,"Key concept: hop-distance is the number of connection ""steps"" between an asset and the crown jewel, typically computed with a shortest-path/BFS algorithm — closer assets are treated as more important.
+
+Roles:
+- Deliverable Architect: implements the shortest-path calculation from every asset to the crown jewel.
+- Scrum Master: watches this as the last technical dependency before importance tiers can be assigned.
+- Project Coordinator: can explain hop-distance simply as ""how close is this system to what matters most.""
+- Tech Auditor: spot-checks a few known assets against expected distances.
+
+Project Coordinator talking points: this is the mechanism that makes asset importance data-driven instead of subjective.
+Tech Auditor checklist: every asset in the graph has a computed hop-distance value, none left null.
+
+Requires: networkx's shortest-path functions run against the graph built in the previous ticket.",3.0,data,Sprint 1,Medium
+Story,,Asset Graph Setup,Map hop-distance into importance tiers,"Key concept: raw hop-distance numbers get bucketed into human-readable tiers (0-1 hop = critical, 2-3 = high, 4-5 = medium, 6+ = low) so they can plug directly into the scoring formula.
+
+Roles:
+- Deliverable Architect: implements the tier mapping logic.
+- Scrum Master: confirms this closes the Asset Graph epic.
+- Project Coordinator: can explain the tier cutoffs if a stakeholder asks how ""importance"" is defined.
+- Tech Auditor: confirms every asset lands in exactly one tier and none are unmapped.
+
+Project Coordinator talking points: these are the default tier boundaries — note they're adjustable if the security lead disagrees with the graph's read.
+Tech Auditor checklist: tier column exists for every asset and matches the stated hop-distance ranges.
+
+Requires: a simple lookup/bucketing function applied to the hop-distance output.",1.0,data,Sprint 1,Medium
+Epic,Agile Process,,Agile Process,,,docs,Sprint 1,Medium
+Story,,Agile Process,Sprint 1 planning session,"Key concept: sprint planning is where the team commits to a specific slice of the backlog for the sprint, not just ""whatever looks important.""
+
+Roles:
+- Scrum Master: runs the session, keeps it timeboxed, makes sure every ticket that gets pulled in has an owner.
+- Deliverable Architect: sanity-checks that the scope is actually buildable in the sprint window.
+- Project Coordinator: confirms the sprint goal is clear enough to repeat back to a stakeholder in one sentence.
+- Tech Auditor: confirms every committed ticket is correctly filed under this sprint in Jira before the session ends.
+
+Project Coordinator talking points: what Sprint 1's goal is, which epics it touches, and what's explicitly out of scope.
+Tech Auditor checklist: all Sprint 1 tickets have story points, an assignee, and the right epic link.
+
+Requires: reviewing the backlog beforehand and agreeing on the sprint goal as a team before tickets are assigned.",1.0,docs,Sprint 1,Medium
+Story,,Agile Process,Sprint 1 standups,"Key concept: a standup is a short sync (what I did, what I'm doing, what's blocking me) — not a status report to the leader.
+
+Roles:
+- Scrum Master: keeps it quick, surfaces blockers, follows up after the meeting.
+- Deliverable Architect: reports real build progress, not intended progress.
+- Project Coordinator: notes any blocker that could affect a stakeholder-facing date.
+- Tech Auditor: cross-checks what's said against what the Jira board actually shows.
+
+Project Coordinator talking points: current Sprint 1 status in one line, and any blocker worth escalating.
+Tech Auditor checklist: ticket status in Jira matches what was said out loud (no ticket left ""In Progress"" from last week).
+
+Requires: everyone updating their own tickets before the standup, not during it.",1.0,docs,Sprint 1,Medium
+Story,,Agile Process,Sprint 1 review + retro,"Key concept: review = demo what was actually finished; retro = what to change about how the team worked, not what to build next.
+
+Roles:
+- Scrum Master: facilitates both parts, keeps retro constructive and blame-free.
+- Deliverable Architect: demos the working pieces built this sprint.
+- Project Coordinator: translates the demo into plain-language progress for outside stakeholders.
+- Tech Auditor: confirms every ticket claimed as ""done"" in the demo is actually marked Done on the board.
+
+Project Coordinator talking points: what shipped in Sprint 1, what slipped, and why.
+Tech Auditor checklist: Sprint 1 board is closed out cleanly — no stray tickets left open that were demoed as finished.
+
+Requires: a working demo-able artifact (script output, dashboard view, etc.), not just a description of progress.",1.0,docs,Sprint 1,Medium
+Story,,Agile Process,Sprint 2 planning session,"Key concept: sprint planning is where the team commits to a specific slice of the backlog for the sprint, not just ""whatever looks important.""
+
+Roles:
+- Scrum Master: runs the session, keeps it timeboxed, makes sure every ticket that gets pulled in has an owner.
+- Deliverable Architect: sanity-checks that the scope is actually buildable in the sprint window.
+- Project Coordinator: confirms the sprint goal is clear enough to repeat back to a stakeholder in one sentence.
+- Tech Auditor: confirms every committed ticket is correctly filed under this sprint in Jira before the session ends.
+
+Project Coordinator talking points: what Sprint 2's goal is, which epics it touches, and what's explicitly out of scope.
+Tech Auditor checklist: all Sprint 2 tickets have story points, an assignee, and the right epic link.
+
+Requires: reviewing the backlog beforehand and agreeing on the sprint goal as a team before tickets are assigned.",1.0,docs,Sprint 2,Medium
+Story,,Agile Process,Sprint 2 standups,"Key concept: a standup is a short sync (what I did, what I'm doing, what's blocking me) — not a status report to the leader.
+
+Roles:
+- Scrum Master: keeps it quick, surfaces blockers, follows up after the meeting.
+- Deliverable Architect: reports real build progress, not intended progress.
+- Project Coordinator: notes any blocker that could affect a stakeholder-facing date.
+- Tech Auditor: cross-checks what's said against what the Jira board actually shows.
+
+Project Coordinator talking points: current Sprint 2 status in one line, and any blocker worth escalating.
+Tech Auditor checklist: ticket status in Jira matches what was said out loud (no ticket left ""In Progress"" from last week).
+
+Requires: everyone updating their own tickets before the standup, not during it.",1.0,docs,Sprint 2,Medium
+Story,,Agile Process,Sprint 2 review + retro,"Key concept: review = demo what was actually finished; retro = what to change about how the team worked, not what to build next.
+
+Roles:
+- Scrum Master: facilitates both parts, keeps retro constructive and blame-free.
+- Deliverable Architect: demos the working pieces built this sprint.
+- Project Coordinator: translates the demo into plain-language progress for outside stakeholders.
+- Tech Auditor: confirms every ticket claimed as ""done"" in the demo is actually marked Done on the board.
+
+Project Coordinator talking points: what shipped in Sprint 2, what slipped, and why.
+Tech Auditor checklist: Sprint 2 board is closed out cleanly — no stray tickets left open that were demoed as finished.
+
+Requires: a working demo-able artifact (script output, dashboard view, etc.), not just a description of progress.",1.0,docs,Sprint 2,Medium
+Story,,Agile Process,Sprint 3 planning session,"Key concept: sprint planning is where the team commits to a specific slice of the backlog for the sprint, not just ""whatever looks important.""
+
+Roles:
+- Scrum Master: runs the session, keeps it timeboxed, makes sure every ticket that gets pulled in has an owner.
+- Deliverable Architect: sanity-checks that the scope is actually buildable in the sprint window.
+- Project Coordinator: confirms the sprint goal is clear enough to repeat back to a stakeholder in one sentence.
+- Tech Auditor: confirms every committed ticket is correctly filed under this sprint in Jira before the session ends.
+
+Project Coordinator talking points: what Sprint 3's goal is, which epics it touches, and what's explicitly out of scope.
+Tech Auditor checklist: all Sprint 3 tickets have story points, an assignee, and the right epic link.
+
+Requires: reviewing the backlog beforehand and agreeing on the sprint goal as a team before tickets are assigned.",1.0,docs,Sprint 3,Medium
+Story,,Agile Process,Sprint 3 standups,"Key concept: a standup is a short sync (what I did, what I'm doing, what's blocking me) — not a status report to the leader.
+
+Roles:
+- Scrum Master: keeps it quick, surfaces blockers, follows up after the meeting.
+- Deliverable Architect: reports real build progress, not intended progress.
+- Project Coordinator: notes any blocker that could affect a stakeholder-facing date.
+- Tech Auditor: cross-checks what's said against what the Jira board actually shows.
+
+Project Coordinator talking points: current Sprint 3 status in one line, and any blocker worth escalating.
+Tech Auditor checklist: ticket status in Jira matches what was said out loud (no ticket left ""In Progress"" from last week).
+
+Requires: everyone updating their own tickets before the standup, not during it.",1.0,docs,Sprint 3,Medium
+Story,,Agile Process,Sprint 3 review + retro,"Key concept: review = demo what was actually finished; retro = what to change about how the team worked, not what to build next.
+
+Roles:
+- Scrum Master: facilitates both parts, keeps retro constructive and blame-free.
+- Deliverable Architect: demos the working pieces built this sprint.
+- Project Coordinator: translates the demo into plain-language progress for outside stakeholders.
+- Tech Auditor: confirms every ticket claimed as ""done"" in the demo is actually marked Done on the board.
+
+Project Coordinator talking points: what shipped in Sprint 3, what slipped, and why.
+Tech Auditor checklist: Sprint 3 board is closed out cleanly — no stray tickets left open that were demoed as finished.
+
+Requires: a working demo-able artifact (script output, dashboard view, etc.), not just a description of progress.",1.0,docs,Sprint 3,Medium
+Epic,Composite Risk Scoring,,Composite Risk Scoring,,,scoring,Sprint 2,Medium
+Story,,Composite Risk Scoring,Implement scoring formula,"Key concept: this is the composite risk score — a formula that combines CVSS severity, EPSS exploitation likelihood, the CISA KEV flag, and the asset's importance tier into a single number per vulnerability, instead of relying on severity alone.
+
+Roles:
+- Deliverable Architect: designs and implements the formula.
+- Scrum Master: keeps this on schedule since the Optimizer epic depends on it.
+- Project Coordinator: can explain in plain terms why a ""medium"" CVE might outscore a ""critical"" one under this formula.
+- Tech Auditor: confirms the formula runs on the full merged dataset without errors and outputs a score per row.
+
+Project Coordinator talking points: this formula is the core intellectual property of the project — it's what turns four data points into one prioritization number.
+Tech Auditor checklist: every vulnerability row has a computed composite score, and the formula's inputs/weights are documented in the ticket.
+
+Requires: the merged CVE+EPSS+KEV DataFrame and the asset importance tiers, both already completed.",3.0,scoring,Sprint 2,Medium
+Story,,Composite Risk Scoring,Implement adjustable weighting,"Key concept: the proposal promises businesses can weight risk factors differently — this ticket turns the formula's fixed weights into configurable inputs, since risk doesn't matter equally to every company.
+
+Roles:
+- Deliverable Architect: refactors the scoring formula to accept weight parameters instead of hardcoded constants.
+- Scrum Master: confirms this doesn't reopen already-tested scoring logic without re-testing.
+- Project Coordinator: can explain that weighting is what makes the tool ""custom to each company,"" per the proposal.
+- Tech Auditor: verifies changing a weight actually changes the output score, and defaults still match the original formula.
+
+Project Coordinator talking points: this is the feature that lets a security lead say ""exploitability matters more to us than severity"" and have the tool reflect that.
+Tech Auditor checklist: weights are exposed as parameters (not constants), with sane defaults and no broken existing tests.
+
+Requires: the base scoring formula ticket completed first.",2.0,scoring,Sprint 2,Medium
+Story,,Composite Risk Scoring,Implement security-lead override field,"Key concept: the proposal states the security lead retains full authority to adjust the tool's output — this ticket builds the manual override, with a log of who changed a score, when, and why, so overrides stay auditable rather than silent.
+
+Roles:
+- Deliverable Architect: builds the override field and its logging.
+- Scrum Master: keeps scope tight — this is an override mechanism, not a new scoring path.
+- Project Coordinator: can explain that overrides are logged, so the tool stays transparent even when a human adjusts it.
+- Tech Auditor: confirms an override actually gets recorded with who/when/why, not just the new value.
+
+Project Coordinator talking points: the tool doesn't remove human judgment — it makes any human adjustment visible and defensible.
+Tech Auditor checklist: override log entries include user, timestamp, and a reason field, and the overridden score is clearly distinguishable from the computed one.
+
+Requires: a place to persist override history (in-memory store or simple log file/table for the capstone scope).",2.0,scoring,Sprint 2,Medium
+Story,,Composite Risk Scoring,Unit test scoring against sample vulnerabilities,"Key concept: unit tests prove the scoring formula behaves correctly on known inputs (e.g. a KEV-flagged CVE should never score lower than an identical non-KEV one) before it's trusted downstream.
+
+Roles:
+- Deliverable Architect: writes the test cases and fixes anything they catch.
+- Scrum Master: treats failing tests as a blocker, not a nice-to-have.
+- Project Coordinator: can point to passing tests as evidence the formula is reliable, if asked.
+- Tech Auditor: confirms tests actually run and pass before the ticket is marked Done — not just written.
+
+Project Coordinator talking points: this is our quality proof point for the scoring engine going into the demo.
+Tech Auditor checklist: test suite exists, runs cleanly, and covers at least a few representative edge cases (high/low severity, KEV on/off).
+
+Requires: a Python testing framework (e.g. pytest) and a handful of hand-picked sample vulnerabilities with known expected outcomes.",2.0,scoring,Sprint 2,Medium
+Epic,Capacity-Aware Optimizer,,Capacity-Aware Optimizer,,,optimizer,Sprint 2,Medium
+Story,,Capacity-Aware Optimizer,Define capacity-pool data structure,"Key concept: capacity pools represent the limited, separate types of work-time a security team actually has (e.g. general/patching hours, AppSec hours, change-window slots) — remediation has to fit inside these, not just a single number of ""hours available.""
+
+Roles:
+- Deliverable Architect: designs the data structure representing each pool and its available capacity.
+- Scrum Master: makes sure this lands before the optimizer ticket, which depends on it.
+- Project Coordinator: can explain why ""capacity"" isn't just one number — different fixes need different kinds of team time.
+- Tech Auditor: confirms the structure can represent multiple distinct pools, not just a single generic capacity value.
+
+Project Coordinator talking points: this is what makes the plan ""capacity-aware"" instead of just a sorted list — it respects real team constraints.
+Tech Auditor checklist: data structure supports at least the three named pools (general/patching, AppSec, change-window) and holds a numeric capacity for each.
+
+Requires: agreeing on what fields each pool needs (name, available time/slots, unit of effort).",2.0,optimizer,Sprint 2,Medium
+Story,,Capacity-Aware Optimizer,Build greedy optimizer,"Key concept: a greedy optimizer builds a plan by repeatedly picking the single best available option at each step — here, the vulnerability with the best risk-reduction-per-effort ratio — until a capacity pool is full. It's fast and usually good, but not guaranteed to be the mathematically optimal plan (that's what the ILP stretch ticket checks).
+
+Roles:
+- Deliverable Architect: implements the greedy fill algorithm across all capacity pools.
+- Scrum Master: protects time for this ticket — it's the core deliverable of the whole project.
+- Project Coordinator: can explain ""greedy"" in plain terms if a non-technical stakeholder asks how the plan is built.
+- Tech Auditor: confirms the optimizer actually respects capacity limits and never overfills a pool.
+
+Project Coordinator talking points: this algorithm is what directly answers the proposal's core question — given our time, what order gives the most risk reduction.
+Tech Auditor checklist: output plan never exceeds any pool's stated capacity, and vulnerabilities are ordered by risk-reduction/effort ratio.
+
+Requires: the scored vulnerability dataset and the capacity-pool structure, both completed first.",3.0,optimizer,Sprint 2,Medium
+Story,,Capacity-Aware Optimizer,Build naive severity-first baseline,"Key concept: this is the ""straw man"" comparison — a plan built the way most teams do it today, just working down a severity-sorted list until time runs out, with no exploitability or asset-importance data factored in.
+
+Roles:
+- Deliverable Architect: implements the simple severity-sorted fill.
+- Scrum Master: keeps this ticket small — it's intentionally simple by design.
+- Project Coordinator: can explain that this baseline represents current industry practice, which the proposal is arguing against.
+- Tech Auditor: confirms this baseline uses the same capacity pools as the optimizer, so the comparison is apples-to-apples.
+
+Project Coordinator talking points: this is the ""before"" picture — what teams get today without our tool.
+Tech Auditor checklist: baseline logic only sorts by severity (no EPSS/KEV/importance) and consumes the same capacity constraints as the greedy optimizer.
+
+Requires: the same scored dataset and capacity pools used by the optimizer, so both plans are directly comparable.",2.0,optimizer,Sprint 2,Medium
+Story,,Capacity-Aware Optimizer,Compute headline improvement metric,"Key concept: this turns the two plans into a single, demo-ready number — the percentage of risk reduction the optimizer achieves over the naive severity-first baseline, which is the proposal's core proof point.
+
+Roles:
+- Deliverable Architect: implements the comparison calculation between the two plans.
+- Scrum Master: flags this as high-visibility for the demo and protects time for it.
+- Project Coordinator: this is the number to lead with when explaining the project's value to anyone outside the team.
+- Tech Auditor: sanity-checks the math (the optimizer's total risk reduction should never be lower than the baseline's).
+
+Project Coordinator talking points: this single percentage is the headline result of the entire capstone.
+Tech Auditor checklist: metric is computed from both plans' actual total risk-reduction values, not hardcoded or estimated.
+
+Requires: both the greedy optimizer output and the naive baseline output completed first.",1.0,optimizer,Sprint 2,Medium
+Story,,Capacity-Aware Optimizer,(Stretch) PuLP/ILP comparison,"Key concept: ILP (Integer Linear Programming) solves for the mathematically optimal plan rather than the greedy approximation — PuLP is a Python library that can compute it. This checks how close the faster greedy method gets to the true best answer.
+
+Roles:
+- Deliverable Architect: implements the ILP model, only if ahead of schedule.
+- Scrum Master: explicitly deprioritizes this if any core ticket is behind — it's a stretch goal, not a requirement.
+- Project Coordinator: can mention this as a ""nice to have"" validation step if asked, not a core deliverable.
+- Tech Auditor: makes sure this ticket doesn't get marked Done at the expense of a required ticket slipping.
+
+Project Coordinator talking points: this is optional polish showing the greedy approach is close to mathematically optimal — not required for the demo to work.
+Tech Auditor checklist: confirm this is only attempted after every Sprint 2 required ticket is complete.
+
+Requires: the PuLP library and a working greedy optimizer already in place to compare against.",3.0,optimizer,Sprint 2,Low
+Story,,Capacity-Aware Optimizer,Mid-sprint checkpoint: optimizer beats baseline,"Key concept: this is a go/no-go gate, not a build task — it exists to catch a broken or underperforming optimizer before the team moves into dashboard work built on top of it.
+
+Roles:
+- Scrum Master: calls the checkpoint and makes the go/no-go call with the team.
+- Deliverable Architect: demonstrates the optimizer's output against the baseline on sample data.
+- Project Coordinator: communicates outward immediately if this checkpoint fails and timeline is at risk.
+- Tech Auditor: confirms the comparison was actually run and the result is documented in the ticket.
+
+Project Coordinator talking points: if this passes, the team is on track for Sprint 3; if not, this is the moment to escalate.
+Tech Auditor checklist: ticket comment shows the actual optimizer-vs-baseline numbers used to make the call.
+
+Requires: both the greedy optimizer and naive baseline tickets completed and runnable on the same sample data.",1.0,optimizer,Sprint 2,High
+Epic,Dashboard,,Dashboard,,,dashboard,Sprint 3,Medium
+Story,,Dashboard,Streamlit app skeleton,"Key concept: Streamlit is a Python framework for turning a script into a simple interactive web app — this ticket is just the empty shell/navigation the rest of the dashboard tickets will fill in.
+
+Roles:
+- Deliverable Architect: sets up the base app structure and page layout.
+- Scrum Master: keeps this ticket small — it's scaffolding, not features.
+- Project Coordinator: can describe this as ""the container the demo will run in.""
+- Tech Auditor: confirms the app actually runs locally without errors before marking Done.
+
+Project Coordinator talking points: this unblocks all remaining dashboard work — nothing dashboard-related can start without it.
+Tech Auditor checklist: `streamlit run` launches the app cleanly with no crash, even with placeholder content.
+
+Requires: Streamlit installed and a defined page/layout structure agreed on with the team.",2.0,dashboard,Sprint 3,Medium
+Story,,Dashboard,Capacity-pool + weighting sliders,"Key concept: these are the interactive controls that let a user change capacity pool sizes and scoring weights live and see the plan update — this is what makes the tool feel like a planning tool, not a static report.
+
+Roles:
+- Deliverable Architect: builds the sliders and wires them to the scoring/optimizer functions.
+- Scrum Master: watches for scope creep — sliders should map directly to existing parameters, not new features.
+- Project Coordinator: can describe this as ""letting the security lead try their own numbers live.""
+- Tech Auditor: confirms moving a slider actually changes the underlying plan output, not just a UI value.
+
+Project Coordinator talking points: this is the feature that makes the demo interactive instead of a fixed screenshot.
+Tech Auditor checklist: each slider is connected to a real backend parameter (weight or capacity), verified by changing it and seeing the output change.
+
+Requires: the Streamlit skeleton, the scoring weights, and the capacity-pool structure all already in place.",2.0,dashboard,Sprint 3,Medium
+Story,,Dashboard,Findings table + naive-vs-optimized view,"Key concept: this is the proposal's promised ""side-by-side panel"" — showing the naive severity-first plan next to the optimized plan so the improvement is visible, not just claimed.
+
+Roles:
+- Deliverable Architect: builds the comparison table/view in the dashboard.
+- Scrum Master: prioritizes this — it's one of the most demo-critical dashboard tickets.
+- Project Coordinator: this view is likely the single screen most stakeholders will remember from the demo.
+- Tech Auditor: confirms both plans shown are pulled live from the actual optimizer/baseline functions, not mocked data.
+
+Project Coordinator talking points: this is the visual proof of the headline improvement percentage — seeing is believing.
+Tech Auditor checklist: table updates correctly when sliders change, and both plans stay in sync with the underlying data.
+
+Requires: the optimizer, baseline, and improvement-metric tickets completed, plus the app skeleton.",3.0,dashboard,Sprint 3,Medium
+Story,,Dashboard,Inject new KEV alert demo trigger,"Key concept: this demonstrates the proposal's ""automatic updates to a plan"" promise — simulating a brand-new actively-exploited CVE appearing mid-demo and showing the plan re-optimize live in response.
+
+Roles:
+- Deliverable Architect: builds the trigger and the live re-optimization it causes.
+- Scrum Master: treats this as high-risk/high-reward and gives it enough buffer time in Sprint 3.
+- Project Coordinator: this is likely the single most memorable demo moment — worth flagging to stakeholders in advance.
+- Tech Auditor: confirms the plan visibly and correctly changes after the trigger fires, not just a static message.
+
+Project Coordinator talking points: this proves the tool isn't a one-time report — it reacts to the real world changing.
+Tech Auditor checklist: triggering the demo alert produces a genuinely re-ranked plan, verified by comparing before/after output.
+
+Requires: the full dashboard (sliders, comparison view) working first, plus a way to simulate/inject a fake KEV entry.",3.0,dashboard,Sprint 3,Medium
+Epic,Demo Preparation,,Demo Preparation,,,demo,Sprint 3,Medium
+Story,,Demo Preparation,Script the live demo flow,"Key concept: a demo script is the fixed narrative path through the dashboard — what gets clicked, said, and shown, in what order — so the live demo doesn't wander or run long.
+
+Roles:
+- Project Coordinator: usually drafts or leads this, since it's about telling the story clearly.
+- Deliverable Architect: confirms every step in the script is something the actual build can do live.
+- Scrum Master: keeps the script tight enough to fit the time slot.
+- Tech Auditor: confirms every feature referenced in the script actually exists and works in the current build.
+
+Project Coordinator talking points: this is literally the talk track for the demo — worth reviewing with the whole team before rehearsal.
+Tech Auditor checklist: no step in the script references a feature that isn't actually finished and working.
+
+Requires: the dashboard functionally complete enough to demo end-to-end.",1.0,demo,Sprint 3,Medium
+Story,,Demo Preparation,Rehearse full timing,"Key concept: rehearsal catches the gap between ""the script reads fine"" and ""it actually fits in 20 minutes live"" — timing always runs long the first pass.
+
+Roles:
+- Scrum Master: times the rehearsal and calls out where it's running long.
+- Deliverable Architect: handles any live technical hiccups during rehearsal and fixes them before the real demo.
+- Project Coordinator: adjusts the talk track/pacing based on where time is lost.
+- Tech Auditor: notes anything that breaks or behaves unexpectedly during the run-through.
+
+Project Coordinator talking points: report back whether the run fit inside the 20-minute slot and where it needs trimming.
+Tech Auditor checklist: any bug or glitch hit during rehearsal gets logged as a ticket, not just fixed silently.
+
+Requires: the demo script and a fully working build to rehearse against, ideally more than once.",1.0,demo,Sprint 3,Medium
+Story,,Demo Preparation,Build slides,"Key concept: these slides need to follow the course's required structure/guide, not a freeform pitch deck — check the structure requirement before designing.
+
+Roles:
+- Project Coordinator: usually owns slide content and structure, since it's the stakeholder-facing story.
+- Deliverable Architect: supplies accurate technical detail and real output/screenshots for the slides.
+- Scrum Master: keeps this from being built last-minute alongside rehearsal.
+- Tech Auditor: checks that any numbers or screenshots on the slides match the actual current build output.
+
+Project Coordinator talking points: confirm the slide structure matches the required guide before spending time on design polish.
+Tech Auditor checklist: every claim, number, or screenshot in the deck traces back to something the tool actually produces.
+
+Requires: the required slide-structure guide and finished (or near-finished) dashboard results to reference.",3.0,demo,Sprint 3,Medium
+Epic,Documentation & Report,,Documentation & Report,,,docs,Sprint 3,Medium
+Story,,Documentation & Report,Write project report,"Key concept: the report needs four sections — overview/motivation, tools/methodology, implementation/results, and conclusion/next steps — telling the same story as the proposal but with what was actually built.
+
+Roles:
+- Project Coordinator: often drives structure and the overview/motivation framing.
+- Deliverable Architect: writes the tools/methodology and implementation/results sections with real technical detail.
+- Scrum Master: keeps writing on track alongside demo prep so neither gets rushed.
+- Tech Auditor: verifies every result claimed in the report matches what the finished build actually does.
+
+Project Coordinator talking points: this report is the lasting record of the project beyond the live demo.
+Tech Auditor checklist: implementation/results section only describes features that are actually complete, not planned.
+
+Requires: the finished (or near-finished) build, plus notes carried over from the original proposal for the motivation section.",5.0,docs,Sprint 3,Medium
+Story,,Documentation & Report,Write Risks & Limitations section,"Key concept: this section should honestly name the project's real constraints — effort estimates are heuristic guesses, the asset CSV is fictional, the greedy optimizer isn't provably optimal, manual overrides reintroduce subjectivity, and scope is limited to CVE-based vulnerabilities only.
+
+Roles:
+- Deliverable Architect: writes the technical limitations (greedy-not-optimal, CVE-only scope) accurately.
+- Project Coordinator: frames the business-facing limitations (fictional data, override subjectivity) clearly.
+- Scrum Master: makes sure this doesn't get skipped under demo-prep time pressure.
+- Tech Auditor: checks the section doesn't overstate or understate what was actually limited about the build.
+
+Project Coordinator talking points: being upfront about these limitations is what makes the report credible to a technical audience.
+Tech Auditor checklist: every named limitation (heuristic estimates, fictional CSV, greedy-not-optimal, override subjectivity, CVE-only scope) is actually addressed.
+
+Requires: honest reflection from the whole team on where the 2-3 week timeline forced shortcuts.",2.0,docs,Sprint 3,Medium
