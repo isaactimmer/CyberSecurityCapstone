@@ -1,0 +1,21 @@
+asset_id,name,criticality,crown_jewel,connections
+customer-database,Customer Database,Critical,true,app-server|backup-server|db-admin-ws|domain-controller
+domain-controller,Active Directory Domain Controller,Critical,false,customer-database|file-server|employee-ws|mail-server|hr-system
+app-server,Application Server,High,false,customer-database|monitoring-siem|api-gateway
+backup-server,Backup Server,High,false,customer-database|monitoring-siem
+db-admin-ws,DB Admin Workstation,High,false,customer-database|ci-cd
+api-gateway,Internal API Gateway,High,false,app-server|reverse-proxy
+web-server,Public Web Server,High,false,load-balancer|dmz-firewall
+dmz-firewall,DMZ Firewall,High,false,web-server|edge-router
+file-server,File Server,Medium,false,domain-controller
+mail-server,Mail Server,Medium,false,domain-controller
+hr-system,HR System,Medium,false,domain-controller
+ci-cd,CI/CD Pipeline,Medium,false,db-admin-ws|dev-server
+monitoring-siem,Monitoring / SIEM,Medium,false,app-server|backup-server
+reverse-proxy,Reverse Proxy,Medium,false,api-gateway|waf
+waf,Web Application Firewall,Medium,false,reverse-proxy|load-balancer
+load-balancer,Load Balancer,Medium,false,waf|web-server
+edge-router,Edge Router,Medium,false,dmz-firewall
+vpn-gateway,VPN Gateway,Medium,false,employee-ws
+employee-ws,Employee Workstations,Low,false,domain-controller|vpn-gateway
+dev-server,Development Server,Low,false,ci-cd

@@ -1,0 +1,8 @@
+# Runtime dependencies
+requests
+pandas
+python-dotenv
+networkx
+
+# Dev / test
+pytest
