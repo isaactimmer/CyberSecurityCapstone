@@ -71,12 +71,23 @@ class ScoringWeights:
     )
 
     def __post_init__(self) -> None:
-        total = self.cvss + self.epss + self.kev + self.importance
+        components = {
+            "cvss": self.cvss,
+            "epss": self.epss,
+            "kev": self.kev,
+            "importance": self.importance,
+        }
+        negatives = {name: w for name, w in components.items() if w < 0}
+        if negatives:
+            # A negative weight would invert a signal — e.g. a negative KEV
+            # weight makes an actively-exploited CVE score *lower*, breaking the
+            # invariant that KEV never reduces risk (ticket #30).
+            raise ValueError(f"Component weights must be non-negative, got {negatives}")
+
+        total = sum(components.values())
         if abs(total - 1.0) > 1e-9:
             raise ValueError(
-                f"Component weights must sum to 1.0, got {total:.4f} "
-                f"(cvss={self.cvss}, epss={self.epss}, kev={self.kev}, "
-                f"importance={self.importance})"
+                f"Component weights must sum to 1.0, got {total:.4f} ({components})"
             )
 
     def with_weights(self, **changes: float) -> "ScoringWeights":

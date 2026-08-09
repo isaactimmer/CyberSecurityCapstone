@@ -24,6 +24,12 @@ class TestScoringWeights:
         with pytest.raises(ValueError):
             scoring.ScoringWeights(cvss=0.5, epss=0.5, kev=0.5, importance=0.5)
 
+    def test_rejects_negative_weight(self):
+        # A negative KEV weight would let KEV *lower* a score, breaking the
+        # KEV-never-lower invariant (#30) once weighting (#28) is tunable.
+        with pytest.raises(ValueError):
+            scoring.ScoringWeights(cvss=0.5, epss=0.4, kev=-0.2, importance=0.3)
+
     def test_with_weights_returns_validated_copy(self):
         w = scoring.DEFAULT_WEIGHTS.with_weights(cvss=0.4, importance=0.1)
         assert w.cvss == 0.4 and w.importance == 0.1
@@ -43,9 +49,10 @@ class TestComputeScore:
         score = scoring.compute_score(10.0, 1.0, True, "critical")
         assert score == pytest.approx(100.0)
 
-    def test_all_min_inputs_score_zero(self):
+    def test_min_inputs_hit_the_low_tier_floor_not_zero(self):
         score = scoring.compute_score(0.0, 0.0, False, "low")
-        # low tier still contributes: 0.25 importance weight * 0.25 tier * 100
+        # Even a wholly-benign CVE keeps a small floor: it still sits on *some*
+        # asset. low tier contributes 0.25 importance weight * 0.25 tier * 100.
         assert score == pytest.approx(6.25)
 
     def test_score_is_on_zero_to_100_scale(self):
@@ -136,3 +143,56 @@ class TestScoreDataframe:
         cvss_heavy = scoring.ScoringWeights(cvss=0.9, epss=0.1, kev=0.0, importance=0.0)
         scored = scoring.score_dataframe(_sample_merged_frame(), weights=cvss_heavy)
         assert scored.iloc[0]["cve_id"] == "CVE-A"
+
+
+# ---------------------------------------------------------------------------
+# #28 — Adjustable weighting: weights are parameters, tuned to a company's appetite
+# ---------------------------------------------------------------------------
+class TestAdjustableWeighting:
+    def test_defaults_reproduce_the_base_formula(self):
+        # Passing the default weights explicitly must equal the no-args call, so
+        # the tuning knobs never silently change the shipped formula (#28 AC).
+        explicit = scoring.compute_score(6.0, 0.5, True, "high", scoring.DEFAULT_WEIGHTS)
+        implicit = scoring.compute_score(6.0, 0.5, True, "high")
+        assert explicit == implicit
+
+    def test_weighting_exploitability_over_severity(self):
+        # "Exploitability matters more to us than severity": crank EPSS weight up
+        # and CVSS down, and a high-EPSS/low-CVSS CVE overtakes the reverse.
+        appetite = scoring.ScoringWeights(cvss=0.10, epss=0.65, kev=0.0, importance=0.25)
+        exploitable = scoring.compute_score(4.0, 0.95, False, "medium", appetite)
+        severe = scoring.compute_score(9.5, 0.05, False, "medium", appetite)
+        assert exploitable > severe
+
+    def test_changing_any_single_weight_changes_the_score(self):
+        base = scoring.compute_score(7.0, 0.4, True, "high")
+        for change in ({"cvss": 0.4, "importance": 0.1}, {"epss": 0.4, "cvss": 0.15}):
+            tuned = scoring.compute_score(
+                7.0, 0.4, True, "high", scoring.DEFAULT_WEIGHTS.with_weights(**change)
+            )
+            assert tuned != base
+
+
+# ---------------------------------------------------------------------------
+# #30 — Scoring invariants against sample vulnerabilities
+# ---------------------------------------------------------------------------
+class TestScoringInvariants:
+    @pytest.mark.parametrize("cvss", [0.0, 3.5, 7.0, 9.8])
+    @pytest.mark.parametrize("epss", [0.0, 0.5, 1.0])
+    @pytest.mark.parametrize("tier", ["critical", "high", "medium", "low"])
+    def test_kev_never_scores_lower_than_identical_non_kev(self, cvss, epss, tier):
+        # The headline invariant: flipping KEV on can only raise (never lower)
+        # the score of an otherwise-identical vulnerability.
+        non_kev = scoring.compute_score(cvss, epss, False, tier)
+        kev = scoring.compute_score(cvss, epss, True, tier)
+        assert kev >= non_kev
+
+    def test_higher_severity_scores_higher_all_else_equal(self):
+        low = scoring.compute_score(2.0, 0.3, False, "high")
+        high = scoring.compute_score(9.0, 0.3, False, "high")
+        assert high > low
+
+    def test_more_important_asset_scores_higher_all_else_equal(self):
+        peripheral = scoring.compute_score(6.0, 0.3, False, "low")
+        crown = scoring.compute_score(6.0, 0.3, False, "critical")
+        assert crown > peripheral
