@@ -1,21 +1,38 @@
-asset_id,name,criticality,crown_jewel,connections
-customer-database,Customer Database,Critical,true,app-server|backup-server|db-admin-ws|domain-controller
-domain-controller,Active Directory Domain Controller,Critical,false,customer-database|file-server|employee-ws|mail-server|hr-system
-app-server,Application Server,High,false,customer-database|monitoring-siem|api-gateway
-backup-server,Backup Server,High,false,customer-database|monitoring-siem
-db-admin-ws,DB Admin Workstation,High,false,customer-database|ci-cd
-api-gateway,Internal API Gateway,High,false,app-server|reverse-proxy
-web-server,Public Web Server,High,false,load-balancer|dmz-firewall
-dmz-firewall,DMZ Firewall,High,false,web-server|edge-router
-file-server,File Server,Medium,false,domain-controller
-mail-server,Mail Server,Medium,false,domain-controller
-hr-system,HR System,Medium,false,domain-controller
-ci-cd,CI/CD Pipeline,Medium,false,db-admin-ws|dev-server
-monitoring-siem,Monitoring / SIEM,Medium,false,app-server|backup-server
-reverse-proxy,Reverse Proxy,Medium,false,api-gateway|waf
-waf,Web Application Firewall,Medium,false,reverse-proxy|load-balancer
-load-balancer,Load Balancer,Medium,false,waf|web-server
-edge-router,Edge Router,Medium,false,dmz-firewall
-vpn-gateway,VPN Gateway,Medium,false,employee-ws
-employee-ws,Employee Workstations,Low,false,domain-controller|vpn-gateway
-dev-server,Development Server,Low,false,ci-cd
+asset_id,name,criticality,crown_jewel,connections,vendor
+customer-database,Customer Database,Critical,true,app-server|backup-server|db-admin-ws|finance-system,oracle database
+app-server,Application Server,Critical,false,api-gateway|crm-system|customer-database|k8s-cluster|monitoring-siem,apache tomcat
+backup-server,Backup Server,Critical,false,customer-database|monitoring-siem|nas-storage,veeam
+db-admin-ws,DB Admin Workstation,Critical,false,ci-cd|customer-database,microsoft
+finance-system,Finance / ERP System,Critical,false,customer-database|hr-system,sap
+api-gateway,Internal API Gateway,High,false,app-server|reverse-proxy,kong
+k8s-cluster,Kubernetes Cluster,High,false,app-server|container-registry|monitoring-siem,kubernetes
+crm-system,CRM System,High,false,app-server|domain-controller,microsoft
+monitoring-siem,Monitoring / SIEM,High,false,app-server|backup-server|grafana-dashboards|ids-sensor|k8s-cluster|log-archive,splunk
+nas-storage,NAS Storage Array,Medium,false,backup-server|file-server,netapp
+ci-cd,CI/CD Pipeline,High,false,confluence-wiki|container-registry|db-admin-ws|dev-server|jira-tracker|staging-server,jenkins
+hr-system,HR System,Medium,false,domain-controller|finance-system,sap
+reverse-proxy,Reverse Proxy,Medium,false,api-gateway|waf,nginx
+container-registry,Container Registry,Medium,false,ci-cd|k8s-cluster,docker
+domain-controller,Active Directory Domain Controller,Critical,false,crm-system|dhcp-server|dns-server|employee-ws|file-server|hr-system|mail-server|sharepoint-portal,microsoft
+ids-sensor,IDS Sensor,Medium,false,dmz-firewall|monitoring-siem,snort
+log-archive,Log Archive,Low,false,monitoring-siem,elasticsearch
+grafana-dashboards,Grafana Dashboards,Low,false,monitoring-siem,grafana
+dev-server,Development Server,Low,false,ci-cd|confluence-wiki|jira-tracker|staging-server,ubuntu
+jira-tracker,Jira Issue Tracker,Low,false,ci-cd|dev-server,atlassian jira
+confluence-wiki,Confluence Wiki,Low,false,ci-cd|dev-server,atlassian confluence
+staging-server,Staging Server,Low,false,ci-cd|dev-server,ubuntu
+waf,Web Application Firewall,Medium,false,load-balancer|reverse-proxy,f5
+file-server,File Server,Medium,false,domain-controller|nas-storage|sharepoint-portal,microsoft
+mail-server,Mail Server,Medium,false,domain-controller,microsoft exchange
+sharepoint-portal,Intranet SharePoint Portal,Medium,false,domain-controller|file-server,microsoft sharepoint
+dns-server,DNS Server,High,false,domain-controller|edge-router,isc bind
+dhcp-server,DHCP Server,Medium,false,domain-controller,isc dhcp
+employee-ws,Employee Workstations,Low,false,domain-controller|vpn-gateway|wireless-controller,microsoft
+load-balancer,Load Balancer,Medium,false,waf|web-server,haproxy
+edge-router,Edge Router,High,false,dmz-firewall|dns-server|vpn-gateway|wireless-controller,cisco
+vpn-gateway,VPN Gateway,Medium,false,edge-router|employee-ws,fortinet
+wireless-controller,Wireless LAN Controller,Medium,false,edge-router|employee-ws|guest-wifi|iot-gateway,cisco
+web-server,Public Web Server,High,false,dmz-firewall|load-balancer,apache http server
+dmz-firewall,DMZ Firewall,High,false,edge-router|ids-sensor|web-server,palo alto
+iot-gateway,IoT Gateway,Low,false,wireless-controller,eclipse mosquitto
+guest-wifi,Guest WiFi Access Point,Low,false,wireless-controller,aruba

@@ -119,3 +119,60 @@ class TestAssignRemediationEffort:
         capacity.assign_remediation_effort(frame)
         assert "pool" not in frame.columns
         assert "effort" not in frame.columns
+
+
+# ---------------------------------------------------------------------------
+# Asset-role-based pool assignment (epic #47, story #51)
+# The pool a fix draws from is derived from the software's work-type, not a hash.
+# ---------------------------------------------------------------------------
+def _vendor_scored_frame() -> pd.DataFrame:
+    return pd.DataFrame(
+        [
+            {"cve_id": "CVE-A", "composite_score": 90.0, "cvss_score": 9.8, "vendor": "apache tomcat"},
+            {"cve_id": "CVE-B", "composite_score": 70.0, "cvss_score": 5.5, "vendor": "cisco"},
+            {"cve_id": "CVE-C", "composite_score": 50.0, "cvss_score": 7.0, "vendor": "microsoft"},
+            {"cve_id": "CVE-D", "composite_score": 30.0, "cvss_score": 4.0, "vendor": "oracle database"},
+        ]
+    )
+
+
+class TestPoolForVendor:
+    def test_apps_and_web_go_to_appsec(self):
+        assert capacity.pool_for_vendor("apache tomcat") == capacity.POOL_APPSEC
+        assert capacity.pool_for_vendor("jenkins") == capacity.POOL_APPSEC
+
+    def test_network_infra_and_db_go_to_change_window(self):
+        assert capacity.pool_for_vendor("cisco") == capacity.POOL_CHANGE_WINDOW
+        assert capacity.pool_for_vendor("oracle database") == capacity.POOL_CHANGE_WINDOW
+
+    def test_os_endpoint_defaults_to_patching(self):
+        assert capacity.pool_for_vendor("microsoft") == capacity.POOL_PATCHING
+        assert capacity.pool_for_vendor("ubuntu") == capacity.POOL_PATCHING
+
+    def test_is_case_insensitive(self):
+        assert capacity.pool_for_vendor("CISCO") == capacity.POOL_CHANGE_WINDOW
+
+
+class TestRoleBasedAssignment:
+    def test_uses_vendor_when_present_not_hash(self):
+        out = capacity.assign_remediation_effort(_vendor_scored_frame())
+        by_cve = dict(zip(out["cve_id"], out["pool"]))
+        assert by_cve["CVE-A"] == capacity.POOL_APPSEC          # apache tomcat
+        assert by_cve["CVE-B"] == capacity.POOL_CHANGE_WINDOW   # cisco
+        assert by_cve["CVE-C"] == capacity.POOL_PATCHING        # microsoft
+        assert by_cve["CVE-D"] == capacity.POOL_CHANGE_WINDOW   # oracle database
+
+    def test_effort_still_constant_within_pool(self):
+        out = capacity.assign_remediation_effort(_vendor_scored_frame())
+        per_pool = out.groupby("pool")["effort"].nunique()
+        assert (per_pool == 1).all()
+
+    def test_role_based_is_explainable_same_vendor_same_pool(self):
+        out = capacity.assign_remediation_effort(_vendor_scored_frame())
+        # Deterministic and driven by the vendor, so it is explainable, not a hash.
+        assert capacity.pool_for_vendor("cisco") == out.loc[out["cve_id"] == "CVE-B", "pool"].iloc[0]
+
+    def test_falls_back_to_stand_in_without_vendor(self):
+        # Frames with no vendor column still get pools (the hash stand-in).
+        out = capacity.assign_remediation_effort(_sample_scored_frame())
+        assert set(out["pool"]).issubset(set(capacity.default_pools()))
