@@ -4,5 +4,9 @@ pandas
 python-dotenv
 networkx
 
+# Optional: ILP optimal-comparison stretch (epic #5, #35). Not needed for the
+# core optimizer; optimizer_ilp.py and its tests skip when it is absent.
+pulp
+
 # Dev / test
 pytest
