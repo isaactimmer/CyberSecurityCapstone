@@ -18,7 +18,8 @@ ASSET_CSV = Path(__file__).resolve().parent.parent / "assets.csv"
 class TestAssetCsv:
     def test_asset_count_in_range(self):
         df = ag.load_assets(ASSET_CSV)
-        assert 15 <= len(df) <= 20, "Ticket #14 requires 15-20 assets"
+        # Mid-sized company environment (#49): ~35-40 assets.
+        assert 30 <= len(df) <= 45, "Mid-sized environment expects ~35-40 assets"
 
     def test_exactly_one_crown_jewel(self):
         df = ag.load_assets(ASSET_CSV)
@@ -122,13 +123,14 @@ class TestHopDistance:
         [
             ("customer-database", 0),
             ("app-server", 1),
-            ("domain-controller", 1),
             ("api-gateway", 2),
+            ("domain-controller", 3),
             ("reverse-proxy", 3),
             ("waf", 4),
+            ("dmz-firewall", 4),
             ("load-balancer", 5),
-            ("web-server", 6),
-            ("edge-router", 8),
+            ("edge-router", 5),
+            ("guest-wifi", 6),
         ],
     )
     def test_spot_check_distances(self, asset_id, expected):

@@ -1,36 +1,52 @@
 """
-Data Pipeline & Vulnerability Ingestion
+Data Pipeline & Vulnerability Ingestion (epic #47, story #48)
 Fetches NVD (CVE/CVSS), EPSS, and CISA KEV data and merges them into one
 clean pandas DataFrame keyed on CVE ID.
+
+Importable *and* runnable. `fetch_merged(vendor, max_results)` is the one call
+the rest of the tool (and the dashboard's live "custom input") depends on; it
+caches each pull to disk so the tool and the demo run offline and
+deterministically even if the network or the API key is unavailable.
 
 Setup:
     pip install requests pandas python-dotenv
     Create a `.env` file (NOT committed to git) containing:
         NVD_API_KEY=your-key-here
+    The key is OPTIONAL — NVD keyword search works without it at a lower rate
+    limit; the key only raises that limit. EPSS and KEV are fully public.
 
 Run:
-    python combine_feeds.py
+    python combine_feeds_with_custom_inputs.py
 """
 
 import os
+import re
 import time
 import argparse
+from pathlib import Path
+
 import requests
 import pandas as pd
 from dotenv import load_dotenv
 
-load_dotenv()  # reads .env into environment variables
-
-NVD_API_KEY = os.environ.get("NVD_API_KEY")
-if not NVD_API_KEY:
-    raise RuntimeError(
-        "NVD_API_KEY not found. Create a .env file with NVD_API_KEY=... "
-        "(see .env.example)."
-    )
-
 NVD_BASE_URL = "https://services.nvd.nist.gov/rest/json/cves/2.0"
 EPSS_BASE_URL = "https://api.first.org/data/v1/epss"
 KEV_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+
+# Cached pulls live here so the demo replays offline. Committed (not gitignored)
+# so the tool is reproducible on any machine without a key or network.
+DEFAULT_CACHE_DIR = "data/cache"
+
+
+def get_api_key() -> str | None:
+    """
+    Return the NVD API key from the environment, or None.
+
+    Read at call time (not import time) so the module is importable and testable
+    without a key. A missing key is not fatal — it only lowers the NVD rate limit.
+    """
+    load_dotenv()  # reads .env into environment variables if present
+    return os.environ.get("NVD_API_KEY")
 
 
 # ---------------------------------------------------------------------------
@@ -43,7 +59,8 @@ def fetch_nvd_cves(keyword: str = None, results_per_page: int = 200, max_results
     (per the 'Decide CVE-to-asset mapping method' ticket), swap this for a
     cpeName-based query instead.
     """
-    headers = {"apiKey": NVD_API_KEY}
+    api_key = get_api_key()
+    headers = {"apiKey": api_key} if api_key else {}
     records = []
     start_index = 0
 
@@ -134,7 +151,16 @@ def fetch_epss_scores(cve_ids: list[str]) -> pd.DataFrame:
 # ---------------------------------------------------------------------------
 # 3. CISA KEV feed — actively-exploited flag
 # ---------------------------------------------------------------------------
-def fetch_kev_flags() -> pd.DataFrame:
+_KEV_CACHE: pd.DataFrame | None = None
+
+
+def fetch_kev_flags(*, use_memo: bool = True) -> pd.DataFrame:
+    # KEV is one global catalog; memoize it so an environment scan over many
+    # vendors downloads it once, not once per vendor.
+    global _KEV_CACHE
+    if use_memo and _KEV_CACHE is not None:
+        return _KEV_CACHE.copy()
+
     resp = requests.get(KEV_URL, timeout=30)
     resp.raise_for_status()
     vulns = resp.json().get("vulnerabilities", [])
@@ -148,22 +174,82 @@ def fetch_kev_flags() -> pd.DataFrame:
         }
         for v in vulns
     ]
-    return pd.DataFrame(records)
+    kev_df = pd.DataFrame(records)
+    if use_memo:
+        _KEV_CACHE = kev_df
+    return kev_df.copy()
 
 
 # ---------------------------------------------------------------------------
 # 4. Merge step — one clean DataFrame, one row per CVE
 # ---------------------------------------------------------------------------
 def combine_feeds(nvd_df: pd.DataFrame, epss_df: pd.DataFrame, kev_df: pd.DataFrame) -> pd.DataFrame:
+    # An empty feed still needs its join key so the left-merge produces the
+    # expected null columns instead of raising on a missing 'cve_id'.
+    if epss_df.empty:
+        epss_df = pd.DataFrame(columns=["cve_id", "epss_score", "epss_percentile"])
+    if kev_df.empty:
+        kev_df = pd.DataFrame(
+            columns=["cve_id", "kev_flag", "kev_date_added", "kev_ransomware_use"]
+        )
+
     # Start from NVD as the base (it's the definitive CVE list)
     merged = nvd_df.merge(epss_df, on="cve_id", how="left")
     merged = merged.merge(kev_df, on="cve_id", how="left")
 
-    # CVEs not in KEV should be explicitly False, not NaN
-    merged["kev_flag"] = merged["kev_flag"].fillna(False).astype(bool)
+    # CVEs not in KEV are absent from the left-merge (NaN); make them explicit
+    # False. `.eq(True)` maps the merged True/NaN column straight to bool without
+    # the object-dtype fillna downcast warning.
+    merged["kev_flag"] = merged["kev_flag"].eq(True)
 
     # Sanity check for the Tech Auditor checklist: no silently dropped CVEs
     assert len(merged) == len(nvd_df), "Row count changed during merge — check join keys"
+
+    return merged
+
+
+# ---------------------------------------------------------------------------
+# 5. Orchestrated pull with a disk cache — the one entry point the tool uses
+# ---------------------------------------------------------------------------
+def _cache_path(vendor: str, max_results: int, cache_dir: str | Path) -> Path:
+    """Deterministic cache filename for a (vendor, max_results) pull."""
+    slug = re.sub(r"[^a-z0-9]+", "_", str(vendor).strip().lower()).strip("_")
+    return Path(cache_dir) / f"{slug}__{max_results}.csv"
+
+
+def fetch_merged(
+    vendor: str,
+    max_results: int = 200,
+    *,
+    use_cache: bool = True,
+    cache_dir: str | Path = DEFAULT_CACHE_DIR,
+    refresh: bool = False,
+) -> pd.DataFrame:
+    """
+    Fetch + merge NVD/EPSS/KEV for a vendor/product keyword, one row per CVE.
+
+    The result is cached to `cache_dir` keyed by (vendor, max_results). A warm
+    cache is replayed with no network unless `refresh=True`. This is what lets
+    the dashboard's live "show me <vendor>" input work offline during a demo.
+    """
+    path = _cache_path(vendor, max_results, cache_dir)
+    if use_cache and not refresh and path.exists():
+        return pd.read_csv(path)
+
+    nvd_df = fetch_nvd_cves(keyword=vendor, max_results=max_results)
+    if nvd_df.empty:
+        return nvd_df
+
+    epss_df = fetch_epss_scores(nvd_df["cve_id"].tolist())
+    kev_df = fetch_kev_flags()
+    merged = combine_feeds(nvd_df, epss_df, kev_df)
+
+    if use_cache:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        merged.to_csv(path, index=False)
+        # Return the re-read copy so a fresh pull and a cached replay are
+        # byte-identical (a CSV round-trip can shift column dtypes otherwise).
+        return pd.read_csv(path)
 
     return merged
 

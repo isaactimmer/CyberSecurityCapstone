@@ -20,10 +20,12 @@ is described by two columns joined onto each scored CVE:
     pool     str    which pool the fix draws from
     effort   float  how much of that pool the fix consumes
 
-Where a CVE's remediation truly lands (pool + effort) is a separate, not-yet-
-built mapping — the same gap as the CVE->asset join. `assign_remediation_effort`
-is a deterministic *stand-in* so the optimizer can run end-to-end; treat the
-specific pool a CVE lands in as placeholder, not ground truth.
+Which pool a fix draws from is derived from the *kind* of software it affects —
+the asset's `vendor` (#49/#51): network/security/DB/storage/mail infra needs a
+scheduled change window, apps/web/dev work is AppSec, and the rest is routine
+patching. See `pool_for_vendor`. Rows with no vendor fall back to a deterministic
+hash stand-in (`_pool_for_cve`). The vendor->pool rules are a documented
+modelling heuristic (POC-assumptions ADR, #54), not a per-CVE ground truth.
 
 Effort is deliberately kept *constant within each pool*: this is what lets the
 greedy optimizer guarantee it never does worse than the severity baseline (#34).
@@ -90,13 +92,57 @@ def default_pools() -> dict[str, CapacityPool]:
     }
 
 
+# Which work-pool a fix draws from, derived from the *kind* of software (its
+# vendor/product), which is a real signal from the asset graph (#49/#51):
+#   - network gear, security appliances, databases, storage, mail/DNS infra ->
+#     change_window: prod-impacting, reboot-y work that needs a scheduled slot.
+#   - applications, web servers, dev/CI, containers, libraries -> appsec: code,
+#     dependency, and config fixes owned by application security.
+#   - everything else (OS, endpoints) -> patching: routine package/OS updates.
+# Checked in priority order; first match wins, default is patching. This is a
+# documented modelling heuristic (see the POC-assumptions ADR, #54), not a claim
+# about any individual CVE's true remediation path.
+_POOL_VENDOR_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
+    (
+        POOL_CHANGE_WINDOW,
+        (
+            "cisco", "fortinet", "palo alto", "f5", "haproxy", "aruba", "juniper",
+            "oracle database", "netapp", "veeam", "sap", "exchange", "isc bind",
+            "bind", "dhcp", "firewall", "router", "storage", "vmware",
+        ),
+    ),
+    (
+        POOL_APPSEC,
+        (
+            "apache", "tomcat", "nginx", "kong", "kubernetes", "docker", "jenkins",
+            "jira", "confluence", "atlassian", "elasticsearch", "grafana", "splunk",
+            "sharepoint", "mosquitto", "wordpress", "openssl", "http server", "web",
+        ),
+    ),
+)
+
+
+def pool_for_vendor(vendor: object) -> str:
+    """
+    Map an asset's vendor/product to the capacity pool its fixes draw from.
+
+    Keyword-matched in priority order (change_window, then appsec), defaulting to
+    patching. Case-insensitive and deterministic, so the assignment is explainable
+    from the software rather than a hash.
+    """
+    text = str(vendor).strip().lower()
+    for pool, keywords in _POOL_VENDOR_KEYWORDS:
+        if any(kw in text for kw in keywords):
+            return pool
+    return POOL_PATCHING
+
+
 def _pool_for_cve(cve_id: object, pool_names: list[str]) -> str:
     """
     Deterministically map a CVE id to one pool.
 
-    STAND-IN: the real "which team fixes this, in which pool" mapping is a
-    separate ticket. We hash the id so the assignment is stable across runs but
-    make no claim it is the true pool for that CVE.
+    STAND-IN fallback for rows with no `vendor` (asset) signal. We hash the id so
+    the assignment is stable across runs but make no claim it is the true pool.
     """
     # Python's built-in hash is salted per-process, so use a stable digest.
     text = str(cve_id)
@@ -130,6 +176,17 @@ def assign_remediation_effort(
         raise KeyError(f"No effort defined for pool(s): {sorted(missing_effort)}")
 
     out = df.copy()
-    out["pool"] = out["cve_id"].map(lambda c: _pool_for_cve(c, pool_names))
+    has_vendor = "vendor" in out.columns
+
+    def _assign_pool(row: pd.Series) -> str:
+        # Prefer the real asset-role signal (the software's vendor); fall back to
+        # the deterministic hash stand-in when a row carries no vendor.
+        if has_vendor and pd.notna(row["vendor"]):
+            pool = pool_for_vendor(row["vendor"])
+            if pool in pool_effort:
+                return pool
+        return _pool_for_cve(row["cve_id"], pool_names)
+
+    out["pool"] = out.apply(_assign_pool, axis=1)
     out["effort"] = out["pool"].map(pool_effort).astype(float)
     return out
