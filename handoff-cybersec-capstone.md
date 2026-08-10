@@ -2,77 +2,65 @@
 
 **Date:** 2026-08-09
 **Repo:** `C:\Users\rocketboy\Desktop\Projects\CyberSecurityCapstone` · GitHub `isaactimmer/CyberSecurityCapstone`
-**Branch:** `main` — everything below is committed **and pushed** to `origin/main`. Working tree clean. Only `main` exists now (feature branches deleted after merge).
+**Branch state:** work for epic #47 is on **`epic-47-real-data-mapping`**, pushed, and open as **[PR #55](https://github.com/isaactimmer/CyberSecurityCapstone/pull/55)** — **NOT yet merged to `main`**. `main` still ends at `c373dff`. First decision next session: review + merge PR #55.
 
 ## What this project is
-A vulnerability-prioritization tool ("Fulcrum"). It merges NVD (CVSS) + EPSS + CISA KEV feeds, maps a company's asset graph to importance tiers, and produces one **composite risk score** per vulnerability so a "medium" CVE on a critical, actively-exploited asset can outrank a "critical" CVE on the edge. On top of the scores, a **capacity-aware optimizer** packs fixes into the team's real work-time to maximise risk removed.
+A vulnerability-prioritization tool ("Fulcrum"). It merges NVD (CVSS) + EPSS + CISA KEV feeds, maps a company's asset graph to importance tiers, and produces one **composite risk score** per vulnerability so a "medium" CVE on a critical, actively-exploited asset can outrank a "critical" CVE on the edge. A **capacity-aware optimizer** then packs fixes into the team's real work-time to maximise risk removed. Issue tracking = GitHub Issues via `gh` (`docs/agents/issue-tracker.md`).
 
-Issue tracking = GitHub Issues via `gh` CLI (see `docs/agents/issue-tracker.md`). Sprints/epics live as issues.
+## Build state (what exists on `main` vs. in PR #55)
+- **On `main` already:** epic #4 (composite scoring, `scoring.py`), epic #5 (capacity-aware optimizer — `capacity.py`, `optimizer.py`, `optimizer_ilp.py`), asset graph (`asset_graph.py`). Don't redo.
+- **In PR #55 (epic #47 — closes the two "stand-in join" gaps):** the data layer is now **real, live, and vendor-mapped**. Details are in the [PR description](https://github.com/isaactimmer/CyberSecurityCapstone/pull/55), the commit (`f6ed248`), and **ADR-0001** (`docs/adr/0001-poc-modeling-assumptions.md`). Read those rather than re-summarizing. In brief:
+  - **#48** `combine_feeds_with_custom_inputs.fetch_merged(vendor)` — importable, keyless-capable, disk-cached to `data/cache/` (committed for offline demo). KEV memoized.
+  - **#49** `assets.csv` — 37-asset mid-sized company + a `vendor` column; connections symmetrized; tiers spread critical/high/medium/low.
+  - **#50** `cve_asset_map.py` — real CVE→asset join by **vendor keyword**; highest-tier-wins; unmatched→null tier; skips a failing vendor.
+  - **#51** `capacity.pool_for_vendor` — pool from software work-type; **effort still constant per pool**; hash stand-in kept as fallback.
+  - **#52** `pipeline.py` — end-to-end `scan_environment` → `build_plan`, no manual tier/pool injection.
+  - **#54** ADR-0001 — real-vs-modelled assumptions.
+- **Stories #48–#52, #54 are OPEN on purpose** — close them when PR #55 merges (convention: close on merge, not before).
 
-## What got DONE this session — Epic #5 "Capacity-Aware Optimizer" (fully complete, merged, closed)
-All six stories implemented test-first, reviewed via `code-review`, committed, merged to `main`, pushed, and **closed** (incl. the epic #5 issue). Do not redo.
+**Test status: 176 passed, 1 skipped** (`py -m pytest -q`). The 1 skip is still the ILP path (`pulp` not installed).
 
-- **#31** capacity-pool structure — `capacity.py` (`CapacityPool`, `default_pools`, stand-in `assign_remediation_effort`)
-- **#32** greedy optimizer — `optimizer.greedy_optimize`
-- **#33** naive severity-first baseline — `optimizer.severity_baseline`
-- **#34** headline improvement metric — `optimizer.improvement_metric`
-- **#35** (stretch) ILP optimum via PuLP — `optimizer_ilp.py` (import-guarded; tests skip when `pulp` absent)
-- **#36** mid-sprint checkpoint — **GO** decision + numbers documented on the issue (`gh issue view 36 --comments`)
+## Checkpoint (#36) — refreshed on real data
+Recorded on the [#36 issue](https://github.com/isaactimmer/CyberSecurityCapstone/issues/36) and in ADR-0001. 37 assets / 30 vendors / **4,523 real CVEs** / 48 KEV-flagged: optimizer **3,705.8** vs baseline **2,712.0** = **+36.6%**. The old stand-in run was +66.5%; direction held, magnitude shifted once real mappings replaced placeholders — as predicted. Top optimized fixes are real actively-exploited CVEs (CVE-2024-3400 PAN-OS, CVE-2021-26855 ProxyLogon, CVE-2018-13379 FortiOS, CVE-2023-27532 Veeam).
 
-Commits (don't re-summarize the diff — read it): `a91b76c` (epic #5 impl), `8be8681` (merge), plus `c373dff` (this handoff doc). Epic #4 (`01bb7ec`, `c17fc4e`) was already on `main`.
+## Data realism — the important correction to the *previous* handoff
+- **The network IS reachable here and the data is REAL.** NVD (keyword search works **without** a key at a lower rate limit), EPSS, and KEV are all live. The prior handoff's "no network / can't run the pipeline" note was wrong. (Saved to memory: `data-feeds-live.md`.)
+- **`merged_vulnerabilities.csv` is gitignored / not tracked** — a local ~8,296-row Microsoft keyword pull. Not the demo's source of truth anymore; `data/cache/*.csv` (30 committed vendor pulls) is.
+- **NVD API key** belongs in `.env` (git-ignored; only `.env.example` is tracked). No `.env` exists in the repo now. The key only raises the rate limit — the user has one for higher-throughput/live-demo runs.
+- **What is modelled vs. real** is documented in ADR-0001: real = feeds + scoring + optimizer; modelled = the asset environment (customer-supplied in production) and the vendor→pool heuristic. Keep labelling the environment as modelled in any output.
 
-**Test status: 152 passed, 1 skipped** (`py -m pytest -q`). The 1 skip is the ILP path — `pulp` is not installed here and there's no network to install it, so `optimizer_ilp.py` was never run live (logic verified by inspection + import-guard/skip only). `pulp` added to `requirements.txt` as an optional dep.
+## Environment / gotchas
+- **Python:** use `py` (`python`/`python3` not on PATH). Tests: `py -m pytest -q` from repo root. Pytest only, no typechecker. (Memory: `python-launcher.md`.)
+- **Full environment scan is ~30 paced NVD pulls.** Keyless NVD is ~5 req/30s, so a cold scan must pace (~6.5s/vendor) or it 429s. The cache is already warm (`data/cache/`), so `pipeline.run(use_cache=True)` is instant offline. `build_environment_vulnerabilities` skips a vendor whose pull fails rather than aborting.
+- **`max_results` is page-granular** — NVD returns a full 200-row page minimum regardless of a smaller `max_results`.
 
-### Key design decision (already baked in — don't relitigate)
-Effort is **constant within each pool** (`capacity.DEFAULT_POOL_EFFORT`). This is deliberate: it makes the #34 invariant "optimizer total ≥ baseline total" **provably true** (within a pool, ratio-order = score-order, so greedy takes the top-k scoring fixes each pool can hold — a per-pool maximum the baseline can only tie). The data model still allows variable per-item effort; that heuristic gap is exactly what #35's ILP measures. Both code-review sub-agents independently confirmed the guarantee is real.
+## Next work — Dashboard epic #6 (Streamlit app for real)
+The logical next `/implement` target. Fetch acceptance criteria fresh (`gh issue view <n> --json title,body`). The dashboard is a **thin view over `pipeline.py`** — call `pipeline.scan_environment` / `pipeline.build_plan` (and `scoring`/`optimizer`/`capacity`), never reimplement logic.
+- **#37** Streamlit skeleton / app entry point (blocks the rest).
+- **#38** capacity + weighting sliders wired to the real modules.
+- **#39** findings table + naive-vs-optimized view + headline metric.
+- **#40** KEV-alert demo trigger (re-optimize when a new KEV lands).
+- **#53** the demo's headline feature — a **live "show me `<vendor>`" input** that calls `fetch_merged` → `build_plan` in front of the audience (cached fallback offline).
 
-### Code-review fixes applied before commit
-- Promoted cross-module private imports to public: `optimizer.validate_optimizer_input`, `optimizer.load_ready_frame` (were `_`-prefixed and imported by `optimizer_ilp.py`).
-- Extracted `optimizer._order_by` helper (removed duplicated sort/tie-break block).
-- Replaced a vacuous #31 distinctness test in `tests/test_capacity.py`.
+A **clickable dashboard mockup** (private Claude artifact, scratchpad-only, not in repo) is the UX spec: https://claude.ai/code/artifact/e505193c-35e3-453d-a060-5fce26fc979a — re-render via WebFetch if the scratchpad HTML is gone. Also a system dossier: https://claude.ai/code/artifact/d83e5c5f-047a-4bcf-8117-14555e07068c
 
-## Checkpoint result (#36) — the headline
-On `merged_vulnerabilities.csv` (8,296 CVEs), same capacity pools:
-- Optimizer: **4,736.7** risk reduced (56 fixes) · Baseline: **2,844.0** (56 fixes) · **+66.5%**, all pools fully consumed.
-- Direction is structural; **magnitude will shift** once real mappings replace the stand-ins (below).
-
-## Environment notes / gotchas
-- **Python:** use `py` (`python`/`python3` not on PATH). Tests from repo root: `py -m pytest -q`. Pytest-only, no typechecker. (Saved to project memory — see below.)
-- **Data pipeline needs an NVD API key + network** — absent here, so `combine_feeds_with_custom_inputs.py` is never run live; the committed `merged_vulnerabilities.csv` (8,296 CVEs) is used for all demos.
-- **Stand-in joins (not ground truth):** two per-CVE joins are deterministic placeholders — real mappings are separate, not-yet-built tickets. Flag in any real output.
-  - `importance_tier` — scoring expects it joined per CVE; CVE→asset mapping doesn't exist yet.
-  - `pool` + `effort` — `capacity.assign_remediation_effort` hashes `cve_id` → pool.
-  - (Both captured in project memory — see below.)
-
-## Artifacts built this session (scratchpad only — NOT in the repo, private Claude artifacts)
-Visual mirrors of the Python logic, not the real app:
-- **System dossier** (architecture + build-state overview): https://claude.ai/code/artifact/d83e5c5f-047a-4bcf-8117-14555e07068c
-- **Interactive dashboard mockup** (attack map + live weight sliders + capacity sliders + optimizer plan + KEV-alert demo + row-click override): https://claude.ai/code/artifact/e505193c-35e3-453d-a060-5fce26fc979a — this is effectively a **clickable spec for the sprint-3 Streamlit epic**. Runs on a 16-CVE synthetic sample with scaled-down capacities so scarcity is visible.
-
-Scratchpad dir: `%LOCALAPPDATA%\Temp\claude\C--Users-rocketboy-Desktop-Projects-CyberSecurityCapstone\...\scratchpad` (session-specific; source HTML lives there as `fulcrum-status.html` / `fulcrum-dashboard.html` — may be gone next session; re-render from the artifact URLs via WebFetch if needed).
-
-## Next work — Sprint-3 dashboard epic (#37–#40): build the Streamlit app for real
-The logical next `/implement` target. Fetch acceptance criteria fresh: `gh issue view <n> --json title,body`. Rough shape (confirm against tickets):
-- **#37** Streamlit skeleton / app entry point
-- **#38** capacity + weighting sliders wired to the real `scoring` / `optimizer` modules
-- **#39** findings table + naive-vs-optimized view
-- **#40** KEV-alert demo trigger
-
-The dashboard artifact above shows the intended UX; the real build should call the existing Python (`scoring.score_dataframe`, `optimizer.greedy_optimize` / `severity_baseline` / `improvement_metric`, `capacity.default_pools`) rather than reimplementing logic. Note there is **no confirmed epic number** for this dashboard work — verify via `gh issue list`.
+Other open epics: **#7 Demo Prep** (#41–#43), **#8 Documentation & Report** (#44–#45), plus process/ceremony issues (#3, #18–#26).
 
 ## Open decisions for the user (ask, don't assume)
-1. Whether to build the **Streamlit app for real** (#37–#40) now, or first close the **stand-in gap** (build the real CVE→asset and CVE→pool/effort mapping tickets) so the dashboard shows meaningful asset/plan data.
-2. Whether the dashboard mockup HTML should be **committed into the repo** (e.g. `docs/`) as the reference design for #37–#40, or left as a scratchpad artifact.
+1. **Merge PR #55** into `main` (then close #48–#52, #54)?
+2. Streamlit is **not yet a dependency** — add `streamlit` to `requirements.txt` when starting #37.
+3. Whether to commit the dashboard mockup HTML into the repo (e.g. `docs/`) as the reference design, or leave it a scratchpad artifact.
+4. This handoff rewrite is currently an **uncommitted working-tree change** on `epic-47-real-data-mapping` — decide whether to add it to PR #55 or commit separately.
 
 ## Suggested skills for the next session
-- **`implement`** — to build the sprint-3 dashboard stories (drives TDD + single-file test runs + full-suite + `code-review` + commit).
-- **`run`** — to actually launch the Streamlit app once #37 stands it up (verify it renders, screenshot).
-- **`tdd`** — for any new pure-logic seams (e.g. a real CVE→asset/pool mapping module).
-- **`code-review`** — after implementing, against `main` as the fixed point.
-- **`domain-modeling`** — if the CVE→asset / remediation-mapping terminology needs pinning down before coding.
+- **`implement`** — build the #37–#40/#53 dashboard stories (TDD + single-file runs + full suite + `code-review` + commit).
+- **`run`** — launch the Streamlit app once #37 stands it up (verify it renders, screenshot).
+- **`tdd`** — for any new pure-logic seams.
+- **`code-review`** — after implementing, against `main` (post-merge) as the fixed point.
+- **`resolving-merge-conflicts`** — only if PR #55 conflicts at merge.
 
-## Memory
-Project memory dir (`~/.claude/projects/.../memory/`) now holds:
+## Memory (`~/.claude/projects/.../memory/`)
 - `python-launcher.md` — use `py`, tests via `py -m pytest -q`.
-- `stand-in-joins.md` — `importance_tier` and `pool`/`effort` are placeholders, not real data.
-Index in `MEMORY.md`. Add to these if new durable facts emerge.
+- `data-feeds-live.md` — NVD/EPSS/KEV are live-reachable; the merged CSV is real, not synthetic.
+- `stand-in-joins.md` — the two placeholders + how epic #47 resolves them (vendor keyword join; role-based constant-effort pools).
+Index in `MEMORY.md`. Add durable facts as they emerge.
