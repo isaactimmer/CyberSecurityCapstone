@@ -217,6 +217,19 @@ def _cache_path(vendor: str, max_results: int, cache_dir: str | Path) -> Path:
     return Path(cache_dir) / f"{slug}__{max_results}.csv"
 
 
+def cache_exists(
+    vendor: str, max_results: int = 200, cache_dir: str | Path = DEFAULT_CACHE_DIR
+) -> bool:
+    """
+    Whether a warm cache already exists for this (vendor, max_results) pull.
+
+    Lets a caller (the dashboard's live "show me <vendor>" input, #53) tell the
+    audience whether a result was served live or replayed from disk, without
+    reaching into the cache-path internals.
+    """
+    return _cache_path(vendor, max_results, cache_dir).exists()
+
+
 def fetch_merged(
     vendor: str,
     max_results: int = 200,
