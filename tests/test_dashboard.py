@@ -326,3 +326,29 @@ def test_in_plan_assets_lists_scheduled_asset_ids():
     result = dashboard.plan(_scored_with_assets(),
                             pools=dashboard.build_pools(100, 100, 100))
     assert dashboard.in_plan_assets(result.optimized) == {"crown", "mid", "edge"}
+
+
+# --- asset click-through detail (summary board -> one system) --------------
+
+def test_asset_detail_summarizes_one_system_and_its_fixes():
+    result = dashboard.plan(_scored_with_assets(),
+                            pools=dashboard.build_pools(100, 100, 100))
+    detail = dashboard.asset_detail("crown", _asset_table(), result)
+    assert detail["name"] == "Customer DB"
+    assert detail["importance_tier"] == "critical"
+    assert detail["hop_distance"] == 0
+    assert detail["crown_jewel"] is True
+    assert "mid" in detail["connections"]
+    # crown carries CVE-2021-1, which fits the generous capacity, so it's scheduled.
+    assert "CVE-2021-1" in detail["scheduled_cves"]
+    assert detail["scheduled_count"] == 1
+    assert detail["finding_count"] == 1
+
+
+def test_asset_detail_handles_an_unknown_asset():
+    result = dashboard.plan(_scored_with_assets(),
+                            pools=dashboard.build_pools(100, 100, 100))
+    detail = dashboard.asset_detail("ghost", _asset_table(), result)
+    assert detail["name"] is None
+    assert detail["scheduled_cves"] == []
+    assert detail["connections"] == []

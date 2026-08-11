@@ -465,6 +465,57 @@ def in_plan_assets(plan: pipeline.RemediationPlan) -> set[str]:
     return set(str(a) for a in plan.items["asset_id"].dropna())
 
 
+def asset_detail(
+    asset_id: str, asset_table: pd.DataFrame | None, result: pipeline.PlanResult
+) -> dict:
+    """
+    One system's drill-in, for the summary board's click-through: who it is
+    (name, tier, hops, criticality, neighbours) and what the optimized plan does
+    about it (the CVEs scheduled on it, and how many findings it carries).
+
+    Pure and view-free so the "click an asset" panel can be unit-tested. Tolerates
+    an unknown id or a missing asset context (live vendor scan) by returning nulls
+    and empty lists rather than raising.
+    """
+    row = None
+    if asset_table is not None and "asset_id" in asset_table.columns:
+        match = asset_table[asset_table["asset_id"] == asset_id]
+        if not match.empty:
+            row = match.iloc[0]
+
+    scheduled = result.optimized.items
+    if "asset_id" in scheduled.columns:
+        scheduled = scheduled[scheduled["asset_id"] == asset_id]
+    else:
+        scheduled = scheduled.iloc[0:0]
+    findings = result.scored
+    findings = (findings[findings["asset_id"] == asset_id]
+                if "asset_id" in findings.columns else findings.iloc[0:0])
+
+    connections: list[str] = []
+    if row is not None and "connections" in row.index:
+        connections = list(asset_graph._parse_connections(row["connections"]))
+
+    return {
+        "asset_id": asset_id,
+        "name": str(row["name"]) if row is not None else None,
+        "importance_tier": str(row["importance_tier"]) if row is not None else None,
+        "hop_distance": (int(row["hop_distance"])
+                         if row is not None and pd.notna(row["hop_distance"]) else None),
+        "criticality": (str(row["criticality"])
+                        if row is not None and "criticality" in row.index else None),
+        "vendor": (str(row["vendor"])
+                   if row is not None and "vendor" in row.index else None),
+        "crown_jewel": bool(row["crown_jewel"]) if row is not None else False,
+        "connections": connections,
+        "scheduled_cves": (scheduled["cve_id"].tolist()
+                           if "cve_id" in scheduled.columns else []),
+        "scheduled": scheduled,
+        "scheduled_count": int(len(scheduled)),
+        "finding_count": int(len(findings)),
+    }
+
+
 # --- #40 "a new KEV landed" -------------------------------------------------
 
 def kev_candidates(env: pd.DataFrame, *, limit: int = 25) -> list[str]:

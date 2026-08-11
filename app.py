@@ -3,9 +3,13 @@ Scryxen dashboard — Streamlit view over the planning engine (epic #6).
 
 A thin view: every number comes from `dashboard.py` (which wraps
 `pipeline`/`scoring`/`capacity`/`optimizer`). This module owns only widgets and
-layout — no business logic (the epic #6 rule). It is laid out input-first (meet
-the user with the questions that shape the plan) and summary-first (the headline,
-the asset map, then decision-support plans, with the raw table tucked away).
+layout — no business logic (the epic #6 rule).
+
+Flow (the reshape): the app opens on an **intake page** — inputs only, nothing
+computed — and holds there until "Build my plan" is pressed. That flips it to the
+**summary board**: the headline metrics, the asset map, and the side-by-side
+plans, with the same inputs moved to the sidebar so they stay live (a slider
+re-plans in place). Any finding or system is a click away from its **detail**.
 
 Run:
     streamlit run app.py
@@ -53,24 +57,25 @@ def _sample_asset_table() -> pd.DataFrame:
     return dashboard.load_asset_table()
 
 
-# --- landing inputs ---------------------------------------------------------
+# --- inputs (rendered on the intake page, then in the sidebar once built) ---
 
 def environment_inputs() -> tuple[pd.DataFrame, pd.DataFrame | None, str]:
     """
-    "Your environment": pick the sample or upload assets, and return the scored
-    environment plus its asset table (None if the upload failed / no graph).
+    "Your assets": upload a CSV (the primary, demo path) or fall back to the
+    sample environment. Returns the scored environment plus its asset table
+    (None if the upload failed / had no graph).
     """
-    st.markdown("#### 1 · Your environment")
+    st.markdown("**1 · Your assets**")
     choice = st.radio(
         "Assets",
-        ("Use the sample environment", "Upload your assets"),
-        horizontal=True, key="asset_choice",
+        ("Upload your assets", "Use the sample environment"),
+        horizontal=True, key="asset_choice", label_visibility="collapsed",
         help="Upload a CSV with the same columns as the sample to map your own systems.",
     )
 
     if choice == "Upload your assets":
         upload = st.file_uploader(
-            "Insert your assets (CSV)", type="csv",
+            "Insert your assets (CSV)", type="csv", key="asset_upload",
             help="Columns: " + ", ".join(dashboard.REQUIRED_ASSET_COLUMNS),
         )
         if upload is not None:
@@ -81,51 +86,55 @@ def environment_inputs() -> tuple[pd.DataFrame, pd.DataFrame | None, str]:
                 st.error(f"{exc}  Falling back to the sample environment.")
             else:
                 return _scan_uploaded(data), table, f"Your assets · {upload.name}"
+        else:
+            st.caption("No file yet — using the sample environment until you upload one.")
 
     return _scan_sample(), _sample_asset_table(), "Sample environment"
 
 
 def listing_inputs(env: pd.DataFrame) -> tuple[int | None, tuple[int, int] | None]:
-    """"How many vulnerabilities to list?" and an optional disclosure-year range."""
-    cols = st.columns(2)
-    with cols[0]:
-        show_all = st.toggle("List every vulnerability", value=False, key="list_all",
-                             help="Off = cap the findings table to a chosen number.")
-        max_results = None
-        if not show_all:
-            max_results = int(st.number_input(
-                "How many vulnerabilities to list?", min_value=1, value=100, step=25,
-                key="max_results",
-            ))
-    with cols[1]:
-        year_range = None
-        bounds = dashboard.year_bounds(env)
-        if bounds and bounds[0] < bounds[1]:
-            year_range = st.slider(
-                "Disclosure years", bounds[0], bounds[1], bounds, key="year_range",
-                help="Narrow to CVEs disclosed in a year range. Full span = all years.",
-            )
-            if year_range == bounds:
-                year_range = None  # full span means "no filter"
+    """
+    "How many vulnerabilities to list?" (defaulting to *all*) and an optional
+    disclosure-year range.
+    """
+    st.markdown("**2 · How much to show**")
+    show_all = st.toggle("List every vulnerability", value=True, key="list_all",
+                         help="On = show them all. Off = cap the findings table to a number.")
+    max_results = None
+    if not show_all:
+        max_results = int(st.number_input(
+            "How many vulnerabilities to list?", min_value=1, value=100, step=25,
+            key="max_results",
+        ))
+
+    year_range = None
+    bounds = dashboard.year_bounds(env)
+    if bounds and bounds[0] < bounds[1]:
+        year_range = st.slider(
+            "Disclosure years", bounds[0], bounds[1], bounds, key="year_range",
+            help="Narrow to CVEs disclosed in a year range. Full span = all years.",
+        )
+        if year_range == bounds:
+            year_range = None  # full span means "no filter"
     return max_results, year_range
 
 
 def capacity_inputs() -> dict[str, capacity.CapacityPool]:
     """"Team capacity", in the team's own work-time. Free-typed, so the ceiling is
     the user's to set (no artificial slider max)."""
-    st.markdown("#### 2 · Team capacity")
+    st.markdown("**3 · Team capacity**")
     defaults = capacity.DEFAULT_POOL_CAPACITY
-    cols = st.columns(3)
-    patching = cols[0].number_input(
+    patching = st.number_input(
         "Patching (hours)", min_value=0, value=int(defaults[capacity.POOL_PATCHING][0]),
         step=10, key="cap_patching", help="Routine OS & package updates.",
     )
-    appsec = cols[1].number_input(
+    appsec = st.number_input(
         "AppSec (hours)", min_value=0, value=int(defaults[capacity.POOL_APPSEC][0]),
         step=5, key="cap_appsec", help="Code fixes and dependency bumps.",
     )
-    change_window = cols[2].number_input(
-        "Change-window slots", min_value=0, value=int(defaults[capacity.POOL_CHANGE_WINDOW][0]),
+    change_window = st.number_input(
+        "Change-window slots", min_value=0,
+        value=int(defaults[capacity.POOL_CHANGE_WINDOW][0]),
         step=1, key="cap_change_window", help="Scheduled reboots / prod-impacting work.",
     )
     return dashboard.build_pools(patching, appsec, change_window)
@@ -135,42 +144,48 @@ def scoring_inputs() -> dashboard.scoring.ScoringWeights:
     """How much each signal counts. Tucked in an expander — sensible by default."""
     with st.expander("Scoring emphasis — how much each signal counts", expanded=False):
         st.caption("Weights are rebalanced to sum to 1; only their relative size matters.")
-        cols = st.columns(4)
-        cvss = cols[0].slider("Severity (CVSS)", 0.0, 1.0, 0.25, 0.05, key="w_cvss")
-        epss = cols[1].slider("Exploit prob. (EPSS)", 0.0, 1.0, 0.30, 0.05, key="w_epss")
-        kev = cols[2].slider("Known exploited (KEV)", 0.0, 1.0, 0.20, 0.05, key="w_kev")
-        importance = cols[3].slider("Asset importance", 0.0, 1.0, 0.25, 0.05, key="w_importance")
+        cvss = st.slider("Severity (CVSS)", 0.0, 1.0, 0.25, 0.05, key="w_cvss")
+        epss = st.slider("Exploit prob. (EPSS)", 0.0, 1.0, 0.30, 0.05, key="w_epss")
+        kev = st.slider("Known exploited (KEV)", 0.0, 1.0, 0.20, 0.05, key="w_kev")
+        importance = st.slider("Asset importance", 0.0, 1.0, 0.25, 0.05, key="w_importance")
     return dashboard.normalize_weights(cvss, epss, kev, importance)
 
 
-# --- simulation controls (decluttered, in the sidebar) ----------------------
+def collect_inputs(env: pd.DataFrame):
+    """Render every input control (in whatever container is active) and return the
+    resolved values. Called in the body on the intake page, then in the sidebar
+    once a plan is built — the stable widget keys carry the values across."""
+    env2, asset_table, source = environment_inputs()
+    max_results, year_range = listing_inputs(env2)
+    pools = capacity_inputs()
+    weights = scoring_inputs()
+    return env2, asset_table, source, max_results, year_range, pools, weights
 
-def simulation_sidebar(env: pd.DataFrame) -> str | None:
-    """Live vendor scan + "a new KEV listing" — the demo levers, out of the way."""
-    with st.sidebar:
-        st.header("Simulate")
 
-        st.subheader("Scan a specific vendor")
-        st.caption("Pull one vendor's live CVEs instead of the whole environment.")
-        st.text_input("Vendor / product", key="vendor_query", placeholder="e.g. fortinet")
-        st.select_slider("Assumed criticality", options=TIERS, value="high", key="live_tier")
-        cols = st.columns(2)
-        cols[0].button("Scan vendor", key="scan_btn", use_container_width=True,
-                       on_click=_run_live_scan)
-        cols[1].button("Whole environment", key="reset_btn", use_container_width=True,
-                       on_click=_clear_live_scan)
+# --- simulate: live vendor scan + a new KEV listing (results-page sidebar) ---
 
-        st.divider()
-        st.subheader("New KEV listing")
-        st.caption("Flip a CVE to known-exploited and watch the plan re-pack.")
-        candidates = dashboard.kev_candidates(env)
-        st.selectbox("CVE just added to CISA KEV", candidates, key="kev_candidate")
-        cols = st.columns(2)
-        cols[0].button("Add to KEV", key="kev_btn", on_click=_inject_kev,
-                       use_container_width=True)
-        cols[1].button("Clear", key="kev_clear_btn", on_click=_clear_kev,
-                       use_container_width=True)
+def simulate_controls(env: pd.DataFrame) -> str | None:
+    """The demo levers. Assumes it is already inside the sidebar container."""
+    st.subheader("Scan a specific vendor")
+    st.caption("Pull one vendor's live CVEs instead of the whole environment.")
+    st.text_input("Vendor / product", key="vendor_query", placeholder="e.g. fortinet")
+    st.select_slider("Assumed criticality", options=TIERS, value="high", key="live_tier")
+    cols = st.columns(2)
+    cols[0].button("Scan vendor", key="scan_btn", use_container_width=True,
+                   on_click=_run_live_scan)
+    cols[1].button("Whole environment", key="reset_btn", use_container_width=True,
+                   on_click=_clear_live_scan)
 
+    st.divider()
+    st.subheader("New KEV listing")
+    st.caption("Flip a CVE to known-exploited and watch the plan re-pack.")
+    candidates = dashboard.kev_candidates(env)
+    st.selectbox("CVE just added to CISA KEV", candidates, key="kev_candidate")
+    cols = st.columns(2)
+    cols[0].button("Add to KEV", key="kev_btn", on_click=_inject_kev,
+                   use_container_width=True)
+    cols[1].button("Clear", key="kev_clear_btn", on_click=_clear_kev,
+                   use_container_width=True)
     return st.session_state.get("kev_injected")
 
 
@@ -200,9 +215,52 @@ def _clear_kev() -> None:
     st.session_state.pop("kev_injected", None)
 
 
-# --- render sections --------------------------------------------------------
+# --- build / edit gate ------------------------------------------------------
+
+def _build() -> None:
+    st.session_state["plan_built"] = True
+
+
+def _unbuild() -> None:
+    st.session_state["plan_built"] = False
+
+
+# --- click-through detail (modals) ------------------------------------------
+
+@st.dialog("Why this finding ranks here")
+def _finding_dialog(detail: dict) -> None:
+    _render_detail(detail)
+
+
+@st.dialog("System detail")
+def _asset_dialog(detail: dict) -> None:
+    st.markdown(f"### {detail['name'] or detail['asset_id']}")
+    tier = detail["importance_tier"]
+    if tier:
+        colour = dashboard.TIER_COLORS.get(tier, dashboard.TIER_COLORS["low"])
+        st.markdown(
+            f"<span style='color:{colour};font-weight:600'>{tier} importance</span>"
+            + ("  ·  crown jewel" if detail["crown_jewel"] else ""),
+            unsafe_allow_html=True,
+        )
+    if detail["hop_distance"] is not None:
+        st.caption(f"{detail['hop_distance']} hop(s) from the crown jewel · "
+                   f"criticality: {detail['criticality'] or '—'} · "
+                   f"vendor: {detail['vendor'] or '—'}")
+    if detail["connections"]:
+        st.write("**Connected to:** " + ", ".join(detail["connections"]))
+    st.metric("Fixes scheduled here", detail["scheduled_count"],
+              help=f"{detail['finding_count']} finding(s) affect this system.")
+    if detail["scheduled_cves"]:
+        st.write("**Scheduled CVEs:** " + ", ".join(detail["scheduled_cves"]))
+    else:
+        st.info("No fix is scheduled for this system under the current capacity.")
+
+
+# --- render: the summary board ---------------------------------------------
 
 def render_summary(result: pipeline.PlanResult, coverage: dict) -> None:
+    st.markdown("### Summary")
     head = dashboard.headline(result)
     cols = st.columns(4)
     cols[0].metric("Optimizer buys", f"+{head['improvement_pct']:.1f}%",
@@ -219,7 +277,7 @@ def render_summary(result: pipeline.PlanResult, coverage: dict) -> None:
 
 def render_asset_map(asset_table: pd.DataFrame, result: pipeline.PlanResult,
                      focus: str | None) -> None:
-    st.markdown("#### Asset map")
+    st.markdown("### Asset map")
     st.caption("Importance by hops from the crown jewel · 0–1 critical · 2–3 high · "
                "4–5 medium · 6+ low. Green dot = a fix is scheduled for that system.")
     amap = dashboard.asset_map_data(asset_table)
@@ -233,7 +291,7 @@ def render_asset_map(asset_table: pd.DataFrame, result: pipeline.PlanResult,
 
 
 def render_plans(result: pipeline.PlanResult, asset_table: pd.DataFrame | None) -> None:
-    st.markdown("#### Remediation plans")
+    st.markdown("### Remediation plans")
     st.caption("Click a finding to see why it ranks where it does.")
     baseline_col, optimized_col = st.columns(2)
     with baseline_col:
@@ -250,13 +308,13 @@ def _render_plan_list(plan: pipeline.RemediationPlan, asset_table: pd.DataFrame 
         st.info("No fixes fit the current capacity.")
         return
     annotated = dashboard.annotate_plan(plan.items.head(limit), asset_table)
-    for _, row in annotated.iterrows():
+    for i, (_, row) in enumerate(annotated.iterrows()):
         detail = dashboard.plan_item_detail(row)
         title = f"{detail['composite_score']:.0f} · {detail['cve_id']}"
         if detail["asset_name"]:
             title += f" — {detail['asset_name']}"
-        with st.expander(title):
-            _render_detail(detail)
+        if st.button(title, key=f"{key}_{i}", use_container_width=True):
+            _finding_dialog(detail)
 
 
 def _render_detail(detail: dict) -> None:
@@ -265,6 +323,8 @@ def _render_detail(detail: dict) -> None:
         left.markdown(f"<span style='color:gray'>{label}</span>", unsafe_allow_html=True)
         right.markdown(f"**{value}**")
 
+    st.markdown(f"#### {detail['cve_id']}"
+                + (f" — {detail['asset_name']}" if detail["asset_name"] else ""))
     line("CVSS severity", f"{detail['cvss_score']:.1f} of 10"
          if detail["cvss_score"] is not None else "—")
     line("Exploitation likelihood (EPSS)", f"{round(detail['epss_score'] * 100)}%")
@@ -304,28 +364,44 @@ def render_kev_delta(cve_id: str, before: pipeline.PlanResult,
     cols[2].metric("Newly-KEV CVE now scheduled?", "yes" if scheduled else "no")
 
 
-# --- main -------------------------------------------------------------------
+# --- pages ------------------------------------------------------------------
 
-def main() -> None:
-    st.set_page_config(page_title=PAGE_TITLE, layout="wide")
-    st.title(PAGE_TITLE)
-    st.caption(TAGLINE, help=HONESTY_NOTE)
+def intake_page() -> None:
+    """The load-in page: inputs only, nothing computed, until "Build my plan"."""
+    st.markdown("### Set up your scan")
+    st.caption("Tell Scryxen what to look at. Everything has a sensible default — "
+               "you can just press Build.")
+    # env is scanned (cached) so the year-range control knows its bounds; no plan
+    # is computed or shown yet.
+    env = _scan_sample()
+    collect_inputs(env)
+    st.divider()
+    st.button("Build my plan  ▶", type="primary", on_click=_build,
+              use_container_width=True, key="build_btn")
 
-    # Inputs first.
-    env, asset_table, source = environment_inputs()
-    max_results, year_range = listing_inputs(env)
-    pools = capacity_inputs()
-    weights = scoring_inputs()
 
-    # A live vendor scan (if one is active) replaces the environment; it has no
-    # asset graph, so the map is hidden for it.
+def results_page() -> None:
+    """The summary board: inputs move to the sidebar (still live), results fill
+    the body — summary strip, asset map, side-by-side plans, findings."""
+    with st.sidebar:
+        st.header("Inputs")
+        env, asset_table, source, max_results, year_range, pools, weights = (
+            collect_inputs(_scan_sample())
+        )
+        st.button("◀  Edit inputs", on_click=_unbuild, key="edit_btn",
+                  use_container_width=True)
+        st.divider()
+        st.header("Simulate")
+        # A live vendor scan replaces the environment (it has no asset graph, so
+        # the map is hidden for it).
+        injected = simulate_controls(env)
+
     scan = st.session_state.get("live_scan")
     if st.session_state.get("live_scan_error"):
         st.sidebar.error(f"No CVEs found for '{st.session_state['live_scan_error']}'.")
     if scan is not None:
         env, asset_table, source = scan.env, None, f"Vendor scan · {scan.vendor} · {scan.source}"
 
-    injected = simulation_sidebar(env)
     st.info(source)
 
     result = dashboard.plan(env, weights=weights, pools=pools)
@@ -341,6 +417,8 @@ def main() -> None:
         picked = st.selectbox("Focus a system", options, key="focus_asset",
                               help="Highlight it on the map and filter the findings to it.")
         focus = None if picked == options[0] else picked
+        if focus and st.button(f"View “{focus}” detail", key="asset_detail_btn"):
+            _asset_dialog(dashboard.asset_detail(focus, asset_table, result))
 
     coverage = (dashboard.asset_coverage(asset_table, result.optimized)
                 if asset_table is not None else {"covered": 0, "total": 0})
@@ -351,6 +429,19 @@ def main() -> None:
 
     render_plans(result, asset_table)
     render_findings(result, max_results, year_range, focus)
+
+
+# --- main -------------------------------------------------------------------
+
+def main() -> None:
+    st.set_page_config(page_title=PAGE_TITLE, layout="wide")
+    st.title(PAGE_TITLE)
+    st.caption(TAGLINE, help=HONESTY_NOTE)
+
+    if st.session_state.get("plan_built"):
+        results_page()
+    else:
+        intake_page()
 
 
 # Streamlit runs the script with __name__ == "__main__" (both `streamlit run`
