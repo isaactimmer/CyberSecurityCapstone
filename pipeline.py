@@ -1,5 +1,5 @@
 """
-Fulcrum pipeline — end-to-end wiring (epic #47, story #52)
+Scryxen pipeline — end-to-end wiring (epic #47, story #52)
 
 Ties the real seams together into one runnable flow, on live/cached data instead
 of the old stand-ins:
@@ -112,7 +112,7 @@ def run(
 
 def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Run the full Fulcrum pipeline on the asset environment."
+        description="Run the full Scryxen pipeline on the asset environment."
     )
     parser.add_argument("--assets", default="assets.csv", help="Path to the asset CSV.")
     parser.add_argument(

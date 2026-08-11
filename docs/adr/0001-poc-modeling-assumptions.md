@@ -4,7 +4,7 @@
 
 ## Context
 
-Fulcrum prioritises vulnerability remediation by combining public threat data
+Scryxen prioritises vulnerability remediation by combining public threat data
 with a company's own environment. For the capstone POC we must be explicit about
 which inputs are **real** and which are **modelled**, so the demo and the report
 are defensible rather than "everything looks synthetic."

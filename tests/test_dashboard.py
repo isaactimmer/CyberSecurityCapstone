@@ -177,3 +177,152 @@ def test_live_scan_result_feeds_build_plan():
     result = dashboard.plan(scan.env)
     assert len(result.scored) == 1
     assert "composite_score" in result.scored.columns
+
+
+# --- landing inputs: how many / which years / focus asset ------------------
+
+def _scored_with_assets() -> pd.DataFrame:
+    return pd.DataFrame(
+        [
+            {"cve_id": "CVE-2021-1", "cvss_score": 9.0, "epss_score": 0.5, "kev_flag": True,
+             "importance_tier": "critical", "vendor": "oracle database", "asset_id": "crown",
+             "composite_score": 80.0, "pool": "change_window", "effort": 1.0},
+            {"cve_id": "CVE-2023-2", "cvss_score": 7.0, "epss_score": 0.2, "kev_flag": False,
+             "importance_tier": "critical", "vendor": "apache tomcat", "asset_id": "mid",
+             "composite_score": 55.0, "pool": "appsec", "effort": 2.0},
+            {"cve_id": "CVE-2024-3", "cvss_score": 5.0, "epss_score": 0.1, "kev_flag": False,
+             "importance_tier": "high", "vendor": "ubuntu", "asset_id": "edge",
+             "composite_score": 20.0, "pool": "patching", "effort": 1.0},
+        ]
+    )
+
+
+def test_cve_year_parses_the_disclosure_year():
+    assert dashboard.cve_year("CVE-2024-12345") == 2024
+    assert dashboard.cve_year("cve-1999-0001") == 1999
+    assert dashboard.cve_year("not-a-cve") is None
+
+
+def test_year_bounds_spans_the_present_years():
+    assert dashboard.year_bounds(_scored_with_assets()) == (2021, 2024)
+
+
+def test_filter_findings_caps_the_row_count():
+    view = dashboard.filter_findings(_scored_with_assets(), max_results=2)
+    assert len(view) == 2  # "how many to list?"
+
+
+def test_filter_findings_keeps_only_the_year_range():
+    view = dashboard.filter_findings(_scored_with_assets(), year_range=(2023, 2024))
+    assert set(view["cve_id"]) == {"CVE-2023-2", "CVE-2024-3"}
+
+
+def test_filter_findings_focuses_one_asset():
+    view = dashboard.filter_findings(_scored_with_assets(), asset_id="crown")
+    assert list(view["cve_id"]) == ["CVE-2021-1"]
+
+
+def test_filter_findings_all_none_returns_every_row():
+    view = dashboard.filter_findings(_scored_with_assets())
+    assert len(view) == 3
+
+
+# --- asset map -------------------------------------------------------------
+
+def _asset_table() -> pd.DataFrame:
+    # Two hops from a single crown jewel: crown -> mid -> edge.
+    return pd.DataFrame(
+        [
+            {"asset_id": "crown", "name": "Customer DB", "criticality": "Critical",
+             "crown_jewel": True, "connections": "mid", "vendor": "oracle database",
+             "hop_distance": 0, "importance_tier": "critical"},
+            {"asset_id": "mid", "name": "App Server", "criticality": "High",
+             "crown_jewel": False, "connections": "crown|edge", "vendor": "apache tomcat",
+             "hop_distance": 1, "importance_tier": "critical"},
+            {"asset_id": "edge", "name": "Dev Box", "criticality": "Low",
+             "crown_jewel": False, "connections": "mid", "vendor": "ubuntu",
+             "hop_distance": 2, "importance_tier": "high"},
+        ]
+    )
+
+
+def test_load_asset_table_reads_the_sample_environment():
+    table = dashboard.load_asset_table()  # defaults to assets.csv
+    assert "hop_distance" in table.columns
+    assert "importance_tier" in table.columns
+    assert (table["crown_jewel"].sum()) == 1  # exactly one crown jewel
+
+
+def test_load_asset_table_rejects_a_broken_file(tmp_path):
+    bad = tmp_path / "bad.csv"
+    bad.write_text("asset_id,name\nonly,two-columns\n", encoding="utf-8")
+    with pytest.raises(ValueError):
+        dashboard.load_asset_table(str(bad))
+
+
+def test_asset_map_data_columns_by_hop_distance():
+    amap = dashboard.asset_map_data(_asset_table())
+    assert amap.max_hop == 2
+    assert amap.crown_jewels == ["crown"]
+    cols = {n["asset_id"]: n["col"] for n in amap.nodes}
+    assert cols == {"crown": 0, "mid": 1, "edge": 2}
+    # Edges are undirected and de-duped (crown-mid and mid-edge, not doubled).
+    assert len(amap.edges) == 2
+
+
+def test_asset_map_svg_marks_selection_and_plan_membership():
+    amap = dashboard.asset_map_data(_asset_table())
+    svg = dashboard.asset_map_svg(amap, selected="mid", in_plan_assets={"edge"})
+    assert svg.startswith("<svg") and svg.rstrip().endswith("</svg>")
+    assert "Customer DB" in svg          # a node label rendered
+    assert "#1D9E75" in svg              # the in-plan green dot for "edge"
+
+
+# --- plan decision-support -------------------------------------------------
+
+def test_annotate_plan_joins_asset_name_and_hops():
+    items = _scored_with_assets()
+    annotated = dashboard.annotate_plan(items, _asset_table())
+    row = annotated.set_index("cve_id").loc["CVE-2021-1"]
+    assert row["asset_name"] == "Customer DB"
+    assert int(row["hop_distance"]) == 0
+
+
+def test_annotate_plan_tolerates_no_asset_context():
+    items = pd.DataFrame([{"cve_id": "CVE-L1", "composite_score": 10.0}])
+    annotated = dashboard.annotate_plan(items, None)
+    assert annotated["asset_name"].isna().all()
+    assert annotated["hop_distance"].isna().all()
+
+
+def test_plan_item_detail_explains_a_kev_finding():
+    items = dashboard.annotate_plan(_scored_with_assets(), _asset_table())
+    detail = dashboard.plan_item_detail(items.iloc[0])  # CVE-2021-1, KEV, crown
+    assert detail["kev_flag"] is True
+    assert detail["hop_distance"] == 0
+    assert detail["tier_weight"] == pytest.approx(1.0)  # critical
+    assert "actively exploited" in detail["reason_sentence"]
+    assert detail["reason_sentence"].endswith(".")
+
+
+def test_plan_item_detail_handles_a_row_with_no_asset():
+    row = pd.Series({"cve_id": "CVE-L1", "cvss_score": 8.0, "epss_score": 0.1,
+                     "kev_flag": False, "importance_tier": "high", "composite_score": 40.0})
+    detail = dashboard.plan_item_detail(row)
+    assert detail["hop_distance"] is None
+    assert "high-importance" in detail["reason_sentence"]
+
+
+def test_asset_coverage_counts_critical_assets_with_a_fix():
+    result = dashboard.plan(_scored_with_assets(),
+                            pools=dashboard.build_pools(100, 100, 100))
+    coverage = dashboard.asset_coverage(_asset_table(), result.optimized)
+    # crown + mid are critical; both have a scheduled CVE, so 2 of 2.
+    assert coverage["total"] == 2
+    assert coverage["covered"] == 2
+
+
+def test_in_plan_assets_lists_scheduled_asset_ids():
+    result = dashboard.plan(_scored_with_assets(),
+                            pools=dashboard.build_pools(100, 100, 100))
+    assert dashboard.in_plan_assets(result.optimized) == {"crown", "mid", "edge"}
