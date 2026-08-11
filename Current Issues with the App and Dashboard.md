@@ -1,0 +1,12 @@
+**Current Issues with the App and Dashboard:** 
+
+- Do not include the story that each part is relating to, for example “Story \#53 \- fetches lives, falls back to the offline cache”, just explains what each part does briefly and if they want they can hover over it to get more explanation.   
+- The dashboard should basically look like a summary of everything. Right now, everything looks clustered up together. Take a look at the inputs on the side, it is all together and doesn’t make sense. Furthermore, currently the plans just look like a list of tables and the findings, making it confusing to navigate.  
+- Think of this dashboard through the perspective of the user and who may actually use this.   
+- The asset map is missing which is key to this app.   
+- When people first open this app or tool, I want them to be met with like inputs where they can put stuff in and there are default answers if you don’t know what to put in. For example, “Insert your assets” so they can actually insert their assets and see what it is like to create the asset map. “How many vulnerabilities should be listed?” or some kind of question asking if they either have a specific number or just list all. “Year-to-Year” to basically see if they have a range of years they want to work from or you can just leave it blank to get a list of it all.   
+- For the plan, I feel like there is too much information and not enough information that helps them understand what to do. I feel like if you were to click on one of them, it should give an extended summary. If you remember the fulcrum\_interactive\_poc\_with\_asset\_map.html, it has a similar idea to that but at a smaller scope since it was just a visual idea, we could possibly extend that even more.   
+- The inputs for the team capacity should be based on hours, so 200 hours in a week to work on it, I don’t know if that sounds reasonable. Maybe we could make it to where they can customize the max and limit too.   
+- We do not need small descriptions like “Feed data (NVD, EPSS, CISA KEV) is real and live. The asset environment is a modelled mid-size company (assets.csv) \- in production this is customer-supplied. See ADR-001.  
+- Our tool name is called Scryxen.   
+- If you can open this and take a look: [https://claude.ai/code/artifact/94a6e9d0-541f-474d-9519-369237e478fc](https://claude.ai/code/artifact/94a6e9d0-541f-474d-9519-369237e478fc), this was essentially apart of what the tool could look like. Not the full tool. 
