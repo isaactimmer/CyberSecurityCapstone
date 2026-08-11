@@ -4,6 +4,10 @@ pandas
 python-dotenv
 networkx
 
+# Dashboard (epic #6) — the Streamlit view over pipeline.py. `app.py` is the
+# entry point (`streamlit run app.py`); tested headless via streamlit.testing.
+streamlit
+
 # Optional: ILP optimal-comparison stretch (epic #5, #35). Not needed for the
 # core optimizer; optimizer_ilp.py and its tests skip when it is absent.
 pulp
