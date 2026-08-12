@@ -104,6 +104,12 @@
           <div class="card-h">Where the fixes land</div>
           <div style="padding:14px 16px" id="tierSpread"></div>
         </div>
+        <div class="card mini-map-card" id="miniMapCard" role="button" tabindex="0"
+             onclick="gotoMap()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();gotoMap()}">
+          <div class="card-h">Attack surface <span class="sub">— around the crown jewel</span></div>
+          <svg class="mini-net" id="miniNet" viewBox="0 0 300 190" role="img" aria-label="Mini asset map centred on the crown jewel"></svg>
+          <div class="mini-foot">Explore the full map ▸</div>
+        </div>
       </div>
     </div>
   </div>

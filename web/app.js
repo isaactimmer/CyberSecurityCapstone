@@ -171,6 +171,45 @@ function renderDashboard() {
       <div style="flex:1;height:8px;border-radius:5px;background:var(--panel-3);overflow:hidden"><i style="display:block;height:100%;width:${spread[t] / max * 100}%;background:var(${TIERCOL[t]})"></i></div>
       <span class="mono" style="font-size:12px;width:16px;text-align:right">${spread[t]}</span>
     </div>`).join("");
+
+  renderMiniMap();
+}
+
+// Dashboard mini asset-map: a "zoomed" view of the graph centred on the crown
+// jewel (itself + systems within 2 hops), fit into a compact card. Clicking the
+// card jumps to the full Attack-surface tab with the crown jewel already selected.
+function crownNode() { return ENV.asset_map.nodes.find(n => n.crown); }
+function gotoMap() { const c = crownNode(); gotoTab("map"); if (c) selectAsset(c.asset_id); }
+function renderMiniMap() {
+  const svg = $("miniNet"); if (!svg) return;
+  const crown = crownNode();
+  if (!crown) { svg.innerHTML = ""; return; }
+  // Zoom to the crown jewel's immediate surroundings; tighten to 1 hop if crowded.
+  let near = ENV.asset_map.nodes.filter(n => n.hop <= 2);
+  if (near.length > 14) near = ENV.asset_map.nodes.filter(n => n.hop <= 1);
+  const ids = new Set(near.map(n => n.asset_id));
+  const inPlan = new Set(BOARD ? BOARD.in_plan_assets : []);
+  const W_ = 300, H_ = 190, PAD = 26;
+  const xs = near.map(n => n.x), ys = near.map(n => n.y);
+  const xmin = Math.min(...xs), xmax = Math.max(...xs), ymin = Math.min(...ys), ymax = Math.max(...ys);
+  const sx = v => PAD + (xmax === xmin ? .5 : (v - xmin) / (xmax - xmin)) * (W_ - PAD * 2);
+  const sy = v => PAD + (ymax === ymin ? .5 : (v - ymin) / (ymax - ymin)) * (H_ - PAD * 2);
+  const byId = {}; near.forEach(n => byId[n.asset_id] = n);
+  let s = "";
+  ENV.asset_map.edges.forEach(e => {
+    if (!ids.has(e.source) || !ids.has(e.target)) return;
+    const a = byId[e.source], b = byId[e.target];
+    s += `<path class="edge" d="M${sx(a.x)} ${sy(a.y)} L${sx(b.x)} ${sy(b.y)}"/>`;
+  });
+  near.forEach(n => {
+    const col = n.tier_color || cssv(TIERCOL[n.tier] || "--low");
+    const r = n.crown ? 8 : 5;
+    if (n.crown) s += `<circle cx="${sx(n.x)}" cy="${sy(n.y)}" r="${r + 3.5}" fill="none" stroke="${cssv("--ink")}" stroke-width="1.3"/>`;
+    s += `<circle cx="${sx(n.x)}" cy="${sy(n.y)}" r="${r}" fill="${col}" opacity=".92"/>`;
+    if (inPlan.has(n.asset_id)) s += `<circle cx="${sx(n.x) + r - 1}" cy="${sy(n.y) - r + 1}" r="2.4" fill="${cssv("--good")}" stroke="${cssv("--panel")}" stroke-width="1"/>`;
+    if (n.crown) s += `<text x="${sx(n.x)}" y="${sy(n.y) + r + 9}" text-anchor="middle">${esc(n.name.length > 16 ? n.name.slice(0, 15) + "…" : n.name)}</text>`;
+  });
+  svg.innerHTML = s;
 }
 
 // ---------------- risk-engine table ----------------
