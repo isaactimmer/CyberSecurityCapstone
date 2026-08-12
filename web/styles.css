@@ -294,6 +294,27 @@ tr.formrow td{background:var(--panel-2); padding:0}
   border-radius:11px; padding:12px 14px; font-size:13px; line-height:1.5}
 .reason .rl{font-size:10.5px; text-transform:uppercase; letter-spacing:.09em; color:var(--accent-ink); font-weight:700; margin-bottom:5px}
 .modal-foot{display:flex; gap:8px; margin-top:14px}
+/* finding modal enrichment (rec #1): description, recommendation, out-links */
+.cve-desc{margin:14px 0 4px}
+.cve-desc .rl,.refs .rl{font-size:10.5px; text-transform:uppercase; letter-spacing:.09em; font-weight:700; color:var(--ink-3); margin-bottom:5px}
+.cve-desc p{margin:0; font-size:13px; line-height:1.55; color:var(--ink-2)}
+.rec{margin-top:14px; border:1px solid var(--line); border-radius:11px; padding:12px 14px; font-size:13px; line-height:1.5}
+.rec p{margin:0; color:var(--ink)}
+.rec .rl{display:flex; align-items:center; gap:8px; font-size:10.5px; text-transform:uppercase; letter-spacing:.09em; font-weight:700; margin-bottom:6px}
+.rec .src{font-size:9px; letter-spacing:.03em; padding:2px 7px; border-radius:999px; font-weight:720}
+.rec.auth{background:var(--kev-wash); border-color:color-mix(in srgb,var(--kev) 32%,transparent)}
+.rec.auth .rl{color:var(--kev)} .rec.auth .src{background:var(--kev); color:#fff}
+.rec.derived{background:var(--panel-2)}
+.rec.derived .rl{color:var(--ink-3)} .rec.derived .src{background:var(--panel-3); color:var(--ink-3)}
+.rec .urg{margin-top:8px; font-size:11.5px; color:var(--kev); font-weight:600}
+.refs{margin-top:14px}
+.reflist{display:flex; flex-direction:column; gap:6px}
+.ref-link{display:flex; align-items:center; gap:9px; text-decoration:none; color:var(--ink-2); background:var(--panel-2);
+  border:1px solid var(--line); border-radius:9px; padding:8px 11px; font-size:12.5px}
+.ref-link:hover{border-color:var(--accent); color:var(--ink)}
+.ref-link .src{font-family:var(--mono); font-size:9px; font-weight:700; letter-spacing:.03em; color:var(--accent-ink);
+  background:var(--accent-wash); padding:3px 6px; border-radius:5px; min-width:42px; text-align:center}
+.ref-link .ext{margin-left:auto; color:var(--ink-3)}
 
 .caveat{background:var(--panel); border:1px dashed var(--line-2); border-radius:10px; padding:12px 15px; font-size:12.5px; color:var(--ink-2); margin-top:20px}
 .caveat b{color:var(--ink)}

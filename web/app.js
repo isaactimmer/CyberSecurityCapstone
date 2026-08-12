@@ -343,6 +343,26 @@ function showTip(e, t) { const el = $("tip"); el.textContent = t; el.style.opaci
 function hideTip() { $("tip").style.opacity = 0; }
 
 // ---------------- finding modal ----------------
+// Remediation callout. CISA-sourced actions read as authoritative (accent, badge
+// "CISA KEV"); derived guidance is muted and labelled as such so a viewer never
+// mistakes a heuristic for an official instruction.
+function recommendationHtml(rec) {
+  if (!rec || !rec.text) return "";
+  const auth = rec.authoritative;
+  const badge = auth ? "CISA KEV — required action" : "Derived guidance";
+  return `<div class="rec ${auth ? "auth" : "derived"}">
+    <div class="rl">Recommendation <span class="src">${esc(badge)}</span></div>
+    <p>${esc(rec.text)}</p>
+    ${rec.urgency ? `<div class="urg">${esc(rec.urgency)}</div>` : ""}</div>`;
+}
+// Authoritative out-links (NVD / MITRE / EPSS / KEV). Open in a new tab; noopener
+// so the external page can't reach back into the console.
+function referencesHtml(refs) {
+  if (!refs || !refs.length) return "";
+  return `<div class="refs"><div class="rl">Look it up</div><div class="reflist">${refs.map(r =>
+    `<a class="ref-link" href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">
+      <span class="src">${esc(r.source)}</span>${esc(r.label)}<span class="ext">↗</span></a>`).join("")}</div></div>`;
+}
 async function openFinding(cve) {
   const res = await apiPost("/api/finding/" + encodeURIComponent(cve), controls());
   if (!res.ok) return;
@@ -357,6 +377,7 @@ async function openFinding(cve) {
       <div style="font-weight:620;font-size:14px;margin-bottom:8px">${esc(f.asset_name || "—")}</div>
       <div class="chips">${f.importance_tier ? tierPill(f.importance_tier) : ""}${f.kev_flag ? '<span class="kev-pill">KEV</span>' : ""}
         <span class="pill" style="color:var(--ink-2);background:var(--panel-3)">${esc(f.pool || "")} · ${f.effort != null ? f.effort : "—"}${f.pool === "change_window" ? " slots" : "h"}</span></div>
+      ${f.description ? `<div class="cve-desc"><div class="rl">What this is</div><p>${esc(f.description)}</p></div>` : ""}
       <div class="drow"><span class="k">CVSS severity</span><span class="v mono">${num(f.cvss_score).toFixed(1)} / 10</span></div>
       <div class="drow"><span class="k">Exploitation likelihood (EPSS)</span><span class="v mono">${Math.round(num(f.epss_score) * 100)}%</span></div>
       <div class="drow"><span class="k">Active exploitation (KEV)</span><span class="v">${f.kev_flag ? "yes" : "not listed"}</span></div>
@@ -364,6 +385,8 @@ async function openFinding(cve) {
         <div class="track">${parts.map(([l, v, cc]) => `<i style="width:${v / tot * 100}%;background:var(${cc})" title="${l}"></i>`).join("")}</div>
         <div class="key">${parts.map(([l, v, cc]) => `<span><span class="dot" style="background:var(${cc})"></span>${l} ${Math.round(v / tot * 100)}%</span>`).join("")}</div></div>
       <div class="reason"><div class="rl">Ranked here because</div>${esc(f.reason_sentence || "").replace(/^Ranked here because /, "")}</div>
+      ${recommendationHtml(f.recommendation)}
+      ${referencesHtml(f.references)}
       <div class="modal-foot">
         <span class="pill" style="background:${f.scheduled ? "var(--good-wash)" : "var(--panel-3)"};color:${f.scheduled ? "var(--good)" : "var(--ink-3)"}">${f.scheduled ? "✓ scheduled in the optimized plan" : "not scheduled — capacity full"}</span>
         <button class="ghost" style="margin-left:auto" onclick="closeModal();gotoTab('map');selectAsset('${esc(f.asset_id || "")}')">View system ▸</button>

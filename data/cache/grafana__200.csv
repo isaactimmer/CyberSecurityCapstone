@@ -1,144 +1,421 @@
-cve_id,cvss_score,cvss_severity,published,epss_score,epss_percentile,kev_flag,kev_date_added,kev_ransomware_use
-CVE-2018-12099,6.1,MEDIUM,2018-06-11T11:29:00.413,0.02073,0.79645,False,,
-CVE-2018-0039,6.5,MEDIUM,2018-07-11T18:29:00.823,0.00973,0.58719,False,,
-CVE-2018-15727,9.8,CRITICAL,2018-08-29T15:29:00.240,0.64284,0.99156,False,,
-CVE-2018-19039,6.5,MEDIUM,2018-12-13T19:29:00.403,0.0728,0.9376,False,,
-CVE-2018-1000816,5.4,MEDIUM,2018-12-20T15:29:00.643,0.00746,0.51379,False,,
-CVE-2015-9282,6.1,MEDIUM,2019-02-06T19:29:00.240,0.01288,0.67454,False,,
-CVE-2019-13068,5.4,MEDIUM,2019-06-30T00:15:11.313,0.51915,0.98845,False,,
-CVE-2019-15043,7.5,HIGH,2019-09-03T12:15:10.933,0.63388,0.99131,False,,
-CVE-2019-15635,4.9,MEDIUM,2019-09-23T17:15:11.173,0.01609,0.73604,False,,
-CVE-2018-9090,6.1,MEDIUM,2019-09-24T14:15:11.073,0.00793,0.52936,False,,
-CVE-2020-10092,6.1,MEDIUM,2020-03-13T17:15:13.047,0.00691,0.49421,False,,
-CVE-2020-10791,6.5,MEDIUM,2020-03-25T14:15:12.447,0.01151,0.63916,False,,
-CVE-2020-12245,6.1,MEDIUM,2020-04-24T21:15:13.920,0.01946,0.78256,False,,
-CVE-2020-12052,6.1,MEDIUM,2020-04-27T13:15:12.443,0.0148,0.71438,False,,
-CVE-2020-12458,5.5,MEDIUM,2020-04-29T16:15:11.760,0.00465,0.37952,False,,
-CVE-2020-12459,5.5,MEDIUM,2020-04-29T16:15:11.823,0.00318,0.24173,False,,
-CVE-2020-13429,5.4,MEDIUM,2020-05-24T18:15:10.003,0.0068,0.48981,False,,
-CVE-2020-13430,6.1,MEDIUM,2020-05-24T18:15:10.097,0.0182,0.76674,False,,
-CVE-2018-18623,6.1,MEDIUM,2020-06-02T17:15:11.427,0.01762,0.75873,False,,
-CVE-2018-18624,6.1,MEDIUM,2020-06-02T17:15:11.487,0.014,0.69907,False,,
-CVE-2018-18625,6.1,MEDIUM,2020-06-02T17:15:11.567,0.01192,0.65025,False,,
-CVE-2020-13379,8.2,HIGH,2020-06-03T19:15:10.737,0.99856,0.99961,False,,
-CVE-2020-11110,5.4,MEDIUM,2020-07-27T13:15:11.293,0.09619,0.95009,False,,
-CVE-2019-19499,6.5,MEDIUM,2020-08-28T15:15:11.953,0.03591,0.88327,False,,
-CVE-2020-24303,6.1,MEDIUM,2020-10-28T14:15:12.330,0.01989,0.78717,False,,
-CVE-2020-5944,4.3,MEDIUM,2020-11-05T20:15:17.817,0.00824,0.53941,False,,
-CVE-2020-25678,4.4,MEDIUM,2021-01-08T18:15:13.293,0.00269,0.18823,False,,
-CVE-2021-27358,7.5,HIGH,2021-03-18T20:15:13.253,0.83042,0.99646,False,,
-CVE-2021-27962,7.1,HIGH,2021-03-22T14:15:14.023,0.02068,0.79596,False,,
-CVE-2021-28146,6.5,MEDIUM,2021-03-22T14:15:14.100,0.01397,0.69837,False,,
-CVE-2021-28147,6.5,MEDIUM,2021-03-22T15:15:14.537,0.0161,0.73612,False,,
-CVE-2021-28148,7.5,HIGH,2021-03-22T15:15:14.597,0.03497,0.88039,False,,
-CVE-2021-31231,5.5,MEDIUM,2021-04-30T13:15:07.547,0.00277,0.19871,False,,
-CVE-2021-27437,9.1,CRITICAL,2021-05-07T15:15:07.460,0.01242,0.66363,False,,
-CVE-2021-32718,3.1,LOW,2021-06-28T15:15:24.233,0.01432,0.70517,False,,
-CVE-2021-36156,5.3,MEDIUM,2021-08-03T15:15:08.623,0.01489,0.71623,False,,
-CVE-2021-36157,5.3,MEDIUM,2021-08-03T15:15:08.667,0.01392,0.69761,False,,
-CVE-2021-39226,9.8,CRITICAL,2021-10-05T18:15:07.947,0.99933,0.99969,True,2022-08-25,Unknown
-CVE-2021-41174,6.9,MEDIUM,2021-11-03T18:15:08.413,0.84607,0.99682,False,,
-CVE-2021-41244,9.1,CRITICAL,2021-11-15T20:15:19.970,0.02834,0.85292,False,,
-CVE-2021-43798,7.5,HIGH,2021-12-07T19:15:07.633,0.88849,0.99762,True,2025-10-09,Unknown
-CVE-2021-41090,6.5,MEDIUM,2021-12-08T17:15:11.093,0.00736,0.51045,False,,
-CVE-2021-43813,4.3,MEDIUM,2021-12-10T18:15:08.260,0.57499,0.98989,False,,
-CVE-2021-43815,4.3,MEDIUM,2021-12-10T21:15:09.497,0.01746,0.75643,False,,
-CVE-2022-21673,4.3,MEDIUM,2022-01-18T22:15:07.873,0.01996,0.78803,False,,
-CVE-2022-23126,9.8,CRITICAL,2022-01-24T19:15:08.447,0.02208,0.80895,False,,
-CVE-2022-21702,6.5,MEDIUM,2022-02-08T20:15:08.987,0.0234,0.81992,False,,
-CVE-2022-21703,6.3,MEDIUM,2022-02-08T21:15:20.150,0.02236,0.81122,False,,
-CVE-2022-21713,4.3,MEDIUM,2022-02-08T21:15:20.223,0.01158,0.6408,False,,
-CVE-2022-26148,9.8,CRITICAL,2022-03-21T20:15:14.030,0.53439,0.98888,False,,
-CVE-2022-24812,8.0,HIGH,2022-04-12T17:15:09.503,0.02322,0.81846,False,,
-CVE-2022-29171,6.6,MEDIUM,2022-05-06T00:15:08.047,0.01271,0.67069,False,,
-CVE-2022-28660,9.8,CRITICAL,2022-05-20T15:15:10.167,0.01112,0.62872,False,,
-CVE-2022-29170,6.6,MEDIUM,2022-05-20T16:15:09.513,0.01213,0.65618,False,,
-CVE-2022-32275,7.5,HIGH,2022-06-06T19:15:09.813,0.09168,0.94829,False,,
-CVE-2022-32276,7.5,HIGH,2022-06-17T13:15:16.443,0.03487,0.88011,False,,
-CVE-2022-31097,7.3,HIGH,2022-07-15T12:15:08.903,0.68603,0.99272,False,,
-CVE-2022-31107,7.1,HIGH,2022-07-15T13:15:08.397,0.02546,0.83495,False,,
-CVE-2022-2531,5.3,MEDIUM,2022-08-05T16:15:12.433,0.01296,0.67636,False,,
-CVE-2022-31176,8.3,HIGH,2022-09-02T21:15:16.237,0.0094,0.57618,False,,
-CVE-2022-38370,7.5,HIGH,2022-09-05T10:15:09.633,0.01146,0.63743,False,,
-CVE-2022-35957,6.6,MEDIUM,2022-09-20T23:15:09.457,0.01351,0.68859,False,,
-CVE-2022-36062,7.6,HIGH,2022-09-22T18:15:10.307,0.00635,0.47091,False,,
-CVE-2022-31123,6.1,MEDIUM,2022-10-13T22:15:10.050,0.00261,0.17667,False,,
-CVE-2022-31130,4.9,MEDIUM,2022-10-13T23:15:09.637,0.01008,0.59793,False,,
-CVE-2022-39201,6.8,MEDIUM,2022-10-13T23:15:10.850,0.01285,0.67397,False,,
-CVE-2022-39229,4.3,MEDIUM,2022-10-13T23:15:10.937,0.00858,0.55045,False,,
-CVE-2022-39328,9.8,CRITICAL,2022-11-08T23:15:11.737,0.00977,0.58829,False,,
-CVE-2022-39306,6.4,MEDIUM,2022-11-09T22:15:16.303,0.00707,0.4998,False,,
-CVE-2022-39307,6.7,MEDIUM,2022-11-09T23:15:12.617,0.00702,0.49805,False,,
-CVE-2022-46156,7.2,HIGH,2022-11-30T22:15:10.640,0.00473,0.38513,False,,
-CVE-2022-44643,5.7,MEDIUM,2022-12-20T15:15:11.780,0.00473,0.38522,False,,
-CVE-2022-23552,7.3,HIGH,2023-01-27T23:15:08.597,0.00779,0.52486,False,,
-CVE-2022-39324,6.7,MEDIUM,2023-01-27T23:15:08.723,0.00828,0.54073,False,,
-CVE-2022-23498,7.1,HIGH,2023-02-03T22:15:09.463,0.01132,0.6339,False,,
-CVE-2023-0507,7.3,HIGH,2023-03-01T16:15:09.647,0.1546,0.96475,False,,
-CVE-2023-0594,7.3,HIGH,2023-03-01T16:15:09.743,0.09216,0.94853,False,,
-CVE-2023-22462,6.4,MEDIUM,2023-03-02T01:15:11.727,0.01562,0.72901,False,,
-CVE-2023-1410,6.2,MEDIUM,2023-03-23T08:15:12.470,0.00962,0.58289,False,,
-CVE-2023-24831,9.8,CRITICAL,2023-04-17T07:15:07.640,0.01222,0.65847,False,,
-CVE-2023-1387,4.2,MEDIUM,2023-04-26T14:15:09.430,0.01504,0.71906,False,,
-CVE-2023-2183,4.1,MEDIUM,2023-06-06T19:15:11.277,0.01027,0.6038,False,,
-CVE-2023-2801,7.5,HIGH,2023-06-06T19:15:11.413,0.00745,0.51337,False,,
-CVE-2023-3128,9.4,CRITICAL,2023-06-22T21:15:09.573,0.03995,0.8954,False,,
-CVE-2023-4822,6.7,MEDIUM,2023-10-16T09:15:11.687,0.01074,0.61792,False,,
-CVE-2023-4457,5.5,MEDIUM,2023-10-16T10:15:12.057,0.00389,0.31651,False,,
-CVE-2023-4399,6.6,MEDIUM,2023-10-17T08:15:09.553,0.01082,0.62015,False,,
-CVE-2023-3010,7.3,HIGH,2023-10-25T18:17:29.993,0.0045,0.36946,False,,
-CVE-2023-5122,5.0,MEDIUM,2024-02-14T15:15:08.437,0.00509,0.40662,False,,
-CVE-2023-5123,8.0,HIGH,2024-02-14T15:15:08.620,0.0077,0.52191,False,,
-CVE-2024-1442,6.0,MEDIUM,2024-03-07T18:15:46.590,0.00802,0.53233,False,,
-CVE-2023-44090,6.8,MEDIUM,2024-03-19T17:15:08.563,0.00339,0.26511,False,,
-CVE-2024-1313,6.5,MEDIUM,2024-03-26T18:15:09.350,0.00646,0.4756,False,,
-CVE-2023-31634,9.8,CRITICAL,2024-03-27T06:15:08.807,0.00856,0.54972,False,,
-CVE-2024-5526,7.7,HIGH,2024-06-05T12:15:10.553,0.00402,0.32991,False,,
-CVE-2024-8986,,,2024-09-19T11:15:10.913,0.00519,0.41271,False,,
-CVE-2024-8975,7.3,HIGH,2024-09-25T17:15:19.360,0.003,0.22286,False,,
-CVE-2024-8996,7.3,HIGH,2024-09-25T17:15:19.567,0.00264,0.18103,False,,
-CVE-2024-8118,,,2024-09-26T19:15:07.663,0.00583,0.44686,False,,
-CVE-2024-9264,9.9,CRITICAL,2024-10-18T04:15:04.723,0.94644,0.99848,False,,
-CVE-2024-51988,6.5,MEDIUM,2024-11-06T20:15:06.513,0.00367,0.29382,False,,
-CVE-2024-9476,,,2024-11-13T17:15:12.747,0.00213,0.11601,False,,
-CVE-2024-11741,4.3,MEDIUM,2025-01-31T16:15:30.853,0.00374,0.30183,False,,
-CVE-2025-4123,7.6,HIGH,2025-05-22T08:15:52.720,0.98258,0.99911,False,,
-CVE-2025-3580,5.5,MEDIUM,2025-05-23T14:15:28.740,0.00397,0.32472,False,,
-CVE-2025-3454,5.0,MEDIUM,2025-06-02T11:15:22.167,0.00414,0.34102,False,,
-CVE-2025-1088,2.7,LOW,2025-06-18T10:15:31.210,0.00394,0.32177,False,,
-CVE-2025-3415,4.3,MEDIUM,2025-07-17T11:15:22.240,0.00956,0.58098,False,,
-CVE-2025-6023,7.6,HIGH,2025-07-18T08:15:28.040,0.39079,0.98455,False,,
-CVE-2025-6197,4.2,MEDIUM,2025-07-18T08:15:28.187,0.66785,0.9922,False,,
-CVE-2025-8341,5.0,MEDIUM,2025-08-04T09:15:26.103,0.0029,0.21211,False,,
-CVE-2025-58746,9.0,CRITICAL,2025-09-08T23:15:35.973,0.00305,0.2284,False,,
-CVE-2025-10630,4.3,MEDIUM,2025-09-19T10:15:34.730,0.00323,0.2474,False,,
-CVE-2025-11539,9.9,CRITICAL,2025-10-09T08:15:38.813,0.00594,0.45135,False,,
-CVE-2025-3717,,,2025-11-11T21:15:37.290,0.00268,0.18725,False,,
-CVE-2025-41116,,,2025-11-11T21:15:38.800,0.00268,0.18725,False,,
-CVE-2025-41115,10.0,CRITICAL,2025-11-21T15:15:52.283,0.16905,0.96754,False,,
-CVE-2026-21720,7.5,HIGH,2026-01-27T09:15:48.490,0.00618,0.46279,False,,
-CVE-2025-41117,6.8,MEDIUM,2026-02-12T09:16:07.630,0.00239,0.14971,False,,
-CVE-2026-21725,2.6,LOW,2026-02-25T13:16:05.240,0.00161,0.05767,False,,
-CVE-2026-32117,7.6,HIGH,2026-03-11T22:16:32.473,0.00265,0.18239,False,,
-CVE-2026-21724,5.4,MEDIUM,2026-03-26T21:17:03.227,0.00238,0.14865,False,,
-CVE-2026-33375,6.5,MEDIUM,2026-03-26T21:17:05.573,0.00434,0.35721,False,,
-CVE-2026-28377,7.5,HIGH,2026-03-26T22:16:28.460,0.00155,0.05132,False,,
-CVE-2026-27876,9.1,CRITICAL,2026-03-27T15:16:50.920,0.01929,0.78045,False,,
-CVE-2026-27879,6.5,MEDIUM,2026-03-27T15:16:51.187,0.00376,0.30338,False,,
-CVE-2026-28375,6.5,MEDIUM,2026-03-27T15:16:51.547,0.00376,0.30338,False,,
-CVE-2025-12141,6.5,MEDIUM,2026-04-15T16:16:33.040,0.00255,0.16997,False,,
-CVE-2026-21727,3.3,LOW,2026-04-15T20:16:34.290,0.00204,0.10525,False,,
-CVE-2026-28376,6.5,MEDIUM,2026-05-13T20:16:19.760,0.00328,0.25374,False,,
-CVE-2026-28379,6.5,MEDIUM,2026-05-13T20:16:19.920,0.00262,0.17816,False,,
-CVE-2026-28383,6.5,MEDIUM,2026-05-13T20:16:20.130,0.00328,0.25375,False,,
-CVE-2026-33380,6.3,MEDIUM,2026-05-13T20:16:20.697,0.00366,0.2932,False,,
-CVE-2026-11769,8.8,HIGH,2026-06-13T06:16:14.380,0.00361,0.28836,False,,
-CVE-2026-27878,6.5,MEDIUM,2026-06-19T19:16:34.897,0.00411,0.33833,False,,
-CVE-2026-28381,9.6,CRITICAL,2026-06-22T14:16:35.820,0.00205,0.10598,False,,
-CVE-2026-33382,7.5,HIGH,2026-07-10T16:16:29.130,0.00388,0.31594,False,,
-CVE-2026-8609,5.3,MEDIUM,2026-07-10T16:16:39.510,0.00397,0.32551,False,,
-CVE-2026-15583,8.6,HIGH,2026-07-15T08:16:22.977,0.00492,0.39634,False,,
-CVE-2026-63087,9.8,CRITICAL,2026-07-16T17:16:58.703,0.00427,0.35192,False,,
-CVE-2026-47671,5.4,MEDIUM,2026-07-21T20:17:01.473,0.00266,0.18567,False,,
-CVE-2026-21723,5.3,MEDIUM,2026-07-23T03:16:30.000,0.00198,0.09804,False,,
-CVE-2026-67342,9.8,CRITICAL,2026-08-01T13:17:05.417,0.00319,0.24323,False,,
+cve_id,cvss_score,cvss_severity,published,epss_score,epss_percentile,kev_flag,kev_date_added,kev_ransomware_use,description,kev_vuln_name,kev_short_description,kev_required_action
+CVE-2018-12099,6.1,MEDIUM,2018-06-11T11:29:00.413,0.02073,0.79645,False,,,Grafana before 5.2.0-beta1 has XSS vulnerabilities in dashboard links.,,,
+CVE-2018-0039,6.5,MEDIUM,2018-07-11T18:29:00.823,0.00973,0.58719,False,,,Juniper Networks Contrail Service Orchestration releases prior to 4.0.0 have Grafana service enabled by default with hardcoded credentials. These credentials allow network based attackers unauthorized access to information stored in Grafana or exploit other weaknesses or vulnerabilities in Grafana.,,,
+CVE-2018-15727,9.8,CRITICAL,2018-08-29T15:29:00.240,0.64284,0.99156,False,,,"Grafana 2.x, 3.x, and 4.x before 4.6.4 and 5.x before 5.2.3 allows authentication bypass because an attacker can generate a valid ""remember me"" cookie knowing only a username of an LDAP or OAuth user.",,,
+CVE-2018-19039,6.5,MEDIUM,2018-12-13T19:29:00.403,0.0728,0.9376,False,,,Grafana before 4.6.5 and 5.x before 5.3.3 allows remote authenticated users to read arbitrary files by leveraging Editor or Admin permissions.,,,
+CVE-2018-1000816,5.4,MEDIUM,2018-12-20T15:29:00.643,0.00746,0.51379,False,,,Grafana version confirmed for 5.2.4 and 5.3.0 contains a Cross Site Scripting (XSS) vulnerability in Influxdb and Graphite query editor that can result in Running arbitrary js code in victims browser.. This attack appear to be exploitable via Authenticated user must click on the input field where the payload was previously inserted..,,,
+CVE-2015-9282,6.1,MEDIUM,2019-02-06T19:29:00.240,0.01288,0.67454,False,,,"The Pie Chart Panel plugin through 2019-01-02 for Grafana is vulnerable to XSS via legend data or tooltip data. When a chart is included in a Grafana dashboard, this vulnerability could allow an attacker to gain remote unauthenticated access to the dashboard.",,,
+CVE-2019-13068,5.4,MEDIUM,2019-06-30T00:15:11.313,0.51915,0.98845,False,,,public/app/features/panel/panel_ctrl.ts in Grafana before 6.2.5 allows HTML Injection in panel drilldown links (via the Title or url field).,,,
+CVE-2019-15043,7.5,HIGH,2019-09-03T12:15:10.933,0.63388,0.99131,False,,,"In Grafana 2.x through 6.x before 6.3.4, parts of the HTTP API allow unauthenticated use. This makes it possible to run a denial of service attack against the server running Grafana.",,,
+CVE-2019-15635,4.9,MEDIUM,2019-09-23T17:15:11.173,0.01609,0.73604,False,,,"An issue was discovered in Grafana 5.4.0. Passwords for data sources used by Grafana (e.g., MySQL) are not encrypted. An admin user can reveal passwords for any data source by pressing the ""Save and test"" button within a data source's settings menu. When watching the transaction with Burp Proxy, the password for the data source is revealed and sent to the server. From a browser, a prompt to save the credentials is generated, and the password can be revealed by simply checking the ""Show password"" box.",,,
+CVE-2018-9090,6.1,MEDIUM,2019-09-24T14:15:11.073,0.00793,0.52936,False,,,CoreOS Tectonic 1.7.x and 1.8.x before 1.8.7-tectonic.2 deploys the Grafana web application using default credentials (admin/admin) for the administrator account located at grafana-credentials secret. This occurs because CoreOS does not randomize the administrative password to later be configured by Tectonic administrators. An attacker can insert an XSS payload into the dashboards.,,,
+CVE-2020-10092,6.1,MEDIUM,2020-03-13T17:15:13.047,0.00691,0.49421,False,,,GitLab 12.1 through 12.8.1 allows XSS. A cross-site scripting vulnerability was present in a particular view relating to the Grafana integration.,,,
+CVE-2020-10791,6.5,MEDIUM,2020-03-25T14:15:12.447,0.01151,0.63916,False,,,app/Plugin/GrafanaModule/Controller/GrafanaConfigurationController.php in openITCOCKPIT before 3.7.3 allows remote authenticated users to trigger outbound TCP requests (aka SSRF) via the Test Connection feature (aka testGrafanaConnection) of the Grafana Module.,,,
+CVE-2020-12245,6.1,MEDIUM,2020-04-24T21:15:13.920,0.01946,0.78256,False,,,Grafana before 6.7.3 allows table-panel XSS via column.title or cellLinkTooltip.,,,
+CVE-2020-12052,6.1,MEDIUM,2020-04-27T13:15:12.443,0.0148,0.71438,False,,,Grafana version < 6.7.3 is vulnerable for annotation popup XSS.,,,
+CVE-2020-12458,5.5,MEDIUM,2020-04-29T16:15:11.760,0.00465,0.37952,False,,,"An information-disclosure flaw was found in Grafana through 6.7.3. The database directory /var/lib/grafana and database file /var/lib/grafana/grafana.db are world readable. This can result in exposure of sensitive information (e.g., cleartext or encrypted datasource passwords).",,,
+CVE-2020-12459,5.5,MEDIUM,2020-04-29T16:15:11.823,0.00318,0.24173,False,,,"In certain Red Hat packages for Grafana 6.x through 6.3.6, the configuration files /etc/grafana/grafana.ini and /etc/grafana/ldap.toml (which contain a secret_key and a bind_password) are world readable.",,,
+CVE-2020-13429,5.4,MEDIUM,2020-05-24T18:15:10.003,0.0068,0.48981,False,,,legend.ts in the piechart-panel (aka Pie Chart Panel) plugin before 1.5.0 for Grafana allows XSS via the Values Header (aka legend header) option.,,,
+CVE-2020-13430,6.1,MEDIUM,2020-05-24T18:15:10.097,0.0182,0.76674,False,,,Grafana before 7.0.0 allows tag value XSS via the OpenTSDB datasource.,,,
+CVE-2018-18623,6.1,MEDIUM,2020-06-02T17:15:11.427,0.01762,0.75873,False,,,"Grafana 5.3.1 has XSS via the ""Dashboard > Text Panel"" screen. NOTE: this issue exists because of an incomplete fix for CVE-2018-12099.",,,
+CVE-2018-18624,6.1,MEDIUM,2020-06-02T17:15:11.487,0.014,0.69907,False,,,"Grafana 5.3.1 has XSS via a column style on the ""Dashboard > Table Panel"" screen. NOTE: this issue exists because of an incomplete fix for CVE-2018-12099.",,,
+CVE-2018-18625,6.1,MEDIUM,2020-06-02T17:15:11.567,0.01192,0.65025,False,,,"Grafana 5.3.1 has XSS via a link on the ""Dashboard > All Panels > General"" screen. NOTE: this issue exists because of an incomplete fix for CVE-2018-12099.",,,
+CVE-2020-13379,8.2,HIGH,2020-06-03T19:15:10.737,0.99856,0.99961,False,,,"The avatar feature in Grafana 3.0.1 through 7.0.1 has an SSRF Incorrect Access Control issue. This vulnerability allows any unauthenticated user/client to make Grafana send HTTP requests to any URL and return its result to the user/client. This can be used to gain information about the network that Grafana is running on. Furthermore, passing invalid URL objects could be used for DOS'ing Grafana via SegFault.",,,
+CVE-2020-11110,5.4,MEDIUM,2020-07-27T13:15:11.293,0.09619,0.95009,False,,,"Grafana through 6.7.1 allows stored XSS due to insufficient input protection in the originalUrl field, which allows an attacker to inject JavaScript code that will be executed after clicking on Open Original Dashboard after visiting the snapshot.",,,
+CVE-2019-19499,6.5,MEDIUM,2020-08-28T15:15:11.953,0.03591,0.88327,False,,,"Grafana <= 6.4.3 has an Arbitrary File Read vulnerability, which could be exploited by an authenticated attacker that has privileges to modify the data source configurations.",,,
+CVE-2020-24303,6.1,MEDIUM,2020-10-28T14:15:12.330,0.01989,0.78717,False,,,Grafana before 7.1.0-beta 1 allows XSS via a query alias for the ElasticSearch datasource.,,,
+CVE-2020-5944,4.3,MEDIUM,2020-11-05T20:15:17.817,0.00824,0.53941,False,,,"In BIG-IQ 7.1.0, accessing the DoS Summary events and DNS Overview pages in the BIG-IQ system interface returns an error message due to disabled Grafana reverse proxy in web service configuration. F5 has done further review of this vulnerability and has re-classified it as a defect. CVE-2020-5944 will continue to be referenced in F5 Security Advisory K57274211 and will not be assigned to other F5 vulnerabilities.",,,
+CVE-2020-25678,4.4,MEDIUM,2021-01-08T18:15:13.293,0.00269,0.18823,False,,,"A flaw was found in ceph in versions prior to 16.y.z where ceph stores mgr module passwords in clear text. This can be found by searching the mgr logs for grafana and dashboard, with passwords visible.",,,
+CVE-2021-27358,7.5,HIGH,2021-03-18T20:15:13.253,0.83042,0.99646,False,,,The snapshot feature in Grafana 6.7.3 through 7.4.1 can allow an unauthenticated remote attackers to trigger a Denial of Service via a remote API call if a commonly used configuration is set.,,,
+CVE-2021-27962,7.1,HIGH,2021-03-22T14:15:14.023,0.02068,0.79596,False,,,Grafana Enterprise 7.2.x and 7.3.x before 7.3.10 and 7.4.x before 7.4.5 allows a dashboard editor to bypass a permission check concerning a data source they should not be able to access.,,,
+CVE-2021-28146,6.5,MEDIUM,2021-03-22T14:15:14.100,0.01397,0.69837,False,,,"The team sync HTTP API in Grafana Enterprise 7.4.x before 7.4.5 has an Incorrect Access Control issue. On Grafana instances using an external authentication service, this vulnerability allows any authenticated user to add external groups to existing teams. This can be used to grant a user team permissions that the user isn't supposed to have.",,,
+CVE-2021-28147,6.5,MEDIUM,2021-03-22T15:15:14.537,0.0161,0.73612,False,,,"The team sync HTTP API in Grafana Enterprise 6.x before 6.7.6, 7.x before 7.3.10, and 7.4.x before 7.4.5 has an Incorrect Access Control issue. On Grafana instances using an external authentication service and having the EditorsCanAdmin feature enabled, this vulnerability allows any authenticated user to add external groups to any existing team. This can be used to grant a user team permissions that the user isn't supposed to have.",,,
+CVE-2021-28148,7.5,HIGH,2021-03-22T15:15:14.597,0.03497,0.88039,False,,,"One of the usage insights HTTP API endpoints in Grafana Enterprise 6.x before 6.7.6, 7.x before 7.3.10, and 7.4.x before 7.4.5 is accessible without any authentication. This allows any unauthenticated user to send an unlimited number of requests to the endpoint, leading to a denial of service (DoS) attack against a Grafana Enterprise instance.",,,
+CVE-2021-31231,5.5,MEDIUM,2021-04-30T13:15:07.547,0.00277,0.19871,False,,,The Alertmanager in Grafana Enterprise Metrics before 1.2.1 and Metrics Enterprise 1.2.1 has a local file disclosure vulnerability when experimental.alertmanager.enable-api is used. The HTTP basic auth password_file can be used as an attack vector to send any file content via a webhook. The alertmanager templates can be used as an attack vector to send any file content because the alertmanager can load any text file specified in the templates list.,,,
+CVE-2021-27437,9.1,CRITICAL,2021-05-07T15:15:07.460,0.01242,0.66363,False,,,The affected product allows attackers to obtain sensitive information from the WISE-PaaS dashboard. The system contains a hard-coded administrator username and password that can be used to query Grafana APIs. Authentication is not required for exploitation on the WISE-PaaS/RMM (versions prior to 9.0.1).,,,
+CVE-2021-32718,3.1,LOW,2021-06-28T15:15:24.233,0.01432,0.70517,False,,,"RabbitMQ is a multi-protocol messaging broker. In rabbitmq-server prior to version 3.8.17, a new user being added via management UI could lead to the user's bane being rendered in a confirmation message without proper `<script>` tag sanitization, potentially allowing for JavaScript code execution in the context of the page. In order for this to occur, the user must be signed in and have elevated permissions (other user management). The vulnerability is patched in RabbitMQ 3.8.17. As a workaround, disable `rabbitmq_management` plugin and use CLI tools for management operations and Prometheus and Grafana for metrics and monitoring.",,,
+CVE-2021-36156,5.3,MEDIUM,2021-08-03T15:15:08.623,0.01489,0.71623,False,,,"An issue was discovered in Grafana Loki through 2.2.1. The header value X-Scope-OrgID is used to construct file paths for rules files, and if crafted to conduct directory traversal such as ae ../../sensitive/path/in/deployment pathname, then Loki will attempt to parse a rules file at that location and include some of the contents in the error message.",,,
+CVE-2021-36157,5.3,MEDIUM,2021-08-03T15:15:08.667,0.01392,0.69761,False,,,"An issue was discovered in Grafana Cortex through 1.9.0. The header value X-Scope-OrgID is used to construct file paths for rules files, and if crafted to conduct directory traversal such as ae ../../sensitive/path/in/deployment pathname, then Cortex will attempt to parse a rules file at that location and include some of the contents in the error message. (Other Cortex API requests can also be sent a malicious OrgID header, e.g., tricking the ingester into writing metrics to a different location, but the effect is nuisance rather than information disclosure.)",,,
+CVE-2021-39226,9.8,CRITICAL,2021-10-05T18:15:07.947,0.99933,0.99969,True,2022-08-25,Unknown,"Grafana is an open source data visualization platform. In affected versions unauthenticated and authenticated users are able to view the snapshot with the lowest database key by accessing the literal paths: /dashboard/snapshot/:key, or /api/snapshots/:key. If the snapshot ""public_mode"" configuration setting is set to true (vs default of false), unauthenticated users are able to delete the snapshot with the lowest database key by accessing the literal path: /api/snapshots-delete/:deleteKey. Regardless of the snapshot ""public_mode"" setting, authenticated users are able to delete the snapshot with the lowest database key by accessing the literal paths: /api/snapshots/:key, or /api/snapshots-delete/:deleteKey. The combination of deletion and viewing enables a complete walk through all snapshot data while resulting in complete snapshot data loss. This issue has been resolved in versions 8.1.6 and 7.5.11. If for some reason you cannot upgrade you can use a reverse proxy or similar to block access to the literal paths: /api/snapshots/:key, /api/snapshots-delete/:deleteKey, /dashboard/snapshot/:key, and /api/snapshots/:key. They have no normal function and can be disabled without side effects.",Grafana Authentication Bypass Vulnerability,"Grafana contains an authentication bypass vulnerability that allows authenticated and unauthenticated users to view and delete all snapshot data, potentially resulting in complete snapshot data loss.",Apply updates per vendor instructions.
+CVE-2021-41174,6.9,MEDIUM,2021-11-03T18:15:08.413,0.84607,0.99682,False,,,"Grafana is an open-source platform for monitoring and observability. In affected versions if an attacker is able to convince a victim to visit a URL referencing a vulnerable page, arbitrary JavaScript content may be executed within the context of the victim's browser. The user visiting the malicious link must be unauthenticated and the link must be for a page that contains the login button in the menu bar. The url has to be crafted to exploit AngularJS rendering and contain the interpolation binding for AngularJS expressions. AngularJS uses double curly braces for interpolation binding: {{ }} ex: {{constructor.constructor(‘alert(1)’)()}}. When the user follows the link and the page renders, the login button will contain the original link with a query parameter to force a redirect to the login page. The URL is not validated and the AngularJS rendering engine will execute the JavaScript expression contained in the URL. Users are advised to upgrade as soon as possible. If for some reason you cannot upgrade, you can use a reverse proxy or similar to block access to block the literal string {{ in the path.",,,
+CVE-2021-41244,9.1,CRITICAL,2021-11-15T20:15:19.970,0.02834,0.85292,False,,,"Grafana is an open-source platform for monitoring and observability. In affected versions when the fine-grained access control beta feature is enabled and there is more than one organization in the Grafana instance admins are able to access users from other organizations. Grafana 8.0 introduced a mechanism which allowed users with the Organization Admin role to list, add, remove, and update users’ roles in other organizations in which they are not an admin. With fine-grained access control enabled, organization admins can list, add, remove and update users' roles in another organization, where they do not have organization admin role. All installations between v8.0 and v8.2.3 that have fine-grained access control beta enabled and more than one organization should be upgraded as soon as possible. If you cannot upgrade, you should turn off the fine-grained access control using a feature flag.",,,
+CVE-2021-43798,7.5,HIGH,2021-12-07T19:15:07.633,0.88849,0.99762,True,2025-10-09,Unknown,"Grafana is an open-source platform for monitoring and observability. Grafana versions 8.0.0-beta1 through 8.3.0 (except for patched versions) iss vulnerable to directory traversal, allowing access to local files. The vulnerable URL path is: `<grafana_host_url>/public/plugins//`, where is the plugin ID for any installed plugin. At no time has Grafana Cloud been vulnerable. Users are advised to upgrade to patched versions 8.0.7, 8.1.8, 8.2.7, or 8.3.1. The GitHub Security Advisory contains more information about vulnerable URL paths, mitigation, and the disclosure timeline.",Grafana Path Traversal Vulnerability,Grafana contains a path traversal vulnerability that could allow access to local files.,"Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable."
+CVE-2021-41090,6.5,MEDIUM,2021-12-08T17:15:11.093,0.00736,0.51045,False,,,"Grafana Agent is a telemetry collector for sending metrics, logs, and trace data to the opinionated Grafana observability stack. Prior to versions 0.20.1 and 0.21.2, inline secrets defined within a metrics instance config are exposed in plaintext over two endpoints: metrics instance configs defined in the base YAML file are exposed at `/-/config` and metrics instance configs defined for the scraping service are exposed at `/agent/api/v1/configs/:key`. Inline secrets will be exposed to anyone being able to reach these endpoints. If HTTPS with client authentication is not configured, these endpoints are accessible to unauthenticated users. Secrets found in these sections are used for delivering metrics to a Prometheus Remote Write system, authenticating against a system for discovering Prometheus targets, and authenticating against a system for collecting metrics. This does not apply for non-inlined secrets, such as `*_file` based secrets. This issue is patched in Grafana Agent versions 0.20.1 and 0.21.2. A few workarounds are available. Users who cannot upgrade should use non-inline secrets where possible. Users may also desire to restrict API access to Grafana Agent with some combination of restricting the network interfaces Grafana Agent listens on through `http_listen_address` in the `server` block, configuring Grafana Agent to use HTTPS with client authentication, and/or using firewall rules to restrict external access to Grafana Agent's API.",,,
+CVE-2021-43813,4.3,MEDIUM,2021-12-10T18:15:08.260,0.57499,0.98989,False,,,"Grafana is an open-source platform for monitoring and observability. Grafana prior to versions 8.3.2 and 7.5.12 contains a directory traversal vulnerability for fully lowercase or fully uppercase .md files. The vulnerability is limited in scope, and only allows access to files with the extension .md to authenticated users only. Grafana Cloud instances have not been affected by the vulnerability. Users should upgrade to patched versions 8.3.2 or 7.5.12. For users who cannot upgrade, running a reverse proxy in front of Grafana that normalizes the PATH of the request will mitigate the vulnerability. The proxy will have to also be able to handle url encoded paths. Alternatively, for fully lowercase or fully uppercase .md files, users can block /api/plugins/.*/markdown/.* without losing any functionality beyond inlined plugin help text.",,,
+CVE-2021-43815,4.3,MEDIUM,2021-12-10T21:15:09.497,0.01746,0.75643,False,,,"Grafana is an open-source platform for monitoring and observability. Grafana prior to versions 8.3.2 and 7.5.12 has a directory traversal for arbitrary .csv files. It only affects instances that have the developer testing tool called TestData DB data source enabled and configured. The vulnerability is limited in scope, and only allows access to files with the extension .csv to authenticated users only. Grafana Cloud instances have not been affected by the vulnerability. Versions 8.3.2 and 7.5.12 contain a patch for this issue. There is a workaround available for users who cannot upgrade. Running a reverse proxy in front of Grafana that normalizes the PATH of the request will mitigate the vulnerability. The proxy will have to also be able to handle url encoded paths.",,,
+CVE-2022-21673,4.3,MEDIUM,2022-01-18T22:15:07.873,0.01996,0.78803,False,,,"Grafana is an open-source platform for monitoring and observability. In affected versions when a data source has the Forward OAuth Identity feature enabled, sending a query to that datasource with an API token (and no other user credentials) will forward the OAuth Identity of the most recently logged-in user. This can allow API token holders to retrieve data for which they may not have intended access. This attack relies on the Grafana instance having data sources that support the Forward OAuth Identity feature, the Grafana instance having a data source with the Forward OAuth Identity feature toggled on, the Grafana instance having OAuth enabled, and the Grafana instance having usable API keys. This issue has been patched in versions 7.5.13 and 8.3.4.",,,
+CVE-2022-23126,9.8,CRITICAL,2022-01-24T19:15:08.447,0.02208,0.80895,False,,,"TeslaMate before 1.25.1 (when using the default Docker configuration) allows attackers to open doors of Tesla vehicles, start Keyless Driving, and interfere with vehicle operation en route. This occurs because an attacker can leverage Grafana login access to obtain a token for Tesla API calls.",,,
+CVE-2022-21702,6.5,MEDIUM,2022-02-08T20:15:08.987,0.0234,0.81992,False,,,"Grafana is an open-source platform for monitoring and observability. In affected versions an attacker could serve HTML content thru the Grafana datasource or plugin proxy and trick a user to visit this HTML page using a specially crafted link and execute a Cross-site Scripting (XSS) attack. The attacker could either compromise an existing datasource for a specific Grafana instance or either set up its own public service and instruct anyone to set it up in their Grafana instance. To be impacted, all of the following must be applicable. For the data source proxy: A Grafana HTTP-based datasource configured with Server as Access Mode and a URL set, the attacker has to be in control of the HTTP server serving the URL of above datasource, and a specially crafted link pointing at the attacker controlled data source must be clicked on by an authenticated user. For the plugin proxy: A Grafana HTTP-based app plugin configured and enabled with a URL set, the attacker has to be in control of the HTTP server serving the URL of above app, and a specially crafted link pointing at the attacker controlled plugin must be clocked on by an authenticated user. For the backend plugin resource: An attacker must be able to navigate an authenticated user to a compromised plugin through a crafted link. Users are advised to update to a patched version. There are no known workarounds for this vulnerability.",,,
+CVE-2022-21703,6.3,MEDIUM,2022-02-08T21:15:20.150,0.02236,0.81122,False,,,"Grafana is an open-source platform for monitoring and observability. Affected versions are subject to a cross site request forgery vulnerability which allows attackers to elevate their privileges by mounting cross-origin attacks against authenticated high-privilege Grafana users (for example, Editors or Admins). An attacker can exploit this vulnerability for privilege escalation by tricking an authenticated user into inviting the attacker as a new user with high privileges. Users are advised to upgrade as soon as possible. There are no known workarounds for this issue.",,,
+CVE-2022-21713,4.3,MEDIUM,2022-02-08T21:15:20.223,0.01158,0.6408,False,,,"Grafana is an open-source platform for monitoring and observability. Affected versions of Grafana expose multiple API endpoints which do not properly handle user authorization. `/teams/:teamId` will allow an authenticated attacker to view unintended data by querying for the specific team ID, `/teams/:search` will allow an authenticated attacker to search for teams and see the total number of available teams, including for those teams that the user does not have access to, and `/teams/:teamId/members` when editors_can_admin flag is enabled, an authenticated attacker can see unintended data by querying for the specific team ID. Users are advised to upgrade as soon as possible. There are no known workarounds for this issue.",,,
+CVE-2022-26148,9.8,CRITICAL,2022-03-21T20:15:14.030,0.53439,0.98888,False,,,"An issue was discovered in Grafana through 7.3.4, when integrated with Zabbix. The Zabbix password can be found in the api_jsonrpc.php HTML source code. When the user logs in and allows the user to register, one can right click to view the source code and use Ctrl-F to search for password in api_jsonrpc.php to discover the Zabbix account password and URL address.",,,
+CVE-2022-24812,8.0,HIGH,2022-04-12T17:15:09.503,0.02322,0.81846,False,,,"Grafana is an open-source platform for monitoring and observability. When fine-grained access control is enabled and a client uses Grafana API Key to make requests, the permissions for that API Key are cached for 30 seconds for the given organization. Because of the way the cache ID is constructed, the consequent requests with any API Key evaluate to the same permissions as the previous requests. This can lead to an escalation of privileges, when for example a first request is made with Admin permissions, and the second request with different API Key is made with Viewer permissions, the second request will get the cached permissions from the previous Admin, essentially accessing higher privilege than it should. The vulnerability is only impacting Grafana Enterprise when the fine-grained access control beta feature is enabled and there are more than one API Keys in one organization with different roles assigned. All installations after Grafana Enterprise v8.1.0-beta1 should be upgraded as soon as possible. As an alternative, disable fine-grained access control will mitigate the vulnerability.",,,
+CVE-2022-29171,6.6,MEDIUM,2022-05-06T00:15:08.047,0.01271,0.67069,False,,,"Sourcegraph is a fast and featureful code search and navigation engine. Versions before 3.38.0 are vulnerable to Remote Code Execution in the gitserver service. The Gitolite code host integration with Phabricator allows Sourcegraph site admins to specify a `callsignCommand`, which is used to obtain the Phabricator metadata for a Gitolite repository. An administrator who is able to edit or add a Gitolite code host and has administrative access to Sourcegraph’s bundled Grafana instance can change this command arbitrarily and run it remotely. This grants direct access to the infrastructure underlying the Sourcegraph installation. The attack requires: site-admin privileges on the instance of Sourcegraph, Administrative privileges on the bundled Grafana monitoring instance, Knowledge of the gitserver IP address or DNS name (if running in Kubernetes). This can be found through Grafana. The issue is patched in version 3.38.0. You may disable Gitolite code hosts. We still highly encourage upgrading regardless of workarounds.",,,
+CVE-2022-28660,9.8,CRITICAL,2022-05-20T15:15:10.167,0.01112,0.62872,False,,,"The querier component in Grafana Enterprise Logs 1.1.x through 1.3.x before 1.4.0 does not require authentication when X-Scope-OrgID is used. Versions 1.2.1, 1.3.1, and 1.4.0 contain the bugfix. This affects -auth.type=enterprise in microservices mode",,,
+CVE-2022-29170,6.6,MEDIUM,2022-05-20T16:15:09.513,0.01213,0.65618,False,,,"Grafana is an open-source platform for monitoring and observability. In Grafana Enterprise, the Request security feature allows list allows to configure Grafana in a way so that the instance doesn’t call or only calls specific hosts. The vulnerability present starting with version 7.4.0-beta1 and prior to versions 7.5.16 and 8.5.3 allows someone to bypass these security configurations if a malicious datasource (running on an allowed host) returns an HTTP redirect to a forbidden host. The vulnerability only impacts Grafana Enterprise when the Request security allow list is used and there is a possibility to add a custom datasource to Grafana which returns HTTP redirects. In this scenario, Grafana would blindly follow the redirects and potentially give secure information to the clients. Grafana Cloud is not impacted by this vulnerability. Versions 7.5.16 and 8.5.3 contain a patch for this issue. There are currently no known workarounds.",,,
+CVE-2022-32275,7.5,HIGH,2022-06-06T19:15:09.813,0.09168,0.94829,False,,,"Grafana 8.4.3 allows reading files via (for example) a /dashboard/snapshot/%7B%7Bconstructor.constructor'/.. /.. /.. /.. /.. /.. /.. /.. /etc/passwd URI. NOTE: the vendor's position is that there is no vulnerability; this request yields a benign error page, not /etc/passwd content",,,
+CVE-2022-32276,7.5,HIGH,2022-06-17T13:15:16.443,0.03487,0.88011,False,,,"Grafana 8.4.3 allows unauthenticated access via (for example) a /dashboard/snapshot/*?orgId=0 URI. NOTE: the vendor considers this a UI bug, not a vulnerability",,,
+CVE-2022-31097,7.3,HIGH,2022-07-15T12:15:08.903,0.68603,0.99272,False,,,"Grafana is an open-source platform for monitoring and observability. Versions on the 8.x and 9.x branch prior to 9.0.3, 8.5.9, 8.4.10, and 8.3.10 are vulnerable to stored cross-site scripting via the Unified Alerting feature of Grafana. An attacker can exploit this vulnerability to escalate privilege from editor to admin by tricking an authenticated admin to click on a link. Versions 9.0.3, 8.5.9, 8.4.10, and 8.3.10 contain a patch. As a workaround, it is possible to disable alerting or use legacy alerting.",,,
+CVE-2022-31107,7.1,HIGH,2022-07-15T13:15:08.397,0.02546,0.83495,False,,,"Grafana is an open-source platform for monitoring and observability. In versions 5.3 until 9.0.3, 8.5.9, 8.4.10, and 8.3.10, it is possible for a malicious user who has authorization to log into a Grafana instance via a configured OAuth IdP which provides a login name to take over the account of another user in that Grafana instance. This can occur when the malicious user is authorized to log in to Grafana via OAuth, the malicious user's external user id is not already associated with an account in Grafana, the malicious user's email address is not already associated with an account in Grafana, and the malicious user knows the Grafana username of the target user. If these conditions are met, the malicious user can set their username in the OAuth provider to that of the target user, then go through the OAuth flow to log in to Grafana. Due to the way that external and internal user accounts are linked together during login, if the conditions above are all met then the malicious user will be able to log in to the target user's Grafana account. Versions 9.0.3, 8.5.9, 8.4.10, and 8.3.10 contain a patch for this issue. As a workaround, concerned users can disable OAuth login to their Grafana instance, or ensure that all users authorized to log in via OAuth have a corresponding user account in Grafana linked to their email address.",,,
+CVE-2022-2531,5.3,MEDIUM,2022-08-05T16:15:12.433,0.01296,0.67636,False,,,"An issue has been discovered in GitLab EE affecting all versions starting from 12.5 before 15.0.5, all versions starting from 15.1 before 15.1.4, all versions starting from 15.2 before 15.2.1. GitLab was not performing correct authentication on Grafana API under specific conditions allowing unauthenticated users to perform queries through a path traversal vulnerability.",,,
+CVE-2022-31176,8.3,HIGH,2022-09-02T21:15:16.237,0.0094,0.57618,False,,,Grafana Image Renderer is a Grafana backend plugin that handles rendering of panels & dashboards to PNGs using a headless browser (Chromium/Chrome). An internal security review identified an unauthorized file disclosure vulnerability. It is possible for a malicious user to retrieve unauthorized files under some network conditions or via a fake datasource (if user has admin permissions in Grafana). All Grafana installations should be upgraded to version 3.6.1 as soon as possible. As a workaround it is possible to [disable HTTP remote rendering](https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#plugingrafana-image-renderer).,,,
+CVE-2022-38370,7.5,HIGH,2022-09-05T10:15:09.633,0.01146,0.63743,False,,,"Apache IoTDB grafana-connector version 0.13.0 contains an interface without authorization, which may expose the internal structure of database. Users should upgrade to version 0.13.1 which addresses this issue.",,,
+CVE-2022-35957,6.6,MEDIUM,2022-09-20T23:15:09.457,0.01351,0.68859,False,,,"Grafana is an open-source platform for monitoring and observability. Versions prior to 9.1.6 and 8.5.13 are vulnerable to an escalation from admin to server admin when auth proxy is used, allowing an admin to take over the server admin account and gain full control of the grafana instance. All installations should be upgraded as soon as possible. As a workaround deactivate auth proxy following the instructions at: https://grafana.com/docs/grafana/latest/setup-grafana/configure-security/configure-authentication/auth-proxy/",,,
+CVE-2022-36062,7.6,HIGH,2022-09-22T18:15:10.307,0.00635,0.47091,False,,,"Grafana is an open-source platform for monitoring and observability. In versions prior to 8.5.13, 9.0.9, and 9.1.6, Grafana is subject to Improper Preservation of Permissions resulting in privilege escalation on some folders where Admin is the only used permission. The vulnerability impacts Grafana instances where RBAC was disabled and enabled afterwards, as the migrations which are translating legacy folder permissions to RBAC permissions do not account for the scenario where the only user permission in the folder is Admin, as a result RBAC adds permissions for Editors and Viewers which allow them to edit and view folders accordingly. This issue has been patched in versions 8.5.13, 9.0.9, and 9.1.6. A workaround when the impacted folder/dashboard is known is to remove the additional permissions manually.",,,
+CVE-2022-31123,6.1,MEDIUM,2022-10-13T22:15:10.050,0.00261,0.17667,False,,,"Grafana is an open source observability and data visualization platform. Versions prior to 9.1.8 and 8.5.14 are vulnerable to a bypass in the plugin signature verification. An attacker can convince a server admin to download and successfully run a malicious plugin even though unsigned plugins are not allowed. Versions 9.1.8 and 8.5.14 contain a patch for this issue. As a workaround, do not install plugins downloaded from untrusted sources.",,,
+CVE-2022-31130,4.9,MEDIUM,2022-10-13T23:15:09.637,0.01008,0.59793,False,,,"Grafana is an open source observability and data visualization platform. Versions of Grafana for endpoints prior to 9.1.8 and 8.5.14 could leak authentication tokens to some destination plugins under some conditions. The vulnerability impacts data source and plugin proxy endpoints with authentication tokens. The destination plugin could receive a user's Grafana authentication token. Versions 9.1.8 and 8.5.14 contain a patch for this issue. As a workaround, do not use API keys, JWT authentication, or any HTTP Header based authentication.",,,
+CVE-2022-39201,6.8,MEDIUM,2022-10-13T23:15:10.850,0.01285,0.67397,False,,,"Grafana is an open source observability and data visualization platform. Starting with version 5.0.0-beta1 and prior to versions 8.5.14 and 9.1.8, Grafana could leak the authentication cookie of users to plugins. The vulnerability impacts data source and plugin proxy endpoints under certain conditions. The destination plugin could receive a user's Grafana authentication cookie. Versions 9.1.8 and 8.5.14 contain a patch for this issue. There are no known workarounds.",,,
+CVE-2022-39229,4.3,MEDIUM,2022-10-13T23:15:10.937,0.00858,0.55045,False,,,"Grafana is an open source data visualization platform for metrics, logs, and traces. Versions prior to 9.1.8 and 8.5.14 allow one user to block another user's login attempt by registering someone else'e email address as a username. A Grafana user’s username and email address are unique fields, that means no other user can have the same username or email address as another user. A user can have an email address as a username. However, the login system allows users to log in with either username or email address. Since Grafana allows a user to log in with either their username or email address, this creates an usual behavior where `user_1` can register with one email address and `user_2` can register their username as `user_1`’s email address. This prevents `user_1` logging into the application since `user_1`'s password won’t match with `user_2`'s email address. Versions 9.1.8 and 8.5.14 contain a patch. There are no workarounds for this issue.",,,
+CVE-2022-39328,9.8,CRITICAL,2022-11-08T23:15:11.737,0.00977,0.58829,False,,,Grafana is an open-source platform for monitoring and observability. Versions starting with 9.2.0 and less than 9.2.4 contain a race condition in the authentication middlewares logic which may allow an unauthenticated user to query an administration endpoint under heavy load. This issue is patched in 9.2.4. There are no known workarounds.,,,
+CVE-2022-39306,6.4,MEDIUM,2022-11-09T22:15:16.303,0.00707,0.4998,False,,,"Grafana is an open-source platform for monitoring and observability. Versions prior to 9.2.4, or 8.5.15 on the 8.X branch, are subject to Improper Input Validation. Grafana admins can invite other members to the organization they are an admin for. When admins add members to the organization, non existing users get an email invite, existing members are added directly to the organization. When an invite link is sent, it allows users to sign up with whatever username/email address the user chooses and become a member of the organization. This introduces a vulnerability which can be used with malicious intent. This issue is patched in version 9.2.4, and has been backported to 8.5.15. There are no known workarounds.",,,
+CVE-2022-39307,6.7,MEDIUM,2022-11-09T23:15:12.617,0.00702,0.49805,False,,,"Grafana is an open-source platform for monitoring and observability. When using the forget password on the login page, a POST request is made to the `/api/user/password/sent-reset-email` URL. When the username or email does not exist, a JSON response contains a “user not found” message. This leaks information to unauthenticated users and introduces a security risk. This issue has been patched in 9.2.4 and backported to 8.5.15. There are no known workarounds.",,,
+CVE-2022-46156,7.2,HIGH,2022-11-30T22:15:10.640,0.00473,0.38513,False,,,"The Synthetic Monitoring Agent for Grafana's Synthetic Monitoring application provides probe functionality and executes network checks for monitoring remote targets. Users running the Synthetic Monitoring agent prior to version 0.12.0 in their local network are impacted. The authentication token used to communicate with the Synthetic Monitoring API is exposed through a debugging endpoint. This token can be used to retrieve the Synthetic Monitoring checks created by the user and assigned to the agent identified with that token. The Synthetic Monitoring API will reject connections from already-connected agents, so access to the token does not guarantee access to the checks. Version 0.12.0 contains a fix. Users are advised to rotate the agent tokens. After upgrading to version v0.12.0 or later, it's recommended that users of distribution packages review the configuration stored in `/etc/synthetic-monitoring/synthetic-monitoring-agent.conf`, specifically the `API_TOKEN` variable which has been renamed to `SM_AGENT_API_TOKEN`. As a workaround for previous versions, it's recommended that users review the agent settings and set the HTTP listening address in a manner that limits the exposure, for example, localhost or a non-routed network, by using the command line parameter `-listen-address`, e.g. `-listen-address localhost:4050`.",,,
+CVE-2022-44643,5.7,MEDIUM,2022-12-20T15:15:11.780,0.00473,0.38522,False,,,"A vulnerability in the label-based access control of Grafana Labs Grafana Enterprise Metrics allows an attacker more access than intended. If an access policy which has label selector restrictions also has been granted access to all tenants in the system, the label selector restrictions will not be applied when using this policy with the affected versions of the software. This issue affects: Grafana Labs Grafana Enterprise Metrics GEM 1.X versions prior to 1.7.1 on AMD64; GEM 2.X versions prior to 2.3.1 on AMD64.",,,
+CVE-2022-23552,7.3,HIGH,2023-01-27T23:15:08.597,0.00779,0.52486,False,,,"Grafana is an open-source platform for monitoring and observability. Starting with the 8.1 branch and prior to versions 8.5.16, 9.2.10, and 9.3.4, Grafana had a stored XSS vulnerability affecting the core plugin GeoMap. The stored XSS vulnerability was possible because SVG files weren't properly sanitized and allowed arbitrary JavaScript to be executed in the context of the currently authorized user of the Grafana instance. 
+
+An attacker needs to have the Editor role in order to change a panel to include either an external URL to a SVG-file containing JavaScript, or use the `data:` scheme to load an inline SVG-file containing JavaScript. This means that vertical privilege escalation is possible, where a user with Editor role can change to a known password for a user having Admin role if the user with Admin role executes malicious JavaScript viewing a dashboard.   
+
+Users may upgrade to version 8.5.16, 9.2.10, or 9.3.4 to receive a fix.",,,
+CVE-2022-39324,6.7,MEDIUM,2023-01-27T23:15:08.723,0.00828,0.54073,False,,,"Grafana is an open-source platform for monitoring and observability. Prior to versions 8.5.16 and 9.2.8, malicious user can create a snapshot and arbitrarily choose the `originalUrl` parameter by editing the query, thanks to a web proxy. When another user opens the URL of the snapshot, they will be presented with the regular web interface delivered by the trusted Grafana server. The `Open original dashboard` button no longer points to the to the real original dashboard but to the attacker’s injected URL. This issue is fixed in versions 8.5.16 and 9.2.8.",,,
+CVE-2022-23498,7.1,HIGH,2023-02-03T22:15:09.463,0.01132,0.6339,False,,,"Grafana is an open-source platform for monitoring and observability. When datasource query caching is enabled, Grafana caches all headers, including `grafana_session`. As a result, any user that queries a datasource where the caching is enabled can acquire another user’s session. To mitigate the vulnerability you can disable datasource query caching for all datasources. This issue has been patched in versions 9.2.10 and 9.3.4.
+",,,
+CVE-2023-0507,7.3,HIGH,2023-03-01T16:15:09.647,0.1546,0.96475,False,,,"Grafana is an open-source platform for monitoring and observability. 
+
+Starting with the 8.1 branch, Grafana had a stored XSS vulnerability affecting the core plugin GeoMap. 
+
+The stored XSS vulnerability was possible due to map attributions weren't properly sanitized and allowed arbitrary JavaScript to be executed in the context of the currently authorized user of the Grafana instance. 
+
+An attacker needs to have the Editor role in order to change a panel to include a map attribution containing JavaScript. 
+
+This means that vertical privilege escalation is possible, where a user with Editor role can change to a known password for a user having Admin role if the user with Admin role executes malicious JavaScript viewing a dashboard. 
+
+Users may upgrade to version 8.5.21, 9.2.13 and 9.3.8 to receive a fix.",,,
+CVE-2023-0594,7.3,HIGH,2023-03-01T16:15:09.743,0.09216,0.94853,False,,,"Grafana is an open-source platform for monitoring and observability. 
+
+Starting with the 7.0 branch, Grafana had a stored XSS vulnerability in the trace view visualization. 
+
+The stored XSS vulnerability was possible due the value of a span's attributes/resources were not properly sanitized and this will be rendered when the span's attributes/resources are expanded.
+
+An attacker needs to have the Editor role in order to change the value of a trace view visualization to contain JavaScript. 
+
+This means that vertical privilege escalation is possible, where a user with Editor role can change to a known password for a user having Admin role if the user with Admin role executes malicious JavaScript viewing a dashboard. 
+
+Users may upgrade to version 8.5.21, 9.2.13 and 9.3.8 to receive a fix. 
+
+",,,
+CVE-2023-22462,6.4,MEDIUM,2023-03-02T01:15:11.727,0.01562,0.72901,False,,,"Grafana is an open-source platform for monitoring and observability. On 2023-01-01 during an internal audit of Grafana, a member of the security team found a stored XSS vulnerability affecting the core plugin ""Text"". The stored XSS vulnerability requires several user interactions in order to be fully exploited. The vulnerability was possible due to React's render cycle that will pass though the unsanitized HTML code, but in the next cycle the HTML is cleaned up and saved in Grafana's database. An attacker needs to have the Editor role in order to change a Text panel to include JavaScript. Another user needs to edit the same Text panel, and click on ""Markdown"" or ""HTML"" for the code to be executed. This means that vertical privilege escalation is possible, where a user with Editor role can change to a known password for a user having Admin role if the user with Admin role executes malicious JavaScript viewing a dashboard. This issue has been patched in versions 9.2.10 and 9.3.4.",,,
+CVE-2023-1410,6.2,MEDIUM,2023-03-23T08:15:12.470,0.00962,0.58289,False,,,"Grafana is an open-source platform for monitoring and observability. 
+
+Grafana had a stored XSS vulnerability in the Graphite FunctionDescription tooltip. 
+
+The stored XSS vulnerability was possible due the value of the Function Description was not properly sanitized.
+
+An attacker needs to have control over the Graphite data source in order to manipulate a function description and a Grafana admin needs to configure the data source, later a Grafana user needs to select a tampered function and hover over the description. 
+
+  Users may upgrade to version 8.5.22, 9.2.15 and 9.3.11 to receive a fix.",,,
+CVE-2023-24831,9.8,CRITICAL,2023-04-17T07:15:07.640,0.01222,0.65847,False,,,"Improper Authentication vulnerability in Apache Software Foundation Apache IoTDB.This issue affects Apache IoTDB Grafana Connector: from 0.13.0 through 0.13.3.
+
+Attackers could login without authorization. This is fixed in 0.13.4.",,,
+CVE-2023-1387,4.2,MEDIUM,2023-04-26T14:15:09.430,0.01504,0.71906,False,,,"Grafana is an open-source platform for monitoring and observability. 
+
+Starting with the 9.1 branch, Grafana introduced the ability to search for a JWT in the URL query parameter auth_token and use it as the authentication token. 
+
+By enabling the ""url_login"" configuration option (disabled by default), a JWT might be sent to data sources. If an attacker has access to the data source, the leaked token could be used to authenticate to Grafana.",,,
+CVE-2023-2183,4.1,MEDIUM,2023-06-06T19:15:11.277,0.01027,0.6038,False,,,"Grafana is an open-source platform for monitoring and observability. 
+
+The option to send a test alert is not available from the user panel UI for users having the Viewer role. It is still possible for a user with the Viewer role to send a test alert using the API as the API does not check access to this function.
+
+This might enable malicious users to abuse the functionality by sending multiple alert messages to e-mail and Slack, spamming users, prepare Phishing attack or block SMTP server.
+
+Users may upgrade to version 9.5.3, 9.4.12, 9.3.15, 9.2.19 and 8.5.26 to receive a fix.",,,
+CVE-2023-2801,7.5,HIGH,2023-06-06T19:15:11.413,0.00745,0.51337,False,,,"Grafana is an open-source platform for monitoring and observability. 
+
+Using public dashboards users can query multiple distinct data sources using mixed queries. However such query has a possibility of crashing a Grafana instance.
+
+The only feature that uses mixed queries at the moment is public dashboards, but it's also possible to cause this by calling the query API directly.
+
+This might enable malicious users to crash Grafana instances through that endpoint.
+
+Users may upgrade to version 9.4.12 and 9.5.3 to receive a fix.",,,
+CVE-2023-3128,9.4,CRITICAL,2023-06-22T21:15:09.573,0.03995,0.8954,False,,,"Grafana is validating Azure AD accounts based on the email claim. 
+
+On Azure AD, the profile email field is not unique and can be easily modified. 
+
+This leads to account takeover and authentication bypass when Azure AD OAuth is configured with a multi-tenant app.",,,
+CVE-2023-4822,6.7,MEDIUM,2023-10-16T09:15:11.687,0.01074,0.61792,False,,,"Grafana is an open-source platform for monitoring and observability. The vulnerability impacts Grafana instances with several organizations, and allows a user with Organization Admin permissions in one organization to change the permissions associated with Organization Viewer, Organization Editor and Organization Admin roles in all organizations.
+
+It also allows an Organization Admin to assign or revoke any permissions that they have to any user globally.
+
+This means that any Organization Admin can elevate their own permissions in any organization that they are already a member of, or elevate or restrict the permissions of any other user.
+
+The vulnerability does not allow a user to become a member of an organization that they are not already a member of, or to add any other users to an organization that the current user is not a member of.",,,
+CVE-2023-4457,5.5,MEDIUM,2023-10-16T10:15:12.057,0.00389,0.31651,False,,,"Grafana is an open-source platform for monitoring and observability.
+
+The Google Sheets data source plugin for Grafana, versions 0.9.0 to 1.2.2 are vulnerable to an information disclosure vulnerability.
+
+The plugin did not properly sanitize error messages, making it potentially expose the Google Sheet API-key that is configured for the data source.
+
+This vulnerability was fixed in version 1.2.2.
+
+",,,
+CVE-2023-4399,6.6,MEDIUM,2023-10-17T08:15:09.553,0.01082,0.62015,False,,,"Grafana is an open-source platform for monitoring and observability. 
+
+In Grafana Enterprise, Request security is a deny list that allows admins to configure Grafana in a way so that the instance doesn’t call specific hosts.
+
+However, the restriction can be bypassed used punycode encoding of the characters in the request address.",,,
+CVE-2023-3010,7.3,HIGH,2023-10-25T18:17:29.993,0.0045,0.36946,False,,,"Grafana is an open-source platform for monitoring and observability. 
+
+The WorldMap panel plugin, versions before 1.0.4 contains a DOM XSS vulnerability.",,,
+CVE-2023-5122,5.0,MEDIUM,2024-02-14T15:15:08.437,0.00509,0.40662,False,,,"Grafana is an open-source platform for monitoring and observability. The CSV datasource plugin is a Grafana Labs maintained plugin for Grafana that allows for retrieving and processing CSV data from a remote endpoint configured by an administrator. If this plugin was configured to send requests to a bare host with no path (e.g.  https://www.example.com/ https://www.example.com/` ), requests to an endpoint other than the one configured by the administrator could be triggered by a specially crafted request from any user, resulting in an SSRF vector. AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:N/A:N https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator",,,
+CVE-2023-5123,8.0,HIGH,2024-02-14T15:15:08.620,0.0077,0.52191,False,,,"The JSON datasource plugin ( https://grafana.com/grafana/plugins/marcusolsson-json-datasource/ ) is a Grafana Labs maintained plugin for Grafana that allows for retrieving and processing JSON data from a remote endpoint (including a specific sub-path) configured by an administrator. Due to inadequate sanitization of the dashboard-supplied path parameter, it was possible to include path traversal characters (../) in the path parameter and send requests to paths on the configured endpoint outside the configured sub-path. 
+
+
+
+
+
+    
+    
+            
+
+
+
+
+
+
+    
+    
+            This means that if the datasource was configured by an administrator to point at some sub-path of a domain (e.g.  https://example.com/api/some_safe_api/ ), it was possible for an editor to create a dashboard referencing the datasource which issues queries containing path traversal characters, which would in turn cause the datasource to instead query arbitrary subpaths on the configured domain (e.g.  https://example.com/api/admin_api/) .
+
+In the rare case that this plugin is configured by an administrator to point back at the Grafana instance itself, this vulnerability becomes considerably more severe, as an administrator browsing a maliciously configured panel could be compelled to make requests to Grafana administrative API endpoints with their credentials, resulting in the potential for privilege escalation, hence the high score for this vulnerability.",,,
+CVE-2024-1442,6.0,MEDIUM,2024-03-07T18:15:46.590,0.00802,0.53233,False,,," A user with the permissions to create a data source can use Grafana API to create a data source with UID set to *.
+Doing this will grant the user access to read, query, edit and delete all data sources within the organization.
+",,,
+CVE-2023-44090,6.8,MEDIUM,2024-03-19T17:15:08.563,0.00339,0.26511,False,,,"
+Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in Pandora FMS on all allows CVE-2008-5817. This vulnerability allowed SQL changes to be made to several files in the Grafana module. This issue affects Pandora FMS: from 700 through <776.
+
+",,,
+CVE-2024-1313,6.5,MEDIUM,2024-03-26T18:15:09.350,0.00646,0.4756,False,,,"It is possible for a user in a different organization from the owner of a snapshot to bypass authorization and delete a snapshot by issuing a DELETE request to /api/snapshots/<key> using its view key. This functionality is intended to only be available to individuals with the permission to write/edit to the snapshot in question, but due to a bug in the authorization logic, deletion requests issued by an unprivileged user in a different organization than the snapshot owner are treated as authorized.
+
+Grafana Labs would like to thank Ravid Mazon and Jay Chen of Palo 
+Alto Research for discovering and disclosing this vulnerability.
+
+This issue affects Grafana: from 9.5.0 before 9.5.18, from 10.0.0 before 10.0.13, from 10.1.0 before 10.1.9, from 10.2.0 before 10.2.6, from 10.3.0 before 10.3.5.",,,
+CVE-2023-31634,9.8,CRITICAL,2024-03-27T06:15:08.807,0.00856,0.54972,False,,,"In TeslaMate before 1.27.2, there is unauthorized access to port 4000 for remote viewing and operation of user data. After accessing the IP address for the TeslaMate instance, an attacker can switch the port to 3000 to enter Grafana for remote operations. At that time, the default username and password can be used to enter the Grafana management console without logging in, a related issue to CVE-2022-23126.",,,
+CVE-2024-5526,7.7,HIGH,2024-06-05T12:15:10.553,0.00402,0.32991,False,,,"Grafana OnCall is an easy-to-use on-call management tool that will help reduce toil in on-call management through simpler workflows and interfaces that are tailored specifically for engineers.
+
+Grafana OnCall, from version 1.1.37 before 1.5.2 are vulnerable to a Server Side Request Forgery (SSRF) vulnerability in the webhook functionallity. 
+
+This issue was fixed in version 1.5.2",,,
+CVE-2024-8986,,,2024-09-19T11:15:10.913,0.00519,0.41271,False,,,"The grafana plugin SDK bundles build metadata into the binaries it compiles; this metadata includes the repository URI for the plugin being built, as retrieved by running `git remote get-url origin`.
+ 
+If credentials are included in the repository URI (for instance, to allow for fetching of private dependencies), the final binary will contain the full URI, including said credentials.",,,
+CVE-2024-8975,7.3,HIGH,2024-09-25T17:15:19.360,0.003,0.22286,False,,,"Unquoted Search Path or Element vulnerability in Grafana Alloy on Windows allows Privilege Escalation from Local User to SYSTEM
+This issue affects Alloy: before 1.3.3, from 1.4.0-rc.0 through 1.4.0-rc.1.",,,
+CVE-2024-8996,7.3,HIGH,2024-09-25T17:15:19.567,0.00264,0.18103,False,,,"Unquoted Search Path or Element vulnerability in Grafana Agent (Flow mode) on Windows allows Privilege Escalation from Local User to SYSTEM
+This issue affects Agent Flow: before 0.43.2",,,
+CVE-2024-8118,,,2024-09-26T19:15:07.663,0.00583,0.44686,False,,,"In Grafana, the wrong permission is applied to the alert rule write API endpoint, allowing users with permission to write external alert instances to also write alert rules.",,,
+CVE-2024-9264,9.9,CRITICAL,2024-10-18T04:15:04.723,0.94644,0.99848,False,,,"The SQL Expressions experimental feature of Grafana allows for the evaluation of `duckdb` queries containing user input. These queries are insufficiently sanitized before being passed to `duckdb`, leading to a command injection and local file inclusion vulnerability. Any user with the VIEWER or higher permission is capable of executing this attack.  The `duckdb` binary must be present in Grafana's $PATH for this attack to function; by default, this binary is not installed in Grafana distributions.",,,
+CVE-2024-51988,6.5,MEDIUM,2024-11-06T20:15:06.513,0.00367,0.29382,False,,,"RabbitMQ is a feature rich, multi-protocol messaging and streaming broker. In affected versions queue deletion via the HTTP API was not verifying the `configure` permission of the user. Users who had all of the following: 1. Valid credentials, 2. Some permissions for the target virtual host & 3. HTTP API access. could delete queues it had no (deletion) permissions for. This issue has been addressed in version 3.12.11 of the open source rabbitMQ release and in versions 1.5.2, 3.13.0, and 4.0.0 of the tanzu release. Users are advised to upgrade. Users unable to upgrade may disable management plugin and use, for example, Prometheus and Grafana for monitoring.",,,
+CVE-2024-9476,,,2024-11-13T17:15:12.747,0.00213,0.11601,False,,,A vulnerability in Grafana Labs Grafana OSS and Enterprise allows Privilege Escalation allows users to gain access to resources from other organizations within the same Grafana instance via the Grafana Cloud Migration Assistant.This vulnerability will only affect users who utilize the Organizations feature to isolate resources on their Grafana instance.,,,
+CVE-2024-11741,4.3,MEDIUM,2025-01-31T16:15:30.853,0.00374,0.30183,False,,,"Grafana is an open-source platform for monitoring and observability. 
+The Grafana Alerting VictorOps integration was not properly protected and could be exposed to users with Viewer permission. 
+Fixed in versions 11.5.0, 11.4.1, 11.3.3,  11.2.6, 11.1.11, 11.0.11 and 10.4.15",,,
+CVE-2025-4123,7.6,HIGH,2025-05-22T08:15:52.720,0.98258,0.99911,False,,,"A cross-site scripting (XSS) vulnerability exists in Grafana caused by combining a client path traversal and open redirect. This allows attackers to redirect users to a website that hosts a frontend plugin that will execute arbitrary JavaScript. This vulnerability does not require editor permissions and if anonymous access is enabled, the XSS will work. If the Grafana Image Renderer plugin is installed, it is possible to exploit the open redirect to achieve a full read SSRF.
+
+The default Content-Security-Policy (CSP) in Grafana will block the XSS though the `connect-src` directive.",,,
+CVE-2025-3580,5.5,MEDIUM,2025-05-23T14:15:28.740,0.00397,0.32472,False,,,"An access control vulnerability was discovered in Grafana OSS where an Organization administrator could permanently delete the Server administrator account. This vulnerability exists in the DELETE /api/org/users/ endpoint.
+
+The vulnerability can be exploited when:
+
+1. An Organization administrator exists
+
+2. The Server administrator is either:
+
+   - Not part of any organization, or
+   - Part of the same organization as the Organization administrator
+Impact:
+
+- Organization administrators can permanently delete Server administrator accounts
+
+- If the only Server administrator is deleted, the Grafana instance becomes unmanageable
+
+- No super-user permissions remain in the system
+
+- Affects all users, organizations, and teams managed in the instance
+
+The vulnerability is particularly serious as it can lead to a complete loss of administrative control over the Grafana instance.",,,
+CVE-2025-3454,5.0,MEDIUM,2025-06-02T11:15:22.167,0.00414,0.34102,False,,,"This vulnerability in Grafana's datasource proxy API allows authorization checks to be bypassed by adding an extra slash character in the URL path.
+
+Users with minimal permissions could gain unauthorized read access to GET endpoints in Alertmanager and Prometheus datasources.
+
+The issue primarily affects datasources that implement route-specific permissions, including Alertmanager and certain Prometheus-based datasources.",,,
+CVE-2025-1088,2.7,LOW,2025-06-18T10:15:31.210,0.00394,0.32177,False,,,"In Grafana, an excessively long dashboard title or panel name will cause Chromium browsers to become unresponsive due to Improper Input Validation vulnerability in Grafana.
+This issue affects Grafana: before 11.6.2 and is fixed in 11.6.2 and higher.",,,
+CVE-2025-3415,4.3,MEDIUM,2025-07-17T11:15:22.240,0.00956,0.58098,False,,,"Grafana is an open-source platform for monitoring and observability. The Grafana Alerting DingDing integration was not properly protected and could be exposed to users with Viewer permission. 
+Fixed in versions 10.4.19+security-01, 11.2.10+security-01, 11.3.7+security-01, 11.4.5+security-01, 11.5.5+security-01, 11.6.2+security-01 and 12.0.1+security-01",,,
+CVE-2025-6023,7.6,HIGH,2025-07-18T08:15:28.040,0.39079,0.98455,False,,,"An open redirect vulnerability has been identified in Grafana OSS that can be exploited to achieve XSS attacks. The vulnerability was introduced in Grafana v11.5.0.
+
+The open redirect can be chained with path traversal vulnerabilities to achieve XSS.
+
+Fixed in versions 12.0.2+security-01, 11.6.3+security-01, 11.5.6+security-01, 11.4.6+security-01 and 11.3.8+security-01",,,
+CVE-2025-6197,4.2,MEDIUM,2025-07-18T08:15:28.187,0.66785,0.9922,False,,,"An open redirect vulnerability has been identified in Grafana OSS organization switching functionality.
+
+
+Prerequisites for exploitation:
+
+- Multiple organizations must exist in the Grafana instance
+
+- Victim must be on a different organization than the one specified in the URL",,,
+CVE-2025-8341,5.0,MEDIUM,2025-08-04T09:15:26.103,0.0029,0.21211,False,,,"Grafana is an open-source platform for monitoring and observability. The Infinity datasource plugin, maintained by Grafana Labs, allows visualizing data from JSON, CSV, XML, GraphQL, and HTML endpoints.
+
+
+If the plugin was configured to allow only certain URLs, an attacker could bypass this restriction using a specially crafted URL. This vulnerability is fixed in version 3.4.1.",,,
+CVE-2025-58746,9.0,CRITICAL,2025-09-08T23:15:35.973,0.00305,0.2284,False,,,"The Volkov Labs Business Links panel for Grafana provides an interface to navigate using external links, internal dashboards, time pickers, and dropdown menus. Prior to version 2.4.0, a malicious actor with Editor privileges can escalate their privileges to Administrator and perform arbitrary administrative actions. This is possible because the plugin allows arbitrary JavaScript code injection in the [Layout] → [Link] → [URL] field. Version 2.4.0 contains a fix for the issue.",,,
+CVE-2025-10630,4.3,MEDIUM,2025-09-19T10:15:34.730,0.00323,0.2474,False,,,"Grafana is an open-source platform for monitoring and observability. Grafana-Zabbix is a plugin for Grafana allowing to visualize monitoring data from Zabbix and create dashboards for analyzing metrics and realtime monitoring. 
+
+
+
+Versions 5.2.1 and below contained a ReDoS vulnerability via user-supplied regex query which could causes CPU usage to max out. This vulnerability is fixed in version 6.0.0.",,,
+CVE-2025-11539,9.9,CRITICAL,2025-10-09T08:15:38.813,0.00594,0.45135,False,,,"Grafana Image Renderer is vulnerable to remote code execution due to an arbitrary file write vulnerability. This is due to the fact that the /render/csv endpoint lacked validation of the filePath parameter that allowed an attacker to save a shared object to an arbitrary location that is then loaded by the Chromium process.
+
+Instances are vulnerable if:
+
+1. The default token (""authToken"") is not changed, or is known to the attacker.
+2. The attacker can reach the image renderer endpoint.
+This issue affects grafana-image-renderer: from 1.0.0 through 4.0.16.",,,
+CVE-2025-3717,,,2025-11-11T21:15:37.290,0.00268,0.18725,False,,,"When using the Grafana Snowflake Datasource Plugin,
+if Oauth passthrough is enabled on the datasource, and multiple users are using the same datasource at the same time on a single Grafana instance, it  could result in 
+
+the wrong user identifier being used, and information for which the viewer is not authorized being returned. 
+
+This issue affects Grafana Snowflake Datasource Plugin: from 1.5.0 before 1.14.1.",,,
+CVE-2025-41116,,,2025-11-11T21:15:38.800,0.00268,0.18725,False,,,"When using the Grafana Databricks Datasource Plugin,
+if Oauth passthrough is enabled on the datasource, and multiple users are using the same datasource at the same time on a single Grafana instance, it  could result in 
+
+the wrong user identifier being used, and information for which the viewer is not authorized being returned. 
+
+This issue affects Grafana Databricks Datasource Plugin: from 1.6.0 before 1.12.0",,,
+CVE-2025-41115,10.0,CRITICAL,2025-11-21T15:15:52.283,0.16905,0.96754,False,,,"SCIM provisioning was introduced in Grafana Enterprise and Grafana Cloud in April to improve how organizations manage users and teams in Grafana by introducing automated user lifecycle management.
+
+In Grafana versions 12.x where SCIM provisioning is enabled and configured, a vulnerability in user identity handling allows a malicious or compromised SCIM client to provision a user with a numeric externalId, which in turn could allow to override internal user IDs and lead to impersonation or privilege escalation.
+
+This vulnerability applies only if all of the following conditions are met:
+- `enableSCIM` feature flag set to true
+- `user_sync_enabled` config option in the `[auth.scim]` block set to true",,,
+CVE-2026-21720,7.5,HIGH,2026-01-27T09:15:48.490,0.00618,0.46279,False,,,"Every uncached /avatar/:hash request spawns a goroutine that refreshes the Gravatar image. If the refresh sits in the 10-slot worker queue longer than three seconds, the handler times out and stops listening for the result, so that goroutine blocks forever trying to send on an unbuffered channel. Sustained traffic with random hashes keeps tripping this timeout, so goroutine count grows linearly, eventually exhausting memory and causing Grafana to crash on some systems.",,,
+CVE-2025-41117,6.8,MEDIUM,2026-02-12T09:16:07.630,0.00239,0.14971,False,,,"Stack traces in Grafana's Explore Traces view can be rendered as raw HTML, and thus inject malicious JavaScript in the browser. This would require malicious JavaScript to be entered into the stack trace field.
+
+Only datasources with the Jaeger HTTP API appear to be affected; Jaeger gRPC and Tempo do not appear affected whatsoever.",,,
+CVE-2026-21725,2.6,LOW,2026-02-25T13:16:05.240,0.00161,0.05767,False,,,"A time-of-create-to-time-of-use (TOCTOU) vulnerability lets recently deleted-then-recreated data sources be re-deleted without permission to do so.
+
+This requires several very stringent conditions to be met:
+
+- The attacker must have admin access to the specific datasource prior to its first deletion.
+- Upon deletion, all steps within the attack must happen within the next 30 seconds and on the same pod of Grafana.
+- The attacker must delete the datasource, then someone must recreate it.
+- The new datasource must not have the attacker as an admin.
+- The new datasource must have the same UID as the prior datasource. These are randomised by default.
+- The datasource can now be re-deleted by the attacker.
+- Once 30 seconds are up, the attack is spent and cannot be repeated.
+- No datasource with any other UID can be attacked.",,,
+CVE-2026-32117,7.6,HIGH,2026-03-11T22:16:32.473,0.00265,0.18239,False,,,"The grafanacubism-panel plugin allows use of cubism.js in Grafana. In 0.1.2 and earlier, the panel's zoom-link handler passes a dashboard-editor-supplied URL directly to window.location.assign() / window.open() with no scheme validation. An attacker with dashboard Editor privileges can set the link to a javascript: URI; when any Viewer drag-zooms on the panel, the payload executes in the Grafana origin.",,,
+CVE-2026-21724,5.4,MEDIUM,2026-03-26T21:17:03.227,0.00238,0.14865,False,,,A vulnerability has been discovered in Grafana OSS where an authorization bypass in the provisioning contact points API allows users with Editor role to modify protected webhook URLs without the required alert.notifications.receivers.protected:write permission.,,,
+CVE-2026-33375,6.5,MEDIUM,2026-03-26T21:17:05.573,0.00434,0.35721,False,,,"The Grafana MSSQL data source plugin contains a logic flaw that allows a low-privileged user (Viewer) to bypass API restrictions and trigger a catastrophic Out-Of-Memory (OOM) memory exhaustion, crashing the host container.",,,
+CVE-2026-28377,7.5,HIGH,2026-03-26T22:16:28.460,0.00155,0.05132,False,,,"A vulnerability in Grafana Tempo exposes the S3 SSE-C encryption key in plaintext through the /status/config endpoint, potentially allowing unauthorized users to obtain the key used to encrypt trace data stored in S3.
+
+Thanks to william_goodfellow for reporting this vulnerability.",,,
+CVE-2026-27876,9.1,CRITICAL,2026-03-27T15:16:50.920,0.01929,0.78045,False,,,"A chained attack via SQL Expressions and a Grafana Enterprise plugin can lead to a remote arbitrary code execution impact (RCE). This is enabled by a feature in Grafana (OSS), so all users are always recommended to update to avoid future attack vectors going this path.
+
+Only instances with the sqlExpressions feature toggle enabled are vulnerable.
+
+Only instances in the following version ranges are affected:
+
+- 11.6.0 (inclusive) to 11.6.14 (exclusive): 11.6.14 has the fix. 11.5 and below are not affected.
+- 12.0.0 (inclusive) to 12.1.10 (exclusive): 12.1.10 has the fix. 12.0 did not receive an update, as it is end-of-life.
+- 12.2.0 (inclusive) to 12.2.8 (exclusive): 12.2.8 has the fix.
+- 12.3.0 (inclusive) to 12.3.6 (exclusive): 12.3.6 has the fix.
+- 12.4.0 (inclusive) to 12.4.2 (exclusive): 12.4.2 has the fix. 13.0.0 and above also have the fix: no v13 release is affected.",,,
+CVE-2026-27879,6.5,MEDIUM,2026-03-27T15:16:51.187,0.00376,0.30338,False,,,A resample query can be used to trigger out-of-memory crashes in Grafana.,,,
+CVE-2026-28375,6.5,MEDIUM,2026-03-27T15:16:51.547,0.00376,0.30338,False,,,A testdata data-source can be used to trigger out-of-memory crashes in Grafana.,,,
+CVE-2025-12141,6.5,MEDIUM,2026-04-15T16:16:33.040,0.00255,0.16997,False,,,"In Grafana's alerting system, users with edit permissions for a contact point, specifically the permissions “alert.notifications:write” or “alert.notifications.receivers:test” that are granted as part of the fixed role ""Contact Point Writer"", which is part of the basic role Editor - can edit contact points created by other users, modify the endpoint URL to a controlled server. By invoking the test functionality, attackers can capture and extract redacted secure settings, such as authentication credentials for third-party services (e.g., Slack tokens). This leads to unauthorized access and potential compromise of external integrations.",,,
+CVE-2026-21727,3.3,LOW,2026-04-15T20:16:34.290,0.00204,0.10525,False,,,"---
+title: Cross-Tenant Legacy Correlation Disclosure and Deletion
+draft: false
+hero:
+  image: /static/img/heros/hero-legal2.svg
+  content: ""# Cross-Tenant Legacy Correlation Disclosure and Deletion""
+date: 2026-01-29
+product: Grafana
+severity: Low
+cve: CVE-2026-21727
+cvss_score: ""3.3""
+cvss_vector: ""CVSS:3.3/AV:N/AC:H/PR:H/UI:N/S:U/C:L/I:L/A:N""
+fixed_versions:
+  - "">=11.6.11 >=12.0.9 >=12.1.6 >=12.2.4""
+---
+A cross-tenant isolation vulnerability was found in Grafana’s Correlations feature affecting legacy correlation records. Due to a backward compatibility condition allowing org_id = 0 records to be returned across organizations, a user with datasource management privileges could read and permanently delete legacy correlation data belonging to another organization. This issue affects correlations created prior to Grafana 10.2 and is fixed in >=11.6.11, >=12.0.9, >=12.1.6, and >=12.2.4.
+
+Thanks to Gyu-hyeok Lee (g2h) for reporting this vulnerability.",,,
+CVE-2026-28376,6.5,MEDIUM,2026-05-13T20:16:19.760,0.00328,0.25374,False,,,"The Grafana Live push endpoint can be exploited to cause unbounded memory allocation by sending a large or streaming request body, potentially leading to out-of-memory conditions. An authenticated user with access to the Grafana Live API can trigger this issue.",,,
+CVE-2026-28379,6.5,MEDIUM,2026-05-13T20:16:19.920,0.00262,0.17816,False,,,A race condition in Grafana Live allows authenticated users with Viewer role to trigger a server crash by sending concurrent requests that cause a fatal map access error. This results in complete service unavailability requiring restart of the Grafana server.,,,
+CVE-2026-28383,6.5,MEDIUM,2026-05-13T20:16:20.130,0.00328,0.25375,False,,,"A request to the Grafana plugin resources endpoint can cause unbounded memory allocation by reading the entire request body into memory. An authenticated user can exploit this to trigger an out-of-memory condition, potentially causing a denial of service.",,,
+CVE-2026-33380,6.3,MEDIUM,2026-05-13T20:16:20.697,0.00366,0.2932,False,,,A vulnerability in SQL Expressions allows an authenticated attacker to read arbitrary files from the Grafana server's filesystem. Only instances with the sqlExpressions feature toggle enabled are vulnerable.,,,
+CVE-2026-11769,8.8,HIGH,2026-06-13T06:16:14.380,0.00361,0.28836,False,,,"We have released version 5.24.0 of the Grafana Operator. This patch includes a MEDIUM severity security fix for a path traversal/privilege escalation vulnerability in the Grafana Operator.
+
+
+### Summary
+
+The Grafana Operator supports loading dashboards & library panels using the jsonnet data templating language. The jsonnet expression is evaluated in the context of the operator manager pod.
+
+
+### Impact
+
+It is possible for a malicious user who can create Dashboard or LibraryPanel resources for a Grafana instance to obtain the Kubernetes service account token of the Grafana Operator manager.
+
+### Affected versions
+
+All Grafana Operator versions <= 5.23
+
+### Solutions and mitigations
+
+All installations should be upgraded as soon as possible.
+
+As a workaround, the following ValidatingAdmissionPolicy prevent the creation or modification of jsonnet based resources:
+
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: ""prevent-jsonnet-dashboards""
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""grafana.integreatly.org""]
+        apiVersions: [""v1beta1""]
+        operations: [""CREATE"", ""UPDATE""]
+        resources: [""grafanadashboards"", ""grafanalibrarypanels""]
+  validations:
+    - expression: ""!has(object.spec.jsonnetLib)""
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: ""prevent-jsonnet-dashboards-clusterwide""
+spec:
+  policyName: ""prevent-jsonnet-dashboards""
+  validationActions: [Deny]
+
+
+
+### Acknowledgement
+
+We would like to thank Artem Cherezov for responsibly disclosing the vulnerability.",,,
+CVE-2026-27878,6.5,MEDIUM,2026-06-19T19:16:34.897,0.00411,0.33833,False,,,"A TraceQL query in Grafana Tempo with a large exemplars hint value can cause the Tempo instance to allocate an excessive amount of memory, resulting in an out-of-memory crash. This could allow an authenticated user to trigger a denial of service against the Tempo service.",,,
+CVE-2026-28381,9.6,CRITICAL,2026-06-22T14:16:35.820,0.00205,0.10598,False,,,"The Snowflake datasource allows for GET/PUT commands, which can allow any user with access to run queries against the data source to read/write files between the local grafana server and the connected Snowflake host.",,,
+CVE-2026-33382,7.5,HIGH,2026-07-10T16:16:29.130,0.00388,0.31594,False,,,"Several Grafana API endpoints, some of them unauthenticated, do not limit the size of the request body before processing it. An attacker can send very large payloads that force excessive memory allocation, potentially exhausting memory and causing a denial of service.",,,
+CVE-2026-8609,5.3,MEDIUM,2026-07-10T16:16:39.510,0.00397,0.32551,False,,,"An unauthenticated attacker can repeatedly call Grafana's OAuth login route with unique values, causing unbounded memory growth that can eventually exhaust memory and crash the Grafana instance (denial of service).",,,
+CVE-2026-15583,8.6,HIGH,2026-07-15T08:16:22.977,0.00492,0.39634,False,,,"A confused-deputy flaw in Grafana MCP Server allows an unauthenticated remote attacker to exfiltrate the server's environment-configured Grafana service-account token by supplying a crafted X-Grafana-URL request header. This also enables SSRF against arbitrary internal services, including cloud metadata endpoints.",,,
+CVE-2026-63087,9.8,CRITICAL,2026-07-16T17:16:58.703,0.00427,0.35192,False,,,"Grafana OnCall through 1.16.11 contains an unauthenticated access vulnerability that allows remote attackers to obtain a valid PluginAuthToken by sending a POST request to the internal plugin install endpoint using hardcoded default stack_id and org_id values present in the public source tree. Attackers can leverage the acquired token to authenticate against all internal API endpoints, create arbitrary Admin users via the user-context header bootstrap path, revoke the legitimate plugin token, and redirect OnCall-to-Grafana API calls to an attacker-controlled host by overwriting the organization's grafana_url and api_token.",,,
+CVE-2026-47671,5.4,MEDIUM,2026-07-21T20:17:01.473,0.00266,0.18567,False,,,"Nhost is an open source Firebase alternative with GraphQL. In versions of Nhost CLI prior to 1.46.0, the hidden `nhost configserver` used by `nhost dev` exposes the Mimir GraphQL API with dummy authorization directives and permissive CORS. When a developer is running the local development environment, any process that can reach the developer's localhost service, including a web page loaded from an arbitrary origin, can query the configserver for local Nhost configuration and secrets and can mutate the local `.secrets` file. This impacts developers using `nhost dev`: project admin secrets, JWT signing keys, webhook secrets, Grafana credentials, and custom environment variables can be read, and attacker-controlled secrets can be written to the local development project. Version 1.46.0 of Nhost CLI contains a fix.",,,
+CVE-2026-21723,5.3,MEDIUM,2026-07-23T03:16:30.000,0.00198,0.09804,False,,,The alertmanager templates test endpoint (/api/alertmanager/grafana/config/api/v1/templates/test) can execute templates with no memory limits. Mass-executing templates in a short period causes OOM and crashes the Grafana service. The endpoint requires very low privileges and is exploitable with anonymous access enabled.,,,
+CVE-2026-67342,9.8,CRITICAL,2026-08-01T13:17:05.417,0.00319,0.24323,False,,,"ArcadeDB versions before 26.7.2 contain an authorization bypass vulnerability in HTTP handlers for time series, batch, Prometheus, and Grafana endpoints that fail to validate database access permissions. Attackers can access and modify databases they are not authorized to use by directly calling affected endpoints with arbitrary database parameters.",,,

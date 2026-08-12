@@ -97,12 +97,22 @@ def fetch_nvd_cves(keyword: str = None, results_per_page: int = 200, max_results
                     )
                     break
 
+            # Plain-English "what's wrong" — NVD ships one description per
+            # language; keep the English one for the finding detail modal. It is
+            # the one enrichment field the UI's "what is this CVE" line needs.
+            descriptions = cve.get("descriptions", [])
+            description = next(
+                (d.get("value") for d in descriptions if d.get("lang") == "en"),
+                None,
+            )
+
             records.append(
                 {
                     "cve_id": cve_id,
                     "cvss_score": cvss_score,
                     "cvss_severity": cvss_severity,
                     "published": cve.get("published"),
+                    "description": description,
                 }
             )
 
@@ -171,6 +181,13 @@ def fetch_kev_flags(*, use_memo: bool = True) -> pd.DataFrame:
             "kev_flag": True,
             "kev_date_added": v.get("dateAdded"),
             "kev_ransomware_use": v.get("knownRansomwareCampaignUse", "Unknown"),
+            # CISA's own words for a known-exploited CVE: a short "what it is"
+            # and the authoritative "what to do". These are the one genuinely
+            # actionable remediation strings we have (KEV CVEs only) — the
+            # finding modal shows requiredAction as its recommendation.
+            "kev_vuln_name": v.get("vulnerabilityName"),
+            "kev_short_description": v.get("shortDescription"),
+            "kev_required_action": v.get("requiredAction"),
         }
         for v in vulns
     ]
@@ -190,7 +207,8 @@ def combine_feeds(nvd_df: pd.DataFrame, epss_df: pd.DataFrame, kev_df: pd.DataFr
         epss_df = pd.DataFrame(columns=["cve_id", "epss_score", "epss_percentile"])
     if kev_df.empty:
         kev_df = pd.DataFrame(
-            columns=["cve_id", "kev_flag", "kev_date_added", "kev_ransomware_use"]
+            columns=["cve_id", "kev_flag", "kev_date_added", "kev_ransomware_use",
+                     "kev_vuln_name", "kev_short_description", "kev_required_action"]
         )
 
     # Start from NVD as the base (it's the definitive CVE list)

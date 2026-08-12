@@ -320,6 +320,77 @@ def test_plan_item_detail_handles_a_row_with_no_asset():
     assert "high-importance" in detail["reason_sentence"]
 
 
+# --- finding modal enrichment (rec #1): description, recommendation, links ---
+
+def test_finding_references_builds_authoritative_links_incl_kev():
+    refs = dashboard.finding_references("CVE-2024-3400", kev_flag=True)
+    assert [r["source"] for r in refs] == ["NVD", "MITRE", "FIRST", "CISA"]
+    assert all("CVE-2024-3400" in r["url"] for r in refs)
+    nvd = next(r for r in refs if r["source"] == "NVD")
+    assert nvd["url"] == "https://nvd.nist.gov/vuln/detail/CVE-2024-3400"
+
+
+def test_finding_references_omit_kev_link_when_not_exploited():
+    refs = dashboard.finding_references("CVE-2024-3400", kev_flag=False)
+    assert "CISA" not in [r["source"] for r in refs]
+
+
+def test_finding_references_empty_for_a_malformed_or_missing_id():
+    assert dashboard.finding_references("not-a-cve") == []
+    assert dashboard.finding_references(None) == []
+
+
+def test_finding_recommendation_uses_cisa_required_action_for_kev():
+    row = pd.Series({"cve_id": "CVE-2021-1", "kev_flag": True,
+                     "kev_required_action": "Apply updates per vendor instructions.",
+                     "kev_date_added": "2022-03-25", "cvss_score": 9.8, "epss_score": 0.9})
+    rec = dashboard.finding_recommendation(row)
+    assert rec["authoritative"] is True
+    assert rec["source"] == "CISA KEV"
+    assert rec["text"] == "Apply updates per vendor instructions."
+    assert "2022-03-25" in rec["urgency"]
+
+
+def test_finding_recommendation_derives_honest_guidance_without_kev():
+    row = pd.Series({"cve_id": "CVE-2020-1", "kev_flag": False,
+                     "cvss_score": 9.1, "epss_score": 0.2})
+    rec = dashboard.finding_recommendation(row)
+    assert rec["authoritative"] is False
+    assert rec["source"] == "derived"
+    assert "vendor" in rec["text"].lower()
+    assert rec["urgency"] is None
+
+
+def test_finding_recommendation_kev_without_action_falls_back_to_derived():
+    # KEV-flagged but no requiredAction text: never a blank authoritative rec.
+    row = pd.Series({"cve_id": "CVE-2019-1", "kev_flag": True,
+                     "kev_required_action": None, "cvss_score": 7.5, "epss_score": 0.3})
+    rec = dashboard.finding_recommendation(row)
+    assert rec["authoritative"] is False
+    assert rec["source"] == "derived"
+
+
+def test_plan_item_detail_surfaces_description_recommendation_and_links():
+    row = pd.Series({"cve_id": "CVE-2024-3400", "cvss_score": 10.0, "epss_score": 0.9,
+                     "kev_flag": True, "importance_tier": "critical", "composite_score": 95.0,
+                     "description": "A command injection in PAN-OS GlobalProtect.",
+                     "kev_required_action": "Apply updates per vendor instructions.",
+                     "kev_date_added": "2024-04-12"})
+    detail = dashboard.plan_item_detail(row)
+    assert detail["description"] == "A command injection in PAN-OS GlobalProtect."
+    assert detail["recommendation"]["source"] == "CISA KEV"
+    assert [r["source"] for r in detail["references"]] == ["NVD", "MITRE", "FIRST", "CISA"]
+
+
+def test_plan_item_detail_description_none_and_links_when_unenriched():
+    row = pd.Series({"cve_id": "CVE-2020-1234", "cvss_score": 5.0, "epss_score": 0.1,
+                     "kev_flag": False, "importance_tier": "low", "composite_score": 20.0})
+    detail = dashboard.plan_item_detail(row)
+    assert detail["description"] is None
+    assert detail["recommendation"]["source"] == "derived"
+    assert [r["source"] for r in detail["references"]] == ["NVD", "MITRE", "FIRST"]
+
+
 def test_asset_coverage_counts_critical_assets_with_a_fix():
     result = dashboard.plan(_scored_with_assets(),
                             pools=dashboard.build_pools(100, 100, 100))

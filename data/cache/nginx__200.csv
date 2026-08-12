@@ -1,201 +1,321 @@
-cve_id,cvss_score,cvss_severity,published,epss_score,epss_percentile,kev_flag,kev_date_added,kev_ransomware_use
-CVE-2009-2629,7.5,HIGH,2009-09-15T22:30:00.233,0.75079,0.99462,False,,
-CVE-2009-3896,5.0,MEDIUM,2009-11-24T17:30:00.377,0.11306,0.95555,False,,
-CVE-2009-3898,4.9,MEDIUM,2009-11-24T17:30:00.437,0.17598,0.96854,False,,
-CVE-2009-4487,6.8,MEDIUM,2010-01-13T20:30:00.357,0.29516,0.98007,False,,
-CVE-2010-2263,5.0,MEDIUM,2010-06-15T14:04:24.313,0.71926,0.99369,False,,
-CVE-2010-2266,5.0,MEDIUM,2010-06-15T14:04:24.420,0.2151,0.97382,False,,
-CVE-2011-4315,6.8,MEDIUM,2011-12-08T20:55:01.000,0.05962,0.92584,False,,
-CVE-2012-1180,5.0,MEDIUM,2012-04-17T21:55:01.227,0.10417,0.9529,False,,
-CVE-2012-2089,6.8,MEDIUM,2012-04-17T21:55:01.353,0.09629,0.95012,False,,
-CVE-2011-4963,5.0,MEDIUM,2012-07-26T19:55:00.980,0.05959,0.9258,False,,
-CVE-2012-3380,2.1,LOW,2012-08-31T18:55:03.387,0.01238,0.66264,False,,
-CVE-2013-2028,7.5,HIGH,2013-07-20T03:37:20.730,0.87475,0.9974,False,,
-CVE-2013-2070,5.8,MEDIUM,2013-07-20T03:37:25.247,0.11925,0.95714,False,,
-CVE-2013-0337,7.5,HIGH,2013-10-27T00:55:03.713,0.02195,0.80787,False,,
-CVE-2013-4547,7.5,HIGH,2013-11-23T18:55:04.687,0.67718,0.99249,False,,
-CVE-2014-0133,7.5,HIGH,2014-03-28T15:55:08.607,0.09293,0.94883,False,,
-CVE-2014-0088,7.5,HIGH,2014-04-29T14:38:49.920,0.08663,0.94597,False,,
-CVE-2014-3616,4.3,MEDIUM,2014-12-08T11:59:03.390,0.05654,0.9223,False,,
-CVE-2014-3556,6.8,MEDIUM,2014-12-29T20:59:03.943,0.07832,0.94106,False,,
-CVE-2016-0742,7.5,HIGH,2016-02-15T19:59:00.107,0.81958,0.99619,False,,
-CVE-2016-0746,9.8,CRITICAL,2016-02-15T19:59:01.157,0.08625,0.94576,False,,
-CVE-2016-0747,5.3,MEDIUM,2016-02-15T19:59:02.123,0.08433,0.94471,False,,
-CVE-2016-4450,7.5,HIGH,2016-06-07T14:06:14.200,0.16376,0.96659,False,,
-CVE-2016-1247,7.8,HIGH,2016-11-29T17:59:00.167,0.04863,0.91205,False,,
-CVE-2017-8301,5.3,MEDIUM,2017-04-27T17:59:00.187,0.01021,0.60153,False,,
-CVE-2017-7529,7.5,HIGH,2017-07-13T13:29:00.220,0.62597,0.99112,False,,
-CVE-2018-1299,7.5,HIGH,2018-02-06T20:29:00.253,0.03001,0.86083,False,,
-CVE-2018-8059,8.8,HIGH,2018-03-11T19:29:00.250,0.00523,0.41571,False,,
-CVE-2018-12029,7.0,HIGH,2018-06-17T20:29:00.493,0.00276,0.19725,False,,
-CVE-2018-11046,6.5,MEDIUM,2018-06-25T15:29:00.443,0.00903,0.56393,False,,
-CVE-2018-1000653,9.8,CRITICAL,2018-08-20T19:31:44.590,0.01202,0.65292,False,,
-CVE-2018-16843,7.5,HIGH,2018-11-07T14:29:00.777,0.47057,0.98719,False,,
-CVE-2018-16844,7.5,HIGH,2018-11-07T14:29:00.837,0.124,0.95817,False,,
-CVE-2018-16845,6.1,MEDIUM,2018-11-07T14:29:00.883,0.09801,0.95079,False,,
-CVE-2019-7401,9.8,CRITICAL,2019-02-08T03:29:00.247,0.02854,0.85391,False,,
-CVE-2018-11747,9.8,CRITICAL,2019-03-21T16:00:11.593,0.00724,0.50606,False,,
-CVE-2019-9945,9.8,CRITICAL,2019-03-23T16:29:01.890,0.05845,0.92463,False,,
-CVE-2019-9161,9.8,CRITICAL,2019-04-18T23:29:00.517,0.04599,0.90774,False,,
-CVE-2019-11837,7.5,HIGH,2019-05-09T14:29:00.510,0.01379,0.69492,False,,
-CVE-2019-11838,9.8,CRITICAL,2019-05-09T14:29:00.557,0.01598,0.73428,False,,
-CVE-2019-11839,9.8,CRITICAL,2019-05-09T14:29:00.637,0.01643,0.74149,False,,
-CVE-2019-12206,9.8,CRITICAL,2019-05-20T14:29:00.697,0.01986,0.78692,False,,
-CVE-2019-12207,9.8,CRITICAL,2019-05-20T14:29:00.773,0.01823,0.76711,False,,
-CVE-2019-12208,9.8,CRITICAL,2019-05-20T14:29:00.837,0.01708,0.7513,False,,
-CVE-2019-12938,4.3,MEDIUM,2019-06-24T14:15:09.857,0.01006,0.59743,False,,
-CVE-2019-13067,9.8,CRITICAL,2019-06-30T00:15:11.283,0.01597,0.73411,False,,
-CVE-2019-13617,6.5,MEDIUM,2019-07-16T17:15:12.753,0.01305,0.67809,False,,
-CVE-2019-13980,8.8,HIGH,2019-07-19T15:15:12.250,0.0245,0.82834,False,,
-CVE-2019-15517,5.5,MEDIUM,2019-08-23T15:15:10.747,0.00725,0.50624,False,,
-CVE-2019-18371,7.5,HIGH,2019-10-23T21:15:10.823,0.55872,0.98948,False,,
-CVE-2011-4968,4.8,MEDIUM,2019-11-19T16:15:11.070,0.03989,0.8953,False,,
-CVE-2019-20372,5.3,MEDIUM,2020-01-09T21:15:12.027,0.14961,0.96383,False,,
-CVE-2020-5863,8.6,HIGH,2020-03-27T15:15:12.600,0.01122,0.63137,False,,
-CVE-2020-5864,7.4,HIGH,2020-04-23T19:15:12.903,0.01033,0.60523,False,,
-CVE-2020-5865,4.8,MEDIUM,2020-04-23T19:15:13.013,0.0039,0.31751,False,,
-CVE-2020-5866,5.5,MEDIUM,2020-04-23T19:15:13.140,0.0034,0.26685,False,,
-CVE-2020-5867,8.1,HIGH,2020-04-23T20:15:13.163,0.004,0.32823,False,,
-CVE-2020-12443,9.8,CRITICAL,2020-04-29T02:15:11.467,0.03569,0.88256,False,,
-CVE-2020-5894,8.1,HIGH,2020-05-07T13:15:12.137,0.01019,0.60113,False,,
-CVE-2020-5895,7.8,HIGH,2020-05-07T13:15:12.187,0.00304,0.22722,False,,
-CVE-2020-11959,7.5,HIGH,2020-06-24T17:15:10.540,0.01398,0.69858,False,,
-CVE-2020-5900,8.8,HIGH,2020-07-01T14:15:14.513,0.00452,0.37089,False,,
-CVE-2020-5899,7.8,HIGH,2020-07-01T15:15:15.203,0.00185,0.08248,False,,
-CVE-2020-5901,9.6,CRITICAL,2020-07-01T15:15:15.280,0.01466,0.71199,False,,
-CVE-2020-5909,5.4,MEDIUM,2020-07-02T13:15:10.310,0.004,0.32812,False,,
-CVE-2020-5910,7.5,HIGH,2020-07-02T13:15:10.373,0.01154,0.63975,False,,
-CVE-2020-5911,7.3,HIGH,2020-07-02T13:15:10.437,0.01006,0.59744,False,,
-CVE-2020-8553,5.9,MEDIUM,2020-07-29T15:15:13.450,0.00894,0.56112,False,,
-CVE-2020-24346,7.8,HIGH,2020-08-13T19:15:13.880,0.01047,0.60986,False,,
-CVE-2020-24347,5.5,MEDIUM,2020-08-13T19:15:13.943,0.00418,0.34491,False,,
-CVE-2020-24348,5.5,MEDIUM,2020-08-13T19:15:14.003,0.00418,0.34491,False,,
-CVE-2020-24349,5.5,MEDIUM,2020-08-13T19:15:14.050,0.00535,0.42195,False,,
-CVE-2020-5416,6.5,MEDIUM,2020-08-21T22:15:12.527,0.01245,0.66433,False,,
-CVE-2020-24660,9.8,CRITICAL,2020-09-14T13:15:10.030,0.02342,0.82022,False,,
-CVE-2020-27730,9.8,CRITICAL,2020-12-11T20:15:16.643,0.01693,0.74922,False,,
-CVE-2020-14097,7.5,HIGH,2021-01-13T23:15:13.070,0.00861,0.55126,False,,
-CVE-2020-29658,9.8,CRITICAL,2021-03-05T09:15:13.410,0.03699,0.88673,False,,
-CVE-2021-21335,5.3,MEDIUM,2021-03-08T21:15:16.573,0.0166,0.74399,False,,
-CVE-2020-29238,7.5,HIGH,2021-03-10T03:15:12.320,0.16354,0.96655,False,,
-CVE-2021-21396,6.5,MEDIUM,2021-03-26T22:15:12.947,0.01093,0.6229,False,,
-CVE-2021-32637,10.0,CRITICAL,2021-05-28T17:15:07.493,0.01868,0.77313,False,,
-CVE-2021-23018,7.4,HIGH,2021-06-01T12:15:07.720,0.00544,0.42676,False,,
-CVE-2021-23017,7.7,HIGH,2021-06-01T13:15:07.853,0.53461,0.98889,False,,
-CVE-2021-23019,7.8,HIGH,2021-06-01T13:15:07.907,0.00239,0.14999,False,,
-CVE-2021-23021,5.5,MEDIUM,2021-06-01T13:15:08.010,0.00229,0.13668,False,,
-CVE-2017-20005,9.8,CRITICAL,2021-06-06T22:15:08.417,0.03285,0.87281,False,,
-CVE-2021-38712,7.5,HIGH,2021-08-16T04:15:07.763,0.01145,0.63722,False,,
-CVE-2021-24490,6.8,MEDIUM,2021-09-13T18:15:14.353,0.00558,0.43427,False,,
-CVE-2021-23050,7.5,HIGH,2021-09-14T13:15:11.093,0.00468,0.381,False,,
-CVE-2021-3882,6.8,MEDIUM,2021-10-14T09:15:08.427,0.00972,0.58654,False,,
-CVE-2021-41188,5.7,MEDIUM,2021-10-26T15:15:10.607,0.00737,0.51064,False,,
-CVE-2021-42717,7.5,HIGH,2021-12-07T22:15:06.950,0.03206,0.86951,False,,
-CVE-2021-43840,4.4,MEDIUM,2021-12-17T19:15:07.757,0.01869,0.77324,False,,
-CVE-2022-23008,5.4,MEDIUM,2022-01-25T20:15:09.000,0.0053,0.41912,False,,
-CVE-2021-46461,9.8,CRITICAL,2022-02-14T22:15:07.717,0.03121,0.8659,False,,
-CVE-2021-46462,7.5,HIGH,2022-02-14T22:15:07.757,0.01677,0.74661,False,,
-CVE-2021-46463,9.8,CRITICAL,2022-02-14T22:15:07.793,0.01663,0.74448,False,,
-CVE-2022-25139,9.8,CRITICAL,2022-02-14T22:15:08.317,0.01616,0.73711,False,,
-CVE-2021-45967,9.8,CRITICAL,2022-03-18T05:15:07.027,0.208,0.97305,False,,
-CVE-2022-28379,6.8,MEDIUM,2022-04-03T18:15:07.937,0.71209,0.9935,False,,
-CVE-2022-27007,9.8,CRITICAL,2022-04-14T15:15:08.163,0.01591,0.73322,False,,
-CVE-2022-27008,7.5,HIGH,2022-04-14T15:15:08.207,0.01698,0.74983,False,,
-CVE-2022-28049,5.5,MEDIUM,2022-04-15T14:15:07.747,0.00804,0.53298,False,,
-CVE-2021-23055,6.5,MEDIUM,2022-04-21T19:15:08.053,0.00739,0.51152,False,,
-CVE-2022-27495,6.5,MEDIUM,2022-05-05T17:15:12.767,0.00326,0.25157,False,,
-CVE-2022-29369,7.5,HIGH,2022-05-12T19:15:49.533,0.01131,0.63379,False,,
-CVE-2022-29379,9.8,CRITICAL,2022-05-25T13:15:07.837,0.01728,0.75381,False,,
-CVE-2022-29169,7.5,HIGH,2022-06-01T23:15:07.970,0.0148,0.7145,False,,
-CVE-2022-29779,5.5,MEDIUM,2022-06-02T14:15:51.160,0.00384,0.31236,False,,
-CVE-2022-29780,5.5,MEDIUM,2022-06-02T14:15:51.203,0.00384,0.31237,False,,
-CVE-2022-30503,5.5,MEDIUM,2022-06-02T14:15:53.390,0.0028,0.20145,False,,
-CVE-2022-31306,5.5,MEDIUM,2022-06-21T13:15:08.237,0.00628,0.46749,False,,
-CVE-2022-31307,5.5,MEDIUM,2022-06-21T13:15:08.287,0.00628,0.46749,False,,
-CVE-2022-32414,5.5,MEDIUM,2022-06-21T13:15:08.437,0.00628,0.46749,False,,
-CVE-2022-31081,7.3,HIGH,2022-06-27T21:15:08.020,0.02122,0.80129,False,,
-CVE-2022-31125,10.0,CRITICAL,2022-07-06T18:15:19.367,0.20168,0.97207,False,,
-CVE-2022-31126,10.0,CRITICAL,2022-07-06T18:15:19.433,0.49937,0.98789,False,,
-CVE-2022-31137,10.0,CRITICAL,2022-07-08T20:15:07.980,0.90387,0.99789,False,,
-CVE-2022-31161,10.0,CRITICAL,2022-07-15T21:15:08.710,0.26819,0.9784,False,,
-CVE-2021-40150,7.5,HIGH,2022-07-17T23:15:08.347,0.03729,0.88768,False,,
-CVE-2022-34027,7.5,HIGH,2022-07-18T21:15:07.820,0.00871,0.55443,False,,
-CVE-2022-34028,7.5,HIGH,2022-07-18T21:15:07.863,0.01005,0.59711,False,,
-CVE-2022-34029,9.1,CRITICAL,2022-07-18T21:15:07.910,0.0117,0.64417,False,,
-CVE-2022-34030,7.5,HIGH,2022-07-18T21:15:07.953,0.00871,0.55444,False,,
-CVE-2022-34031,7.5,HIGH,2022-07-18T21:15:07.997,0.00871,0.55443,False,,
-CVE-2022-34032,7.5,HIGH,2022-07-18T21:15:08.040,0.00871,0.55443,False,,
-CVE-2022-31182,5.3,MEDIUM,2022-08-01T20:15:08.353,0.00742,0.51251,False,,
-CVE-2022-35925,5.3,MEDIUM,2022-08-02T21:15:08.177,0.01662,0.74447,False,,
-CVE-2022-30535,6.5,MEDIUM,2022-08-04T18:15:09.423,0.00674,0.48747,False,,
-CVE-2022-35241,6.5,MEDIUM,2022-08-04T18:15:10.597,0.00715,0.50298,False,,
-CVE-2022-35173,7.5,HIGH,2022-08-18T06:15:07.280,0.01102,0.62599,False,,
-CVE-2022-29062,6.3,MEDIUM,2022-09-06T18:15:13.100,0.00721,0.505,False,,
-CVE-2022-38890,5.5,MEDIUM,2022-09-15T16:15:10.687,0.00287,0.20881,False,,
-CVE-2022-41347,7.8,HIGH,2022-09-26T02:15:10.620,0.00401,0.32946,False,,
-CVE-2022-41741,7.0,HIGH,2022-10-19T22:15:12.647,0.00777,0.52423,False,,
-CVE-2022-41742,7.1,HIGH,2022-10-19T22:15:12.717,0.01119,0.63049,False,,
-CVE-2022-41743,7.0,HIGH,2022-10-19T22:15:12.807,0.0022,0.12517,False,,
-CVE-2022-43284,7.5,HIGH,2022-10-28T21:15:10.083,0.0082,0.5381,False,,
-CVE-2022-43285,7.5,HIGH,2022-10-28T21:15:10.150,0.00748,0.51458,False,,
-CVE-2022-43286,9.8,CRITICAL,2022-10-28T21:15:10.213,0.00923,0.57038,False,,
-CVE-2022-23470,8.6,HIGH,2022-12-06T18:15:10.090,0.00785,0.52653,False,,
-CVE-2023-23596,8.8,HIGH,2023-01-20T08:15:12.670,0.15198,0.96425,False,,
-CVE-2023-24814,8.8,HIGH,2023-02-07T19:15:09.473,0.00831,0.54179,False,,
-CVE-2023-20088,5.3,MEDIUM,2023-03-03T16:15:10.453,0.00795,0.52979,False,,
-CVE-2023-25802,7.5,HIGH,2023-03-13T20:15:14.967,0.01012,0.59927,False,,
-CVE-2023-25803,7.5,HIGH,2023-03-13T20:15:15.057,0.01206,0.65392,False,,
-CVE-2023-25804,7.5,HIGH,2023-03-15T18:15:10.617,0.00761,0.51901,False,,
-CVE-2023-27224,9.8,CRITICAL,2023-03-22T20:15:12.723,0.01218,0.6576,False,,
-CVE-2023-1550,5.5,MEDIUM,2023-03-29T17:15:07.107,0.00218,0.12324,False,,
-CVE-2020-19692,9.8,CRITICAL,2023-04-04T15:15:07.653,0.01318,0.68093,False,,
-CVE-2020-19695,9.8,CRITICAL,2023-04-04T15:15:07.747,0.01333,0.68431,False,,
-CVE-2023-27727,7.5,HIGH,2023-04-09T20:15:56.650,0.00732,0.50898,False,,
-CVE-2023-27728,7.5,HIGH,2023-04-09T20:15:56.703,0.0074,0.51191,False,,
-CVE-2023-27729,7.5,HIGH,2023-04-09T20:15:56.740,0.00659,0.4814,False,,
-CVE-2023-27730,7.5,HIGH,2023-04-09T20:15:56.780,0.0074,0.5119,False,,
-CVE-2023-29004,6.5,MEDIUM,2023-04-17T19:15:07.377,0.00902,0.56345,False,,
-CVE-2023-28656,8.1,HIGH,2023-05-03T15:15:12.860,0.00528,0.41838,False,,
-CVE-2023-28724,7.1,HIGH,2023-05-03T15:15:13.020,0.00171,0.06679,False,,
-CVE-2023-33977,8.1,HIGH,2023-06-06T19:15:12.800,0.0087,0.55412,False,,
-CVE-2023-34450,3.7,LOW,2023-07-03T17:15:09.147,0.00851,0.54787,False,,
-CVE-2023-36809,8.1,HIGH,2023-07-05T22:15:09.670,0.00692,0.4946,False,,
-CVE-2020-21699,7.5,HIGH,2023-08-22T19:16:15.847,0.00663,0.4827,False,,
-CVE-2023-45132,9.1,CRITICAL,2023-10-11T21:15:10.207,0.00799,0.53117,False,,
-CVE-2023-44388,7.5,HIGH,2023-10-16T22:15:12.397,0.00531,0.41961,False,,
-CVE-2023-5043,7.6,HIGH,2023-10-25T20:15:18.037,0.02234,0.81106,False,,
-CVE-2023-5044,7.6,HIGH,2023-10-25T20:15:18.187,0.56568,0.98965,False,,
-CVE-2023-47106,4.8,MEDIUM,2023-12-04T21:15:33.600,0.00625,0.46654,False,,
-CVE-2024-22197,7.7,HIGH,2024-01-11T18:15:45.140,0.01537,0.72464,False,,
-CVE-2024-22196,7.0,HIGH,2024-01-11T20:15:44.923,0.00584,0.44727,False,,
-CVE-2024-22198,7.1,HIGH,2024-01-11T20:15:45.120,0.04088,0.89754,False,,
-CVE-2023-50919,9.8,CRITICAL,2024-01-12T08:15:43.533,0.47804,0.98737,False,,
-CVE-2024-23827,9.8,CRITICAL,2024-01-29T16:15:09.867,0.00699,0.49708,False,,
-CVE-2024-23828,8.8,HIGH,2024-01-29T17:15:10.457,0.01054,0.61191,False,,
-CVE-2024-22200,3.3,LOW,2024-01-30T16:15:48.553,0.00335,0.26095,False,,
-CVE-2024-24989,7.5,HIGH,2024-02-14T17:15:15.513,0.01061,0.61394,False,,
-CVE-2024-24990,7.5,HIGH,2024-02-14T17:15:15.713,0.00914,0.5678,False,,
-CVE-2024-26615,5.5,MEDIUM,2024-03-11T18:15:19.337,0.00257,0.17214,False,,
-CVE-2024-24562,5.4,MEDIUM,2024-03-14T19:15:49.767,0.00349,0.27554,False,,
-CVE-2024-24827,5.3,MEDIUM,2024-03-15T20:15:07.900,0.00593,0.45124,False,,
-CVE-2024-28101,7.5,HIGH,2024-03-21T02:52:23.290,0.0077,0.5218,False,,
-CVE-2024-1521,6.4,MEDIUM,2024-03-27T07:15:48.793,0.0032,0.24431,False,,
-CVE-2024-3736,4.3,MEDIUM,2024-04-13T14:15:07.490,0.00918,0.56875,False,,
-CVE-2024-3737,6.3,MEDIUM,2024-04-13T17:15:50.400,0.009,0.56279,False,,
-CVE-2024-3738,7.3,HIGH,2024-04-13T18:15:07.390,0.00517,0.4117,False,,
-CVE-2024-3739,6.3,MEDIUM,2024-04-13T19:15:53.757,0.02891,0.85578,False,,
-CVE-2024-3740,6.3,MEDIUM,2024-04-13T21:15:48.353,0.00815,0.53644,False,,
-CVE-2024-27306,6.1,MEDIUM,2024-04-18T15:15:29.050,0.00666,0.48402,False,,
-CVE-2023-39481,8.8,HIGH,2024-05-03T03:15:14.620,0.01252,0.66595,False,,
-CVE-2024-1076,6.5,MEDIUM,2024-05-08T06:15:06.877,0.00413,0.34068,False,,
-CVE-2024-31079,4.8,MEDIUM,2024-05-29T16:15:09.800,0.00888,0.5594,False,,
-CVE-2024-32760,6.5,MEDIUM,2024-05-29T16:15:10.043,0.00864,0.55204,False,,
-CVE-2024-34161,5.3,MEDIUM,2024-05-29T16:15:10.270,0.00867,0.55312,False,,
-CVE-2024-35200,5.3,MEDIUM,2024-05-29T16:15:10.497,0.00934,0.57412,False,,
-CVE-2024-3149,8.8,HIGH,2024-06-06T19:16:00.130,0.00519,0.41316,False,,
-CVE-2022-48751,7.8,HIGH,2024-06-20T12:15:13.310,0.00221,0.12605,False,,
-CVE-2024-39935,8.8,HIGH,2024-07-04T21:15:10.077,0.00882,0.5576,False,,
-CVE-2024-41668,8.3,HIGH,2024-07-23T19:15:13.437,0.0058,0.44517,False,,
-CVE-2024-39792,7.5,HIGH,2024-08-14T15:15:26.580,0.00628,0.46763,False,,
-CVE-2024-7347,4.7,MEDIUM,2024-08-14T15:15:31.870,0.0032,0.24465,False,,
-CVE-2024-7634,4.9,MEDIUM,2024-08-22T18:15:10.553,0.00471,0.38338,False,,
+cve_id,cvss_score,cvss_severity,published,epss_score,epss_percentile,kev_flag,kev_date_added,kev_ransomware_use,description,kev_vuln_name,kev_short_description,kev_required_action
+CVE-2009-2629,7.5,HIGH,2009-09-15T22:30:00.233,0.75079,0.99462,False,,,"Buffer underflow in src/http/ngx_http_parse.c in nginx 0.1.0 through 0.5.37, 0.6.x before 0.6.39, 0.7.x before 0.7.62, and 0.8.x before 0.8.15 allows remote attackers to execute arbitrary code via crafted HTTP requests.",,,
+CVE-2009-3896,5.0,MEDIUM,2009-11-24T17:30:00.377,0.11306,0.95555,False,,,"src/http/ngx_http_parse.c in nginx (aka Engine X) 0.1.0 through 0.4.14, 0.5.x before 0.5.38, 0.6.x before 0.6.39, 0.7.x before 0.7.62, and 0.8.x before 0.8.14 allows remote attackers to cause a denial of service (NULL pointer dereference and worker process crash) via a long URI.",,,
+CVE-2009-3898,4.9,MEDIUM,2009-11-24T17:30:00.437,0.17598,0.96854,False,,,"Directory traversal vulnerability in src/http/modules/ngx_http_dav_module.c in nginx (aka Engine X) before 0.7.63, and 0.8.x before 0.8.17, allows remote authenticated users to create or overwrite arbitrary files via a .. (dot dot) in the Destination HTTP header for the WebDAV (1) COPY or (2) MOVE method.",,,
+CVE-2009-4487,6.8,MEDIUM,2010-01-13T20:30:00.357,0.29516,0.98007,False,,,"nginx 0.7.64 writes data to a log file without sanitizing non-printable characters, which might allow remote attackers to modify a window's title, or possibly execute arbitrary commands or overwrite files, via an HTTP request containing an escape sequence for a terminal emulator.",,,
+CVE-2010-2263,5.0,MEDIUM,2010-06-15T14:04:24.313,0.71926,0.99369,False,,,"nginx 0.8 before 0.8.40 and 0.7 before 0.7.66, when running on Windows, allows remote attackers to obtain source code or unparsed content of arbitrary files under the web document root by appending ::$DATA to the URI.",,,
+CVE-2010-2266,5.0,MEDIUM,2010-06-15T14:04:24.420,0.2151,0.97382,False,,,"nginx 0.8.36 allows remote attackers to cause a denial of service (crash) via certain encoded directory traversal sequences that trigger memory corruption, as demonstrated using the ""%c0.%c0."" sequence.",,,
+CVE-2011-4315,6.8,MEDIUM,2011-12-08T20:55:01.000,0.05962,0.92584,False,,,Heap-based buffer overflow in compression-pointer processing in core/ngx_resolver.c in nginx before 1.0.10 allows remote resolvers to cause a denial of service (daemon crash) or possibly have unspecified other impact via a long response.,,,
+CVE-2012-1180,5.0,MEDIUM,2012-04-17T21:55:01.227,0.10417,0.9529,False,,,"Use-after-free vulnerability in nginx before 1.0.14 and 1.1.x before 1.1.17 allows remote HTTP servers to obtain sensitive information from process memory via a crafted backend response, in conjunction with a client request.",,,
+CVE-2012-2089,6.8,MEDIUM,2012-04-17T21:55:01.353,0.09629,0.95012,False,,,"Buffer overflow in ngx_http_mp4_module.c in the ngx_http_mp4_module module in nginx 1.0.7 through 1.0.14 and 1.1.3 through 1.1.18, when the mp4 directive is used, allows remote attackers to cause a denial of service (memory overwrite) or possibly execute arbitrary code via a crafted MP4 file.",,,
+CVE-2011-4963,5.0,MEDIUM,2012-07-26T19:55:00.980,0.05959,0.9258,False,,,"nginx/Windows 1.3.x before 1.3.1 and 1.2.x before 1.2.1 allows remote attackers to bypass intended access restrictions and access restricted files via (1) a trailing . (dot) or (2) certain ""$index_allocation"" sequences in a request.",,,
+CVE-2012-3380,2.1,LOW,2012-08-31T18:55:03.387,0.01238,0.66264,False,,,Directory traversal vulnerability in naxsi-ui/nx_extract.py in the Naxsi module before 0.46-1 for Nginx allows local users to read arbitrary files via unspecified vectors.,,,
+CVE-2013-2028,7.5,HIGH,2013-07-20T03:37:20.730,0.87475,0.9974,False,,,"The ngx_http_parse_chunked function in http/ngx_http_parse.c in nginx 1.3.9 through 1.4.0 allows remote attackers to cause a denial of service (crash) and execute arbitrary code via a chunked Transfer-Encoding request with a large chunk size, which triggers an integer signedness error and a stack-based buffer overflow.",,,
+CVE-2013-2070,5.8,MEDIUM,2013-07-20T03:37:25.247,0.11925,0.95714,False,,,"http/modules/ngx_http_proxy_module.c in nginx 1.1.4 through 1.2.8 and 1.3.0 through 1.4.0, when proxy_pass is used with untrusted HTTP servers, allows remote attackers to cause a denial of service (crash) and obtain sensitive information from worker process memory via a crafted proxy response, a similar vulnerability to CVE-2013-2028.",,,
+CVE-2013-0337,7.5,HIGH,2013-10-27T00:55:03.713,0.02195,0.80787,False,,,"The default configuration of nginx, possibly 1.3.13 and earlier, uses world-readable permissions for the (1) access.log and (2) error.log files, which allows local users to obtain sensitive information by reading the files.",,,
+CVE-2013-4547,7.5,HIGH,2013-11-23T18:55:04.687,0.67718,0.99249,False,,,nginx 0.8.41 through 1.4.3 and 1.5.x before 1.5.7 allows remote attackers to bypass intended restrictions via an unescaped space character in a URI.,,,
+CVE-2014-0133,7.5,HIGH,2014-03-28T15:55:08.607,0.09293,0.94883,False,,,Heap-based buffer overflow in the SPDY implementation in nginx 1.3.15 before 1.4.7 and 1.5.x before 1.5.12 allows remote attackers to execute arbitrary code via a crafted request.,,,
+CVE-2014-0088,7.5,HIGH,2014-04-29T14:38:49.920,0.08663,0.94597,False,,,"The SPDY implementation in the ngx_http_spdy_module module in nginx 1.5.10 before 1.5.11, when running on a 32-bit platform, allows remote attackers to execute arbitrary code via a crafted request.",,,
+CVE-2014-3616,4.3,MEDIUM,2014-12-08T11:59:03.390,0.05654,0.9223,False,,,"nginx 0.5.6 through 1.7.4, when using the same shared ssl_session_cache or ssl_session_ticket_key for multiple servers, can reuse a cached SSL session for an unrelated context, which allows remote attackers with certain privileges to conduct ""virtual host confusion"" attacks.",,,
+CVE-2014-3556,6.8,MEDIUM,2014-12-29T20:59:03.943,0.07832,0.94106,False,,,"The STARTTLS implementation in mail/ngx_mail_smtp_handler.c in the SMTP proxy in nginx 1.5.x and 1.6.x before 1.6.1 and 1.7.x before 1.7.4 does not properly restrict I/O buffering, which allows man-in-the-middle attackers to insert commands into encrypted SMTP sessions by sending a cleartext command that is processed after TLS is in place, related to a ""plaintext command injection"" attack, a similar issue to CVE-2011-0411.",,,
+CVE-2016-0742,7.5,HIGH,2016-02-15T19:59:00.107,0.81958,0.99619,False,,,The resolver in nginx before 1.8.1 and 1.9.x before 1.9.10 allows remote attackers to cause a denial of service (invalid pointer dereference and worker process crash) via a crafted UDP DNS response.,,,
+CVE-2016-0746,9.8,CRITICAL,2016-02-15T19:59:01.157,0.08625,0.94576,False,,,Use-after-free vulnerability in the resolver in nginx 0.6.18 through 1.8.0 and 1.9.x before 1.9.10 allows remote attackers to cause a denial of service (worker process crash) or possibly have unspecified other impact via a crafted DNS response related to CNAME response processing.,,,
+CVE-2016-0747,5.3,MEDIUM,2016-02-15T19:59:02.123,0.08433,0.94471,False,,,"The resolver in nginx before 1.8.1 and 1.9.x before 1.9.10 does not properly limit CNAME resolution, which allows remote attackers to cause a denial of service (worker process resource consumption) via vectors related to arbitrary name resolution.",,,
+CVE-2016-4450,7.5,HIGH,2016-06-07T14:06:14.200,0.16376,0.96659,False,,,"os/unix/ngx_files.c in nginx before 1.10.1 and 1.11.x before 1.11.1 allows remote attackers to cause a denial of service (NULL pointer dereference and worker process crash) via a crafted request, involving writing a client request body to a temporary file.",,,
+CVE-2016-1247,7.8,HIGH,2016-11-29T17:59:00.167,0.04863,0.91205,False,,,"The nginx package before 1.6.2-5+deb8u3 on Debian jessie, the nginx packages before 1.4.6-1ubuntu3.6 on Ubuntu 14.04 LTS, before 1.10.0-0ubuntu0.16.04.3 on Ubuntu 16.04 LTS, and before 1.10.1-0ubuntu1.1 on Ubuntu 16.10, and the nginx ebuild before 1.10.2-r3 on Gentoo allow local users with access to the web server user account to gain root privileges via a symlink attack on the error log.",,,
+CVE-2017-8301,5.3,MEDIUM,2017-04-27T17:59:00.187,0.01021,0.60153,False,,,"LibreSSL 2.5.1 to 2.5.3 lacks TLS certificate verification if SSL_get_verify_result is relied upon for a later check of a verification result, in a use case where a user-provided verification callback returns 1, as demonstrated by acceptance of invalid certificates by nginx.",,,
+CVE-2017-7529,7.5,HIGH,2017-07-13T13:29:00.220,0.62597,0.99112,False,,,Nginx versions since 0.5.6 up to and including 1.13.2 are vulnerable to integer overflow vulnerability in nginx range filter module resulting into leak of potentially sensitive information triggered by specially crafted request.,,,
+CVE-2018-1299,7.5,HIGH,2018-02-06T20:29:00.253,0.03001,0.86083,False,,,"In Apache Allura before 1.8.0, unauthenticated attackers may retrieve arbitrary files through the Allura web application. Some webservers used with Allura, such as Nginx, Apache/mod_wsgi or paster may prevent the attack from succeeding. Others, such as gunicorn do not prevent it and leave Allura vulnerable.",,,
+CVE-2018-8059,8.8,HIGH,2018-03-11T19:29:00.250,0.00523,0.41571,False,,,"The Djelibeybi configuration examples for use of NGINX in SUSE Portus 2.3, when applied to certain configurations involving Docker Compose, have a Missing SSL Certificate Validation issue because no proxy_ssl_* directives are used.",,,
+CVE-2018-12029,7.0,HIGH,2018-06-17T20:29:00.493,0.00276,0.19725,False,,,"A race condition in the nginx module in Phusion Passenger 3.x through 5.x before 5.3.2 allows local escalation of privileges when a non-standard passenger_instance_registry_dir with insufficiently strict permissions is configured. Replacing a file with a symlink after the file was created, but before it was chowned, leads to the target of the link being chowned via the path. Targeting sensitive files such as root's crontab file allows privilege escalation.",,,
+CVE-2018-11046,6.5,MEDIUM,2018-06-25T15:29:00.443,0.00903,0.56393,False,,,"Pivotal Operations Manager, versions 2.1.x prior to 2.1.6 and version 2.0.14, includes NGINX packages that lacks security vulnerability patches. An attacker with access to the NGINX processes and knowledge of how to exploit the unpatched vulnerabilities may be able to impact Operations Manager",,,
+CVE-2018-1000653,9.8,CRITICAL,2018-08-20T19:31:44.590,0.01202,0.65292,False,,,zzcms version 8.3 and earlier contains a SQL Injection vulnerability in zt/top.php line 5 that can result in could be attacked by sql injection in zzcms in nginx. This attack appear to be exploitable via running zzcms in nginx.,,,
+CVE-2018-16843,7.5,HIGH,2018-11-07T14:29:00.777,0.47057,0.98719,False,,,nginx before versions 1.15.6 and 1.14.1 has a vulnerability in the implementation of HTTP/2 that can allow for excessive memory consumption. This issue affects nginx compiled with the ngx_http_v2_module (not compiled by default) if the 'http2' option of the 'listen' directive is used in a configuration file.,,,
+CVE-2018-16844,7.5,HIGH,2018-11-07T14:29:00.837,0.124,0.95817,False,,,nginx before versions 1.15.6 and 1.14.1 has a vulnerability in the implementation of HTTP/2 that can allow for excessive CPU usage. This issue affects nginx compiled with the ngx_http_v2_module (not compiled by default) if the 'http2' option of the 'listen' directive is used in a configuration file.,,,
+CVE-2018-16845,6.1,MEDIUM,2018-11-07T14:29:00.883,0.09801,0.95079,False,,,"nginx before versions 1.15.6, 1.14.1 has a vulnerability in the ngx_http_mp4_module, which might allow an attacker to cause infinite loop in a worker process, cause a worker process crash, or might result in worker process memory disclosure by using a specially crafted mp4 file. The issue only affects nginx if it is built with the ngx_http_mp4_module (the module is not built by default) and the .mp4. directive is used in the configuration file. Further, the attack is only possible if an attacker is able to trigger processing of a specially crafted mp4 file with the ngx_http_mp4_module.",,,
+CVE-2019-7401,9.8,CRITICAL,2019-02-08T03:29:00.247,0.02854,0.85391,False,,,NGINX Unit before 1.7.1 might allow an attacker to cause a heap-based buffer overflow in the router process with a specially crafted request. This may result in a denial of service (router process crash) or possibly have unspecified other impact.,,,
+CVE-2018-11747,9.8,CRITICAL,2019-03-21T16:00:11.593,0.00724,0.50606,False,,,"Previously, Puppet Discovery was shipped with a default generated TLS certificate in the nginx container. In version 1.4.0, a unique certificate will be generated on installation or the user will be able to provide their own TLS certificate for ingress.",,,
+CVE-2019-9945,9.8,CRITICAL,2019-03-23T16:29:01.890,0.05845,0.92463,False,,,"SoftNAS Cloud 4.2.0 and 4.2.1 allows remote command execution. The NGINX default configuration file has a check to verify the status of a user cookie. If not set, a user is redirected to the login page. An arbitrary value can be provided for this cookie to access the web interface without valid user credentials. If customers have not followed SoftNAS deployment best practices and expose SoftNAS StorageCenter ports directly to the internet, this vulnerability allows an attacker to gain access to the Webadmin interface to create new users or execute arbitrary commands with administrative privileges, compromising both the platform and the data.",,,
+CVE-2019-9161,9.8,CRITICAL,2019-04-18T23:29:00.517,0.04599,0.90774,False,,,"WAC on the Sangfor Sundray WLAN Controller version 3.7.4.2 and earlier has a Remote Code Execution issue allowing remote attackers to achieve full access to the system, because shell metacharacters in the nginx_webconsole.php Cookie header can be used to read an etc/config/wac/wns_cfg_admin_detail.xml file containing the admin password. (The password for root is the WebUI admin password concatenated with a static string.)",,,
+CVE-2019-11837,7.5,HIGH,2019-05-09T14:29:00.510,0.01379,0.69492,False,,,"njs through 0.3.1, used in NGINX, has a segmentation fault in String.prototype.toBytes for negative arguments, related to nxt_utf8_next in nxt/nxt_utf8.h and njs_string_offset in njs/njs_string.c.",,,
+CVE-2019-11838,9.8,CRITICAL,2019-05-09T14:29:00.557,0.01598,0.73428,False,,,"njs through 0.3.1, used in NGINX, has a heap-based buffer overflow in Array.prototype.splice after a resize, related to njs_array_prototype_splice in njs/njs_array.c, because of njs_array_expand size mishandling.",,,
+CVE-2019-11839,9.8,CRITICAL,2019-05-09T14:29:00.637,0.01643,0.74149,False,,,"njs through 0.3.1, used in NGINX, has a heap-based buffer overflow in Array.prototype.push after a resize, related to njs_array_prototype_push in njs/njs_array.c, because of njs_array_expand size mishandling.",,,
+CVE-2019-12206,9.8,CRITICAL,2019-05-20T14:29:00.697,0.01986,0.78692,False,,,"njs through 0.3.1, used in NGINX, has a heap-based buffer overflow in nxt_utf8_encode in nxt_utf8.c.",,,
+CVE-2019-12207,9.8,CRITICAL,2019-05-20T14:29:00.773,0.01823,0.76711,False,,,"njs through 0.3.1, used in NGINX, has a heap-based buffer over-read in nxt_utf8_decode in nxt/nxt_utf8.c.",,,
+CVE-2019-12208,9.8,CRITICAL,2019-05-20T14:29:00.837,0.01708,0.7513,False,,,"njs through 0.3.1, used in NGINX, has a heap-based buffer overflow in njs_function_native_call in njs/njs_function.c.",,,
+CVE-2019-12938,4.3,MEDIUM,2019-06-24T14:15:09.857,0.01006,0.59743,False,,,"The Roundcube component of Analogic Poste.io 2.1.6 uses .htaccess to protect the logs/ folder, which is effective with the Apache HTTP Server but is ineffective with nginx. Attackers can read logs via the webmail/logs/sendmail URI.",,,
+CVE-2019-13067,9.8,CRITICAL,2019-06-30T00:15:11.283,0.01597,0.73411,False,,,"njs through 0.3.3, used in NGINX, has a buffer over-read in nxt_utf8_decode in nxt/nxt_utf8.c. This issue occurs after the fix for CVE-2019-12207 is in place.",,,
+CVE-2019-13617,6.5,MEDIUM,2019-07-16T17:15:12.753,0.01305,0.67809,False,,,"njs through 0.3.3, used in NGINX, has a heap-based buffer over-read in nxt_vsprintf in nxt/nxt_sprintf.c during error handling, as demonstrated by an njs_regexp_literal call that leads to an njs_parser_lexer_error call and then an njs_parser_scope_error call.",,,
+CVE-2019-13980,8.8,HIGH,2019-07-19T15:15:12.250,0.0245,0.82834,False,,,"In Directus 7 API through 2.3.0, uploading of PHP files is blocked only when the Apache HTTP Server is used, leading to uploads/_/originals remote code execution with nginx.",,,
+CVE-2019-15517,5.5,MEDIUM,2019-08-23T15:15:10.747,0.00725,0.50624,False,,,jc21 Nginx Proxy Manager before 2.0.13 allows %2e%2e%2f directory traversal.,,,
+CVE-2019-18371,7.5,HIGH,2019-10-23T21:15:10.823,0.55872,0.98948,False,,,"An issue was discovered on Xiaomi Mi WiFi R3G devices before 2.28.23-stable. There is a directory traversal vulnerability to read arbitrary files via a misconfigured NGINX alias, as demonstrated by api-third-party/download/extdisks../etc/config/account. With this vulnerability, the attacker can bypass authentication.",,,
+CVE-2011-4968,4.8,MEDIUM,2019-11-19T16:15:11.070,0.03989,0.8953,False,,,nginx http proxy module does not verify peer identity of https origin server which could facilitate man-in-the-middle attack (MITM),,,
+CVE-2019-20372,5.3,MEDIUM,2020-01-09T21:15:12.027,0.14961,0.96383,False,,,"NGINX before 1.17.7, with certain error_page configurations, allows HTTP request smuggling, as demonstrated by the ability of an attacker to read unauthorized web pages in environments where NGINX is being fronted by a load balancer.",,,
+CVE-2020-5863,8.6,HIGH,2020-03-27T15:15:12.600,0.01122,0.63137,False,,,"In NGINX Controller versions prior to 3.2.0, an unauthenticated attacker with network access to the Controller API can create unprivileged user accounts. The user which is created is only able to upload a new license to the system but cannot view or modify any other components of the system.",,,
+CVE-2020-5864,7.4,HIGH,2020-04-23T19:15:12.903,0.01033,0.60523,False,,,"In versions of NGINX Controller prior to 3.2.0, communication between NGINX Controller and NGINX Plus instances skip TLS verification by default.",,,
+CVE-2020-5865,4.8,MEDIUM,2020-04-23T19:15:13.013,0.0039,0.31751,False,,,"In versions prior to 3.3.0, the NGINX Controller is configured to communicate with its Postgres database server over unencrypted channels, making the communicated data vulnerable to interception via man-in-the-middle (MiTM) attacks.",,,
+CVE-2020-5866,5.5,MEDIUM,2020-04-23T19:15:13.140,0.0034,0.26685,False,,,"In versions of NGINX Controller prior to 3.3.0, the helper.sh script, which is used optionally in NGINX Controller to change settings, uses sensitive items as command-line arguments.",,,
+CVE-2020-5867,8.1,HIGH,2020-04-23T20:15:13.163,0.004,0.32823,False,,,"In versions prior to 3.3.0, the NGINX Controller Agent installer script 'install.sh' uses HTTP instead of HTTPS to check and install packages",,,
+CVE-2020-12443,9.8,CRITICAL,2020-04-29T02:15:11.467,0.03569,0.88256,False,,,"BigBlueButton before 2.2.6 allows remote attackers to read arbitrary files because the presfilename (lowercase) value can be a .pdf filename while the presFilename (mixed case) value has a ../ sequence. This can be leveraged for privilege escalation via a directory traversal to bigbluebutton.properties. NOTE: this issue exists because of an ineffective mitigation to CVE-2020-12112 in which there was an attempted fix within an NGINX configuration file, without considering that the relevant part of NGINX is case-insensitive.",,,
+CVE-2020-5894,8.1,HIGH,2020-05-07T13:15:12.137,0.01019,0.60113,False,,,"On versions 3.0.0-3.3.0, the NGINX Controller webserver does not invalidate the server-side session token after users log out.",,,
+CVE-2020-5895,7.8,HIGH,2020-05-07T13:15:12.187,0.00304,0.22722,False,,,"On NGINX Controller versions 3.1.0-3.3.0, AVRD uses world-readable and world-writable permissions on its socket, which allows processes or users on the local system to write arbitrary data into the socket. A local system attacker can make AVRD segmentation fault (SIGSEGV) by writing malformed messages to the socket.",,,
+CVE-2020-11959,7.5,HIGH,2020-06-24T17:15:10.540,0.01398,0.69858,False,,,An unsafe configuration of nginx lead to information leak in Xiaomi router R3600 ROM before 1.0.50.,,,
+CVE-2020-5900,8.8,HIGH,2020-07-01T14:15:14.513,0.00452,0.37089,False,,,"In versions 3.0.0-3.4.0, 2.0.0-2.9.0, and 1.0.1, there is insufficient cross-site request forgery (CSRF) protections for the NGINX Controller user interface.",,,
+CVE-2020-5899,7.8,HIGH,2020-07-01T15:15:15.203,0.00185,0.08248,False,,,"In NGINX Controller 3.0.0-3.4.0, recovery code required to change a user's password is transmitted and stored in the database in plain text, which allows an attacker who can intercept the database connection or have read access to the database, to request a password reset using the email address of another registered user then retrieve the recovery code.",,,
+CVE-2020-5901,9.6,CRITICAL,2020-07-01T15:15:15.280,0.01466,0.71199,False,,,"In NGINX Controller 3.3.0-3.4.0, undisclosed API endpoints may allow for a reflected Cross Site Scripting (XSS) attack. If the victim user is logged in as admin this could result in a complete compromise of the system.",,,
+CVE-2020-5909,5.4,MEDIUM,2020-07-02T13:15:10.310,0.004,0.32812,False,,,"In versions 3.0.0-3.5.0, 2.0.0-2.9.0, and 1.0.1, when users run the command displayed in NGINX Controller user interface (UI) to fetch the agent installer, the server TLS certificate is not verified.",,,
+CVE-2020-5910,7.5,HIGH,2020-07-02T13:15:10.373,0.01154,0.63975,False,,,"In versions 3.0.0-3.5.0, 2.0.0-2.9.0, and 1.0.1, the Neural Autonomic Transport System (NATS) messaging services in use by the NGINX Controller do not require any form of authentication, so any successful connection would be authorized.",,,
+CVE-2020-5911,7.3,HIGH,2020-07-02T13:15:10.437,0.01006,0.59744,False,,,"In versions 3.0.0-3.5.0, 2.0.0-2.9.0, and 1.0.1, the NGINX Controller installer starts the download of Kubernetes packages from an HTTP URL On Debian/Ubuntu system.",,,
+CVE-2020-8553,5.9,MEDIUM,2020-07-29T15:15:13.450,0.00894,0.56112,False,,,The Kubernetes ingress-nginx component prior to version 0.28.0 allows a user with the ability to create namespaces and to read and create ingress objects to overwrite the password file of another ingress which uses nginx.ingress.kubernetes.io/auth-type: basic and which has a hyphenated namespace or secret name.,,,
+CVE-2020-24346,7.8,HIGH,2020-08-13T19:15:13.880,0.01047,0.60986,False,,,"njs through 0.4.3, used in NGINX, has a use-after-free in njs_json_parse_iterator_call in njs_json.c.",,,
+CVE-2020-24347,5.5,MEDIUM,2020-08-13T19:15:13.943,0.00418,0.34491,False,,,"njs through 0.4.3, used in NGINX, has an out-of-bounds read in njs_lvlhsh_level_find in njs_lvlhsh.c.",,,
+CVE-2020-24348,5.5,MEDIUM,2020-08-13T19:15:14.003,0.00418,0.34491,False,,,"njs through 0.4.3, used in NGINX, has an out-of-bounds read in njs_json_stringify_iterator in njs_json.c.",,,
+CVE-2020-24349,5.5,MEDIUM,2020-08-13T19:15:14.050,0.00535,0.42195,False,,,"njs through 0.4.3, used in NGINX, allows control-flow hijack in njs_value_property in njs_value.c. NOTE: the vendor considers the issue to be ""fluff"" in the NGINX use case because there is no remote attack surface.",,,
+CVE-2020-5416,6.5,MEDIUM,2020-08-21T22:15:12.527,0.01245,0.66433,False,,,"Cloud Foundry Routing (Gorouter), versions prior to 0.204.0, when used in a deployment with NGINX reverse proxies in front of the Gorouters, is potentially vulnerable to denial-of-service attacks in which an unauthenticated malicious attacker can send specially-crafted HTTP requests that may cause the Gorouters to be dropped from the NGINX backend pool.",,,
+CVE-2020-24660,9.8,CRITICAL,2020-09-14T13:15:10.030,0.02342,0.82022,False,,,"An issue was discovered in LemonLDAP::NG through 2.0.8, when NGINX is used. An attacker may bypass URL-based access control to protected Virtual Hosts by submitting a non-normalized URI. This also affects versions before 0.5.2 of the ""Lemonldap::NG handler for Node.js"" package.",,,
+CVE-2020-27730,9.8,CRITICAL,2020-12-11T20:15:16.643,0.01693,0.74922,False,,,"In versions 3.0.0-3.9.0, 2.0.0-2.9.0, and 1.0.1, the NGINX Controller Agent does not use absolute paths when calling system utilities.",,,
+CVE-2020-14097,7.5,HIGH,2021-01-13T23:15:13.070,0.00861,0.55126,False,,,"Wrong nginx configuration, causing specific paths to be downloaded without authorization. This affects Xiaomi router AX6 ROM version < 1.0.18.",,,
+CVE-2020-29658,9.8,CRITICAL,2021-03-05T09:15:13.410,0.03699,0.88673,False,,,"Zoho ManageEngine Application Control Plus before 100523 has an insecure SSL configuration setting for Nginx, leading to Privilege Escalation.",,,
+CVE-2021-21335,5.3,MEDIUM,2021-03-08T21:15:16.573,0.0166,0.74399,False,,,"In the SPNEGO HTTP Authentication Module for nginx (spnego-http-auth-nginx-module) before version 1.1.1 basic Authentication can be bypassed using a malformed username. This affects users of spnego-http-auth-nginx-module that have enabled basic authentication. This is fixed in version 1.1.1 of spnego-http-auth-nginx-module. As a workaround, one may disable basic authentication.",,,
+CVE-2020-29238,7.5,HIGH,2021-03-10T03:15:12.320,0.16354,0.96655,False,,,An integer buffer overflow in the Nginx webserver of ExpressVPN Router version 1 allows remote attackers to obtain sensitive information when the server running as reverse proxy via specially crafted request.,,,
+CVE-2021-21396,6.5,MEDIUM,2021-03-26T22:15:12.947,0.01093,0.6229,False,,,"wire-server is an open-source back end for Wire, a secure collaboration platform. In wire-server from version 2021-02-16 and before version 2021-03-02, the client metadata of all users was exposed in the `GET /users/list-clients` endpoint. The endpoint could be used by any logged in user who could request client details of any other user (no connection required) as far as they can find their User ID. The exposed metadata included id, class, type, location, time, and cookie. A user on a Wire backend could use this endpoint to find registration time and location for each device for a given list of users. As a workaround, remove `/list-clients` from nginx config. This has been fixed in version 2021-03-02.",,,
+CVE-2021-32637,10.0,CRITICAL,2021-05-28T17:15:07.493,0.01868,0.77313,False,,,"Authelia is a a single sign-on multi-factor portal for web apps. This affects uses who are using nginx ngx_http_auth_request_module with Authelia, it allows a malicious individual who crafts a malformed HTTP request to bypass the authentication mechanism. It additionally could theoretically affect other proxy servers, but all of the ones we officially support except nginx do not allow malformed URI paths. The problem is rectified entirely in v4.29.3. As this patch is relatively straightforward we can back port this to any version upon request. Alternatively we are supplying a git patch to 4.25.1 which should be relatively straightforward to apply to any version, the git patches for specific versions can be found in the references. The most relevant workaround is upgrading. You can also add a block which fails requests that contains a malformed URI in the internal location block.",,,
+CVE-2021-23018,7.4,HIGH,2021-06-01T12:15:07.720,0.00544,0.42676,False,,,Intra-cluster communication does not use TLS. The services within the NGINX Controller 3.x before 3.4.0 namespace are using cleartext protocols inside the cluster.,,,
+CVE-2021-23017,7.7,HIGH,2021-06-01T13:15:07.853,0.53461,0.98889,False,,,"A security issue in nginx resolver was identified, which might allow an attacker who is able to forge UDP packets from the DNS server to cause 1-byte memory overwrite, resulting in worker process crash or potential other impact.",,,
+CVE-2021-23019,7.8,HIGH,2021-06-01T13:15:07.907,0.00239,0.14999,False,,,The NGINX Controller 2.0.0 thru 2.9.0 and 3.x before 3.15.0 Administrator password may be exposed in the systemd.txt file that is included in the NGINX support package.,,,
+CVE-2021-23021,5.5,MEDIUM,2021-06-01T13:15:08.010,0.00229,0.13668,False,,,The Nginx Controller 3.x before 3.7.0 agent configuration file /etc/controller-agent/agent.conf is world readable with current permission bits set to 644.,,,
+CVE-2017-20005,9.8,CRITICAL,2021-06-06T22:15:08.417,0.03285,0.87281,False,,,"NGINX before 1.13.6 has a buffer overflow for years that exceed four digits, as demonstrated by a file with a modification date in 1969 that causes an integer overflow (or a false modification date far in the future), when encountered by the autoindex module.",,,
+CVE-2021-38712,7.5,HIGH,2021-08-16T04:15:07.763,0.01145,0.63722,False,,,OneNav 0.9.12 allows Information Disclosure of the onenav.db3 contents. NOTE: the vendor's recommended solution is to block the access via an NGINX configuration file.,,,
+CVE-2021-24490,6.8,MEDIUM,2021-09-13T18:15:14.353,0.00558,0.43427,False,,,"The Email Artillery (MASS EMAIL) WordPress plugin through 4.1 does not properly check the uploaded files from the Import Emails feature, allowing arbitrary files to be uploaded. Furthermore, the plugin is also lacking any CSRF check, allowing such issue to be exploited via a CSRF attack as well. However, due to the presence of a .htaccess, denying access to everything in the folder the file is uploaded to, the malicious uploaded file will only be accessible on Web Servers such as Nginx/IIS",,,
+CVE-2021-23050,7.5,HIGH,2021-09-14T13:15:11.093,0.00468,0.381,False,,,"On BIG-IP Advanced WAF and BIG-IP ASM version 16.0.x before 16.0.1.2 and 15.1.x before 15.1.3 and NGINX App Protect on all versions before 3.5.0, when a cross-site request forgery (CSRF)-enabled policy is configured on a virtual server, an undisclosed HTML response may cause the bd process to terminate. Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated.",,,
+CVE-2021-3882,6.8,MEDIUM,2021-10-14T09:15:08.427,0.00972,0.58654,False,,,"LedgerSMB does not set the 'Secure' attribute on the session authorization cookie when the client uses HTTPS and the LedgerSMB server is behind a reverse proxy. By tricking a user to use an unencrypted connection (HTTP), an attacker may be able to obtain the authentication data by capturing network traffic. LedgerSMB 1.8 and newer switched from Basic authentication to using cookie authentication with encrypted cookies. Although an attacker can't access the information inside the cookie, nor the password of the user, possession of the cookie is enough to access the application as the user from which the cookie has been obtained. In order for the attacker to obtain the cookie, first of all the server must be configured to respond to unencrypted requests, the attacker must be suitably positioned to eavesdrop on the network traffic between the client and the server *and* the user must be tricked into using unencrypted HTTP traffic. Proper audit control and separation of duties limit Integrity impact of the attack vector. Users of LedgerSMB 1.8 are urged to upgrade to known-fixed versions. Users of LedgerSMB 1.7 or 1.9 are unaffected by this vulnerability and don't need to take action. As a workaround, users may configure their Apache or Nginx reverse proxy to add the Secure attribute at the network boundary instead of relying on LedgerSMB. For Apache, please refer to the 'Header always edit' configuration command in the mod_headers module. For Nginx, please refer to the 'proxy_cookie_flags' configuration command.",,,
+CVE-2021-41188,5.7,MEDIUM,2021-10-26T15:15:10.607,0.00737,0.51064,False,,,Shopware is open source e-commerce software. Versions prior to 5.7.6 contain a cross-site scripting vulnerability. This issue is patched in version 5.7.6. Two workarounds are available. Using the security plugin or adding a particular following config to the `.htaccess` file will protect against cross-site scripting in this case. There is also a config for those using nginx as a server. The plugin and the configs can be found on the GitHub Security Advisory page for this vulnerability.,,,
+CVE-2021-42717,7.5,HIGH,2021-12-07T22:15:06.950,0.03206,0.86951,False,,,"ModSecurity 3.x through 3.0.5 mishandles excessively nested JSON objects. Crafted JSON objects with nesting tens-of-thousands deep could result in the web server being unable to service legitimate requests. Even a moderately large (e.g., 300KB) HTTP request can occupy one of the limited NGINX worker processes for minutes and consume almost all of the available CPU on the machine. Modsecurity 2 is similarly vulnerable: the affected versions include 2.8.0 through 2.9.4.",,,
+CVE-2021-43840,4.4,MEDIUM,2021-12-17T19:15:07.757,0.01869,0.77324,False,,,"message_bus is a messaging bus for Ruby processes and web clients. In versions prior to 3.3.7 users who deployed message bus with diagnostics features enabled (default off) are vulnerable to a path traversal bug, which could lead to disclosure of secret information on a machine if an unintended user were to gain access to the diagnostic route. The impact is also greater if there is no proxy for your web application as the number of steps up the directories is not bounded. For deployments which uses a proxy, the impact varies. For example, If a request goes through a proxy like Nginx with `merge_slashes` enabled, the number of steps up the directories that can be read is limited to 3 levels. This issue has been patched in version 3.3.7. Users unable to upgrade should ensure that MessageBus::Diagnostics is disabled.",,,
+CVE-2022-23008,5.4,MEDIUM,2022-01-25T20:15:09.000,0.0053,0.41912,False,,,"On NGINX Controller API Management versions 3.18.0-3.19.0, an authenticated attacker with access to the ""user"" or ""admin"" role can use undisclosed API endpoints on NGINX Controller API Management to inject JavaScript code that is executed on managed NGINX data plane instances. Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated.",,,
+CVE-2021-46461,9.8,CRITICAL,2022-02-14T22:15:07.717,0.03121,0.8659,False,,,"njs through 0.7.0, used in NGINX, was discovered to contain an out-of-bounds array access via njs_vmcode_typeof in /src/njs_vmcode.c.",,,
+CVE-2021-46462,7.5,HIGH,2022-02-14T22:15:07.757,0.01677,0.74661,False,,,"njs through 0.7.1, used in NGINX, was discovered to contain a segmentation violation via njs_object_set_prototype in /src/njs_object.c.",,,
+CVE-2021-46463,9.8,CRITICAL,2022-02-14T22:15:07.793,0.01663,0.74448,False,,,"njs through 0.7.1, used in NGINX, was discovered to contain a control flow hijack caused by a Type Confusion vulnerability in njs_promise_perform_then().",,,
+CVE-2022-25139,9.8,CRITICAL,2022-02-14T22:15:08.317,0.01616,0.73711,False,,,"njs through 0.7.0, used in NGINX, was discovered to contain a heap use-after-free in njs_await_fulfilled.",,,
+CVE-2021-45967,9.8,CRITICAL,2022-03-18T05:15:07.027,0.208,0.97305,False,,,"An issue was discovered in Pascom Cloud Phone System before 7.20.x. A configuration error between NGINX and a backend Tomcat server leads to a path traversal in the Tomcat server, exposing unintended endpoints.",,,
+CVE-2022-28379,6.8,MEDIUM,2022-04-03T18:15:07.937,0.71209,0.9935,False,,,jc21.com Nginx Proxy Manager before 2.9.17 allows XSS during item deletion.,,,
+CVE-2022-27007,9.8,CRITICAL,2022-04-14T15:15:08.163,0.01591,0.73322,False,,,nginx njs 0.7.2 is affected suffers from Use-after-free in njs_function_frame_alloc() when it try to invoke from a restored frame saved with njs_function_frame_save().,,,
+CVE-2022-27008,7.5,HIGH,2022-04-14T15:15:08.207,0.01698,0.74983,False,,,nginx njs 0.7.2 is vulnerable to Buffer Overflow. Type confused in Array.prototype.concat() when a slow array appended element is fast array.,,,
+CVE-2022-28049,5.5,MEDIUM,2022-04-15T14:15:07.747,0.00804,0.53298,False,,,NGINX NJS 0.7.2 was discovered to contain a NULL pointer dereference via the component njs_vmcode_array at /src/njs_vmcode.c.,,,
+CVE-2021-23055,6.5,MEDIUM,2022-04-21T19:15:08.053,0.00739,0.51152,False,,,"On version 2.x before 2.0.3 and 1.x before 1.12.3, the command line restriction that controls snippet use with NGINX Ingress Controller does not apply to Ingress objects. Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated.",,,
+CVE-2022-27495,6.5,MEDIUM,2022-05-05T17:15:12.767,0.00326,0.25157,False,,,On all versions 1.3.x (fixed in 1.4.0) NGINX Service Mesh control plane endpoints are exposed to the cluster overlay network. Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated,,,
+CVE-2022-29369,7.5,HIGH,2022-05-12T19:15:49.533,0.01131,0.63379,False,,,Nginx NJS v0.7.2 was discovered to contain a segmentation violation via njs_lvlhsh_bucket_find at njs_lvlhsh.c.,,,
+CVE-2022-29379,9.8,CRITICAL,2022-05-25T13:15:07.837,0.01728,0.75381,False,,,"Nginx NJS v0.7.3 was discovered to contain a stack overflow in the function njs_default_module_loader at /src/njs/src/njs_module.c. NOTE: multiple third parties dispute this report, e.g., the behavior is only found in unreleased development code that was not part of the 0.7.2, 0.7.3, or 0.7.4 release",,,
+CVE-2022-29169,7.5,HIGH,2022-06-01T23:15:07.970,0.0148,0.7145,False,,,"BigBlueButton is an open source web conferencing system. Versions starting with 2.2 and prior to 2.3.19, 2.4.7, and 2.5.0-beta.2 are vulnerable to regular expression denial of service (ReDoS) attacks. By using specific a RegularExpression, an attacker can cause denial of service for the bbb-html5 service. The useragent library performs checking of device by parsing the input of User-Agent header and lets it go through lookupUserAgent() (alias of useragent.lookup() ). This function handles input by regexing and attackers can abuse that by providing some ReDos payload using `SmartWatch`. The maintainers removed `htmlclient/useragent` from versions 2.3.19, 2.4.7, and 2.5.0-beta.2. As a workaround, disable NginX forwarding the requests to the handler according to the directions in the GitHub Security Advisory.",,,
+CVE-2022-29779,5.5,MEDIUM,2022-06-02T14:15:51.160,0.00384,0.31236,False,,,Nginx NJS v0.7.2 was discovered to contain a segmentation violation in the function njs_value_own_enumerate at src/njs_value.c.,,,
+CVE-2022-29780,5.5,MEDIUM,2022-06-02T14:15:51.203,0.00384,0.31237,False,,,Nginx NJS v0.7.2 was discovered to contain a segmentation violation in the function njs_array_prototype_sort at src/njs_array.c.,,,
+CVE-2022-30503,5.5,MEDIUM,2022-06-02T14:15:53.390,0.0028,0.20145,False,,,Nginx NJS v0.7.2 was discovered to contain a segmentation violation in the function njs_set_number at src/njs_value.h.,,,
+CVE-2022-31306,5.5,MEDIUM,2022-06-21T13:15:08.237,0.00628,0.46749,False,,,Nginx NJS v0.7.2 was discovered to contain a segmentation violation in the function njs_array_convert_to_slow_array at src/njs_array.c.,,,
+CVE-2022-31307,5.5,MEDIUM,2022-06-21T13:15:08.287,0.00628,0.46749,False,,,Nginx NJS v0.7.2 was discovered to contain a segmentation violation in the function njs_string_offset at src/njs_string.c.,,,
+CVE-2022-32414,5.5,MEDIUM,2022-06-21T13:15:08.437,0.00628,0.46749,False,,,Nginx NJS v0.7.2 was discovered to contain a segmentation violation in the function njs_vmcode_interpreter at src/njs_vmcode.c.,,,
+CVE-2022-31081,7.3,HIGH,2022-06-27T21:15:08.020,0.02122,0.80129,False,,,"HTTP::Daemon is a simple http server class written in perl. Versions prior to 6.15 are subject to a vulnerability which could potentially be exploited to gain privileged access to APIs or poison intermediate caches. It is uncertain how large the risks are, most Perl based applications are served on top of Nginx or Apache, not on the `HTTP::Daemon`. This library is commonly used for local development and tests. Users are advised to update to resolve this issue. Users unable to upgrade may add additional request handling logic as a mitigation. After calling `my $rqst = $conn->get_request()` one could inspect the returned `HTTP::Request` object. Querying the 'Content-Length' (`my $cl = $rqst->header('Content-Length')`) will show any abnormalities that should be dealt with by a `400` response. Expected strings of 'Content-Length' SHOULD consist of either a single non-negative integer, or, a comma separated repetition of that number. (that is `42` or `42, 42, 42`). Anything else MUST be rejected.",,,
+CVE-2022-31125,10.0,CRITICAL,2022-07-06T18:15:19.367,0.20168,0.97207,False,,,"Roxy-wi is an open source web interface for managing Haproxy, Nginx, Apache and Keepalived servers. A vulnerability in Roxy-wi allows a remote, unauthenticated attacker to bypass authentication and access admin functionality by sending a specially crafted HTTP request. This affects Roxywi versions before 6.1.1.0. Users are advised to upgrade. There are no known workarounds for this issue.",,,
+CVE-2022-31126,10.0,CRITICAL,2022-07-06T18:15:19.433,0.49937,0.98789,False,,,"Roxy-wi is an open source web interface for managing Haproxy, Nginx, Apache and Keepalived servers. A vulnerability in Roxy-wi allows a remote, unauthenticated attacker to code execution by sending a specially crafted HTTP request to /app/options.py file. This affects Roxy-wi versions before 6.1.1.0. Users are advised to upgrade. There are no known workarounds for this issue.",,,
+CVE-2022-31137,10.0,CRITICAL,2022-07-08T20:15:07.980,0.90387,0.99789,False,,,"Roxy-WI is a web interface for managing Haproxy, Nginx, Apache and Keepalived servers. Versions prior to 6.1.1.0 are subject to a remote code execution vulnerability. System commands can be run remotely via the subprocess_execute function without processing the inputs received from the user in the /app/options.py file. Attackers need not be authenticated to exploit this vulnerability. Users are advised to upgrade. There are no known workarounds for this vulnerability.",,,
+CVE-2022-31161,10.0,CRITICAL,2022-07-15T21:15:08.710,0.26819,0.9784,False,,,"Roxy-WI is a Web interface for managing HAProxy, Nginx and Keepalived servers. Prior to version 6.1.1.0, the system command can be run remotely via the subprocess_execute function without processing the inputs received from the user in the /app/options.py file. Version 6.1.1.0 contains a patch for this issue.",,,
+CVE-2021-40150,7.5,HIGH,2022-07-17T23:15:08.347,0.03729,0.88768,False,,,The web server of the E1 Zoom camera through 3.0.0.716 discloses its configuration via the /conf/ directory that is mapped to a publicly accessible path. In this way an attacker can download the entire NGINX/FastCGI configurations by querying the /conf/nginx.conf or /conf/fastcgi.conf URI.,,,
+CVE-2022-34027,7.5,HIGH,2022-07-18T21:15:07.820,0.00871,0.55443,False,,,Nginx NJS v0.7.4 was discovered to contain a segmentation violation via njs_value_property at njs_value.c.,,,
+CVE-2022-34028,7.5,HIGH,2022-07-18T21:15:07.863,0.01005,0.59711,False,,,Nginx NJS v0.7.5 was discovered to contain a segmentation violation via njs_utf8_next at src/njs_utf8.h.,,,
+CVE-2022-34029,9.1,CRITICAL,2022-07-18T21:15:07.910,0.0117,0.64417,False,,,Nginx NJS v0.7.4 was discovered to contain an out-of-bounds read via njs_scope_value at njs_scope.h.,,,
+CVE-2022-34030,7.5,HIGH,2022-07-18T21:15:07.953,0.00871,0.55444,False,,,Nginx NJS v0.7.5 was discovered to contain a segmentation violation via njs_djb_hash at src/njs_djb_hash.c.,,,
+CVE-2022-34031,7.5,HIGH,2022-07-18T21:15:07.997,0.00871,0.55443,False,,,Nginx NJS v0.7.5 was discovered to contain a segmentation violation via njs_value_to_number at src/njs_value_conversion.h.,,,
+CVE-2022-34032,7.5,HIGH,2022-07-18T21:15:08.040,0.00871,0.55443,False,,,Nginx NJS v0.7.5 was discovered to contain a segmentation violation in the function njs_value_own_enumerate at src/njs_value.c.,,,
+CVE-2022-31182,5.3,MEDIUM,2022-08-01T20:15:08.353,0.00742,0.51251,False,,,"Discourse is the an open source discussion platform. In affected versions a maliciously crafted request for static assets could cause error responses to be cached by Discourse's default NGINX proxy configuration. A corrected NGINX configuration is included in the latest stable, beta and tests-passed versions of Discourse. Users are advised to upgrade. There are no known workarounds for this vulnerability.",,,
+CVE-2022-35925,5.3,MEDIUM,2022-08-02T21:15:08.177,0.01662,0.74447,False,,,BookWyrm is a social network for tracking reading. Versions prior to 0.4.5 were found to lack rate limiting on authentication views which allows brute-force attacks. This issue has been patched in version 0.4.5. Admins with existing instances will need to update their `nginx.conf` file that was created when the instance was set up. Users are advised advised to upgrade. Users unable to upgrade may update their nginx.conf files with the changes manually.,,,
+CVE-2022-30535,6.5,MEDIUM,2022-08-04T18:15:09.423,0.00674,0.48747,False,,,"In versions 2.x before 2.3.0 and all versions of 1.x, An attacker authorized to create or update ingress objects can obtain the secrets available to the NGINX Ingress Controller. Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated.",,,
+CVE-2022-35241,6.5,MEDIUM,2022-08-04T18:15:10.597,0.00715,0.50298,False,,,"In versions 2.x before 2.3.1 and all versions of 1.x, when NGINX Instance Manager is in use, undisclosed requests can cause an increase in disk resource utilization. Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated.",,,
+CVE-2022-35173,7.5,HIGH,2022-08-18T06:15:07.280,0.01102,0.62599,False,,,"An issue was discovered in Nginx NJS v0.7.5. The JUMP offset for a break instruction was not set to a correct offset during code generation, leading to a segmentation violation.",,,
+CVE-2022-29062,6.3,MEDIUM,2022-09-06T18:15:13.100,0.00721,0.505,False,,,Multiple relative path traversal vulnerabilities [CWE-23] in Fortinet FortiSOAR before 7.2.1 allows an authenticated attacker to write to the underlying filesystem with nginx permissions via crafted HTTP requests.,,,
+CVE-2022-38890,5.5,MEDIUM,2022-09-15T16:15:10.687,0.00287,0.20881,False,,,Nginx NJS v0.7.7 was discovered to contain a segmentation violation via njs_utf8_next at src/njs_utf8.h,,,
+CVE-2022-41347,7.8,HIGH,2022-09-26T02:15:10.620,0.00401,0.32946,False,,,"An issue was discovered in Zimbra Collaboration (ZCS) 8.8.x and 9.x (e.g., 8.8.15). The Sudo configuration permits the zimbra user to execute the NGINX binary as root with arbitrary parameters. As part of its intended functionality, NGINX can load a user-defined configuration file, which includes plugins in the form of .so files, which also execute as root.",,,
+CVE-2022-41741,7.0,HIGH,2022-10-19T22:15:12.647,0.00777,0.52423,False,,,"NGINX Open Source before versions 1.23.2 and 1.22.1, NGINX Open Source Subscription before versions R2 P1 and R1 P1, and NGINX Plus before versions R27 P1 and R26 P1 have a vulnerability in the module ngx_http_mp4_module that might allow a local attacker to corrupt NGINX worker memory, resulting in its termination or potential other impact using a specially crafted audio or video file. The issue affects only NGINX products that are built with the ngx_http_mp4_module, when the mp4 directive is used in the configuration file. Further, the attack is possible only if an attacker can trigger processing of a specially crafted audio or video file with the module ngx_http_mp4_module.",,,
+CVE-2022-41742,7.1,HIGH,2022-10-19T22:15:12.717,0.01119,0.63049,False,,,"NGINX Open Source before versions 1.23.2 and 1.22.1, NGINX Open Source Subscription before versions R2 P1 and R1 P1, and NGINX Plus before versions R27 P1 and R26 P1 have a vulnerability in the module ngx_http_mp4_module that might allow a local attacker to cause a worker process crash, or might result in worker process memory disclosure by using a specially crafted audio or video file. The issue affects only NGINX products that are built with the module ngx_http_mp4_module, when the mp4 directive is used in the configuration file. Further, the attack is possible only if an attacker can trigger processing of a specially crafted audio or video file with the module ngx_http_mp4_module.",,,
+CVE-2022-41743,7.0,HIGH,2022-10-19T22:15:12.807,0.0022,0.12517,False,,,"NGINX Plus before versions R27 P1 and R26 P1 have a vulnerability in the module ngx_http_hls_module that might allow a local attacker to corrupt NGINX worker memory, resulting in its crash or potential other impact using a specially crafted audio or video file. The issue affects only NGINX Plus when the hls directive is used in the configuration file. Further, the attack is possible only if an attacker can trigger processing of a specially crafted audio or video file with the module ngx_http_hls_module.",,,
+CVE-2022-43284,7.5,HIGH,2022-10-28T21:15:10.083,0.0082,0.5381,False,,,Nginx NJS v0.7.2 to v0.7.4 was discovered to contain a segmentation violation via njs_scope_valid_value at njs_scope.h. NOTE: the vendor disputes the significance of this report because NJS does not operate on untrusted input.,,,
+CVE-2022-43285,7.5,HIGH,2022-10-28T21:15:10.150,0.00748,0.51458,False,,,Nginx NJS v0.7.4 was discovered to contain a segmentation violation in njs_promise_reaction_job. NOTE: the vendor disputes the significance of this report because NJS does not operate on untrusted input.,,,
+CVE-2022-43286,9.8,CRITICAL,2022-10-28T21:15:10.213,0.00923,0.57038,False,,,Nginx NJS v0.7.2 was discovered to contain a heap-use-after-free bug caused by illegal memory copy in the function njs_json_parse_iterator_call at njs_json.c.,,,
+CVE-2022-23470,8.6,HIGH,2022-12-06T18:15:10.090,0.00785,0.52653,False,,,"Galaxy is an open-source platform for data analysis. An arbitrary file read exists in Galaxy 22.01 and Galaxy 22.05 due to the switch to Gunicorn, which can be used to read any file accessible to the operating system user under which Galaxy is running. This vulnerability affects Galaxy 22.01 and higher, after the switch to gunicorn, which serve static contents directly.  Additionally, the vulnerability is mitigated when using Nginx or Apache to serve /static/* contents, instead of Galaxy's internal middleware. This issue has been patched in commit `e5e6bda4f` and will be included in future releases. Users are advised to manually patch their installations. There are no known workarounds for this vulnerability.",,,
+CVE-2023-23596,8.8,HIGH,2023-01-20T08:15:12.670,0.15198,0.96425,False,,,"jc21 NGINX Proxy Manager through 2.9.19 allows OS command injection. When creating an access list, the backend builds an htpasswd file with crafted username and/or password input that is concatenated without any validation, and is directly passed to the exec command, potentially allowing an authenticated attacker to execute arbitrary commands on the system. NOTE: this is not part of any NGINX software shipped by F5.",,,
+CVE-2023-24814,8.8,HIGH,2023-02-07T19:15:09.473,0.00831,0.54179,False,,,"TYPO3 is a free and open source Content Management Framework released under the GNU General Public License. In affected versions the TYPO3 core component `GeneralUtility::getIndpEnv()` uses the unfiltered server environment variable `PATH_INFO`, which allows attackers to inject malicious content. In combination with the TypoScript setting `config.absRefPrefix=auto`, attackers can inject malicious HTML code to pages that have not been rendered and cached, yet. As a result, injected values would be cached and delivered to other website visitors (persisted cross-site scripting). Individual code which relies on the resolved value of `GeneralUtility::getIndpEnv('SCRIPT_NAME')` and corresponding usages (as shown below) are vulnerable as well. Additional investigations confirmed that at least Apache web server deployments using CGI (FPM, FCGI/FastCGI, and similar) are affected. However, there still might be the risk that other scenarios like nginx, IIS, or Apache/mod_php are vulnerable. The usage of server environment variable `PATH_INFO` has been removed from corresponding processings in `GeneralUtility::getIndpEnv()`. Besides that, the public property `TypoScriptFrontendController::$absRefPrefix` is encoded for both being used as a URI component and for being used as a prefix in an HTML context. This mitigates the cross-site scripting vulnerability. Users are advised to update to TYPO3 versions 8.7.51 ELTS, 9.5.40 ELTS, 10.4.35 LTS, 11.5.23 LTS and 12.2.0 which fix this problem. For users who are unable to patch in a timely manner the TypoScript setting `config.absRefPrefix` should at least be set to a static path value, instead of using auto - e.g. `config.absRefPrefix=/`. This workaround **does not fix all aspects of the vulnerability**, and is just considered to be an intermediate mitigation to the most prominent manifestation.",,,
+CVE-2023-20088,5.3,MEDIUM,2023-03-03T16:15:10.453,0.00795,0.52979,False,,,"A vulnerability in the nginx configurations that are provided as part of the VPN-less reverse proxy for Cisco Finesse could allow an unauthenticated, remote attacker to create a denial of service (DoS) condition for new and existing users who are connected through a load balancer. This vulnerability is due to improper IP address filtering by the reverse proxy. An attacker could exploit this vulnerability by sending a series of unauthenticated requests to the reverse proxy. A successful exploit could allow the attacker to cause all current traffic and subsequent requests to the reverse proxy through a load balancer to be dropped, resulting in a DoS condition.",,,
+CVE-2023-25802,7.5,HIGH,2023-03-13T20:15:14.967,0.01012,0.59927,False,,,"Roxy-WI is a Web interface for managing Haproxy, Nginx, Apache, and Keepalived servers. Versions prior to 6.3.6.0 don't correctly neutralize `dir/../filename` sequences, such as `/etc/nginx/../passwd`, allowing an actor to gain information about a server. Version 6.3.6.0 has a patch for this issue.",,,
+CVE-2023-25803,7.5,HIGH,2023-03-13T20:15:15.057,0.01206,0.65392,False,,,"Roxy-WI is a Web interface for managing Haproxy, Nginx, Apache, and Keepalived servers. Versions prior to 6.3.5.0 have a directory traversal vulnerability that allows the inclusion of server-side files. This issue is fixed in version 6.3.5.0.",,,
+CVE-2023-25804,7.5,HIGH,2023-03-15T18:15:10.617,0.00761,0.51901,False,,,"Roxy-WI is a Web interface for managing Haproxy, Nginx, Apache, and Keepalived servers. Versions prior to 6.3.5.0 have a limited path traversal vulnerability. An SSH key can be saved into an unintended location, for example the `/tmp` folder using a payload `../../../../../tmp/test111_dev`. This issue has been fixed in version 6.3.5.0.",,,
+CVE-2023-27224,9.8,CRITICAL,2023-03-22T20:15:12.723,0.01218,0.6576,False,,,An issue found in NginxProxyManager v.2.9.19 allows an attacker to execute arbitrary code via a lua script to the configuration file.,,,
+CVE-2023-1550,5.5,MEDIUM,2023-03-29T17:15:07.107,0.00218,0.12324,False,,,"Insertion of Sensitive Information into log file vulnerability in NGINX Agent. NGINX Agent version 2.0 before 2.23.3 inserts sensitive information into a log file. An authenticated attacker with local access to read agent log files may gain access to private keys. This issue is only exposed when the non-default trace level logging is enabled. Note: NGINX Agent is included with NGINX Instance Manager and used in conjunction with NGINX API Connectivity Manager, and NGINX Management Suite Security Monitoring.",,,
+CVE-2020-19692,9.8,CRITICAL,2023-04-04T15:15:07.653,0.01318,0.68093,False,,,Buffer Overflow vulnerabilty found in Nginx NJS v.0feca92 allows a remote attacker to execute arbitrary code via the njs_module_read in the njs_module.c file.,,,
+CVE-2020-19695,9.8,CRITICAL,2023-04-04T15:15:07.747,0.01333,0.68431,False,,,Buffer Overflow found in Nginx NJS allows a remote attacker to execute arbitrary code via the njs_object_property parameter of the njs/njs_vm.c function.,,,
+CVE-2023-27727,7.5,HIGH,2023-04-09T20:15:56.650,0.00732,0.50898,False,,,Nginx NJS v0.7.10 was discovered to contain a segmentation violation via the function njs_function_frame at src/njs_function.h.,,,
+CVE-2023-27728,7.5,HIGH,2023-04-09T20:15:56.703,0.0074,0.51191,False,,,Nginx NJS v0.7.10 was discovered to contain a segmentation violation via the function njs_dump_is_recursive at src/njs_vmcode.c.,,,
+CVE-2023-27729,7.5,HIGH,2023-04-09T20:15:56.740,0.00659,0.4814,False,,,Nginx NJS v0.7.10 was discovered to contain an illegal memcpy via the function njs_vmcode_return at src/njs_vmcode.c.,,,
+CVE-2023-27730,7.5,HIGH,2023-04-09T20:15:56.780,0.0074,0.5119,False,,,Nginx NJS v0.7.10 was discovered to contain a segmentation violation via the function njs_lvlhsh_find at src/njs_lvlhsh.c.,,,
+CVE-2023-29004,6.5,MEDIUM,2023-04-17T19:15:07.377,0.00902,0.56345,False,,,"hap-wi/roxy-wi is a web interface for managing Haproxy, Nginx, Apache and Keepalived servers. A Path Traversal vulnerability was found in the current version of Roxy-WI (6.3.9.0 at the moment of writing this report). The vulnerability can be exploited via an HTTP request to /app/options.py and the config_file_name parameter. Successful exploitation of this vulnerability could allow an attacker with user level privileges to obtain the content of arbitrary files on the file server within the scope of what the server process has access to. The root-cause of the vulnerability lies in the get_config function of the /app/modules/config/config.py file, which only checks for relative path traversal, but still allows to read files from absolute locations passed via the config_file_name parameter.",,,
+CVE-2023-28656,8.1,HIGH,2023-05-03T15:15:12.860,0.00528,0.41838,False,,,"NGINX Management Suite may allow an authenticated attacker to gain access to configuration objects outside of their assigned environment.  
+
+Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated.",,,
+CVE-2023-28724,7.1,HIGH,2023-05-03T15:15:13.020,0.00171,0.06679,False,,,"NGINX Management Suite default file permissions are set such that an authenticated attacker may be able to modify sensitive files on NGINX Instance Manager and NGINX API Connectivity Manager.  
+
+Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated.",,,
+CVE-2023-33977,8.1,HIGH,2023-06-06T19:15:12.800,0.0087,0.55412,False,,,"Kiwi TCMS is an open source test management system for both manual and automated testing. Kiwi TCMS allows users to upload attachments to test plans, test cases, etc. Earlier versions of Kiwi TCMS had introduced upload validators in order to prevent potentially dangerous files from being uploaded and Content-Security-Policy definition to prevent cross-site-scripting attacks. The upload validation checks were not 100% robust which left the possibility to circumvent them and upload a potentially dangerous file which allows execution of arbitrary JavaScript in the browser. Additionally we've discovered that Nginx's `proxy_pass` directive will strip some headers negating protections built into Kiwi TCMS when served behind a reverse proxy. This issue has been addressed in version 12.4. Users are advised to upgrade. Users unable to upgrade who are serving Kiwi TCMS behind a reverse proxy should make sure that additional header values are still passed to the client browser. If they aren't redefining them inside the proxy configuration.",,,
+CVE-2023-34450,3.7,LOW,2023-07-03T17:15:09.147,0.00851,0.54787,False,,,"CometBFT is a Byzantine Fault Tolerant (BFT) middleware that takes a state transition machine and replicates it on many machines. An internal modification made in versions 0.34.28 and 0.37.1 to the way struct `PeerState` is serialized to JSON introduced a deadlock when new function MarshallJSON is called. This function can be called from two places. The first is via logs, setting the `consensus` logging module to ""debug"" level (should not happen in production), and setting the log output format to JSON. The second is via RPC `dump_consensus_state`.
+
+Case 1, which should not be hit in production, will eventually hit the deadlock in most goroutines, effectively halting the node.
+
+In case 2, only the data structures related to the first peer will be deadlocked, together with the thread(s) dealing with the RPC request(s). This means that only one of the channels of communication to the node's peers will be blocked. Eventually the peer will timeout and excluded from the list (typically after 2 minutes). The goroutines involved in the deadlock will not be garbage collected, but they will not interfere with the system after the peer is excluded.
+
+The theoretical worst case for case 2, is a network with only two validator nodes. In this case, each of the nodes only has one `PeerState` struct. If `dump_consensus_state` is called in either node (or both), the chain will halt until the peer connections time out, after which the nodes will reconnect (with different `PeerState` structs) and the chain will progress again. Then, the same process can be repeated.
+
+As the number of nodes in a network increases, and thus, the number of peer struct each node maintains, the possibility of reproducing the perturbation visible with two nodes decreases. Only the first `PeerState` struct will deadlock, and not the others (RPC `dump_consensus_state` accesses them in a for loop, so the deadlock at the first iteration causes the rest of the iterations of that ""for"" loop to never be reached).
+
+This regression was fixed in versions 0.34.29 and 0.37.2. Some workarounds are available. For case 1 (hitting the deadlock via logs), either don't set the log output to ""json"", leave at ""plain"", or don't set the consensus logging module to ""debug"", leave it at ""info"" or higher. For case 2 (hitting the deadlock via RPC `dump_consensus_state`), do not expose `dump_consensus_state` RPC endpoint to the public internet (e.g., via rules in one's nginx setup).",,,
+CVE-2023-36809,8.1,HIGH,2023-07-05T22:15:09.670,0.00692,0.4946,False,,,"Kiwi TCMS, an open source test management system allows users to upload attachments to test plans, test cases, etc. Versions of Kiwi TCMS prior to 12.5 had introduced changes which were meant to serve all uploaded files as plain text in order to prevent browsers from executing potentially dangerous files when such files are accessed directly. The previous Nginx configuration was incorrect allowing certain browsers like Firefox to ignore the `Content-Type: text/plain` header on some occasions thus allowing potentially dangerous scripts to be executed. Additionally, file upload validators and parts of the HTML rendering code had been found to require additional sanitation and improvements. Version 12.5 fixes this vulnerability with updated Nginx content type configuration, improved file upload validation code to prevent more potentially dangerous uploads, and Sanitization of test plan names used in the `tree_view_html()` function.",,,
+CVE-2020-21699,7.5,HIGH,2023-08-22T19:16:15.847,0.00663,0.4827,False,,,"The web server Tengine 2.2.2 developed in the Nginx version from 0.5.6 thru 1.13.2 is vulnerable to an integer overflow vulnerability in the nginx range filter module, resulting in the leakage of potentially sensitive information triggered by specially crafted requests.",,,
+CVE-2023-45132,9.1,CRITICAL,2023-10-11T21:15:10.207,0.00799,0.53117,False,,,"NAXSI is an open-source maintenance web application firewall (WAF) for NGINX. An issue present starting in version 1.3 and prior to version 1.6 allows someone to bypass the WAF when a malicious `X-Forwarded-For` IP matches `IgnoreIP` `IgnoreCIDR` rules. This old code was arranged to allow older NGINX versions to also support `IgnoreIP` `IgnoreCIDR` when multiple reverse proxies were present. The issue is patched in version 1.6. As a workaround, do not set any `IgnoreIP` `IgnoreCIDR` for older versions.
+",,,
+CVE-2023-44388,7.5,HIGH,2023-10-16T22:15:12.397,0.00531,0.41961,False,,,Discourse is an open source platform for community discussion. A malicious request can cause production log files to quickly fill up and thus result in the server running out of disk space. This problem has been patched in the 3.1.1 stable and 3.2.0.beta2 versions of Discourse. It is possible to temporarily work around this problem by reducing the `client_max_body_size nginx directive`. `client_max_body_size` will limit the size of uploads that can be uploaded directly to the server.,,,
+CVE-2023-5043,7.6,HIGH,2023-10-25T20:15:18.037,0.02234,0.81106,False,,,Ingress nginx annotation injection causes arbitrary command execution.,,,
+CVE-2023-5044,7.6,HIGH,2023-10-25T20:15:18.187,0.56568,0.98965,False,,,Code injection via nginx.ingress.kubernetes.io/permanent-redirect annotation.,,,
+CVE-2023-47106,4.8,MEDIUM,2023-12-04T21:15:33.600,0.00625,0.46654,False,,,"Traefik is an open source HTTP reverse proxy and load balancer. When a request is sent to Traefik with a URL fragment, Traefik automatically URL encodes and forwards the fragment to the backend server. This violates RFC 7230 because in the origin-form the URL should only contain the absolute path and the query. When this is combined with another frontend proxy like Nginx, it can be used to bypass frontend proxy URI-based access control restrictions. This vulnerability has been addressed in versions 2.10.6 and 3.0.0-beta5. Users are advised to upgrade. There are no known workarounds for this vulnerability.",,,
+CVE-2024-22197,7.7,HIGH,2024-01-11T18:15:45.140,0.01537,0.72464,False,,,"Nginx-ui is online statistics for Server Indicators​​ Monitor CPU usage, memory usage, load average, and disk usage in real-time. The `Home > Preference` page exposes a small list of nginx settings such as `Nginx Access Log Path` and `Nginx Error Log Path`. However, the API also exposes `test_config_cmd`, `reload_cmd` and `restart_cmd`. While the UI doesn't allow users to modify any of these settings, it is possible to do so by sending a request to the API. This issue may lead to authenticated Remote Code Execution, Privilege Escalation, and Information Disclosure. This issue has been patched in version 2.0.0.beta.9.",,,
+CVE-2024-22196,7.0,HIGH,2024-01-11T20:15:44.923,0.00584,0.44727,False,,,"Nginx-UI is an online statistics for Server Indicators​​ Monitor CPU usage, memory usage, load average, and disk usage in real-time. This issue may lead to information disclosure. By using `DefaultQuery`, the `""desc""` and `""id""` values are used as default values if the query parameters are not set. Thus, the `order` and `sort_by` query parameter are user-controlled and are being appended to the `order` variable without any sanitization. This issue has been patched in version 2.0.0.beta.9.
+
+",,,
+CVE-2024-22198,7.1,HIGH,2024-01-11T20:15:45.120,0.04088,0.89754,False,,,"Nginx-UI is a web interface to manage Nginx configurations. It is vulnerable to arbitrary command execution by abusing the configuration settings. The `Home > Preference` page exposes a list of system settings such as `Run Mode`, `Jwt Secret`, `Node Secret` and `Terminal Start Command`. While the UI doesn't allow users to modify the `Terminal Start Command` setting, it is possible to do so by sending a request to the API. This issue may lead to authenticated remote code execution, privilege escalation, and information disclosure. This vulnerability has been patched in version 2.0.0.beta.9.",,,
+CVE-2023-50919,9.8,CRITICAL,2024-01-12T08:15:43.533,0.47804,0.98737,False,,,"An issue was discovered on GL.iNet devices before version 4.5.0. There is an NGINX authentication bypass via Lua string pattern matching. This affects A1300 4.4.6, AX1800 4.4.6, AXT1800 4.4.6, MT3000 4.4.6, MT2500 4.4.6, MT6000 4.5.0, MT1300 4.3.7, MT300N-V2 4.3.7, AR750S 4.3.7, AR750 4.3.7, AR300M 4.3.7, and B1300 4.3.7.",,,
+CVE-2024-23827,9.8,CRITICAL,2024-01-29T16:15:09.867,0.00699,0.49708,False,,,Nginx-UI is a web interface to manage Nginx configurations. The Import Certificate feature allows arbitrary write into the system. The feature does not check if the provided user input is a certification/key and allows to write into arbitrary paths in the system. It's possible to leverage the vulnerability into a remote code execution overwriting the config file app.ini. Version 2.0.0.beta.12 fixed the issue.,,,
+CVE-2024-23828,8.8,HIGH,2024-01-29T17:15:10.457,0.01054,0.61191,False,,,Nginx-UI is a web interface to manage Nginx configurations. It is vulnerable to an authenticated arbitrary command execution via CRLF attack when changing the value of test_config_cmd or start_cmd. This vulnerability exists due to an incomplete fix for CVE-2024-22197 and CVE-2024-22198. This vulnerability has been patched in version 2.0.0.beta.12.,,,
+CVE-2024-22200,3.3,LOW,2024-01-30T16:15:48.553,0.00335,0.26095,False,,,"vantage6-UI is the User Interface for vantage6. The docker image used to run the UI leaks the nginx version. To mitigate the vulnerability, users can run the UI as an angular application.  This vulnerability was patched in 4.2.0.
+",,,
+CVE-2024-24989,7.5,HIGH,2024-02-14T17:15:15.513,0.01061,0.61394,False,,,"When NGINX Plus or NGINX OSS are configured to use the HTTP/3 QUIC module, undisclosed requests can cause NGINX worker processes to terminate.
+
+Note: The HTTP/3 QUIC module is not enabled by default and is considered experimental. For more information, refer to  Support for QUIC and HTTP/3 https://nginx.org/en/docs/quic.html .
+
+
+
+NOTE: Software versions which have reached End of Technical Support (EoTS) are not evaluated",,,
+CVE-2024-24990,7.5,HIGH,2024-02-14T17:15:15.713,0.00914,0.5678,False,,,"When NGINX Plus or NGINX OSS are configured to use the HTTP/3 QUIC module, undisclosed requests can cause NGINX worker processes to terminate.
+
+Note: The HTTP/3 QUIC module is not enabled by default and is considered experimental. For more information, refer to  Support for QUIC and HTTP/3 https://nginx.org/en/docs/quic.html .
+
+
+
+ 
+
+
+Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated",,,
+CVE-2024-26615,5.5,MEDIUM,2024-03-11T18:15:19.337,0.00257,0.17214,False,,,"In the Linux kernel, the following vulnerability has been resolved:
+
+net/smc: fix illegal rmb_desc access in SMC-D connection dump
+
+A crash was found when dumping SMC-D connections. It can be reproduced
+by following steps:
+
+- run nginx/wrk test:
+  smc_run nginx
+  smc_run wrk -t 16 -c 1000 -d <duration> -H 'Connection: Close' <URL>
+
+- continuously dump SMC-D connections in parallel:
+  watch -n 1 'smcss -D'
+
+ BUG: kernel NULL pointer dereference, address: 0000000000000030
+ CPU: 2 PID: 7204 Comm: smcss Kdump: loaded Tainted: G	E      6.7.0+ #55
+ RIP: 0010:__smc_diag_dump.constprop.0+0x5e5/0x620 [smc_diag]
+ Call Trace:
+  <TASK>
+  ? __die+0x24/0x70
+  ? page_fault_oops+0x66/0x150
+  ? exc_page_fault+0x69/0x140
+  ? asm_exc_page_fault+0x26/0x30
+  ? __smc_diag_dump.constprop.0+0x5e5/0x620 [smc_diag]
+  ? __kmalloc_node_track_caller+0x35d/0x430
+  ? __alloc_skb+0x77/0x170
+  smc_diag_dump_proto+0xd0/0xf0 [smc_diag]
+  smc_diag_dump+0x26/0x60 [smc_diag]
+  netlink_dump+0x19f/0x320
+  __netlink_dump_start+0x1dc/0x300
+  smc_diag_handler_dump+0x6a/0x80 [smc_diag]
+  ? __pfx_smc_diag_dump+0x10/0x10 [smc_diag]
+  sock_diag_rcv_msg+0x121/0x140
+  ? __pfx_sock_diag_rcv_msg+0x10/0x10
+  netlink_rcv_skb+0x5a/0x110
+  sock_diag_rcv+0x28/0x40
+  netlink_unicast+0x22a/0x330
+  netlink_sendmsg+0x1f8/0x420
+  __sock_sendmsg+0xb0/0xc0
+  ____sys_sendmsg+0x24e/0x300
+  ? copy_msghdr_from_user+0x62/0x80
+  ___sys_sendmsg+0x7c/0xd0
+  ? __do_fault+0x34/0x160
+  ? do_read_fault+0x5f/0x100
+  ? do_fault+0xb0/0x110
+  ? __handle_mm_fault+0x2b0/0x6c0
+  __sys_sendmsg+0x4d/0x80
+  do_syscall_64+0x69/0x180
+  entry_SYSCALL_64_after_hwframe+0x6e/0x76
+
+It is possible that the connection is in process of being established
+when we dump it. Assumed that the connection has been registered in a
+link group by smc_conn_create() but the rmb_desc has not yet been
+initialized by smc_buf_create(), thus causing the illegal access to
+conn->rmb_desc. So fix it by checking before dump.",,,
+CVE-2024-24562,5.4,MEDIUM,2024-03-14T19:15:49.767,0.00349,0.27554,False,,,"vantage6-UI is the official user interface for the vantage6 server. In affected versions a number of security headers are not set. This issue has been addressed in commit `68dfa6614` which is expected to be included in future releases. Users are advised to upgrade when a new release is made. While an upgrade path is not available users may modify the docker image build to insert the headers into nginx.
+",,,
+CVE-2024-24827,5.3,MEDIUM,2024-03-15T20:15:07.900,0.00593,0.45124,False,,,"Discourse is an open source platform for community discussion. Without a rate limit on the POST /uploads endpoint, it makes it easier for an attacker to carry out a DoS attack on the server since creating an upload can be a resource intensive process. Do note that the impact varies from site to site as various site settings like `max_image_size_kb`, `max_attachment_size_kb` and `max_image_megapixels` will determine the amount of resources used when creating an upload. The issue is patched in the latest stable, beta and tests-passed version of Discourse. Users are advised to upgrade. Users unable to upgrade should reduce `max_image_size_kb`, `max_attachment_size_kb` and `max_image_megapixels` as smaller uploads require less resources to process. Alternatively, `client_max_body_size` can be reduced in Nginx to prevent large uploads from reaching the server.",,,
+CVE-2024-28101,7.5,HIGH,2024-03-21T02:52:23.290,0.0077,0.5218,False,,,"The Apollo Router is a graph router written in Rust to run a federated supergraph that uses Apollo Federation. Versions 0.9.5 until 1.40.2 are subject to a Denial-of-Service (DoS) type vulnerability. When receiving compressed HTTP payloads, affected versions of the Router evaluate the `limits.http_max_request_bytes` configuration option after the entirety of the compressed payload is decompressed. If affected versions of the Router receive highly compressed payloads, this could result in significant memory consumption while the compressed payload is expanded. Router version 1.40.2 has a fix for the vulnerability. Those who are unable to upgrade may be able to implement mitigations at proxies or load balancers positioned in front of their Router fleet (e.g. Nginx, HAProxy, or cloud-native WAF services) by creating limits on HTTP body upload size. 
+",,,
+CVE-2024-1521,6.4,MEDIUM,2024-03-27T07:15:48.793,0.0032,0.24431,False,,,"The Elementor Website Builder Pro plugin for WordPress is vulnerable to Stored Cross-Site Scripting via an SVGZ file uploaded via the Form widget in all versions up to, and including, 3.20.1 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. NOTE: This vulnerability is only exploitable on web servers running NGINX. It is not exploitable on web servers running Apache HTTP Server.",,,
+CVE-2024-3736,4.3,MEDIUM,2024-04-13T14:15:07.490,0.00918,0.56875,False,,,A vulnerability was found in cym1102 nginxWebUI up to 3.9.9. It has been declared as problematic. Affected by this vulnerability is the function upload of the file /adminPage/main/upload. The manipulation leads to unrestricted upload. The attack can be launched remotely. The exploit has been disclosed to the public and may be used. The associated identifier of this vulnerability is VDB-260575.,,,
+CVE-2024-3737,6.3,MEDIUM,2024-04-13T17:15:50.400,0.009,0.56279,False,,,A vulnerability was found in cym1102 nginxWebUI up to 3.9.9. It has been rated as critical. Affected by this issue is the function findCountByQuery of the file /adminPage/www/addOver. The manipulation of the argument dir leads to path traversal. The attack may be launched remotely. The exploit has been disclosed to the public and may be used. The identifier of this vulnerability is VDB-260576.,,,
+CVE-2024-3738,7.3,HIGH,2024-04-13T18:15:07.390,0.00517,0.4117,False,,,A vulnerability classified as critical has been found in cym1102 nginxWebUI up to 3.9.9. This affects the function handlePath of the file /adminPage/conf/saveCmd. The manipulation of the argument nginxPath leads to improper certificate validation. It is possible to initiate the attack remotely. The exploit has been disclosed to the public and may be used. The identifier VDB-260577 was assigned to this vulnerability.,,,
+CVE-2024-3739,6.3,MEDIUM,2024-04-13T19:15:53.757,0.02891,0.85578,False,,,A vulnerability classified as critical was found in cym1102 nginxWebUI up to 3.9.9. This vulnerability affects unknown code of the file /adminPage/main/upload. The manipulation of the argument file leads to os command injection. The attack can be initiated remotely. The exploit has been disclosed to the public and may be used. VDB-260578 is the identifier assigned to this vulnerability.,,,
+CVE-2024-3740,6.3,MEDIUM,2024-04-13T21:15:48.353,0.00815,0.53644,False,,,"A vulnerability, which was classified as critical, has been found in cym1102 nginxWebUI up to 3.9.9. This issue affects the function exec of the file /adminPage/conf/reload. The manipulation of the argument nginxExe leads to deserialization. The attack may be initiated remotely. The exploit has been disclosed to the public and may be used. The associated identifier of this vulnerability is VDB-260579.",,,
+CVE-2024-27306,6.1,MEDIUM,2024-04-18T15:15:29.050,0.00666,0.48402,False,,,aiohttp is an asynchronous HTTP client/server framework for asyncio and Python. A XSS vulnerability exists on index pages for static file handling. This vulnerability is fixed in 3.9.4. We have always recommended using a reverse proxy server (e.g. nginx) for serving static files. Users following the recommendation are unaffected. Other users can disable `show_index` if unable to upgrade.,,,
+CVE-2023-39481,8.8,HIGH,2024-05-03T03:15:14.620,0.01252,0.66595,False,,,"Softing Secure Integration Server Interpretation Conflict Remote Code Execution Vulnerability. This vulnerability allows remote attackers to execute arbitrary code on affected installations of Softing Secure Integration Server. Although authentication is required to exploit this vulnerability, the existing authentication mechanism can be bypassed.
+
+The specific flaw exists within the web server. The issue results from an inconsistency in URI parsing between NGINX and application code. An attacker can leverage this in conjunction with other vulnerabilities to execute arbitrary code in the context of root. Was ZDI-CAN-20551.",,,
+CVE-2024-1076,6.5,MEDIUM,2024-05-08T06:15:06.877,0.00413,0.34068,False,,,"The SSL Zen  WordPress plugin before 4.6.0 does not properly prevent directory listing of the private keys folder, as it only relies on the use of .htaccess to prevent visitors from accessing the site's generated private keys, which allows an attacker to read them if the site runs on a server who doesn't support .htaccess files, like NGINX.",,,
+CVE-2024-31079,4.8,MEDIUM,2024-05-29T16:15:09.800,0.00888,0.5594,False,,,"When NGINX Plus or NGINX OSS are configured to use the HTTP/3 QUIC module, undisclosed HTTP/3 requests can cause NGINX worker processes to terminate or cause other potential impact. This attack requires that a request be specifically timed during the connection draining process, which the attacker has no visibility and limited influence over.",,,
+CVE-2024-32760,6.5,MEDIUM,2024-05-29T16:15:10.043,0.00864,0.55204,False,,,"When NGINX Plus or NGINX OSS are configured to use the HTTP/3 QUIC module, undisclosed HTTP/3 encoder instructions can cause NGINX worker processes to terminate or cause or other potential impact.",,,
+CVE-2024-34161,5.3,MEDIUM,2024-05-29T16:15:10.270,0.00867,0.55312,False,,,"When NGINX Plus or NGINX OSS are configured to use the HTTP/3 QUIC module and the network infrastructure supports a Maximum Transmission Unit (MTU) of 4096 or greater without fragmentation, undisclosed QUIC packets can cause NGINX worker processes to leak previously freed memory.",,,
+CVE-2024-35200,5.3,MEDIUM,2024-05-29T16:15:10.497,0.00934,0.57412,False,,,"When NGINX Plus or NGINX OSS are configured to use the HTTP/3 QUIC module, undisclosed HTTP/3 requests can cause NGINX worker processes to terminate.",,,
+CVE-2024-3149,8.8,HIGH,2024-06-06T19:16:00.130,0.00519,0.41316,False,,,"A Server-Side Request Forgery (SSRF) vulnerability exists in the upload link feature of mintplex-labs/anything-llm. This feature, intended for users with manager or admin roles, processes uploaded links through an internal Collector API using a headless browser. An attacker can exploit this by hosting a malicious website and using it to perform actions such as internal port scanning, accessing internal web applications not exposed externally, and interacting with the Collector API. This interaction can lead to unauthorized actions such as arbitrary file deletion and limited Local File Inclusion (LFI), including accessing NGINX access logs which may contain sensitive information.",,,
+CVE-2022-48751,7.8,HIGH,2024-06-20T12:15:13.310,0.00221,0.12605,False,,,"In the Linux kernel, the following vulnerability has been resolved:
+
+net/smc: Transitional solution for clcsock race issue
+
+We encountered a crash in smc_setsockopt() and it is caused by
+accessing smc->clcsock after clcsock was released.
+
+ BUG: kernel NULL pointer dereference, address: 0000000000000020
+ #PF: supervisor read access in kernel mode
+ #PF: error_code(0x0000) - not-present page
+ PGD 0 P4D 0
+ Oops: 0000 [#1] PREEMPT SMP PTI
+ CPU: 1 PID: 50309 Comm: nginx Kdump: loaded Tainted: G E     5.16.0-rc4+ #53
+ RIP: 0010:smc_setsockopt+0x59/0x280 [smc]
+ Call Trace:
+  <TASK>
+  __sys_setsockopt+0xfc/0x190
+  __x64_sys_setsockopt+0x20/0x30
+  do_syscall_64+0x34/0x90
+  entry_SYSCALL_64_after_hwframe+0x44/0xae
+ RIP: 0033:0x7f16ba83918e
+  </TASK>
+
+This patch tries to fix it by holding clcsock_release_lock and
+checking whether clcsock has already been released before access.
+
+In case that a crash of the same reason happens in smc_getsockopt()
+or smc_switch_to_fallback(), this patch also checkes smc->clcsock
+in them too. And the caller of smc_switch_to_fallback() will identify
+whether fallback succeeds according to the return value.",,,
+CVE-2024-39935,8.8,HIGH,2024-07-04T21:15:10.077,0.00882,0.5576,False,,,jc21 NGINX Proxy Manager before 2.11.3 allows backend/internal/certificate.js OS command injection by an authenticated user (with certificate management privileges) via untrusted input to the DNS provider configuration. NOTE: this is not part of any NGINX software shipped by F5.,,,
+CVE-2024-41668,8.3,HIGH,2024-07-23T19:15:13.437,0.0058,0.44517,False,,,"The cBioPortal for Cancer Genomics provides visualization, analysis, and download of large-scale cancer genomics data sets. When running a publicly exposed proxy endpoint without authentication, cBioPortal could allow someone to perform a Server Side Request Forgery (SSRF) attack. Logged in users could do the same on private instances. A fix has been released in version 6.0.12. As a workaround, one might be able to disable `/proxy` endpoint entirely via, for example, nginx.",,,
+CVE-2024-39792,7.5,HIGH,2024-08-14T15:15:26.580,0.00628,0.46763,False,,,"When the NGINX Plus is configured to use the MQTT pre-read module, undisclosed requests can cause an increase in memory resource utilization.  Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated.",,,
+CVE-2024-7347,4.7,MEDIUM,2024-08-14T15:15:31.870,0.0032,0.24465,False,,,"NGINX Open Source and NGINX Plus have a vulnerability in the ngx_http_mp4_module, which might allow an attacker to over-read NGINX worker memory resulting in its termination, using a specially crafted mp4 file. The issue only affects NGINX if it is built with the ngx_http_mp4_module and the mp4 directive is used in the configuration file. Additionally, the attack is possible only if an attacker can trigger the processing of a specially crafted mp4 file with the ngx_http_mp4_module.  Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated.",,,
+CVE-2024-7634,4.9,MEDIUM,2024-08-22T18:15:10.553,0.00471,0.38338,False,,,"NGINX Agent's ""config_dirs"" restriction feature allows a highly privileged attacker to gain the ability to write/overwrite files outside of the designated secure directory.",,,

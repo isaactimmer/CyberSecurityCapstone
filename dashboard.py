@@ -454,6 +454,93 @@ def score_breakdown(
     }
 
 
+# CVE-id shape used to gate the external links: only build authoritative URLs
+# for a well-formed id so a live/vendor scan with an odd id doesn't emit a
+# broken NVD link. Matches "CVE-YYYY-NNNN+" (case-insensitive).
+_CVE_ID_RE = re.compile(r"^CVE-\d{4}-\d{4,}$", re.IGNORECASE)
+
+
+def finding_references(cve_id: object, *, kev_flag: bool = False) -> list[dict]:
+    """
+    Deterministic, offline-safe out-links for a finding's detail modal (rec #1):
+    the authoritative pages for the CVE itself, its EPSS score, and — only when the
+    CVE is known-exploited — its CISA KEV catalog entry. Every URL is built from
+    the id alone (no lookup), so this stays pure and needs no network. Returns []
+    for a malformed/absent id rather than emitting a link that 404s.
+
+    Each entry is ``{"label", "url", "source"}`` — `source` is the short provider
+    name the view badges the link with (NVD / FIRST / CISA / MITRE).
+    """
+    cid = str(cve_id).strip() if cve_id is not None and pd.notna(cve_id) else ""
+    if not _CVE_ID_RE.match(cid):
+        return []
+    cid = cid.upper()
+    refs = [
+        {"label": "CVE detail (NVD)", "source": "NVD",
+         "url": f"https://nvd.nist.gov/vuln/detail/{cid}"},
+        {"label": "CVE record (MITRE)", "source": "MITRE",
+         "url": f"https://www.cve.org/CVERecord?id={cid}"},
+        {"label": "Exploit-prediction score (EPSS)", "source": "FIRST",
+         "url": f"https://api.first.org/data/v1/epss?cve={cid}"},
+    ]
+    if kev_flag:
+        refs.append({
+            "label": "Known-exploited entry (CISA KEV)", "source": "CISA",
+            "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+                   f"?search_api_fulltext={cid}",
+        })
+    return refs
+
+
+def finding_recommendation(row: pd.Series) -> dict:
+    """
+    A remediation recommendation for the finding's detail modal (rec #1), honest
+    about where it comes from:
+
+    * KEV CVEs carry CISA's own **required action** — an authoritative instruction
+      (`source="CISA KEV"`, `authoritative=True`). When a due date is present it is
+      surfaced as urgency.
+    * For everything else there is no official fix text in the feeds, so we return
+      *derived* guidance built only from signals we actually have (severity, EPSS,
+      exploitation) plus a "consult the vendor's advisory" pointer
+      (`source="derived"`, `authoritative=False`). We never invent specific patch
+      steps for a CVE we have no advisory text for.
+
+    Shape: ``{"text", "source", "authoritative", "urgency"|None}``.
+    """
+    kev = bool(row.get("kev_flag"))
+    action = row.get("kev_required_action")
+    if kev and action is not None and pd.notna(action) and str(action).strip():
+        due = row.get("kev_date_added")
+        urgency = None
+        if due is not None and pd.notna(due) and str(due).strip():
+            urgency = f"CISA listed this as known-exploited on {str(due).strip()}."
+        return {
+            "text": str(action).strip(),
+            "source": "CISA KEV",
+            "authoritative": True,
+            "urgency": urgency,
+        }
+
+    cvss = float(row.get("cvss_score") or 0.0)
+    epss = float(row.get("epss_score") or 0.0)
+    if kev:
+        lead = "Actively exploited in the wild"
+    elif cvss >= 9.0 or epss >= 0.5:
+        lead = "High-risk finding"
+    elif cvss >= 7.0:
+        lead = "Notable-severity finding"
+    else:
+        lead = "Lower-severity finding"
+    text = (
+        f"{lead}. No official CISA action applies, so consult the vendor's "
+        "security advisory (linked below) and apply the patch or upgrade it "
+        "prescribes; if none is available yet, apply the vendor's interim "
+        "mitigation or compensating controls."
+    )
+    return {"text": text, "source": "derived", "authoritative": False, "urgency": None}
+
+
 def plan_item_detail(
     row: pd.Series,
     *,
@@ -462,8 +549,11 @@ def plan_item_detail(
     """
     Turn one plan row into the extended, plain-English breakdown the UI expands
     into: the raw signals, where the asset sits, the pool/effort, the composite
-    score, and a "ranked here because …" sentence. Keeps the explanation logic out
-    of the view so it can be tested. Tolerates rows with no asset/hop context.
+    score, a "ranked here because …" sentence, the plain-English CVE description,
+    a remediation recommendation, and authoritative out-links. Keeps the
+    explanation logic out of the view so it can be tested. Tolerates rows with no
+    asset/hop context (and no enrichment columns — description/links come back
+    null/empty).
     """
     tier_weights = tier_weights or scoring.DEFAULT_TIER_WEIGHTS
     tier = row.get("importance_tier")
@@ -504,6 +594,11 @@ def plan_item_detail(
         "composite_score": row.get("composite_score"),
         "reasons": reasons,
         "reason_sentence": "Ranked here because " + ", ".join(reasons) + ".",
+        "description": (str(row.get("description")).strip()
+                        if pd.notna(row.get("description"))
+                        and str(row.get("description")).strip() else None),
+        "recommendation": finding_recommendation(row),
+        "references": finding_references(row.get("cve_id"), kev_flag=kev),
     }
 
 
