@@ -51,6 +51,18 @@ def test_plan_endpoint_honours_custom_capacity(client):
     assert zero["kpis"]["optimized_fixes"] == 0
 
 
+def test_plan_endpoint_caps_findings_to_max(client):
+    body = client.post("/api/plan", json={"max_findings": 1}).json()
+    assert len(body["rank_table"]) == 1
+
+
+def test_plan_endpoint_scopes_to_year_range(client):
+    # Fixture spans 2019–2021; keep only 2020–2021.
+    body = client.post("/api/plan", json={"year_range": [2020, 2021]}).json()
+    ids = {r["cve_id"] for r in body["rank_table"]}
+    assert ids == {"CVE-2020-1111", "CVE-2021-2222"}
+
+
 def test_override_endpoint_records_and_reranks(client):
     resp = client.post("/api/override", json={
         "cve_id": "CVE-2019-3333", "score": 100, "user": "lead",

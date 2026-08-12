@@ -21,6 +21,7 @@ Run:
 from __future__ import annotations
 
 import argparse
+from collections.abc import Callable
 from dataclasses import dataclass
 
 import pandas as pd
@@ -49,6 +50,7 @@ def build_plan(
     weights: ScoringWeights = scoring.DEFAULT_WEIGHTS,
     pools: dict[str, capacity.CapacityPool] | None = None,
     pool_effort: dict[str, float] | None = None,
+    scope: Callable[[pd.DataFrame], pd.DataFrame] | None = None,
 ) -> PlanResult:
     """
     Score an environment's vulnerabilities and build both plans. Pure: no I/O.
@@ -56,10 +58,17 @@ def build_plan(
     `env_vulns` needs the four scoring inputs (cvss_score, epss_score, kev_flag,
     importance_tier) plus `cve_id`; a `vendor` column drives asset-role pool
     assignment (otherwise the stand-in hash is used).
+
+    `scope`, if given, narrows the *scored* frame before effort assignment and
+    optimization — the landing-page "how many to list / which years" inputs. It
+    runs after scoring so a top-N cut keeps the highest-risk findings (the scored
+    frame is risk-ordered), and both plans then pack over that same scoped set.
     """
     pools = pools if pools is not None else capacity.default_pools()
 
     scored = scoring.score_dataframe(env_vulns, weights)
+    if scope is not None:
+        scored = scope(scored)
     ready = capacity.assign_remediation_effort(scored, pools, pool_effort=pool_effort)
 
     optimized = optimizer.greedy_optimize(ready, pools)

@@ -84,6 +84,8 @@ class Controls(BaseModel):
     weights: dict[str, float] | None = None       # cvss/epss/kev/importance, raw
     capacity: dict[str, float] | None = None       # patching/appsec/change_window
     kev_sim: list[str] = Field(default_factory=list)  # CVEs flipped to KEV
+    max_findings: int | None = None                # "how many to list?" — top-N, None=all
+    year_range: list[int] | None = None            # [from, to] CVE years, None=all
 
 
 class OverrideRequest(Controls):
@@ -116,6 +118,38 @@ def _pools(controls: Controls) -> dict[str, capacity.CapacityPool]:
 def _env(controls: Controls) -> pd.DataFrame:
     env = state().env
     return dashboard.inject_kev(env, controls.kev_sim) if controls.kev_sim else env
+
+
+def _year_range(controls: Controls) -> tuple[int, int] | None:
+    """The landing-page year filter as a normalized (low, high) tuple, or None.
+
+    A range that already spans the whole environment is "all years" — return None
+    so no CVE with an unparseable/absent year is filtered out. The front end sends
+    the raw picker values; collapsing a full span is the engine's call, made here
+    against the environment's true bounds."""
+    yr = controls.year_range
+    if not yr or len(yr) != 2:
+        return None
+    low, high = min(int(yr[0]), int(yr[1])), max(int(yr[0]), int(yr[1]))
+    bounds = dashboard.year_bounds(state().env)
+    if bounds and low <= bounds[0] and high >= bounds[1]:
+        return None
+    return (low, high)
+
+
+def _max_findings(controls: Controls) -> int | None:
+    """List-size cap; a non-positive value means 'all' (same as None)."""
+    n = controls.max_findings
+    return n if n and n > 0 else None
+
+
+def _scope(controls: Controls):
+    """A scored-frame narrowing callable for the drill-in endpoints (asset/finding)
+    so they see the same scoped universe as the board, or None for the whole set."""
+    n, yr = _max_findings(controls), _year_range(controls)
+    if n is None and yr is None:
+        return None
+    return lambda s: dashboard.filter_findings(s, max_results=n, year_range=yr)
 
 
 # --- app --------------------------------------------------------------------
@@ -203,6 +237,7 @@ def recompute(controls: Controls) -> dict:
     return dashboard.plan_payload(
         _env(controls), weights=_weights(controls), pools=_pools(controls),
         asset_table=st.asset_table, override_log=st.override_log,
+        scope=_scope(controls),
     )
 
 
@@ -211,7 +246,7 @@ def asset(asset_id: str, controls: Controls) -> dict:
     """One system's drill-in for a clicked map node, against the current plan."""
     st = state()
     result = dashboard.plan(_env(controls), weights=_weights(controls),
-                            pools=_pools(controls))
+                            pools=_pools(controls), scope=_scope(controls))
     detail = dashboard.asset_detail(asset_id, st.asset_table, result)
     detail.pop("scheduled", None)   # a DataFrame — the ids list is what the UI needs
     return detail
@@ -223,7 +258,8 @@ def finding(cve_id: str, controls: Controls) -> dict:
     st = state()
     env = _env(controls)
     weights = _weights(controls)
-    result = dashboard.plan(env, weights=weights, pools=_pools(controls))
+    result = dashboard.plan(env, weights=weights, pools=_pools(controls),
+                            scope=_scope(controls))
     items = dashboard.annotate_plan(result.scored, st.asset_table)
     match = items[items["cve_id"] == cve_id]
     if match.empty:

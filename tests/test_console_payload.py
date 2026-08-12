@@ -102,6 +102,48 @@ def test_plan_payload_reports_engine_kpis_and_a_ranked_table():
     assert isinstance(payload["in_plan_assets"], list)
 
 
+def _year_frame() -> pd.DataFrame:
+    # Real disclosure years so the year-range scope has something to filter on.
+    return pd.DataFrame(
+        [
+            {"cve_id": "CVE-2019-1", "cvss_score": 9.8, "epss_score": 0.9, "kev_flag": True,
+             "importance_tier": "critical", "vendor": "microsoft"},
+            {"cve_id": "CVE-2021-2", "cvss_score": 7.0, "epss_score": 0.3, "kev_flag": False,
+             "importance_tier": "high", "vendor": "cisco"},
+            {"cve_id": "CVE-2023-3", "cvss_score": 5.5, "epss_score": 0.1, "kev_flag": False,
+             "importance_tier": "medium", "vendor": "apache tomcat"},
+        ]
+    )
+
+
+def test_plan_payload_caps_the_ranked_table_via_scope():
+    # "How many vulnerabilities to list?" — top-N by risk flows through the board.
+    payload = dashboard.plan_payload(
+        _year_frame(), weights=scoring.DEFAULT_WEIGHTS, pools=_big_pools(),
+        scope=lambda s: dashboard.filter_findings(s, max_results=2),
+    )
+    rows = payload["rank_table"]
+    assert len(rows) == 2
+    # The two highest-risk findings survive (scored frame is risk-ordered).
+    assert rows[0]["cve_id"] == "CVE-2019-1"
+
+
+def test_plan_payload_scopes_to_the_year_range():
+    payload = dashboard.plan_payload(
+        _year_frame(), weights=scoring.DEFAULT_WEIGHTS, pools=_big_pools(),
+        scope=lambda s: dashboard.filter_findings(s, year_range=(2021, 2023)),
+    )
+    ids = {r["cve_id"] for r in payload["rank_table"]}
+    assert ids == {"CVE-2021-2", "CVE-2023-3"}
+
+
+def test_plan_payload_no_scope_keeps_every_finding():
+    payload = dashboard.plan_payload(
+        _year_frame(), weights=scoring.DEFAULT_WEIGHTS, pools=_big_pools()
+    )
+    assert len(payload["rank_table"]) == 3
+
+
 def test_plan_payload_applies_overrides_and_reranks():
     # A hand override to 100 on the lowest-composite finding must float it to the
     # top of the table with the overridden flag set — the security-lead authority.

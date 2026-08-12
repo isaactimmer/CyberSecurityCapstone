@@ -22,6 +22,7 @@ app stay a thin view (the epic #6 rule: no business logic in the view).
 from __future__ import annotations
 
 import re
+from collections.abc import Callable
 from dataclasses import dataclass
 
 import networkx as nx
@@ -148,9 +149,12 @@ def plan(
     *,
     weights: scoring.ScoringWeights = scoring.DEFAULT_WEIGHTS,
     pools: dict[str, capacity.CapacityPool] | None = None,
+    scope: Callable[[pd.DataFrame], pd.DataFrame] | None = None,
 ) -> pipeline.PlanResult:
-    """Re-derive the plan for the current controls — a thin pass to the pipeline."""
-    return pipeline.build_plan(env, weights=weights, pools=pools)
+    """Re-derive the plan for the current controls — a thin pass to the pipeline.
+    `scope` (a scored-frame -> scored-frame callable) narrows to the landing-page
+    list-size / year-range inputs; None plans over the whole environment."""
+    return pipeline.build_plan(env, weights=weights, pools=pools, scope=scope)
 
 
 def findings_view(scored: pd.DataFrame, *, limit: int | None = None) -> pd.DataFrame:
@@ -911,6 +915,7 @@ def plan_payload(
     asset_table: pd.DataFrame | None = None,
     override_log: "object | None" = None,
     top_limit: int = 8,
+    scope: Callable[[pd.DataFrame], pd.DataFrame] | None = None,
 ) -> dict:
     """
     Recompute the whole console for the current controls and shape it for the
@@ -919,9 +924,13 @@ def plan_payload(
     donut, tier spread, the ranked findings table, pool utilisation, both plan
     columns with new/dropped markers, and the set of assets the plan touches.
 
+    `scope` (a scored-frame -> scored-frame callable, e.g. `filter_findings` bound
+    to the landing-page list-size / year inputs) narrows the whole board — both
+    plans included — to the chosen slice; None plans over the whole environment.
+
     Pure over `env` (no I/O): the caller scans once and passes the cached frame.
     """
-    result = plan(env, weights=weights, pools=pools)
+    result = plan(env, weights=weights, pools=pools, scope=scope)
     scored = result.scored
 
     # Overlay overrides so the table's final_score / ranking reflect human calls.

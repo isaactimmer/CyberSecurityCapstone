@@ -39,7 +39,7 @@
         <button aria-pressed="true" onclick="segPick(this,'sample')">Use the sample environment</button>
         <button aria-pressed="false" onclick="segPick(this,'upload')">Upload your assets</button>
       </div>
-      <div class="drop" id="dropSample">Modelled mid-sized company from <b>assets.csv</b>. Scored against the cached NVD · EPSS · CISA&nbsp;KEV feeds — runs fully offline.</div>
+      <div class="drop" id="dropSample" title="A modelled mid-sized company, scored against cached NVD · EPSS · CISA KEV feeds. Runs fully offline.">A sample company environment, ready to explore — no setup needed.</div>
       <div class="drop drop-up" id="dropUpload" style="display:none" onclick="$('assetFile').click()" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="onDropFile(event)">
         <input type="file" id="assetFile" accept=".csv,text/csv" hidden onchange="onPickFile(event)">
         <div id="uploadIdle"><b>Choose a CSV</b> or drag one here.<br><span class="up-hint">Needs columns: asset_id, name, criticality, crown_jewel, connections, vendor. Scored offline against the cached feeds.</span></div>
@@ -47,7 +47,15 @@
       </div>
     </div>
     <div class="step">
-      <div class="step-lab"><span class="step-num">2</span><span class="t">Team capacity</span><span class="h">this cycle</span></div>
+      <div class="step-lab"><span class="step-num">2</span><span class="t">How much to look at</span><span class="h">optional — leave blank for everything</span></div>
+      <div class="caps">
+        <div class="cap"><div class="l" title="Keep only the highest-risk N. Blank lists every vulnerability found.">Vulnerabilities to list</div><div class="v"><input id="ci_count" placeholder="All"><span class="u">top&nbsp;N</span></div></div>
+        <div class="cap"><div class="l" title="Earliest CVE disclosure year to include.">From year</div><div class="v"><input id="ci_yfrom" placeholder="Any"></div></div>
+        <div class="cap"><div class="l" title="Latest CVE disclosure year to include.">To year</div><div class="v"><input id="ci_yto" placeholder="Any"></div></div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-lab"><span class="step-num">3</span><span class="t">Team capacity</span><span class="h">this cycle · set your own limits</span></div>
       <div class="caps">
         <div class="cap"><div class="l">Patching</div><div class="v"><input id="ci_pat" value="40"><span class="u">hrs</span></div></div>
         <div class="cap"><div class="l">AppSec</div><div class="v"><input id="ci_app" value="16"><span class="u">hrs</span></div></div>
@@ -56,7 +64,7 @@
     </div>
     <div class="build">
       <button class="primary" onclick="showBoard()">Build my plan&nbsp;&nbsp;▶</button>
-      <span class="note">Nothing is computed until you build. Runs offline off the cached NVD · EPSS · KEV feeds.</span>
+      <span class="note">Nothing is computed until you build.</span>
     </div>
   </div>
 </div></section>
@@ -95,12 +103,11 @@
         </div>
       </div>
     </div>
-    <div class="caveat"><b>Note:</b> the score, weighting and capacity packing here are the real shipped engine (<code>scoring.py</code> · <code>capacity.py</code> · <code>optimizer.py</code>) running on the modelled asset environment (<code>assets.csv</code>) against real cached NVD/EPSS/KEV data.</div>
   </div>
 
   <!-- ATTACK SURFACE -->
   <div class="view" id="view-map">
-    <p class="sec-note">The asset graph from <b>assets.csv</b>, laid out by connection. Distance from the crown jewel sets each system's <b>importance tier</b>, which feeds the score. <b>Click a node</b> to drill in — its findings, neighbours, and whether the plan covers it.</p>
+    <p class="sec-note">Your asset graph, laid out by connection. Distance from the crown jewel sets each system's <b>importance tier</b>, which feeds the score. <b>Click a node</b> to drill in — its findings, neighbours, and whether the plan covers it.</p>
     <div class="mapgrid">
       <div class="card mapcard"><svg class="net" id="net" viewBox="0 0 940 600" role="img" aria-label="Asset connection graph"></svg></div>
       <div class="side">
@@ -115,7 +122,7 @@
 
   <!-- RISK ENGINE -->
   <div class="view" id="view-engine">
-    <p class="sec-note">The composite score, live. Drag the <b>weights</b> to match a risk appetite — the list re-ranks across the whole console. Every input is normalized 0–1, weighted, scaled to 0–100. Hit <b>⚖</b> on any row to override a score by hand; it's logged with who, when and why.</p>
+    <p class="sec-note">Drag the <b>weights</b> to match your risk appetite — the list re-ranks across the whole console. Hit <b>⚖</b> on any row to override a score by hand; it's logged with who, when and why.</p>
     <div class="enginegrid">
       <div class="card controls">
         <h3>Weights <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--ink-3)">· normalized</span></h3>
@@ -134,7 +141,7 @@
           <tbody id="rows"></tbody></table>
         </div>
         <div class="card audit">
-          <h3>Override audit log <span style="font-weight:400;color:var(--ink-3);font-size:11px">· overrides.py</span></h3>
+          <h3>Override audit log</h3>
           <div id="auditlog"><div class="aud-empty">No overrides yet — hit ⚖ on any row.</div></div>
         </div>
       </div>
@@ -179,7 +186,7 @@
 </div></section>
 
 <div class="footnote">
-  <b>Scryxen console</b> — unified tabbed console (Dashboard · Attack surface · Risk engine · Plan) served by <code>server.py</code> (FastAPI) over the real engine. Asset environment is the modelled <code>assets.csv</code>; NVD/EPSS/KEV data is real (cached).
+  <b>Scryxen</b> — capacity-aware remediation planning.
 </div>
 
 <div class="scrim" id="scrim" onclick="if(event.target===this)closeModal()"><div class="modal" id="modal" role="dialog" aria-modal="true"></div></div>

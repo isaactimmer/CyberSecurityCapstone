@@ -9,6 +9,7 @@ let BOARD = null;               // POST /api/plan (the whole board for the contr
 let W = { cvss: .25, epss: .30, kev: .20, importance: .25 };  // raw weights 0–1
 let cap = { patching: 40, appsec: 16, change_window: 8 };
 let kevSim = [];                // CVEs flipped to KEV in the sim
+let scope = { max_findings: null, year_range: null };  // intake "how much to look at"
 let editingRow = null;          // cve_id whose override form is open
 let selectedAsset = null;
 
@@ -21,7 +22,8 @@ const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c =>
   ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
 // ---------------- api ----------------
-const controls = () => ({ weights: W, capacity: cap, kev_sim: kevSim });
+const controls = () => ({ weights: W, capacity: cap, kev_sim: kevSim,
+  max_findings: scope.max_findings, year_range: scope.year_range });
 async function apiGet(path) { const r = await fetch(path); return r.json(); }
 async function apiPost(path, body) {
   const r = await fetch(path, { method: "POST", headers: { "Content-Type": "application/json" },
@@ -48,6 +50,13 @@ function applyEnv(env) {
   $("setupMeta").textContent = `${(ENV.asset_map.nodes || []).length} systems · ${ENV.finding_count} CVEs`;
   ["ci_pat", "ci_app", "ci_cw"].forEach((id, i) =>
     $(id).value = [cap.patching, cap.appsec, cap.change_window][i]);
+  // Scope inputs reset to "everything": count blank, years prefilled to the
+  // environment's actual span (a hint, and the widest useful range).
+  scope = { max_findings: null, year_range: null };
+  $("ci_count").value = "";
+  const yb = ENV.year_bounds;
+  $("ci_yfrom").value = yb ? yb[0] : "";
+  $("ci_yto").value = yb ? yb[1] : "";
   renderPresets();
   renderSliders();
   buildLegend();
@@ -106,6 +115,10 @@ function scheduleRefresh() { clearTimeout(refreshTimer); refreshTimer = setTimeo
 async function refresh() {
   const res = await apiPost("/api/plan", controls());
   BOARD = res.body;
+  // The board header reflects what's actually in play — the scoped count when the
+  // user narrowed the list/years, the full environment otherwise.
+  const shown = BOARD.rank_table.length, total = ENV.finding_count;
+  $("metaFindings").textContent = shown < total ? `${shown} of ${total}` : total;
   renderAll();
 }
 function renderAll() {
@@ -361,6 +374,28 @@ function gotoTab(name) {
   $("view-" + name).classList.add("active");
   if (name === "map" && BOARD) buildMap();
 }
+// Round up to a "nice" ceiling (12 -> 20, 180 -> 200) for a slider max.
+const niceCeil = x => { if (!(x > 0)) return 0; const p = Math.pow(10, Math.floor(Math.log10(x))); return Math.ceil(x / p) * p; };
+
+// Let the entered capacity drive each Plan-tab slider's ceiling, so a lead who
+// budgets 200 hrs can actually reach it (never below the sensible defaults).
+function applyCapBounds() {
+  const bump = (id, dflt, v) => { $(id).max = Math.max(dflt, niceCeil(v * 1.5)); };
+  bump("cap_pat", 160, cap.patching);
+  bump("cap_app", 80, cap.appsec);
+  bump("cap_cw", 30, cap.change_window);
+}
+
+// Read the intake "how much to look at" inputs into the scope sent with controls.
+// The raw picker values go to the engine as-is — it decides when a range is wide
+// enough to mean "all years" (against the real environment bounds).
+function readScope() {
+  const n = parseInt($("ci_count").value, 10);
+  scope.max_findings = Number.isFinite(n) && n > 0 ? n : null;
+  const yf = parseInt($("ci_yfrom").value, 10), yt = parseInt($("ci_yto").value, 10);
+  scope.year_range = (Number.isFinite(yf) && Number.isFinite(yt)) ? [yf, yt] : null;
+}
+
 async function showBoard() {
   if (sourceMode === "upload" && !uploaded) {
     flashUpload("Choose a CSV first, or switch to the sample environment.");
@@ -369,6 +404,8 @@ async function showBoard() {
   cap.patching = +$("ci_pat").value || 0;
   cap.appsec = +$("ci_app").value || 0;
   cap.change_window = +$("ci_cw").value || 0;
+  readScope();
+  applyCapBounds();
   $("cap_pat").value = cap.patching; $("pv_pat").textContent = cap.patching;
   $("cap_app").value = cap.appsec; $("pv_app").textContent = cap.appsec;
   $("cap_cw").value = cap.change_window; $("pv_cw").textContent = cap.change_window;
