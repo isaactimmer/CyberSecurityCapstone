@@ -2,8 +2,8 @@
 
 **Date:** 2026-08-12
 **Repo:** `C:\Users\sylhe\WorkProjects\CyberSecurityCapstone` · GitHub `isaactimmer/CyberSecurityCapstone`
-**Branch:** `epic-6-dashboard-intake-reshape`
-**Next session's job:** polish/edit the console (the user plans more UI edits). It works and is committed.
+**Branch:** merged to **`main`** (fast-forward). `epic-6-dashboard-intake-reshape` points at the same commit and can be deleted.
+**Next session's job:** polish/edit the console (the user plans more UI edits). It works and is on `main`.
 
 ## What changed this session — the UI shifted off Streamlit
 The approved v2 design (artifact `8fcd343b-…`) is a bespoke web app that Streamlit
@@ -28,11 +28,14 @@ in **`docs/adr/0002-web-console-over-fastapi.md`**. The Streamlit `app.py` (and
 - **`requirements.txt`** — `+fastapi +uvicorn`, `-streamlit`.
 - **`docs/adr/0002-…`**, **`CLAUDE.md`** ("Running the console"), this handoff.
 
-## State — COMMITTED + PUSHED this session
-Full suite: **237 passing** (was 259 before removing the 22 Streamlit `test_app.py`
-tests). The `dashboard.py` pure-seam tests and the whole engine test set are intact.
-Verified in the browser: intake, all four tabs, the working SVG node graph + node
-drill-in, the risk table, presets/weights, and the override flow.
+## State — COMMITTED + PUSHED + MERGED TO MAIN
+Commit **`6d4374c`** ("Rebuild console as a FastAPI web app; retire Streamlit").
+Fast-forwarded onto `main` (`911d20b..6d4374c`) and pushed — `main` == `origin/main`,
+working tree clean. Full suite: **237 passing** (was 259 before removing the 22
+Streamlit `test_app.py` tests). The `dashboard.py` pure-seam tests and the whole
+engine test set are intact. Verified in the browser: intake, all four tabs, the
+working SVG node graph + node drill-in, the risk table, presets/weights, and the
+override flow. No PR opened (merged directly by fast-forward).
 
 ## Run it
 ```
