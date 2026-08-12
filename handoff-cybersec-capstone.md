@@ -1,12 +1,14 @@
-# Handoff — CVE finding-modal enrichment (rec #1 of the Recommendations doc)
+# Handoff — Recommendations doc (recs #1, #2, #4 shipped; #3/#5/#6 remain)
 
 **Date:** 2026-08-12
 **Repo:** `C:\Users\rocketboy\Desktop\Projects\CyberSecurityCapstone` · GitHub `isaactimmer/CyberSecurityCapstone`
 **Branch:** `main` (tracks `origin/main`).
-**Commit this session:** `2ab853c` — committed to `main` **and pushed** (`aee1275..2ab853c`).
-**Next session's job:** work the remaining five recommendations (#2–#6 below) from
-`Recommendations for the Capacity Optimization Tool .md`. No blocking design
-questions except the one asset-description choice noted under rec #4.
+**Commits so far:** rec #1 `2ab853c` (pushed); rec #2 `5469ce4`; rec #4 `7d4b74f`
+(the last two committed locally — **not yet pushed**).
+**Next session's job:** work the remaining three recommendations (#3, #6, #5 below)
+from `Recommendations for the Capacity Optimization Tool .md`. No blocking design
+questions remain (rec #4's asset-description choice was resolved as **option (a),
+derived** — see below).
 
 ## What this session did
 
@@ -63,22 +65,26 @@ serves from it) over a live per-click fetch. Saved as memory
 - A `uvicorn` on port 8000 was left running from verification (may be stale by next
   session — see the stale-server trap below).
 
-## Remaining recommendations (#2–#6) — triaged, not yet started
-From `Recommendations for the Capacity Optimization Tool .md`. Suggested order:
-the quick wins (#2), then the feature work (#4, #3, #6), then the theme (#5) last.
+## Done since rec #1
+- **#2 — Max box/font design — SHIPPED (`5469ce4`).** The Plan-tab per-pool `max`
+  input (`.capmax` in `web/styles.css`) was left-aligned below each full-width
+  slider, disconnected from the right-aligned value. Now right-aligned so it tucks
+  under the value (`40 hrs` / `MAX 160`), tightened, spinner arrows removed. Pure
+  CSS. Verified light + dark.
+- **#4 — Richer asset detail on click — SHIPPED (`7d4b74f`).** Resolved as **option
+  (a), derived**: new pure `dashboard.asset_blurb(...)` synthesizes a one-sentence
+  description from vendor + criticality + hops + crown-jewel name + mapped-neighbour
+  count (no free-text column needed; works for uploads). `asset_map_data` carries
+  vendor/criticality; `asset_map_layout` ships `vendor`/`criticality`/`desc` on every
+  node so `app.js` `selectAsset` renders it with **no per-click fetch** (stays a pure
+  renderer). 4 new tests; 263 passing. Verified live, crown + non-crown, no console
+  errors. (Note: `/api/asset/{id}`/`asset_detail` still exists but the map now reads
+  from the node set, not that endpoint.)
 
-- **#2 — Max box/font design (QUICK, pure CSS).** The Plan-tab per-pool `max`
-  number input (`.capmax` in `web/styles.css`; markup in `index.html` `cm_*`) looks
-  awkward next to the sliders. Restyle to sit cleanly. No engine change.
-- **#4 — Richer asset detail on click (MODERATE).** The Attack-surface map click
-  (`app.js` `selectAsset`) draws from a thin client-side node set (name/tier/hop)
-  and does **not** call `/api/asset/{id}` — which already returns `vendor`,
-  `criticality`, `crown_jewel`, `connections` via `dashboard.asset_detail`. Wire
-  the richer data in (or fold it into the `ENV.asset_map.nodes`). **OPEN DECISION:**
-  `assets.csv` has no free-text description column — the "small description" the user
-  wants is either **(a) synthesized** from vendor + criticality + hops + connections
-  (my recommendation — no data entry, works for uploads) or **(b) a new hand-authored
-  `description` column** on `assets.csv` + the upload schema. Ask before building.
+## Remaining recommendations (#3, #6, #5) — triaged, not yet started
+From `Recommendations for the Capacity Optimization Tool .md`. Suggested order:
+the feature work (#3, #6), then the theme (#5) last.
+
 - **#3 — Dashboard mini asset-map (MODERATE).** A small "zoomed" asset-map card on
   the Dashboard centred on the crown jewel; clicking it jumps to the Attack-surface
   tab (`gotoTab('map')`). Reuses `ENV.asset_map` already shipped to the front end.
@@ -108,7 +114,7 @@ the quick wins (#2), then the feature work (#4, #3, #6), then the theme (#5) las
 ## Run it
 ```
 .\.venv\Scripts\python.exe -m uvicorn server:app --port 8000    # http://localhost:8000
-.\.venv\Scripts\python.exe -m pytest -q                         # 259 passed
+.\.venv\Scripts\python.exe -m pytest -q                         # 263 passed
 python enrich_cache.py --dry-run                                # re-check enrichment coverage
 ```
 `py` launcher works too (`py -m pytest -q`). App runs offline off `data/cache/`.
