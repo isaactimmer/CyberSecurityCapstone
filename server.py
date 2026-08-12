@@ -25,6 +25,7 @@ from __future__ import annotations
 import io
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Literal
 
 import pandas as pd
 from fastapi import FastAPI, File, HTTPException, UploadFile
@@ -86,6 +87,8 @@ class Controls(BaseModel):
     kev_sim: list[str] = Field(default_factory=list)  # CVEs flipped to KEV
     max_findings: int | None = None                # "how many to list?" — top-N, None=all
     year_range: list[int] | None = None            # [from, to] CVE years, None=all
+    scope_mode: Literal["plan", "display"] = "plan"  # "plan": top-N scopes the plan;
+    #                                                  "display": top-N caps only the table
 
 
 class OverrideRequest(Controls):
@@ -143,13 +146,31 @@ def _max_findings(controls: Controls) -> int | None:
     return n if n and n > 0 else None
 
 
+def _display_only(controls: Controls) -> bool:
+    """True when the list-size cap should trim only the *displayed* table, leaving
+    the optimizer to weigh the whole (year-scoped) universe; False keeps the default
+    plan-scoping behaviour."""
+    return controls.scope_mode == "display"
+
+
 def _scope(controls: Controls):
     """A scored-frame narrowing callable for the drill-in endpoints (asset/finding)
-    so they see the same scoped universe as the board, or None for the whole set."""
-    n, yr = _max_findings(controls), _year_range(controls)
+    so they see the same scoped universe as the board, or None for the whole set.
+    The year range always scopes; the top-N cut scopes the plan only in the default
+    "plan" mode — in "display" mode the count is demoted to a table cap (see
+    `_display_limit`) so the optimizer still weighs every in-range finding."""
+    n = None if _display_only(controls) else _max_findings(controls)
+    yr = _year_range(controls)
     if n is None and yr is None:
         return None
     return lambda s: dashboard.filter_findings(s, max_results=n, year_range=yr)
+
+
+def _display_limit(controls: Controls) -> int | None:
+    """The list-size cap as a table-only trim — set only in "display" mode, where
+    the count doesn't narrow the plan. None in the default "plan" mode (there the
+    count already rode in through `_scope`)."""
+    return _max_findings(controls) if _display_only(controls) else None
 
 
 # --- app --------------------------------------------------------------------
@@ -237,7 +258,7 @@ def recompute(controls: Controls) -> dict:
     return dashboard.plan_payload(
         _env(controls), weights=_weights(controls), pools=_pools(controls),
         asset_table=st.asset_table, override_log=st.override_log,
-        scope=_scope(controls),
+        scope=_scope(controls), display_limit=_display_limit(controls),
     )
 
 
@@ -289,7 +310,8 @@ def add_override(req: OverrideRequest) -> dict:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     return dashboard.plan_payload(env, weights=weights, pools=_pools(req),
                                   asset_table=st.asset_table,
-                                  override_log=st.override_log)
+                                  override_log=st.override_log,
+                                  scope=_scope(req), display_limit=_display_limit(req))
 
 
 @app.post("/api/override/clear")
@@ -306,7 +328,8 @@ def clear_override(req: OverrideRequest) -> dict:
     st.override_log = fresh
     return dashboard.plan_payload(_env(req), weights=_weights(req), pools=_pools(req),
                                   asset_table=st.asset_table,
-                                  override_log=st.override_log)
+                                  override_log=st.override_log,
+                                  scope=_scope(req), display_limit=_display_limit(req))
 
 
 # Static assets (app.js, styles.css). Mounted last so it never shadows the API.

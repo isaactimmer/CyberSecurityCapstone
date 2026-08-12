@@ -63,6 +63,31 @@ def test_plan_endpoint_scopes_to_year_range(client):
     assert ids == {"CVE-2020-1111", "CVE-2021-2222"}
 
 
+def test_plan_endpoint_display_mode_caps_table_but_optimizer_sees_all(client):
+    # scope_mode "display": the count trims only the table; the optimizer still
+    # weighs every finding, so more fixes are scheduled than the single listed row.
+    big = {"patching": 500, "appsec": 500, "change_window": 500}
+    plan_mode = client.post("/api/plan", json={
+        "max_findings": 1, "capacity": big}).json()
+    disp_mode = client.post("/api/plan", json={
+        "max_findings": 1, "scope_mode": "display", "capacity": big}).json()
+    assert len(plan_mode["rank_table"]) == 1
+    assert len(disp_mode["rank_table"]) == 1
+    # Plan mode plans over the top-1 only; display mode plans over all three.
+    assert plan_mode["kpis"]["optimized_fixes"] == 1
+    assert disp_mode["kpis"]["optimized_fixes"] > 1
+
+
+def test_plan_endpoint_display_mode_still_honours_year_range(client):
+    # In display mode the year range remains a real scope (narrows the universe);
+    # only the count is demoted to a display cap.
+    body = client.post("/api/plan", json={
+        "max_findings": 5, "scope_mode": "display", "year_range": [2020, 2021],
+        "capacity": {"patching": 500, "appsec": 500, "change_window": 500}}).json()
+    ids = {r["cve_id"] for r in body["rank_table"]}
+    assert ids == {"CVE-2020-1111", "CVE-2021-2222"}   # 2019 excluded from universe
+
+
 def test_override_endpoint_records_and_reranks(client):
     resp = client.post("/api/override", json={
         "cve_id": "CVE-2019-3333", "score": 100, "user": "lead",
@@ -71,6 +96,16 @@ def test_override_endpoint_records_and_reranks(client):
     body = resp.json()
     assert body["rank_table"][0]["cve_id"] == "CVE-2019-3333"
     assert body["rank_table"][0]["is_overridden"] is True
+
+
+def test_override_endpoint_keeps_the_display_cap(client):
+    # Recording an override in display mode must return the same top-N table the
+    # board shows — not silently un-trim it (the override overlaid on rank 1).
+    body = client.post("/api/override", json={
+        "cve_id": "CVE-2019-3333", "score": 100, "user": "lead", "reason": "x",
+        "max_findings": 1, "scope_mode": "display"}).json()
+    assert len(body["rank_table"]) == 1
+    assert body["rank_table"][0]["cve_id"] == "CVE-2019-3333"   # floated to the top
 
 
 def test_override_endpoint_rejects_a_blank_reason(client):

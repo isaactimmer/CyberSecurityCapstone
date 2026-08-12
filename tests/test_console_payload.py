@@ -144,6 +144,34 @@ def test_plan_payload_no_scope_keeps_every_finding():
     assert len(payload["rank_table"]) == 3
 
 
+def test_plan_payload_display_limit_caps_the_table_not_the_optimizer():
+    # "Show me the top 1, but let the optimizer still weigh every finding": the
+    # table is trimmed while the plan/KPIs reflect the whole (unscoped) universe.
+    payload = dashboard.plan_payload(
+        _year_frame(), weights=scoring.DEFAULT_WEIGHTS, pools=_big_pools(),
+        display_limit=1,
+    )
+    rows = payload["rank_table"]
+    assert len(rows) == 1
+    assert rows[0]["rank"] == 1
+    assert rows[0]["cve_id"] == "CVE-2019-1"          # top risk (KEV, critical)
+    # The optimizer saw all three findings, not just the displayed one.
+    assert payload["kpis"]["optimized_fixes"] == 3
+
+
+def test_plan_payload_display_limit_composes_with_a_year_scope():
+    # A real year scope narrows the universe (both plans + display); display_limit
+    # then trims only what the table shows within that scoped set.
+    payload = dashboard.plan_payload(
+        _year_frame(), weights=scoring.DEFAULT_WEIGHTS, pools=_big_pools(),
+        scope=lambda s: dashboard.filter_findings(s, year_range=(2021, 2023)),
+        display_limit=1,
+    )
+    assert len(payload["rank_table"]) == 1
+    # Universe is the two in-range findings; both are still planned.
+    assert payload["kpis"]["optimized_fixes"] == 2
+
+
 def test_plan_payload_applies_overrides_and_reranks():
     # A hand override to 100 on the lowest-composite finding must float it to the
     # top of the table with the overridden flag set — the security-lead authority.

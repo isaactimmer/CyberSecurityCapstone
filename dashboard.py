@@ -916,6 +916,7 @@ def plan_payload(
     override_log: "object | None" = None,
     top_limit: int = 8,
     scope: Callable[[pd.DataFrame], pd.DataFrame] | None = None,
+    display_limit: int | None = None,
 ) -> dict:
     """
     Recompute the whole console for the current controls and shape it for the
@@ -927,6 +928,12 @@ def plan_payload(
     `scope` (a scored-frame -> scored-frame callable, e.g. `filter_findings` bound
     to the landing-page list-size / year inputs) narrows the whole board — both
     plans included — to the chosen slice; None plans over the whole environment.
+
+    `display_limit` trims only the ranked findings *table* to its top N rows,
+    leaving the optimizer, KPIs, and both plan columns over the fuller (scoped)
+    universe — the "show me the top N but still weigh everything" mode. It applies
+    after any `scope`, so year-range still narrows the whole board while the count
+    only caps what's listed. None lists every row in scope.
 
     Pure over `env` (no I/O): the caller scans once and passes the cached frame.
     """
@@ -949,6 +956,8 @@ def plan_payload(
         name_by_id = dict(zip(asset_table["asset_id"], asset_table["name"]))
 
     ranked = final.reset_index(drop=True)
+    if display_limit is not None:
+        ranked = ranked.head(display_limit).reset_index(drop=True)
     ranked.insert(0, "rank", range(1, len(ranked) + 1))
     rank_rows = [
         {

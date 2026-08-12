@@ -8,8 +8,11 @@ let ENV = null;                 // GET /api/environment (static: map, presets, �
 let BOARD = null;               // POST /api/plan (the whole board for the controls)
 let W = { cvss: .25, epss: .30, kev: .20, importance: .25 };  // raw weights 0–1
 let cap = { patching: 40, appsec: 16, change_window: 8 };
+let capMax = { patching: null, appsec: null, change_window: null };  // explicit slider ceilings (null = adaptive)
 let kevSim = [];                // CVEs flipped to KEV in the sim
-let scope = { max_findings: null, year_range: null };  // intake "how much to look at"
+// intake "how much to look at". mode: "plan" (top-N scopes the plan) | "display"
+// (top-N caps only the listed table; the optimizer still weighs everything).
+let scope = { max_findings: null, year_range: null, mode: "plan" };
 let editingRow = null;          // cve_id whose override form is open
 let selectedAsset = null;
 
@@ -23,7 +26,7 @@ const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c =>
 
 // ---------------- api ----------------
 const controls = () => ({ weights: W, capacity: cap, kev_sim: kevSim,
-  max_findings: scope.max_findings, year_range: scope.year_range });
+  max_findings: scope.max_findings, year_range: scope.year_range, scope_mode: scope.mode });
 async function apiGet(path) { const r = await fetch(path); return r.json(); }
 async function apiPost(path, body) {
   const r = await fetch(path, { method: "POST", headers: { "Content-Type": "application/json" },
@@ -52,11 +55,15 @@ function applyEnv(env) {
     $(id).value = [cap.patching, cap.appsec, cap.change_window][i]);
   // Scope inputs reset to "everything": count blank, years prefilled to the
   // environment's actual span (a hint, and the widest useful range).
-  scope = { max_findings: null, year_range: null };
+  scope = { max_findings: null, year_range: null, mode: "plan" };
   $("ci_count").value = "";
+  $("ci_display_only").checked = false;
   const yb = ENV.year_bounds;
   $("ci_yfrom").value = yb ? yb[0] : "";
   $("ci_yto").value = yb ? yb[1] : "";
+  // Capacity ceilings revert to adaptive (no typed max).
+  capMax = { patching: null, appsec: null, change_window: null };
+  ["cm_pat", "cm_app", "cm_cw"].forEach(id => $(id).value = "");
   renderPresets();
   renderSliders();
   buildLegend();
@@ -377,23 +384,48 @@ function gotoTab(name) {
 // Round up to a "nice" ceiling (12 -> 20, 180 -> 200) for a slider max.
 const niceCeil = x => { if (!(x > 0)) return 0; const p = Math.pow(10, Math.floor(Math.log10(x))); return Math.ceil(x / p) * p; };
 
-// Let the entered capacity drive each Plan-tab slider's ceiling, so a lead who
-// budgets 200 hrs can actually reach it (never below the sensible defaults).
+// Per-pool slider element ids, keyed by pool — shared by the ceiling + max wiring.
+const CAP_SLIDER = { patching: "cap_pat", appsec: "cap_app", change_window: "cap_cw" };
+const CAP_MAX_IN = { patching: "cm_pat", appsec: "cm_app", change_window: "cm_cw" };
+const CAP_DEFAULT_CEIL = { patching: 160, appsec: 80, change_window: 30 };
+
+// Set each Plan-tab slider's ceiling. A lead can type an explicit max per pool
+// (capMax); otherwise the entered budget drives an adaptive ceiling so a 200 hr
+// pool is reachable (never below the sensible defaults). The typed-max input shows
+// the adaptive ceiling as its placeholder so the lead sees what "blank" means.
 function applyCapBounds() {
-  const bump = (id, dflt, v) => { $(id).max = Math.max(dflt, niceCeil(v * 1.5)); };
-  bump("cap_pat", 160, cap.patching);
-  bump("cap_app", 80, cap.appsec);
-  bump("cap_cw", 30, cap.change_window);
+  Object.keys(CAP_SLIDER).forEach(pool => {
+    const adaptive = Math.max(CAP_DEFAULT_CEIL[pool], niceCeil(cap[pool] * 1.5));
+    const explicit = capMax[pool];
+    $(CAP_SLIDER[pool]).max = explicit != null ? explicit : adaptive;
+    if (explicit == null) $(CAP_MAX_IN[pool]).placeholder = adaptive;
+  });
+}
+
+// A typed per-pool max overrides the adaptive ceiling. If the new ceiling sits
+// below the current budget, pull the budget down to it (and re-pack).
+function setCapMax(pool, v) {
+  const m = parseFloat(v);
+  capMax[pool] = Number.isFinite(m) && m > 0 ? m : null;
+  applyCapBounds();
+  if (capMax[pool] != null && cap[pool] > capMax[pool]) {
+    cap[pool] = capMax[pool];
+    $(CAP_SLIDER[pool]).value = cap[pool];
+    $(CAP_LABEL[pool]).textContent = cap[pool];
+    scheduleRefresh();
+  }
 }
 
 // Read the intake "how much to look at" inputs into the scope sent with controls.
 // The raw picker values go to the engine as-is — it decides when a range is wide
-// enough to mean "all years" (against the real environment bounds).
+// enough to mean "all years" (against the real environment bounds). The toggle
+// picks whether the top-N scopes the plan or only trims the listed table.
 function readScope() {
   const n = parseInt($("ci_count").value, 10);
   scope.max_findings = Number.isFinite(n) && n > 0 ? n : null;
   const yf = parseInt($("ci_yfrom").value, 10), yt = parseInt($("ci_yto").value, 10);
   scope.year_range = (Number.isFinite(yf) && Number.isFinite(yt)) ? [yf, yt] : null;
+  scope.mode = $("ci_display_only").checked ? "display" : "plan";
 }
 
 async function showBoard() {
