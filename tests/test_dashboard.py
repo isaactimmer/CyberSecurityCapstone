@@ -513,6 +513,50 @@ def test_asset_map_layout_flags_planned_nodes():
     assert bool(in_plan["crown"]) is True  # crown carries a scheduled fix
 
 
+def test_asset_blurb_describes_the_crown_jewel():
+    blurb = dashboard.asset_blurb(
+        name="Customer DB", vendor="oracle database", criticality="Critical",
+        hop=0, crown=True, neighbour_count=2, crown_name="Customer DB")
+    assert "crown jewel" in blurb
+    assert "Oracle Database system" in blurb
+    assert "Critical criticality" in blurb
+    assert "2 other systems" in blurb
+    assert blurb.endswith(".")
+
+
+def test_asset_blurb_places_a_non_crown_asset_relative_to_the_crown():
+    blurb = dashboard.asset_blurb(
+        name="Dev Box", vendor="ubuntu", criticality="Low",
+        hop=2, crown=False, neighbour_count=1, crown_name="Customer DB")
+    assert blurb.startswith("Dev Box is")
+    assert "2 hops from the crown jewel (Customer DB)" in blurb
+    assert "1 other system" in blurb and "systems" not in blurb  # singular
+    assert "Low criticality" in blurb
+
+
+def test_asset_blurb_tolerates_missing_vendor_and_criticality():
+    # Live vendor scans carry no asset table; the blurb must still read cleanly
+    # with no stray "None" and no dangling article.
+    blurb = dashboard.asset_blurb(
+        name="Ghost", vendor=None, criticality=None,
+        hop=None, crown=False, neighbour_count=0, crown_name=None)
+    assert "None" not in blurb
+    assert blurb.startswith("Ghost is a system")
+    assert "no mapped connections" in blurb
+
+
+def test_asset_map_layout_carries_vendor_criticality_and_blurb():
+    layout = dashboard.asset_map_layout(_asset_table())
+    assert {"vendor", "criticality", "desc"} <= set(layout.nodes.columns)
+    nodes = layout.nodes.set_index("asset_id")
+    assert nodes.loc["crown", "vendor"] == "oracle database"
+    assert nodes.loc["crown", "criticality"] == "Critical"
+    assert "crown jewel" in nodes.loc["crown", "desc"]
+    # A non-crown node's blurb locates it relative to the crown jewel by name.
+    assert "Customer DB" in nodes.loc["edge", "desc"]
+    assert "2 hops" in nodes.loc["edge", "desc"]
+
+
 def test_rank_table_numbers_rows_in_order():
     ranked = dashboard.rank_table(_scored_with_assets())
     assert list(ranked["rank"]) == [1, 2, 3]

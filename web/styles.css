@@ -167,6 +167,7 @@ svg.net{width:100%; height:auto; display:block}
 .detail{background:var(--panel-2); border:1px solid var(--line); border-radius:11px; padding:14px}
 .detail .empty{color:var(--ink-3); font-size:12.5px}
 .detail .dname{font-weight:660; font-size:15px}
+.detail .asset-desc{margin:10px 0 0; font-size:12.5px; line-height:1.5; color:var(--ink-2)}
 .detail dl{display:grid; grid-template-columns:auto 1fr; gap:6px 12px; margin:12px 0; font-size:12.5px}
 .detail dt{color:var(--ink-3)} .detail dd{margin:0; text-align:right; font-family:var(--mono)}
 .detail .fl{margin-top:10px; padding-top:10px; border-top:1px dashed var(--line)}

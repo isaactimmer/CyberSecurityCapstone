@@ -280,6 +280,10 @@ def asset_map_data(asset_table: pd.DataFrame) -> AssetMap:
                 "col": hop,
                 "slot": slot,
                 "col_size": len(group),
+                "vendor": (str(row["vendor"])
+                           if pd.notna(row.get("vendor")) else None),
+                "criticality": (str(row["criticality"])
+                                if pd.notna(row.get("criticality")) else None),
             })
 
     ids = {n["asset_id"] for n in nodes}
@@ -886,6 +890,47 @@ def _force_directed_positions(amap: AssetMap) -> dict[str, tuple[float, float]]:
     }
 
 
+def asset_blurb(
+    *,
+    name: str,
+    vendor: str | None,
+    criticality: str | None,
+    hop: int | None,
+    crown: bool,
+    neighbour_count: int,
+    crown_name: str | None,
+) -> str:
+    """
+    Synthesize a one-sentence, plain-language description of an asset from its own
+    attributes. `assets.csv` carries no free-text column, so rec #4's
+    Attack-surface click-detail blurb is composed here (option (a): derived, not
+    hand-authored) rather than stored. Pure and deterministic; tolerates a missing
+    vendor or criticality (a live vendor scan has no asset table) without emitting
+    a stray "None" or a dangling article.
+    """
+    noun = f"{vendor.title()} system" if vendor else "system"
+    article = "an" if noun[:1].lower() in "aeiou" else "a"
+    lead = f"{article} {noun}"
+    crit = f" rated {criticality} criticality" if criticality else ""
+    if neighbour_count > 0:
+        conns = (f"linked to {neighbour_count} other "
+                 f"system{'' if neighbour_count == 1 else 's'} on the map")
+    else:
+        conns = "with no mapped connections"
+
+    if crown:
+        return (f"{name} is the crown jewel — the most valuable asset on the map "
+                f"— {lead}{crit}, {conns}.")
+
+    if hop is None or hop == 0:
+        hops = ""
+    else:
+        crown_ref = f" ({crown_name})" if crown_name else ""
+        hops = (f", {hop} hop{'' if hop == 1 else 's'} from the crown "
+                f"jewel{crown_ref}")
+    return f"{name} is {lead}{crit}{hops}, {conns}."
+
+
 def asset_map_layout(
     asset_table: pd.DataFrame, result: pipeline.PlanResult | None = None
 ) -> AssetMapLayout:
@@ -901,6 +946,16 @@ def asset_map_layout(
     in_plan = in_plan_assets(result.optimized) if result is not None else set()
     positions = _force_directed_positions(amap)
 
+    # Degree (mapped neighbours) and the crown jewel's name feed the synthesized
+    # click-detail blurb (rec #4) — so the front end renders it without a fetch.
+    degree: dict[str, int] = {}
+    for src, dst in amap.edges:
+        degree[src] = degree.get(src, 0) + 1
+        degree[dst] = degree.get(dst, 0) + 1
+    crown_id = amap.crown_jewels[0] if amap.crown_jewels else None
+    crown_name = next(
+        (n["name"] for n in amap.nodes if n["asset_id"] == crown_id), None)
+
     node_rows = []
     for node in amap.nodes:
         x, y = positions[node["asset_id"]]
@@ -914,11 +969,22 @@ def asset_map_layout(
             "hop": node["hop"],
             "crown": bool(node["crown"]),
             "in_plan": node["asset_id"] in in_plan,
+            "vendor": node.get("vendor"),
+            "criticality": node.get("criticality"),
+            "desc": asset_blurb(
+                name=node["name"],
+                vendor=node.get("vendor"),
+                criticality=node.get("criticality"),
+                hop=node["hop"],
+                crown=bool(node["crown"]),
+                neighbour_count=degree.get(node["asset_id"], 0),
+                crown_name=crown_name,
+            ),
         })
     nodes = pd.DataFrame(
         node_rows,
         columns=["asset_id", "name", "tier", "tier_color", "x", "y",
-                 "hop", "crown", "in_plan"],
+                 "hop", "crown", "in_plan", "vendor", "criticality", "desc"],
     )
 
     pos = {r["asset_id"]: (r["x"], r["y"]) for r in node_rows}

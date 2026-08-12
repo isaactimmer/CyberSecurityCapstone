@@ -329,7 +329,10 @@ function selectAsset(id) {
   $("detail").innerHTML = `
     <div class="dname">${esc(node.name)} ${node.crown ? '<span style="color:var(--accent-ink)">◆</span>' : ""}</div>
     <div class="chips" style="margin-top:8px">${tierPill(node.tier)}<span class="pill" style="color:var(--ink-2);background:var(--panel-3)">${node.hop} hop${node.hop === 1 ? "" : "s"} out</span></div>
+    ${node.desc ? `<p class="asset-desc">${esc(node.desc)}</p>` : ""}
     <dl>
+      ${node.vendor ? `<dt>Vendor</dt><dd>${esc(node.vendor)}</dd>` : ""}
+      ${node.criticality ? `<dt>Criticality</dt><dd>${esc(node.criticality)}</dd>` : ""}
       <dt>Hops to crown jewel</dt><dd>${node.hop}</dd>
       <dt>Findings on system</dt><dd>${fs.length}</dd>
       <dt>Plan coverage</dt><dd style="color:${covered ? "var(--good)" : "var(--ink-3)"}">${covered ? "scheduled" : "none"}</dd>
