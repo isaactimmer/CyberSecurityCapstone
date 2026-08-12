@@ -1,0 +1,542 @@
+﻿[
+    {
+        "number":  1,
+        "title":  "Data Pipeline \u0026 Vulnerability Ingestion",
+        "state":  "closed",
+        "labels":  "epic, data, sprint-1",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:03Z",
+        "body":  "﻿\u003c!-- imported from capstone-jira-import CSV --\u003e\n**Spec:** #46 — this epic delivers the Data Source adapters seam — NVD/EPSS/KEV merged into one per-CVE dataset.\n\nEpic: **Data Pipeline \u0026 Vulnerability Ingestion**\n\nStories are attached as sub-issues.\r\n"
+    },
+    {
+        "number":  2,
+        "title":  "Asset Graph Setup",
+        "state":  "closed",
+        "labels":  "epic, data, sprint-1",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:04Z",
+        "body":  "﻿\u003c!-- imported from capstone-jira-import CSV --\u003e\n**Spec:** #46 — this epic delivers the asset graph — crown jewel, hop-distance, and importance tiers.\n\nEpic: **Asset Graph Setup**\n\nStories are attached as sub-issues.\r\n"
+    },
+    {
+        "number":  3,
+        "title":  "Agile Process",
+        "state":  "open",
+        "labels":  "epic, docs, sprint-1",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:06Z",
+        "body":  "﻿\u003c!-- imported from capstone-jira-import CSV --\u003e\n**Spec:** #46 — this epic delivers the three-sprint delivery process and ceremonies (how the work lands, not a product feature).\n\nEpic: **Agile Process**\n\nStories are attached as sub-issues.\r\n"
+    },
+    {
+        "number":  4,
+        "title":  "Composite Risk Scoring",
+        "state":  "closed",
+        "labels":  "epic, scoring, sprint-2",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:07Z",
+        "body":  "﻿\u003c!-- imported from capstone-jira-import CSV --\u003e\n**Spec:** #46 — this epic delivers part of the Planning Engine — composite risk score, adjustable weighting, security-lead override.\n\nEpic: **Composite Risk Scoring**\n\nStories are attached as sub-issues.\r\n"
+    },
+    {
+        "number":  5,
+        "title":  "Capacity-Aware Optimizer",
+        "state":  "closed",
+        "labels":  "epic, optimizer, sprint-2",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:08Z",
+        "body":  "﻿\u003c!-- imported from capstone-jira-import CSV --\u003e\n**Spec:** #46 — this epic delivers the rest of the Planning Engine — capacity pools, greedy optimizer, naive baseline, headline improvement metric.\n\nEpic: **Capacity-Aware Optimizer**\n\nStories are attached as sub-issues.\r\n"
+    },
+    {
+        "number":  6,
+        "title":  "Dashboard",
+        "state":  "open",
+        "labels":  "epic, dashboard, sprint-3",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:09Z",
+        "body":  "﻿\u003c!-- imported from capstone-jira-import CSV --\u003e\n**Spec:** #46 — this epic delivers the Streamlit view over the Planning Engine — sliders, side-by-side plans, live KEV-injection re-optimization.\n\nEpic: **Dashboard**\n\nStories are attached as sub-issues.\r\n"
+    },
+    {
+        "number":  7,
+        "title":  "Demo Preparation",
+        "state":  "open",
+        "labels":  "epic, demo, sprint-3",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:11Z",
+        "body":  "﻿\u003c!-- imported from capstone-jira-import CSV --\u003e\n**Spec:** #46 — this epic delivers the live demo — script, rehearsal, and slides.\n\nEpic: **Demo Preparation**\n\nStories are attached as sub-issues.\r\n"
+    },
+    {
+        "number":  8,
+        "title":  "Documentation \u0026 Report",
+        "state":  "open",
+        "labels":  "epic, docs, sprint-3",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:12Z",
+        "body":  "﻿\u003c!-- imported from capstone-jira-import CSV --\u003e\n**Spec:** #46 — this epic delivers the project report and the risks \u0026 limitations write-up.\n\nEpic: **Documentation \u0026 Report**\n\nStories are attached as sub-issues.\r\n"
+    },
+    {
+        "number":  9,
+        "title":  "Decide CVE-to-asset mapping method",
+        "state":  "closed",
+        "labels":  "story, data, priority-highest, sprint-1, ready-for-agent",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:13Z",
+        "body":  "## What to build\r\n\r\nChoose and document how vulnerabilities map to assets — CPE-based NVD querying vs. a curated fixed CVE list — since this decision gates every other data-pipeline ticket. Deliver a short written comparison and the decision with its reasoning.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Written comparison of CPE-query vs. curated-list (pros/cons, data volume, complexity) captured in the issue\r\n- [ ] A decision is recorded with its rationale\r\n- [ ] Downstream pipeline tickets can proceed from the chosen approach\r\n\r\n## Blocked by\r\n\r\n- None — can start immediately\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: CPE (Common Platform Enumeration) is a standardized way to query NVD directly by product/version; a curated CVE list means the team manually picks a fixed set of CVEs to work with instead. This decision blocks every other Data Pipeline ticket.\r\n\r\nRoles:\r\n- Deliverable Architect: researches both options and makes the technical call.\r\n- Scrum Master: makes sure this doesn\u0027t sit unresolved and quietly stall the sprint.\r\n- Project Coordinator: communicates the decision and its impact to the rest of the team once made.\r\n- Tech Auditor: won\u0027t let dependent tickets move to In Progress until this one is actually closed out.\r\n\r\nProject Coordinator talking points: which method was chosen, why, and what it means for how much CVE data we\u0027ll realistically have.\r\nTech Auditor checklist: the decision and reasoning are written in the ticket itself, not just talked about verbally.\r\n\r\nRequires: a short comparison written in the ticket (pros/cons, data volume, complexity) before marking it Done.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #1 Data Pipeline \u0026 Vulnerability Ingestion · **Story points:** 2 · **Sprint:** 1 · **Priority:** Highest\r\n"
+    },
+    {
+        "number":  10,
+        "title":  "Build NVD API client",
+        "state":  "closed",
+        "labels":  "story, data, priority-medium, sprint-1, ready-for-agent",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:15Z",
+        "body":  "## What to build\r\n\r\nA working NVD API client that fetches CVE records with their CVSS severity scores — the base data every later score builds on. Handles pagination and rate limits and returns real records, not a stub.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Client runs end-to-end and returns CVE records with CVSS scores attached\r\n- [ ] Pagination and rate-limit/error handling in place (API key wired if required)\r\n- [ ] Verified against a sample CVE — real data, not a stub\r\n\r\n## Blocked by\r\n\r\n- #9 — the chosen mapping method determines what/how we query\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: the NVD (National Vulnerability Database) API returns CVE records including their CVSS severity scores — this is the base data everything else scores against.\r\n\r\nRoles:\r\n- Deliverable Architect: builds the client, handles pagination/rate limits, requests an API key if needed.\r\n- Scrum Master: unblocks any access/API-key delays fast.\r\n- Project Coordinator: flags if NVD access issues will affect the Sprint 1 timeline.\r\n- Tech Auditor: only marks Done once the client returns real CVE + CVSS data, not a stub.\r\n\r\nProject Coordinator talking points: this is the foundational data source — nothing else in the pipeline works without it.\r\nTech Auditor checklist: client runs end-to-end and produces CVE records with CVSS scores attached.\r\n\r\nRequires: an NVD API key, Python (requests), and basic error/rate-limit handling.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #1 Data Pipeline \u0026 Vulnerability Ingestion · **Story points:** 3 · **Sprint:** 1 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  11,
+        "title":  "Integrate FIRST.org EPSS API",
+        "state":  "closed",
+        "labels":  "story, data, priority-medium, sprint-1, ready-for-agent",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:16Z",
+        "body":  "## What to build\r\n\r\nFetch EPSS exploitation-likelihood scores and merge them onto existing CVE records by CVE ID — the \"likely to be exploited\" signal that differentiates the tool from a static severity list.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Sample output shows CVE + CVSS + EPSS correctly matched by CVE ID\r\n- [ ] EPSS values are joined to the right CVE, not just fetched and dropped\r\n\r\n## Blocked by\r\n\r\n- #10 — needs the NVD CVE records to join EPSS scores onto\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: EPSS (Exploit Prediction Scoring System) estimates the probability a CVE will actually be exploited in the next 30 days — this is what separates our tool from a static severity list.\r\n\r\nRoles:\r\n- Deliverable Architect: builds the integration and merges EPSS scores onto existing CVE records.\r\n- Scrum Master: keeps this from slipping since it feeds directly into scoring next epic.\r\n- Project Coordinator: can explain why EPSS matters if a stakeholder asks \"why not just use CVSS.\"\r\n- Tech Auditor: confirms EPSS values are actually joined to the right CVE, not just fetched and dropped.\r\n\r\nProject Coordinator talking points: EPSS is the \"is this likely to be exploited\" signal — the core differentiator of the project.\r\nTech Auditor checklist: sample output shows CVE + CVSS + EPSS together correctly matched by CVE ID.\r\n\r\nRequires: FIRST.org EPSS API access and matching records to the NVD data by CVE ID.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #1 Data Pipeline \u0026 Vulnerability Ingestion · **Story points:** 2 · **Sprint:** 1 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  12,
+        "title":  "Integrate CISA KEV feed",
+        "state":  "closed",
+        "labels":  "story, data, priority-medium, sprint-1, ready-for-agent",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:18Z",
+        "body":  "## What to build\r\n\r\nPull the CISA KEV catalog and flag CVEs confirmed to be actively exploited right now — the strongest signal in the scoring formula.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] A boolean/flag column correctly marks actively-exploited CVEs\r\n- [ ] Entries matched to CVEs by CVE ID\r\n\r\n## Blocked by\r\n\r\n- #10 — needs the NVD CVE records to flag matching rows\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: CISA\u0027s Known Exploited Vulnerabilities (KEV) catalog lists CVEs confirmed to be actively exploited right now — this is the strongest possible signal in our scoring formula.\r\n\r\nRoles:\r\n- Deliverable Architect: pulls the feed and flags matching CVEs in the dataset.\r\n- Scrum Master: treats this as high-value/low-effort and helps prioritize it if time gets tight.\r\n- Project Coordinator: can explain KEV as \"confirmed attacks happening now,\" not a prediction.\r\n- Tech Auditor: verifies the KEV flag is present and correct on the right rows.\r\n\r\nProject Coordinator talking points: KEV is the clearest, most defensible reason to jump a vulnerability to the top of the plan.\r\nTech Auditor checklist: a boolean/flag column exists and correctly marks actively-exploited CVEs.\r\n\r\nRequires: pulling the public CISA KEV JSON/CSV feed and matching entries by CVE ID.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #1 Data Pipeline \u0026 Vulnerability Ingestion · **Story points:** 2 · **Sprint:** 1 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  13,
+        "title":  "Combine feeds into one clean DataFrame",
+        "state":  "closed",
+        "labels":  "story, data, priority-medium, sprint-1, ready-for-agent",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:20Z",
+        "body":  "## What to build\r\n\r\nJoin NVD, EPSS, and KEV on CVE ID into one clean table — one row per CVE with CVSS, EPSS, and KEV populated or explicitly null — the single source of truth scoring builds on.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Final DataFrame has one row per CVE with CVSS, EPSS, KEV all populated or explicitly null (never silently missing)\r\n- [ ] Row-count sanity check passes; no CVEs silently dropped\r\n- [ ] Handling of CVEs missing from one feed is documented\r\n\r\n## Blocked by\r\n\r\n- #10 — NVD records\r\n- #11 — EPSS scores\r\n- #12 — KEV flags\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: this is the join step — NVD, EPSS, and KEV data all need to line up on CVE ID into one table with no duplicate or missing-key rows before scoring can start.\r\n\r\nRoles:\r\n- Deliverable Architect: writes the merge logic and handles missing/unmatched records.\r\n- Scrum Master: confirms this closes out the Data Pipeline epic on schedule.\r\n- Project Coordinator: can state that this is the single source of truth the rest of the tool builds on.\r\n- Tech Auditor: checks the merged DataFrame for row-count sanity and no silently dropped CVEs.\r\n\r\nProject Coordinator talking points: this ticket marks the pipeline epic as functionally complete.\r\nTech Auditor checklist: final DataFrame has one row per CVE with CVSS, EPSS, and KEV columns all populated (or explicitly null, not missing).\r\n\r\nRequires: pandas merge/join logic and a documented approach for CVEs missing from one of the three sources.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #1 Data Pipeline \u0026 Vulnerability Ingestion · **Story points:** 2 · **Sprint:** 1 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  14,
+        "title":  "Author the asset CSV",
+        "state":  "closed",
+        "labels":  "story, data, priority-medium, sprint-1, ready-for-agent",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:21Z",
+        "body":  "## What to build\r\n\r\nHand-author 15–20 fictional, connected assets — each with connections, a criticality tag, and exactly one crown jewel — standing in for what a real audit team would supply.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] 15–20 rows, each with connections and criticality filled in\r\n- [ ] Exactly one clear crown-jewel designation\r\n- [ ] A realistic, connected asset map (not a random list)\r\n\r\n## Blocked by\r\n\r\n- None — can start immediately\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: this is fictional company data — a set of systems, how they connect to each other, and which one is the \"crown jewel\" (the most valuable system to protect).\r\n\r\nRoles:\r\n- Deliverable Architect: designs a realistic, connected asset map (not a random list).\r\n- Scrum Master: keeps scope to 15-20 assets so it doesn\u0027t balloon.\r\n- Project Coordinator: can explain that this CSV stands in for what a real audit team would provide.\r\n- Tech Auditor: confirms every asset has connections, a criticality tag, and exactly one crown-jewel designation.\r\n\r\nProject Coordinator talking points: this is simulated input data representing what a real client would hand us.\r\nTech Auditor checklist: CSV has 15-20 rows, each with connections and criticality filled in, and one clear crown jewel.\r\n\r\nRequires: designing plausible asset names, relationships, and criticality levels by hand.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #2 Asset Graph Setup · **Story points:** 2 · **Sprint:** 1 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  15,
+        "title":  "Build networkx graph loader",
+        "state":  "closed",
+        "labels":  "story, data, priority-medium, sprint-1, ready-for-agent",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:23Z",
+        "body":  "## What to build\r\n\r\nLoad the asset CSV into a networkx graph (nodes = assets, edges = connections) so importance can be computed algorithmically instead of guessed.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Loader runs cleanly on the asset CSV\r\n- [ ] Graph node/edge counts match the source CSV\r\n\r\n## Blocked by\r\n\r\n- #14 — needs the asset CSV and its schema\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: networkx is a Python library for representing networks as graphs (nodes = assets, edges = connections) so distance/importance can be calculated algorithmically instead of guessed.\r\n\r\nRoles:\r\n- Deliverable Architect: writes the loader that turns the asset CSV into a graph object.\r\n- Scrum Master: makes sure this doesn\u0027t block hop-distance work behind it.\r\n- Project Coordinator: can describe this as \"turning the asset list into a map the tool can actually reason about.\"\r\n- Tech Auditor: confirms the graph\u0027s node/edge count matches the source CSV.\r\n\r\nProject Coordinator talking points: this is what replaces subjective \"how important is this system\" guesses with an actual map.\r\nTech Auditor checklist: loader runs cleanly on the asset CSV and produces a graph with the expected number of nodes and edges.\r\n\r\nRequires: Python networkx and a CSV parser matching the schema from the asset CSV ticket.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #2 Asset Graph Setup · **Story points:** 2 · **Sprint:** 1 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  16,
+        "title":  "Implement hop-distance calculation",
+        "state":  "closed",
+        "labels":  "story, data, priority-medium, sprint-1, ready-for-agent",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:25Z",
+        "body":  "## What to build\r\n\r\nCompute shortest-path hop-distance from every asset to the crown jewel — the mechanism that makes asset importance data-driven instead of subjective.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Every asset has a computed, non-null hop-distance\r\n- [ ] A few known assets spot-check against expected distances\r\n\r\n## Blocked by\r\n\r\n- #15 — runs shortest-path against the loaded graph\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: hop-distance is the number of connection \"steps\" between an asset and the crown jewel, typically computed with a shortest-path/BFS algorithm — closer assets are treated as more important.\r\n\r\nRoles:\r\n- Deliverable Architect: implements the shortest-path calculation from every asset to the crown jewel.\r\n- Scrum Master: watches this as the last technical dependency before importance tiers can be assigned.\r\n- Project Coordinator: can explain hop-distance simply as \"how close is this system to what matters most.\"\r\n- Tech Auditor: spot-checks a few known assets against expected distances.\r\n\r\nProject Coordinator talking points: this is the mechanism that makes asset importance data-driven instead of subjective.\r\nTech Auditor checklist: every asset in the graph has a computed hop-distance value, none left null.\r\n\r\nRequires: networkx\u0027s shortest-path functions run against the graph built in the previous ticket.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #2 Asset Graph Setup · **Story points:** 3 · **Sprint:** 1 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  17,
+        "title":  "Map hop-distance into importance tiers",
+        "state":  "closed",
+        "labels":  "story, data, priority-medium, sprint-1, ready-for-agent",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:26Z",
+        "body":  "## What to build\r\n\r\nBucket raw hop-distances into readable importance tiers (0–1 = critical, 2–3 = high, 4–5 = medium, 6+ = low) that plug directly into scoring; cutoffs adjustable by the security lead.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Every asset lands in exactly one tier; none unmapped\r\n- [ ] Tiers match the stated hop-distance ranges\r\n- [ ] Tier cutoffs are adjustable\r\n\r\n## Blocked by\r\n\r\n- #16 — buckets the hop-distance output\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: raw hop-distance numbers get bucketed into human-readable tiers (0-1 hop = critical, 2-3 = high, 4-5 = medium, 6+ = low) so they can plug directly into the scoring formula.\r\n\r\nRoles:\r\n- Deliverable Architect: implements the tier mapping logic.\r\n- Scrum Master: confirms this closes the Asset Graph epic.\r\n- Project Coordinator: can explain the tier cutoffs if a stakeholder asks how \"importance\" is defined.\r\n- Tech Auditor: confirms every asset lands in exactly one tier and none are unmapped.\r\n\r\nProject Coordinator talking points: these are the default tier boundaries — note they\u0027re adjustable if the security lead disagrees with the graph\u0027s read.\r\nTech Auditor checklist: tier column exists for every asset and matches the stated hop-distance ranges.\r\n\r\nRequires: a simple lookup/bucketing function applied to the hop-distance output.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #2 Asset Graph Setup · **Story points:** 1 · **Sprint:** 1 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  18,
+        "title":  "Sprint 1 planning session",
+        "state":  "open",
+        "labels":  "story, docs, priority-medium, sprint-1",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:28Z",
+        "body":  "## What to build\r\n\r\nRun Sprint 1 planning: commit the team to a specific backlog slice with owners and a one-sentence sprint goal.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Every committed Sprint 1 ticket has story points, an assignee, and the right epic link\r\n- [ ] The sprint goal is clear enough to repeat back in one sentence\r\n\r\n## Blocked by\r\n\r\n- None — can start immediately\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: sprint planning is where the team commits to a specific slice of the backlog for the sprint, not just \"whatever looks important.\"\r\n\r\nRoles:\r\n- Scrum Master: runs the session, keeps it timeboxed, makes sure every ticket that gets pulled in has an owner.\r\n- Deliverable Architect: sanity-checks that the scope is actually buildable in the sprint window.\r\n- Project Coordinator: confirms the sprint goal is clear enough to repeat back to a stakeholder in one sentence.\r\n- Tech Auditor: confirms every committed ticket is correctly filed under this sprint in Jira before the session ends.\r\n\r\nProject Coordinator talking points: what Sprint 1\u0027s goal is, which epics it touches, and what\u0027s explicitly out of scope.\r\nTech Auditor checklist: all Sprint 1 tickets have story points, an assignee, and the right epic link.\r\n\r\nRequires: reviewing the backlog beforehand and agreeing on the sprint goal as a team before tickets are assigned.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #3 Agile Process · **Story points:** 1 · **Sprint:** 1 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  19,
+        "title":  "Sprint 1 standups",
+        "state":  "open",
+        "labels":  "story, docs, priority-medium, sprint-1",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:30Z",
+        "body":  "## What to build\r\n\r\nHold Sprint 1 standups: short syncs (did / doing / blocked) that surface blockers and keep the board current.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Board status matches what\u0027s said out loud; no stale In-Progress tickets\r\n\r\n## Blocked by\r\n\r\n- #18 — follows Sprint 1 planning\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: a standup is a short sync (what I did, what I\u0027m doing, what\u0027s blocking me) — not a status report to the leader.\r\n\r\nRoles:\r\n- Scrum Master: keeps it quick, surfaces blockers, follows up after the meeting.\r\n- Deliverable Architect: reports real build progress, not intended progress.\r\n- Project Coordinator: notes any blocker that could affect a stakeholder-facing date.\r\n- Tech Auditor: cross-checks what\u0027s said against what the Jira board actually shows.\r\n\r\nProject Coordinator talking points: current Sprint 1 status in one line, and any blocker worth escalating.\r\nTech Auditor checklist: ticket status in Jira matches what was said out loud (no ticket left \"In Progress\" from last week).\r\n\r\nRequires: everyone updating their own tickets before the standup, not during it.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #3 Agile Process · **Story points:** 1 · **Sprint:** 1 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  20,
+        "title":  "Sprint 1 review + retro",
+        "state":  "open",
+        "labels":  "story, docs, priority-medium, sprint-1",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:32Z",
+        "body":  "## What to build\r\n\r\nSprint 1 review + retro: demo what actually shipped and agree what to change about how the team works.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Sprint 1 board closed out cleanly; every item demoed as done is marked Done\r\n\r\n## Blocked by\r\n\r\n- #19 — follows the Sprint 1 working period\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: review = demo what was actually finished; retro = what to change about how the team worked, not what to build next.\r\n\r\nRoles:\r\n- Scrum Master: facilitates both parts, keeps retro constructive and blame-free.\r\n- Deliverable Architect: demos the working pieces built this sprint.\r\n- Project Coordinator: translates the demo into plain-language progress for outside stakeholders.\r\n- Tech Auditor: confirms every ticket claimed as \"done\" in the demo is actually marked Done on the board.\r\n\r\nProject Coordinator talking points: what shipped in Sprint 1, what slipped, and why.\r\nTech Auditor checklist: Sprint 1 board is closed out cleanly — no stray tickets left open that were demoed as finished.\r\n\r\nRequires: a working demo-able artifact (script output, dashboard view, etc.), not just a description of progress.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #3 Agile Process · **Story points:** 1 · **Sprint:** 1 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  21,
+        "title":  "Sprint 2 planning session",
+        "state":  "open",
+        "labels":  "story, docs, priority-medium, sprint-2",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:34Z",
+        "body":  "## What to build\r\n\r\nRun Sprint 2 planning: commit to a specific backlog slice with owners and a one-sentence sprint goal.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Every committed Sprint 2 ticket has points, an assignee, and the right epic link\r\n- [ ] The sprint goal is clear in one sentence\r\n\r\n## Blocked by\r\n\r\n- #20 — follows Sprint 1 close-out\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: sprint planning is where the team commits to a specific slice of the backlog for the sprint, not just \"whatever looks important.\"\r\n\r\nRoles:\r\n- Scrum Master: runs the session, keeps it timeboxed, makes sure every ticket that gets pulled in has an owner.\r\n- Deliverable Architect: sanity-checks that the scope is actually buildable in the sprint window.\r\n- Project Coordinator: confirms the sprint goal is clear enough to repeat back to a stakeholder in one sentence.\r\n- Tech Auditor: confirms every committed ticket is correctly filed under this sprint in Jira before the session ends.\r\n\r\nProject Coordinator talking points: what Sprint 2\u0027s goal is, which epics it touches, and what\u0027s explicitly out of scope.\r\nTech Auditor checklist: all Sprint 2 tickets have story points, an assignee, and the right epic link.\r\n\r\nRequires: reviewing the backlog beforehand and agreeing on the sprint goal as a team before tickets are assigned.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #3 Agile Process · **Story points:** 1 · **Sprint:** 2 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  22,
+        "title":  "Sprint 2 standups",
+        "state":  "open",
+        "labels":  "story, docs, priority-medium, sprint-2",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:35Z",
+        "body":  "## What to build\r\n\r\nHold Sprint 2 standups: short syncs that surface blockers and keep the board current.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Board status matches what\u0027s said; no stale In-Progress tickets\r\n\r\n## Blocked by\r\n\r\n- #21 — follows Sprint 2 planning\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: a standup is a short sync (what I did, what I\u0027m doing, what\u0027s blocking me) — not a status report to the leader.\r\n\r\nRoles:\r\n- Scrum Master: keeps it quick, surfaces blockers, follows up after the meeting.\r\n- Deliverable Architect: reports real build progress, not intended progress.\r\n- Project Coordinator: notes any blocker that could affect a stakeholder-facing date.\r\n- Tech Auditor: cross-checks what\u0027s said against what the Jira board actually shows.\r\n\r\nProject Coordinator talking points: current Sprint 2 status in one line, and any blocker worth escalating.\r\nTech Auditor checklist: ticket status in Jira matches what was said out loud (no ticket left \"In Progress\" from last week).\r\n\r\nRequires: everyone updating their own tickets before the standup, not during it.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #3 Agile Process · **Story points:** 1 · **Sprint:** 2 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  23,
+        "title":  "Sprint 2 review + retro",
+        "state":  "open",
+        "labels":  "story, docs, priority-medium, sprint-2",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:37Z",
+        "body":  "## What to build\r\n\r\nSprint 2 review + retro: demo what shipped and agree process changes.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Sprint 2 board closed cleanly; demoed items marked Done\r\n\r\n## Blocked by\r\n\r\n- #22 — follows the Sprint 2 working period\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: review = demo what was actually finished; retro = what to change about how the team worked, not what to build next.\r\n\r\nRoles:\r\n- Scrum Master: facilitates both parts, keeps retro constructive and blame-free.\r\n- Deliverable Architect: demos the working pieces built this sprint.\r\n- Project Coordinator: translates the demo into plain-language progress for outside stakeholders.\r\n- Tech Auditor: confirms every ticket claimed as \"done\" in the demo is actually marked Done on the board.\r\n\r\nProject Coordinator talking points: what shipped in Sprint 2, what slipped, and why.\r\nTech Auditor checklist: Sprint 2 board is closed out cleanly — no stray tickets left open that were demoed as finished.\r\n\r\nRequires: a working demo-able artifact (script output, dashboard view, etc.), not just a description of progress.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #3 Agile Process · **Story points:** 1 · **Sprint:** 2 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  24,
+        "title":  "Sprint 3 planning session",
+        "state":  "open",
+        "labels":  "story, docs, priority-medium, sprint-3",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:39Z",
+        "body":  "## What to build\r\n\r\nRun Sprint 3 planning: commit to a specific backlog slice with owners and a one-sentence sprint goal.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Every committed Sprint 3 ticket has points, an assignee, and the right epic link\r\n- [ ] The sprint goal is clear in one sentence\r\n\r\n## Blocked by\r\n\r\n- #23 — follows Sprint 2 close-out\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: sprint planning is where the team commits to a specific slice of the backlog for the sprint, not just \"whatever looks important.\"\r\n\r\nRoles:\r\n- Scrum Master: runs the session, keeps it timeboxed, makes sure every ticket that gets pulled in has an owner.\r\n- Deliverable Architect: sanity-checks that the scope is actually buildable in the sprint window.\r\n- Project Coordinator: confirms the sprint goal is clear enough to repeat back to a stakeholder in one sentence.\r\n- Tech Auditor: confirms every committed ticket is correctly filed under this sprint in Jira before the session ends.\r\n\r\nProject Coordinator talking points: what Sprint 3\u0027s goal is, which epics it touches, and what\u0027s explicitly out of scope.\r\nTech Auditor checklist: all Sprint 3 tickets have story points, an assignee, and the right epic link.\r\n\r\nRequires: reviewing the backlog beforehand and agreeing on the sprint goal as a team before tickets are assigned.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #3 Agile Process · **Story points:** 1 · **Sprint:** 3 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  25,
+        "title":  "Sprint 3 standups",
+        "state":  "open",
+        "labels":  "story, docs, priority-medium, sprint-3",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:41Z",
+        "body":  "## What to build\r\n\r\nHold Sprint 3 standups: short syncs that surface blockers and keep the board current.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Board status matches what\u0027s said; no stale In-Progress tickets\r\n\r\n## Blocked by\r\n\r\n- #24 — follows Sprint 3 planning\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: a standup is a short sync (what I did, what I\u0027m doing, what\u0027s blocking me) — not a status report to the leader.\r\n\r\nRoles:\r\n- Scrum Master: keeps it quick, surfaces blockers, follows up after the meeting.\r\n- Deliverable Architect: reports real build progress, not intended progress.\r\n- Project Coordinator: notes any blocker that could affect a stakeholder-facing date.\r\n- Tech Auditor: cross-checks what\u0027s said against what the Jira board actually shows.\r\n\r\nProject Coordinator talking points: current Sprint 3 status in one line, and any blocker worth escalating.\r\nTech Auditor checklist: ticket status in Jira matches what was said out loud (no ticket left \"In Progress\" from last week).\r\n\r\nRequires: everyone updating their own tickets before the standup, not during it.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #3 Agile Process · **Story points:** 1 · **Sprint:** 3 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  26,
+        "title":  "Sprint 3 review + retro",
+        "state":  "open",
+        "labels":  "story, docs, priority-medium, sprint-3",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:42Z",
+        "body":  "## What to build\r\n\r\nSprint 3 review + retro: demo the final build and run the closing retrospective.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Sprint 3 board closed cleanly; demoed items marked Done\r\n\r\n## Blocked by\r\n\r\n- #25 — follows the Sprint 3 working period\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: review = demo what was actually finished; retro = what to change about how the team worked, not what to build next.\r\n\r\nRoles:\r\n- Scrum Master: facilitates both parts, keeps retro constructive and blame-free.\r\n- Deliverable Architect: demos the working pieces built this sprint.\r\n- Project Coordinator: translates the demo into plain-language progress for outside stakeholders.\r\n- Tech Auditor: confirms every ticket claimed as \"done\" in the demo is actually marked Done on the board.\r\n\r\nProject Coordinator talking points: what shipped in Sprint 3, what slipped, and why.\r\nTech Auditor checklist: Sprint 3 board is closed out cleanly — no stray tickets left open that were demoed as finished.\r\n\r\nRequires: a working demo-able artifact (script output, dashboard view, etc.), not just a description of progress.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #3 Agile Process · **Story points:** 1 · **Sprint:** 3 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  27,
+        "title":  "Implement scoring formula",
+        "state":  "closed",
+        "labels":  "story, scoring, priority-medium, sprint-2, ready-for-agent",
+        "assignees":  "hotoloude686",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:44Z",
+        "body":  "## What to build\r\n\r\nCombine CVSS severity, EPSS likelihood, the KEV flag, and the asset\u0027s importance tier into a single composite risk score per vulnerability — the core IP that lets a \"medium\" outrank a \"critical.\"\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Every vulnerability row has a computed composite score\r\n- [ ] Formula runs on the full merged dataset without errors\r\n- [ ] The formula\u0027s inputs and weights are documented\r\n\r\n## Blocked by\r\n\r\n- #13 — the merged CVE+EPSS+KEV dataset\r\n- #17 — the asset importance tiers\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: this is the composite risk score — a formula that combines CVSS severity, EPSS exploitation likelihood, the CISA KEV flag, and the asset\u0027s importance tier into a single number per vulnerability, instead of relying on severity alone.\r\n\r\nRoles:\r\n- Deliverable Architect: designs and implements the formula.\r\n- Scrum Master: keeps this on schedule since the Optimizer epic depends on it.\r\n- Project Coordinator: can explain in plain terms why a \"medium\" CVE might outscore a \"critical\" one under this formula.\r\n- Tech Auditor: confirms the formula runs on the full merged dataset without errors and outputs a score per row.\r\n\r\nProject Coordinator talking points: this formula is the core intellectual property of the project — it\u0027s what turns four data points into one prioritization number.\r\nTech Auditor checklist: every vulnerability row has a computed composite score, and the formula\u0027s inputs/weights are documented in the ticket.\r\n\r\nRequires: the merged CVE+EPSS+KEV DataFrame and the asset importance tiers, both already completed.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #4 Composite Risk Scoring · **Story points:** 3 · **Sprint:** 2 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  28,
+        "title":  "Implement adjustable weighting",
+        "state":  "closed",
+        "labels":  "story, scoring, priority-medium, sprint-2, ready-for-agent",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:46Z",
+        "body":  "## What to build\r\n\r\nTurn the formula\u0027s fixed weights into configurable parameters so a company can weight risk factors to its own appetite (e.g. exploitability over severity).\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Weights are exposed as parameters, not hardcoded constants\r\n- [ ] Changing a weight actually changes the output score\r\n- [ ] Defaults reproduce the original formula and leave existing tests passing\r\n\r\n## Blocked by\r\n\r\n- #27 — refactors the base scoring formula\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: the proposal promises businesses can weight risk factors differently — this ticket turns the formula\u0027s fixed weights into configurable inputs, since risk doesn\u0027t matter equally to every company.\r\n\r\nRoles:\r\n- Deliverable Architect: refactors the scoring formula to accept weight parameters instead of hardcoded constants.\r\n- Scrum Master: confirms this doesn\u0027t reopen already-tested scoring logic without re-testing.\r\n- Project Coordinator: can explain that weighting is what makes the tool \"custom to each company,\" per the proposal.\r\n- Tech Auditor: verifies changing a weight actually changes the output score, and defaults still match the original formula.\r\n\r\nProject Coordinator talking points: this is the feature that lets a security lead say \"exploitability matters more to us than severity\" and have the tool reflect that.\r\nTech Auditor checklist: weights are exposed as parameters (not constants), with sane defaults and no broken existing tests.\r\n\r\nRequires: the base scoring formula ticket completed first.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #4 Composite Risk Scoring · **Story points:** 2 · **Sprint:** 2 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  29,
+        "title":  "Implement security-lead override field",
+        "state":  "closed",
+        "labels":  "story, scoring, priority-medium, sprint-2, ready-for-agent",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:47Z",
+        "body":  "## What to build\r\n\r\nLet a security lead manually override a computed score, with an audit log of who changed it, when, and why, so overrides stay transparent rather than silent.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Override recorded with user, timestamp, and reason\r\n- [ ] Overridden score is clearly distinguishable from the computed one\r\n- [ ] Override history is persisted (in-memory store or simple log file/table is fine)\r\n\r\n## Blocked by\r\n\r\n- #27 — overrides act on the computed score\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: the proposal states the security lead retains full authority to adjust the tool\u0027s output — this ticket builds the manual override, with a log of who changed a score, when, and why, so overrides stay auditable rather than silent.\r\n\r\nRoles:\r\n- Deliverable Architect: builds the override field and its logging.\r\n- Scrum Master: keeps scope tight — this is an override mechanism, not a new scoring path.\r\n- Project Coordinator: can explain that overrides are logged, so the tool stays transparent even when a human adjusts it.\r\n- Tech Auditor: confirms an override actually gets recorded with who/when/why, not just the new value.\r\n\r\nProject Coordinator talking points: the tool doesn\u0027t remove human judgment — it makes any human adjustment visible and defensible.\r\nTech Auditor checklist: override log entries include user, timestamp, and a reason field, and the overridden score is clearly distinguishable from the computed one.\r\n\r\nRequires: a place to persist override history (in-memory store or simple log file/table for the capstone scope).\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #4 Composite Risk Scoring · **Story points:** 2 · **Sprint:** 2 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  30,
+        "title":  "Unit test scoring against sample vulnerabilities",
+        "state":  "closed",
+        "labels":  "story, scoring, priority-medium, sprint-2, ready-for-agent",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:49Z",
+        "body":  "## What to build\r\n\r\nCover the scoring engine with pytest on known inputs so it can be trusted downstream — including formula, weighting, and override behaviour.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Test suite exists, runs cleanly, and passes\r\n- [ ] A KEV-flagged CVE never scores lower than an otherwise-identical non-KEV one\r\n- [ ] Changing a weight is reflected in the score; the override path is covered\r\n- [ ] Representative edge cases covered (high/low severity, KEV on/off)\r\n\r\n## Blocked by\r\n\r\n- #27 — formula under test\r\n- #28 — weighting under test\r\n- #29 — override under test\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: unit tests prove the scoring formula behaves correctly on known inputs (e.g. a KEV-flagged CVE should never score lower than an identical non-KEV one) before it\u0027s trusted downstream.\r\n\r\nRoles:\r\n- Deliverable Architect: writes the test cases and fixes anything they catch.\r\n- Scrum Master: treats failing tests as a blocker, not a nice-to-have.\r\n- Project Coordinator: can point to passing tests as evidence the formula is reliable, if asked.\r\n- Tech Auditor: confirms tests actually run and pass before the ticket is marked Done — not just written.\r\n\r\nProject Coordinator talking points: this is our quality proof point for the scoring engine going into the demo.\r\nTech Auditor checklist: test suite exists, runs cleanly, and covers at least a few representative edge cases (high/low severity, KEV on/off).\r\n\r\nRequires: a Python testing framework (e.g. pytest) and a handful of hand-picked sample vulnerabilities with known expected outcomes.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #4 Composite Risk Scoring · **Story points:** 2 · **Sprint:** 2 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  31,
+        "title":  "Define capacity-pool data structure",
+        "state":  "closed",
+        "labels":  "story, optimizer, priority-medium, sprint-2, ready-for-agent",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:51Z",
+        "body":  "## What to build\r\n\r\nModel the distinct kinds of team work-time as separate capacity pools (general/patching, AppSec, change-window), each holding a numeric capacity — not a single generic \"hours available\" number.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Structure supports at least the three named pools\r\n- [ ] Each pool holds a numeric capacity in its unit of effort\r\n\r\n## Blocked by\r\n\r\n- None — can start immediately\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: capacity pools represent the limited, separate types of work-time a security team actually has (e.g. general/patching hours, AppSec hours, change-window slots) — remediation has to fit inside these, not just a single number of \"hours available.\"\r\n\r\nRoles:\r\n- Deliverable Architect: designs the data structure representing each pool and its available capacity.\r\n- Scrum Master: makes sure this lands before the optimizer ticket, which depends on it.\r\n- Project Coordinator: can explain why \"capacity\" isn\u0027t just one number — different fixes need different kinds of team time.\r\n- Tech Auditor: confirms the structure can represent multiple distinct pools, not just a single generic capacity value.\r\n\r\nProject Coordinator talking points: this is what makes the plan \"capacity-aware\" instead of just a sorted list — it respects real team constraints.\r\nTech Auditor checklist: data structure supports at least the three named pools (general/patching, AppSec, change-window) and holds a numeric capacity for each.\r\n\r\nRequires: agreeing on what fields each pool needs (name, available time/slots, unit of effort).\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #5 Capacity-Aware Optimizer · **Story points:** 2 · **Sprint:** 2 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  32,
+        "title":  "Build greedy optimizer",
+        "state":  "closed",
+        "labels":  "story, optimizer, priority-medium, sprint-2, ready-for-agent",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:53Z",
+        "body":  "## What to build\r\n\r\nFill each capacity pool by the best risk-reduction-per-effort ratio until full, producing the ordered remediation plan — the tool\u0027s direct answer to \"given our time, what order gives the most risk reduction.\"\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Output plan never exceeds any pool\u0027s stated capacity\r\n- [ ] Vulnerabilities are ordered by risk-reduction / effort ratio\r\n- [ ] Runs on the scored dataset across all capacity pools\r\n\r\n## Blocked by\r\n\r\n- #27 — needs scored vulnerabilities\r\n- #31 — needs the capacity-pool structure\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: a greedy optimizer builds a plan by repeatedly picking the single best available option at each step — here, the vulnerability with the best risk-reduction-per-effort ratio — until a capacity pool is full. It\u0027s fast and usually good, but not guaranteed to be the mathematically optimal plan (that\u0027s what the ILP stretch ticket checks).\r\n\r\nRoles:\r\n- Deliverable Architect: implements the greedy fill algorithm across all capacity pools.\r\n- Scrum Master: protects time for this ticket — it\u0027s the core deliverable of the whole project.\r\n- Project Coordinator: can explain \"greedy\" in plain terms if a non-technical stakeholder asks how the plan is built.\r\n- Tech Auditor: confirms the optimizer actually respects capacity limits and never overfills a pool.\r\n\r\nProject Coordinator talking points: this algorithm is what directly answers the proposal\u0027s core question — given our time, what order gives the most risk reduction.\r\nTech Auditor checklist: output plan never exceeds any pool\u0027s stated capacity, and vulnerabilities are ordered by risk-reduction/effort ratio.\r\n\r\nRequires: the scored vulnerability dataset and the capacity-pool structure, both completed first.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #5 Capacity-Aware Optimizer · **Story points:** 3 · **Sprint:** 2 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  33,
+        "title":  "Build naive severity-first baseline",
+        "state":  "closed",
+        "labels":  "story, optimizer, priority-medium, sprint-2, ready-for-agent",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:54Z",
+        "body":  "## What to build\r\n\r\nThe \"before\" picture — fill the same capacity pools by CVSS-sorted order only, with no EPSS/KEV/importance signal, so the comparison against the optimizer is apples-to-apples.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Baseline sorts by severity only (no EPSS/KEV/importance)\r\n- [ ] Consumes the same capacity pools as the greedy optimizer\r\n- [ ] Produces a directly comparable plan\r\n\r\n## Blocked by\r\n\r\n- #27 — same scored dataset\r\n- #31 — same capacity pools\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: this is the \"straw man\" comparison — a plan built the way most teams do it today, just working down a severity-sorted list until time runs out, with no exploitability or asset-importance data factored in.\r\n\r\nRoles:\r\n- Deliverable Architect: implements the simple severity-sorted fill.\r\n- Scrum Master: keeps this ticket small — it\u0027s intentionally simple by design.\r\n- Project Coordinator: can explain that this baseline represents current industry practice, which the proposal is arguing against.\r\n- Tech Auditor: confirms this baseline uses the same capacity pools as the optimizer, so the comparison is apples-to-apples.\r\n\r\nProject Coordinator talking points: this is the \"before\" picture — what teams get today without our tool.\r\nTech Auditor checklist: baseline logic only sorts by severity (no EPSS/KEV/importance) and consumes the same capacity constraints as the greedy optimizer.\r\n\r\nRequires: the same scored dataset and capacity pools used by the optimizer, so both plans are directly comparable.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #5 Capacity-Aware Optimizer · **Story points:** 2 · **Sprint:** 2 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  34,
+        "title":  "Compute headline improvement metric",
+        "state":  "closed",
+        "labels":  "story, optimizer, priority-medium, sprint-2, ready-for-agent",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:56Z",
+        "body":  "## What to build\r\n\r\nTurn the two plans into one demo-ready number: the percentage of extra risk reduction the optimizer achieves over the naive severity-first baseline — the capstone\u0027s headline result.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Metric computed from both plans\u0027 actual total risk-reduction values (not hardcoded)\r\n- [ ] Optimizer\u0027s total risk reduction is never lower than the baseline\u0027s\r\n\r\n## Blocked by\r\n\r\n- #32 — the optimizer plan\r\n- #33 — the baseline plan\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: this turns the two plans into a single, demo-ready number — the percentage of risk reduction the optimizer achieves over the naive severity-first baseline, which is the proposal\u0027s core proof point.\r\n\r\nRoles:\r\n- Deliverable Architect: implements the comparison calculation between the two plans.\r\n- Scrum Master: flags this as high-visibility for the demo and protects time for it.\r\n- Project Coordinator: this is the number to lead with when explaining the project\u0027s value to anyone outside the team.\r\n- Tech Auditor: sanity-checks the math (the optimizer\u0027s total risk reduction should never be lower than the baseline\u0027s).\r\n\r\nProject Coordinator talking points: this single percentage is the headline result of the entire capstone.\r\nTech Auditor checklist: metric is computed from both plans\u0027 actual total risk-reduction values, not hardcoded or estimated.\r\n\r\nRequires: both the greedy optimizer output and the naive baseline output completed first.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #5 Capacity-Aware Optimizer · **Story points:** 1 · **Sprint:** 2 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  35,
+        "title":  "(Stretch) PuLP/ILP comparison",
+        "state":  "closed",
+        "labels":  "story, optimizer, priority-low, sprint-2, ready-for-agent",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:18:58Z",
+        "body":  "## What to build\r\n\r\n(Stretch) Compute the mathematically optimal plan via ILP (PuLP) to measure how close the greedy approach gets. Optional polish — attempt only after every required Sprint 2 ticket is done.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] ILP model runs and its result is compared against the greedy plan\r\n- [ ] Only started once all required Sprint 2 tickets are complete\r\n\r\n## Blocked by\r\n\r\n- #32 — compares against the working greedy optimizer\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: ILP (Integer Linear Programming) solves for the mathematically optimal plan rather than the greedy approximation — PuLP is a Python library that can compute it. This checks how close the faster greedy method gets to the true best answer.\r\n\r\nRoles:\r\n- Deliverable Architect: implements the ILP model, only if ahead of schedule.\r\n- Scrum Master: explicitly deprioritizes this if any core ticket is behind — it\u0027s a stretch goal, not a requirement.\r\n- Project Coordinator: can mention this as a \"nice to have\" validation step if asked, not a core deliverable.\r\n- Tech Auditor: makes sure this ticket doesn\u0027t get marked Done at the expense of a required ticket slipping.\r\n\r\nProject Coordinator talking points: this is optional polish showing the greedy approach is close to mathematically optimal — not required for the demo to work.\r\nTech Auditor checklist: confirm this is only attempted after every Sprint 2 required ticket is complete.\r\n\r\nRequires: the PuLP library and a working greedy optimizer already in place to compare against.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #5 Capacity-Aware Optimizer · **Story points:** 3 · **Sprint:** 2 · **Priority:** Low\r\n"
+    },
+    {
+        "number":  36,
+        "title":  "Mid-sprint checkpoint: optimizer beats baseline",
+        "state":  "closed",
+        "labels":  "story, optimizer, priority-high, sprint-2",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:19:00Z",
+        "body":  "## What to build\r\n\r\nGo/no-go gate (not a build task): confirm the optimizer beats the baseline on sample data before the team moves into dashboard work built on top of it.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Actual optimizer-vs-baseline numbers are run and documented in the ticket\r\n- [ ] A go/no-go decision is recorded\r\n\r\n## Blocked by\r\n\r\n- #34 — needs the computed improvement metric to make the call\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: this is a go/no-go gate, not a build task — it exists to catch a broken or underperforming optimizer before the team moves into dashboard work built on top of it.\r\n\r\nRoles:\r\n- Scrum Master: calls the checkpoint and makes the go/no-go call with the team.\r\n- Deliverable Architect: demonstrates the optimizer\u0027s output against the baseline on sample data.\r\n- Project Coordinator: communicates outward immediately if this checkpoint fails and timeline is at risk.\r\n- Tech Auditor: confirms the comparison was actually run and the result is documented in the ticket.\r\n\r\nProject Coordinator talking points: if this passes, the team is on track for Sprint 3; if not, this is the moment to escalate.\r\nTech Auditor checklist: ticket comment shows the actual optimizer-vs-baseline numbers used to make the call.\r\n\r\nRequires: both the greedy optimizer and naive baseline tickets completed and runnable on the same sample data.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #5 Capacity-Aware Optimizer · **Story points:** 1 · **Sprint:** 2 · **Priority:** High\r\n"
+    },
+    {
+        "number":  37,
+        "title":  "Streamlit app skeleton",
+        "state":  "open",
+        "labels":  "story, dashboard, priority-medium, sprint-3, ready-for-agent",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:19:02Z",
+        "body":  "## What to build\r\n\r\nThe empty Streamlit shell and navigation the rest of the dashboard fills in — the container the demo runs in.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] `streamlit run` launches the app cleanly with placeholder content, no crash\r\n- [ ] Base page/layout structure is in place\r\n\r\n## Blocked by\r\n\r\n- None — can start immediately\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: Streamlit is a Python framework for turning a script into a simple interactive web app — this ticket is just the empty shell/navigation the rest of the dashboard tickets will fill in.\r\n\r\nRoles:\r\n- Deliverable Architect: sets up the base app structure and page layout.\r\n- Scrum Master: keeps this ticket small — it\u0027s scaffolding, not features.\r\n- Project Coordinator: can describe this as \"the container the demo will run in.\"\r\n- Tech Auditor: confirms the app actually runs locally without errors before marking Done.\r\n\r\nProject Coordinator talking points: this unblocks all remaining dashboard work — nothing dashboard-related can start without it.\r\nTech Auditor checklist: `streamlit run` launches the app cleanly with no crash, even with placeholder content.\r\n\r\nRequires: Streamlit installed and a defined page/layout structure agreed on with the team.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #6 Dashboard · **Story points:** 2 · **Sprint:** 3 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  38,
+        "title":  "Capacity-pool + weighting sliders",
+        "state":  "open",
+        "labels":  "story, dashboard, priority-medium, sprint-3, ready-for-agent",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:19:04Z",
+        "body":  "## What to build\r\n\r\nInteractive sliders for capacity-pool sizes and scoring weights, wired to the real backend parameters so moving one updates the plan live — what makes it a planning tool, not a static report.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Each slider is connected to a real weight or capacity parameter\r\n- [ ] Moving a slider changes the underlying plan output, not just a UI value\r\n\r\n## Blocked by\r\n\r\n- #37 — the app skeleton\r\n- #28 — the adjustable weights\r\n- #31 — the capacity-pool structure\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: these are the interactive controls that let a user change capacity pool sizes and scoring weights live and see the plan update — this is what makes the tool feel like a planning tool, not a static report.\r\n\r\nRoles:\r\n- Deliverable Architect: builds the sliders and wires them to the scoring/optimizer functions.\r\n- Scrum Master: watches for scope creep — sliders should map directly to existing parameters, not new features.\r\n- Project Coordinator: can describe this as \"letting the security lead try their own numbers live.\"\r\n- Tech Auditor: confirms moving a slider actually changes the underlying plan output, not just a UI value.\r\n\r\nProject Coordinator talking points: this is the feature that makes the demo interactive instead of a fixed screenshot.\r\nTech Auditor checklist: each slider is connected to a real backend parameter (weight or capacity), verified by changing it and seeing the output change.\r\n\r\nRequires: the Streamlit skeleton, the scoring weights, and the capacity-pool structure all already in place.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #6 Dashboard · **Story points:** 2 · **Sprint:** 3 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  39,
+        "title":  "Findings table + naive-vs-optimized view",
+        "state":  "open",
+        "labels":  "story, dashboard, priority-medium, sprint-3, ready-for-agent",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:19:06Z",
+        "body":  "## What to build\r\n\r\nThe promised side-by-side panel: the naive severity-first plan next to the optimized plan, kept in sync with the engine, so the improvement is shown rather than just claimed.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Both plans are pulled live from the actual optimizer/baseline functions (not mocked)\r\n- [ ] Table updates correctly when sliders change; both plans stay in sync with the data\r\n\r\n## Blocked by\r\n\r\n- #37 — the app skeleton\r\n- #34 — the optimizer, baseline, and improvement metric\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: this is the proposal\u0027s promised \"side-by-side panel\" — showing the naive severity-first plan next to the optimized plan so the improvement is visible, not just claimed.\r\n\r\nRoles:\r\n- Deliverable Architect: builds the comparison table/view in the dashboard.\r\n- Scrum Master: prioritizes this — it\u0027s one of the most demo-critical dashboard tickets.\r\n- Project Coordinator: this view is likely the single screen most stakeholders will remember from the demo.\r\n- Tech Auditor: confirms both plans shown are pulled live from the actual optimizer/baseline functions, not mocked data.\r\n\r\nProject Coordinator talking points: this is the visual proof of the headline improvement percentage — seeing is believing.\r\nTech Auditor checklist: table updates correctly when sliders change, and both plans stay in sync with the underlying data.\r\n\r\nRequires: the optimizer, baseline, and improvement-metric tickets completed, plus the app skeleton.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #6 Dashboard · **Story points:** 3 · **Sprint:** 3 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  40,
+        "title":  "Inject new KEV alert demo trigger",
+        "state":  "open",
+        "labels":  "story, dashboard, priority-medium, sprint-3, ready-for-agent",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:19:07Z",
+        "body":  "## What to build\r\n\r\nA trigger that simulates a brand-new actively-exploited CVE appearing mid-demo and drives a live re-optimization — proving the tool reacts to the world changing, not a one-time report.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Triggering injects a simulated KEV entry and produces a genuinely re-ranked plan\r\n- [ ] The change is verified by comparing before/after output\r\n\r\n## Blocked by\r\n\r\n- #38 — needs the working sliders\r\n- #39 — needs the comparison view\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: this demonstrates the proposal\u0027s \"automatic updates to a plan\" promise — simulating a brand-new actively-exploited CVE appearing mid-demo and showing the plan re-optimize live in response.\r\n\r\nRoles:\r\n- Deliverable Architect: builds the trigger and the live re-optimization it causes.\r\n- Scrum Master: treats this as high-risk/high-reward and gives it enough buffer time in Sprint 3.\r\n- Project Coordinator: this is likely the single most memorable demo moment — worth flagging to stakeholders in advance.\r\n- Tech Auditor: confirms the plan visibly and correctly changes after the trigger fires, not just a static message.\r\n\r\nProject Coordinator talking points: this proves the tool isn\u0027t a one-time report — it reacts to the real world changing.\r\nTech Auditor checklist: triggering the demo alert produces a genuinely re-ranked plan, verified by comparing before/after output.\r\n\r\nRequires: the full dashboard (sliders, comparison view) working first, plus a way to simulate/inject a fake KEV entry.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #6 Dashboard · **Story points:** 3 · **Sprint:** 3 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  41,
+        "title":  "Script the live demo flow",
+        "state":  "open",
+        "labels":  "story, demo, priority-medium, sprint-3",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:19:09Z",
+        "body":  "## What to build\r\n\r\nWrite the fixed narrative path through the dashboard — what gets clicked, said, and shown, in what order — so the live demo doesn\u0027t wander or run long.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] No step references a feature that isn\u0027t actually finished and working\r\n- [ ] The scripted flow fits the time slot\r\n\r\n## Blocked by\r\n\r\n- #40 — the dashboard must be demo-complete end-to-end\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: a demo script is the fixed narrative path through the dashboard — what gets clicked, said, and shown, in what order — so the live demo doesn\u0027t wander or run long.\r\n\r\nRoles:\r\n- Project Coordinator: usually drafts or leads this, since it\u0027s about telling the story clearly.\r\n- Deliverable Architect: confirms every step in the script is something the actual build can do live.\r\n- Scrum Master: keeps the script tight enough to fit the time slot.\r\n- Tech Auditor: confirms every feature referenced in the script actually exists and works in the current build.\r\n\r\nProject Coordinator talking points: this is literally the talk track for the demo — worth reviewing with the whole team before rehearsal.\r\nTech Auditor checklist: no step in the script references a feature that isn\u0027t actually finished and working.\r\n\r\nRequires: the dashboard functionally complete enough to demo end-to-end.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #7 Demo Preparation · **Story points:** 1 · **Sprint:** 3 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  42,
+        "title":  "Rehearse full timing",
+        "state":  "open",
+        "labels":  "story, demo, priority-medium, sprint-3",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:19:11Z",
+        "body":  "## What to build\r\n\r\nRehearse the demo end-to-end to confirm it fits the 20-minute slot and to catch live technical hiccups before the real thing.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] The run fits inside the time slot; trimming points identified\r\n- [ ] Any bug or glitch hit during rehearsal is logged as a ticket\r\n\r\n## Blocked by\r\n\r\n- #41 — rehearses against the demo script\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: rehearsal catches the gap between \"the script reads fine\" and \"it actually fits in 20 minutes live\" — timing always runs long the first pass.\r\n\r\nRoles:\r\n- Scrum Master: times the rehearsal and calls out where it\u0027s running long.\r\n- Deliverable Architect: handles any live technical hiccups during rehearsal and fixes them before the real demo.\r\n- Project Coordinator: adjusts the talk track/pacing based on where time is lost.\r\n- Tech Auditor: notes anything that breaks or behaves unexpectedly during the run-through.\r\n\r\nProject Coordinator talking points: report back whether the run fit inside the 20-minute slot and where it needs trimming.\r\nTech Auditor checklist: any bug or glitch hit during rehearsal gets logged as a ticket, not just fixed silently.\r\n\r\nRequires: the demo script and a fully working build to rehearse against, ideally more than once.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #7 Demo Preparation · **Story points:** 1 · **Sprint:** 3 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  43,
+        "title":  "Build slides",
+        "state":  "open",
+        "labels":  "story, demo, priority-medium, sprint-3",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:19:13Z",
+        "body":  "## What to build\r\n\r\nSlides that follow the required course structure, using real output and screenshots from the actual build.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Slide structure matches the required guide\r\n- [ ] Every number/screenshot traces back to real tool output\r\n\r\n## Blocked by\r\n\r\n- #40 — needs near-final build results to reference\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: these slides need to follow the course\u0027s required structure/guide, not a freeform pitch deck — check the structure requirement before designing.\r\n\r\nRoles:\r\n- Project Coordinator: usually owns slide content and structure, since it\u0027s the stakeholder-facing story.\r\n- Deliverable Architect: supplies accurate technical detail and real output/screenshots for the slides.\r\n- Scrum Master: keeps this from being built last-minute alongside rehearsal.\r\n- Tech Auditor: checks that any numbers or screenshots on the slides match the actual current build output.\r\n\r\nProject Coordinator talking points: confirm the slide structure matches the required guide before spending time on design polish.\r\nTech Auditor checklist: every claim, number, or screenshot in the deck traces back to something the tool actually produces.\r\n\r\nRequires: the required slide-structure guide and finished (or near-finished) dashboard results to reference.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #7 Demo Preparation · **Story points:** 3 · **Sprint:** 3 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  44,
+        "title":  "Write project report",
+        "state":  "open",
+        "labels":  "story, docs, priority-medium, sprint-3",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:19:15Z",
+        "body":  "## What to build\r\n\r\nA four-section project report (overview/motivation, tools/methodology, implementation/results, conclusion/next steps) telling the proposal\u0027s story with what was actually built.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] All four sections present\r\n- [ ] Implementation/results describes only features that are actually complete\r\n\r\n## Blocked by\r\n\r\n- #40 — reports on the finished/near-finished build\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: the report needs four sections — overview/motivation, tools/methodology, implementation/results, and conclusion/next steps — telling the same story as the proposal but with what was actually built.\r\n\r\nRoles:\r\n- Project Coordinator: often drives structure and the overview/motivation framing.\r\n- Deliverable Architect: writes the tools/methodology and implementation/results sections with real technical detail.\r\n- Scrum Master: keeps writing on track alongside demo prep so neither gets rushed.\r\n- Tech Auditor: verifies every result claimed in the report matches what the finished build actually does.\r\n\r\nProject Coordinator talking points: this report is the lasting record of the project beyond the live demo.\r\nTech Auditor checklist: implementation/results section only describes features that are actually complete, not planned.\r\n\r\nRequires: the finished (or near-finished) build, plus notes carried over from the original proposal for the motivation section.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #8 Documentation \u0026 Report · **Story points:** 5 · **Sprint:** 3 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  45,
+        "title":  "Write Risks \u0026 Limitations section",
+        "state":  "open",
+        "labels":  "story, docs, priority-medium, sprint-3",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:19:17Z",
+        "body":  "## What to build\r\n\r\nHonestly name the project\u0027s real constraints: heuristic effort estimates, the fictional asset CSV, greedy-not-provably-optimal, override subjectivity, and CVE-only scope.\r\n\r\n## Acceptance criteria\r\n\r\n- [ ] Each named limitation is addressed\r\n- [ ] The section neither overstates nor understates what was actually limited\r\n\r\n## Blocked by\r\n\r\n- #44 — is a section of the project report\r\n\r\n\u003cdetails\u003e\r\n\u003csummary\u003eTeam roles, talking points \u0026 original detail\u003c/summary\u003e\r\n\r\nKey concept: this section should honestly name the project\u0027s real constraints — effort estimates are heuristic guesses, the asset CSV is fictional, the greedy optimizer isn\u0027t provably optimal, manual overrides reintroduce subjectivity, and scope is limited to CVE-based vulnerabilities only.\r\n\r\nRoles:\r\n- Deliverable Architect: writes the technical limitations (greedy-not-optimal, CVE-only scope) accurately.\r\n- Project Coordinator: frames the business-facing limitations (fictional data, override subjectivity) clearly.\r\n- Scrum Master: makes sure this doesn\u0027t get skipped under demo-prep time pressure.\r\n- Tech Auditor: checks the section doesn\u0027t overstate or understate what was actually limited about the build.\r\n\r\nProject Coordinator talking points: being upfront about these limitations is what makes the report credible to a technical audience.\r\nTech Auditor checklist: every named limitation (heuristic estimates, fictional CSV, greedy-not-optimal, override subjectivity, CVE-only scope) is actually addressed.\r\n\r\nRequires: honest reflection from the whole team on where the 2-3 week timeline forced shortcuts.\r\n\r\n\u003c/details\u003e\r\n\r\n**Epic:** #8 Documentation \u0026 Report · **Story points:** 2 · **Sprint:** 3 · **Priority:** Medium\r\n"
+    },
+    {
+        "number":  46,
+        "title":  "Spec: Capacity-optimization remediation planning tool",
+        "state":  "open",
+        "labels":  "ready-for-agent",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-06T04:19:43Z",
+        "body":  "## Problem Statement\n\nA security team facing more open vulnerabilities than it can ever fix has to decide, every week, *which* fixes to do and *in what order*. Today that decision is driven almost entirely by a static severity label (CVSS) assigned once at disclosure and rarely revisited. That label doesn\u0027t say how likely a vulnerability is to actually be exploited, whether attackers are hitting it right now, or how much it matters *to this specific company\u0027s* systems. The result: things marked \"critical\" sit untouched for weeks while things marked \"medium\" — the ones attackers actually reach for — get deprioritized. Roughly 45% of vulnerabilities discovered each year stay open and unresolved, and a large share of those are the ones that genuinely put the business at risk.\n\nOn top of the wrong ordering, the team has no way to size a remediation plan against the *actual* work-time it has. \"Fix everything labeled critical\" is not a plan a team with a fixed number of patching hours, AppSec hours, and change-window slots can execute. And when someone does estimate which systems are most important, that estimate is one person\u0027s subjective guess that can be ranked far too high or too low.\n\n## Solution\n\nA **capacity-optimization planning tool** that produces an ordered, executable remediation plan instead of a static ranked list. From the user\u0027s perspective it:\n\n- Pulls **real, present-time vulnerability data** from public sources — CVE/CVSS records (NVD), exploitation-likelihood scores (FIRST.org EPSS), and confirmed active-attack alerts (CISA KEV).\n- Builds a **map of the company\u0027s systems** (the asset graph) from a supplied asset CSV, identifies the **crown jewel** (most valuable system), and derives each asset\u0027s **importance tier** from its **hop-distance** to the crown jewel — replacing the subjective \"how important is this box\" guess with something data-driven the security lead can still adjust.\n- Assigns every vulnerability a **composite risk score** combining severity, exploitation likelihood, active-exploitation status, and the affected asset\u0027s importance — so a \"medium\" that is being actively exploited on a critical asset can correctly outrank a \"critical\" that isn\u0027t.\n- Takes the team\u0027s **capacity pools** (the distinct kinds of work-time it actually has) and produces a **remediation plan** — which fixes, in which order — that yields the **greatest risk reduction** for the capacity available.\n- Shows a **side-by-side comparison** of the optimized plan against the way most teams work today (a **naive severity-first baseline**) and reports a single **headline improvement metric**: the percentage of extra risk reduced by following the tool\u0027s plan.\n- **Re-optimizes automatically** when the picture changes — e.g. a brand-new actively-exploited CVE appears — so the plan reflects the real world rather than a one-time snapshot.\n- Keeps the human in charge: **adjustable weighting** so a business can say \"exploitability matters more to us than severity,\" and a **security-lead override** on any score, with an audit log of who changed what, when, and why.\n\nThe whole thing is delivered as an interactive **Streamlit dashboard** the team can drive live.\n\n## User Stories\n\n1. As a **SOC analyst**, I want to see which vulnerabilities represent the most immediate real danger right now, so that I focus on active threats instead of whatever has the scariest label.\n2. As a **SOC analyst**, I want vulnerabilities that CISA KEV confirms are being actively exploited to surface at the top, so that I never overlook a confirmed in-the-wild attack.\n3. As a **SOC analyst**, I want to see a vulnerability\u0027s EPSS exploitation-likelihood alongside its CVSS severity, so that I can tell \"scary on paper\" apart from \"likely to actually be hit.\"\n4. As a **vulnerability manager**, I want a specific, defensible order to work in, so that I can justify the sequence with real exploitation data instead of a flat severity sort.\n5. As a **vulnerability manager**, I want each vulnerability\u0027s composite risk score broken down into its inputs (severity, EPSS, KEV, asset importance), so that I can explain why a \"medium\" outranked a \"critical.\"\n6. As a **vulnerability manager**, I want the plan to reflect which assets are close to the crown jewel, so that fixes protecting what matters most are prioritized.\n7. As an **IT operations lead**, I want a plan sized to the hours my team actually has, so that I get a realistic backlog instead of \"fix everything critical.\"\n8. As an **IT operations lead**, I want capacity split into distinct pools (general/patching, AppSec, change-window), so that the plan respects that different fixes consume different kinds of team time.\n9. As an **IT operations lead**, I want the plan to never exceed any pool\u0027s available capacity, so that what I\u0027m handed is actually executable this sprint.\n10. As a **risk \u0026 compliance officer**, I want to point to exactly which unresolved risks matter most to the business at any moment, so that I can explain our exposure in plain terms to auditors.\n11. As a **risk \u0026 compliance officer**, I want any manual override of a score to be logged with who/when/why, so that human adjustments stay auditable and defensible.\n12. As a **CISO / manager**, I want a single headline percentage showing how much more risk the optimized plan reduces versus severity-first, so that I can justify where limited staff and budget go.\n13. As a **CISO / manager**, I want to retain full authority to accept or adjust the tool\u0027s recommendation, so that the tool augments judgment rather than replacing it.\n14. As a **security lead**, I want to adjust the weight of each risk factor, so that the score reflects what my company actually cares about (e.g. exploitability over severity).\n15. As a **security lead**, I want to override a specific vulnerability\u0027s score with a reason, so that I can encode context the tool doesn\u0027t have.\n16. As a **security lead**, I want to adjust the asset importance tiers when the graph\u0027s read is wrong, so that the map reflects reality when the automated hop-distance misjudges a system.\n17. As a **security lead**, I want to move the capacity-pool sliders and see the plan update live, so that I can try \"what if we had two more change-window slots\" before committing.\n18. As a **security lead**, I want to move the weighting sliders and see the plan and headline metric update live, so that I can see the sensitivity of the plan to my priorities.\n19. As a **security lead**, I want the plan to automatically re-optimize when a new actively-exploited CVE lands, so that I\u0027m not acting on a stale plan after the threat landscape shifts.\n20. As a **security lead**, I want to see the optimized plan and the naive severity-first plan side by side, so that the improvement is demonstrated to me, not just asserted.\n21. As a **data engineer on the team**, I want NVD, EPSS, and KEV pulled and merged into one clean table keyed by CVE ID, so that scoring has a single source of truth with no dropped or duplicated CVEs.\n22. As a **data engineer on the team**, I want CVEs missing from one of the three feeds handled explicitly (null, not silently dropped), so that gaps are visible rather than corrupting the dataset.\n23. As a **data engineer on the team**, I want the pipeline to run against cached fixture data as well as live APIs, so that the tool and the demo work offline and deterministically.\n24. As the **auditing/asset team stand-in**, I want to supply a CSV of assets, connections, and criticality, so that the tool models *our* environment rather than a generic one.\n25. As a **security lead**, I want the tool to compute each asset\u0027s hop-distance to the crown jewel automatically, so that importance is derived from the topology instead of guessed.\n26. As a **security lead**, I want hop-distances bucketed into readable importance tiers (critical/high/medium/low), so that importance plugs directly and understandably into scoring.\n27. As a **presenter at the capstone demo**, I want a \"inject a new KEV alert\" button that visibly re-ranks the plan, so that I can prove the tool reacts to the world changing.\n28. As a **presenter at the capstone demo**, I want the dashboard to launch and run end-to-end without a live internet dependency, so that the demo can\u0027t be broken by a rate limit or outage.\n29. As a **developer maintaining the scoring engine**, I want the scoring formula covered by unit tests on known inputs, so that a KEV-flagged CVE can never score below an otherwise-identical non-KEV one.\n30. As a **developer maintaining the optimizer**, I want tests proving the plan never overfills a capacity pool, so that a regression can\u0027t silently produce an unexecutable plan.\n31. As a **developer**, I want a mid-build checkpoint that confirms the optimizer beats the baseline on sample data, so that we catch an underperforming optimizer before building the dashboard on top of it.\n\n## Implementation Decisions\n\n**Architecture — two seams (confirmed with the team):**\n\n- **Planning Engine (primary seam).** A single pure, deterministic module boundary that is the core of the tool and the primary unit-test seam. It takes a normalized set of vulnerability records + the asset importance tiers + a config object (scoring weights, capacity pools, any overrides) and returns: the **optimized plan**, the **naive severity-first baseline plan**, and the **headline improvement metric**. It performs no I/O and no network calls. Everything worth testing — the composite risk score, adjustable weighting, overrides, greedy fill respecting pool capacity, the baseline, and the improvement math — is exercised through this one seam using fixture DataFrames.\n- **Data Source adapters (I/O seam).** A fetch interface for the three feeds (NVD, EPSS, KEV) with two interchangeable backings: **live API** and **cached fixtures**. The rest of the pipeline depends on the interface, not the concrete source, so the tool and the demo run offline and deterministically. This is the only other seam.\n- **Streamlit dashboard** is a thin view layer over the Planning Engine — it reads engine outputs and writes engine inputs (slider values, override entries, the KEV-injection trigger). It holds no business logic and is validated manually, not unit-tested.\n\n**Data pipeline:**\n- CVE-to-asset mapping method (CPE-based NVD query vs. a curated fixed CVE list) is an **open decision that blocks the rest of ingestion** and must be resolved first, with the chosen approach and its rationale written down. For a 2–3 week capstone, a curated CVE list keeps data volume bounded and the demo deterministic; CPE querying is the more general path. The team\u0027s Deliverable Architect makes this call.\n- Ingestion produces one clean pandas **DataFrame with one row per CVE**, carrying CVSS, EPSS, and the KEV flag, joined on CVE ID. CVEs absent from a feed are represented as explicit null, never dropped silently.\n\n**Asset graph:**\n- The asset CSV is **fictional, 15–20 assets**, each with connections, a criticality tag, and exactly one **crown jewel**. It stands in for what a real audit team would provide.\n- The CSV loads into a **networkx** graph (nodes = assets, edges = connections). **Hop-distance** from every asset to the crown jewel is computed via shortest-path/BFS; every asset gets a non-null hop-distance.\n- Hop-distance maps to **importance tiers** by default cutoffs — `0–1 hop = critical, 2–3 = high, 4–5 = medium, 6+ = low` — and these cutoffs are adjustable by the security lead.\n\n**Scoring:**\n- The **composite risk score** combines CVSS severity, EPSS likelihood, the KEV flag, and asset importance tier into one number per vulnerability. The formula\u0027s inputs and weights are documented alongside the code.\n- **Weights are configurable parameters, not hardcoded constants**, with defaults that reproduce the original formula. Changing a weight must change the output; defaults must leave existing behavior unchanged.\n- A **security-lead override** can replace any computed score. Overrides are recorded in an audit log with **user, timestamp, and reason**, and the overridden value is visibly distinguishable from the computed one. Persistence for the capstone scope can be an in-memory store or a simple log file/table.\n\n**Optimizer:**\n- **Capacity pools** are modeled as a structure supporting at least three distinct named pools (general/patching, AppSec, change-window), each holding a numeric capacity in its unit of effort. Capacity is deliberately *not* a single scalar.\n- The **greedy optimizer** fills pools by best **risk-reduction-per-effort ratio**, picking the best available fix at each step until a pool is full, and never exceeds any pool\u0027s capacity.\n- The **naive severity-first baseline** works down a CVSS-sorted list under the *same* capacity pools, using no EPSS/KEV/importance signal — an intentionally apples-to-apples \"before\" picture.\n- The **headline improvement metric** is computed from both plans\u0027 actual total risk-reduction values (never hardcoded); the optimizer\u0027s total must never be lower than the baseline\u0027s.\n- **(Stretch) ILP via PuLP** computes the mathematically optimal plan to measure how close greedy gets. Explicitly deprioritized — attempted only after every required item is complete.\n- A **mid-build go/no-go checkpoint** confirms the optimizer beats the baseline on sample data before dashboard work begins, with the actual numbers recorded.\n\n**Dashboard:**\n- Streamlit app with capacity-pool and weighting **sliders** wired directly to existing engine parameters (no new logic behind them), a **findings table** with the naive-vs-optimized side-by-side view kept in sync with engine output, and a **\"inject new KEV alert\" trigger** that simulates a new actively-exploited CVE and drives a live re-optimization producing a genuinely re-ranked plan.\n\n## Testing Decisions\n\n- **What makes a good test here:** it asserts on *external behavior at a seam*, not on internal implementation. Tests drive the Planning Engine with fixture inputs and assert on returned plans/scores/metrics — they do not reach into private helpers, and they do not hit the network.\n- **Primary tested module — the Planning Engine.** Representative cases:\n  - A KEV-flagged CVE never scores lower than an otherwise-identical non-KEV CVE.\n  - Raising the EPSS weight raises the score of a high-EPSS CVE relative to a low-EPSS one; default weights reproduce the documented baseline formula.\n  - An override replaces the score and produces a log entry containing user, timestamp, and reason.\n  - The optimized plan never exceeds any capacity pool\u0027s stated capacity.\n  - Given fixture data where the optimizer should win, the headline improvement metric is positive and the optimizer\u0027s total risk reduction ≥ the baseline\u0027s.\n  - Edge cases: high/low severity, KEV on/off, a CVE missing from one feed (null-handled, not dropped).\n- **Data Source adapters** are tested via the fixture backing (deterministic, offline); live-API behavior (pagination, rate limits) is exercised manually/opportunistically, not in the deterministic suite.\n- **Framework:** pytest, with a small set of hand-picked sample vulnerabilities whose expected outcomes are known.\n- **Prior art:** none yet — this is a greenfield repo, so this spec establishes the initial testing pattern (pure-engine tests over fixtures) that later work should follow.\n- **Dashboard** is validated manually (does `streamlit run` launch cleanly; does moving a slider change the underlying plan; does the KEV-injection trigger produce a visibly re-ranked plan). Not unit-tested.\n\n## Out of Scope\n\n- **Vulnerability scanning / discovery.** The tool consumes public vulnerability data and a supplied asset CSV; it does not scan networks or find vulnerabilities itself.\n- **Non-CVE vulnerabilities.** Scope is limited to CVE-based vulnerabilities with the three chosen feeds.\n- **Real/production asset data or a live asset-discovery integration.** The asset CSV is fictional and hand-authored; there is no NextBot/CMDB integration in scope for the capstone.\n- **Provably optimal planning.** The core optimizer is greedy (fast, good, not guaranteed optimal). ILP/PuLP is a stretch validation only.\n- **Multi-user auth, persistence, or deployment hardening.** Override logging can be a simple in-memory store or flat file; there is no user-management, database, or hosting story in scope.\n- **Automated effort estimation.** Per-fix effort is a heuristic input, not derived.\n\n## Further Notes\n\n- **Honest limitations to carry into the report:** effort estimates are heuristic guesses; the asset CSV is fictional; the greedy optimizer isn\u0027t provably optimal; manual overrides reintroduce a controlled amount of subjectivity (mitigated by the audit log); scope is CVE-only.\n- **Timeline:** a 2–3 week, three-sprint capstone. Sprint 1 = data pipeline + asset graph; Sprint 2 = scoring + optimizer (with the mid-build checkpoint gate); Sprint 3 = dashboard + demo + report. This shapes the \"keep it bounded\" decisions above (curated CVE list, fixture-backed offline demo, in-memory override log).\n- **Domain vocabulary** used throughout (for consistency in issues, tests, and the report): *composite risk score, capacity pool, crown jewel, hop-distance, importance tier, greedy optimizer, naive severity-first baseline, headline improvement metric, security-lead override, KEV flag, Planning Engine, Data Source adapter.* No `CONTEXT.md` glossary exists yet — worth seeding one via `/domain-modeling` if these terms start drifting.\n- **Dashboard mockup:** the team referenced an HTML mock; the files found on disk were a personal portfolio, not the tool mockup. The dashboard section above is written from the proposal and tickets. If the real mockup surfaces, the dashboard user stories/decisions should be reconciled against it.\n\n## Tracked By\n\nThis spec is delivered across eight epics. Each maps to a part of the solution above:\n\n- **#1 — Data Pipeline \u0026 Vulnerability Ingestion** → the *Data Source adapters* seam: NVD (CVSS), FIRST.org EPSS, and CISA KEV feeds merged into one clean per-CVE DataFrame.\n- **#2 — Asset Graph Setup** → the *asset graph*: crown jewel, hop-distance, and importance tiers.\n- **#3 — Agile Process** → the three-sprint delivery process and ceremonies (not a product feature; governs *how* the work lands).\n- **#4 — Composite Risk Scoring** → part of the *Planning Engine*: the composite risk score, adjustable weighting, and the security-lead override.\n- **#5 — Capacity-Aware Optimizer** → the rest of the *Planning Engine*: capacity pools, the greedy optimizer, the naive severity-first baseline, and the headline improvement metric.\n- **#6 — Dashboard** → the Streamlit view over the Planning Engine (sliders, side-by-side plans, live KEV-injection re-optimization).\n- **#7 — Demo Preparation** → the live demo script, rehearsal, and slides.\n- **#8 — Documentation \u0026 Report** → the project report and the risks \u0026 limitations write-up.\n"
+    },
+    {
+        "number":  47,
+        "title":  "Epic: Realistic data — live vendor-keyed CVE→asset mapping",
+        "state":  "closed",
+        "labels":  "epic, data, sprint-3",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-09T22:51:49Z",
+        "body":  "## Epic: make the POC run on real, live data end-to-end\n\nCloses the two \"stand-in join\" gaps so the tool — and the demo — show meaningful, defensible data instead of synthetic placeholders.\n\n### Why\nAudit of what was synthetic vs. real:\n- **Real already:** NVD CVSS + EPSS + CISA KEV feeds (verified live-reachable), the composite scoring formula, and the capacity-aware optimizer. `merged_vulnerabilities.csv` is a genuine ~10k-CVE Microsoft keyword pull, not fake.\n- **Was synthetic:** (1) no CVE→asset join at all — `importance_tier` was never attached per CVE; (2) `capacity.assign_remediation_effort` hashed `cve_id` → pool.\n\n### Approach (decided with the team)\n- **CVE→asset via vendor keyword.** Each asset declares the vendor/product it runs; NVD keyword search returns that software\u0027s CVEs; a CVE\u0027s `importance_tier` = the tier of the asset(s) running it. Real product matching, no hand-curation.\n- **Data Source adapter (live + cached).** Promote `combine_feeds_with_custom_inputs.py` into an importable function with a disk cache so the demo replays offline.\n- **Modeled environment.** A mid-sized (~35–40 asset) fictional-but-realistic company in `assets.csv`. The environment is the one legitimately-modeled input (the customer supplies it in production).\n- **Pool/effort** derived from asset role, **effort constant per pool** (preserves the optimizer≥baseline guarantee).\n\n### Stories\n- [ ] #48 Data Source adapter: importable `fetch_merged()` + disk cache\n- [ ] #49 Mid-sized asset environment (~35–40 assets) with vendor column\n- [ ] #50 CVE→asset join: attach `importance_tier` via vendor keyword\n- [ ] #51 Asset-role-based pool/effort assignment (constant effort per pool)\n- [ ] #52 End-to-end wiring on real data + refresh checkpoint\n- [ ] #53 Dashboard: live custom-input ingestion (also under #6)\n- [ ] #54 ADR: POC modeling assumptions\n\n"
+    },
+    {
+        "number":  48,
+        "title":  "Data Source adapter: importable fetch_merged() + disk cache",
+        "state":  "closed",
+        "labels":  "story, data, priority-high, sprint-3",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-09T22:52:30Z",
+        "body":  "Part of #47\n\n## What to build\nPromote the ingestion logic in `combine_feeds_with_custom_inputs.py` out of `__main__` into an importable, testable function and add a disk cache so the tool and demo run offline.\n\n## Scope\n- `fetch_merged(vendor, max_results, *, use_cache=True) -\u003e pd.DataFrame` returning the one-row-per-CVE frame (cvss/epss/kev), reusing the existing NVD/EPSS/KEV clients.\n- Disk cache keyed by (vendor, max_results) under `data/cache/`; live pull writes the cache, cached replay reads it. Live path used when network + key available; cached replay otherwise.\n- Key stays in `.env` (never committed); keyless NVD still works at a lower rate limit.\n\n## Acceptance criteria\n- [ ] Callable without running the CLI; existing `__main__` still works via the new function\n- [ ] Second call for the same (vendor, max_results) served from cache with no network\n- [ ] Missing CVEs in a feed represented as explicit null, never dropped (existing invariant preserved)\n- [ ] Unit tests with mocked HTTP + a cache round-trip test\n"
+    },
+    {
+        "number":  49,
+        "title":  "Mid-sized asset environment (~35–40 assets) with vendor column",
+        "state":  "closed",
+        "labels":  "story, data, priority-high, sprint-3",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-09T22:52:31Z",
+        "body":  "Part of #47\n\n## What to build\nReplace `assets.csv` with a mid-sized (~35–40 asset) fictional-but-realistic company environment, and add the vendor/product column that bridges assets to CVEs.\n\n## Scope\n- ~35–40 assets across realistic roles: domain controllers, mail/Exchange, file \u0026 DB servers, web tier, VPN/firewall, backup, workstation fleet, etc.\n- New `vendor` (or `product`) column per asset holding the NVD keyword for the software it runs (e.g. `microsoft`, `apache httpd`, `openssl`, `cisco`).\n- Keep existing schema: `asset_id`, `name`, `criticality`, `crown_jewel` (exactly one), `connections` (referentially valid, all reachable from crown jewel).\n\n## Acceptance criteria\n- [ ] `asset_graph.build_asset_table()` loads it clean; every asset gets a non-null tier\n- [ ] Exactly one crown jewel; no dangling connections; all assets reachable\n- [ ] Multiple distinct real vendors represented so several NVD pulls feed the demo\n"
+    },
+    {
+        "number":  50,
+        "title":  "CVE→asset join: attach importance_tier via vendor keyword",
+        "state":  "closed",
+        "labels":  "story, data, scoring, priority-high, sprint-3",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-09T22:52:32Z",
+        "body":  "Part of #47 · Blocked by: the adapter + asset-CSV stories in #47\n\n## What to build\nThe real CVE→asset join: attach `asset_id` + `importance_tier` to each CVE by matching the CVE\u0027s source vendor to the assets running that vendor\u0027s software.\n\n## Scope\n- New pure module (e.g. `cve_asset_map.py`) exposing `attach_importance_tier(vuln_df, asset_table, vendor) -\u003e df` (or a whole-environment variant that pulls each distinct vendor and unions).\n- A CVE lands on every asset whose vendor matches; when several match, `importance_tier` = the **highest** tier among them.\n- CVEs with no matching asset → explicit null tier (\"not in environment\"), never dropped.\n\n## Acceptance criteria\n- [ ] Join is correct and loss-less (no dropped/duplicated CVEs beyond intended asset fan-out)\n- [ ] Highest-tier-wins when a CVE matches multiple assets\n- [ ] Unmatched CVE handled explicitly (null tier), tested\n- [ ] Output feeds `scoring.score_dataframe` unchanged\n"
+    },
+    {
+        "number":  51,
+        "title":  "Asset-role-based pool/effort assignment (constant effort per pool)",
+        "state":  "closed",
+        "labels":  "story, optimizer, priority-medium, sprint-3",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-09T22:52:33Z",
+        "body":  "Part of #47\n\n## What to build\nReplace the hash-based pool stand-in in `capacity.assign_remediation_effort` with an asset-role-derived pool assignment. Effort stays **constant per pool** (decided — preserves the optimizer≥baseline guarantee, #34).\n\n## Scope\n- Derive `pool` from the asset\u0027s role/tier rather than hashing `cve_id`:\n  - crown-jewel / prod-impacting assets → `change_window`\n  - application / web / database software → `appsec`\n  - OS / endpoint / routine → `patching`\n- `effort` looked up per pool (constant within pool), as today.\n- Keep the deterministic stand-in as a fallback for any CVE with no asset/role signal.\n\n## Acceptance criteria\n- [ ] Pool assignment is explainable from asset role, not a hash\n- [ ] Effort constant within each pool (the #34 invariant test still holds)\n- [ ] Fallback path covered; optimizer needs no changes\n- [ ] Unit tests updated (the current hash-distinctness test is replaced)\n"
+    },
+    {
+        "number":  52,
+        "title":  "End-to-end wiring on real data + refresh optimizer-vs-baseline checkpoint",
+        "state":  "closed",
+        "labels":  "story, optimizer, priority-medium, sprint-3",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-09T22:52:47Z",
+        "body":  "Part of #47 · Blocked by: the join + pool stories in #47\n\n## What to build\nWire the whole chain end-to-end on real, mapped data and refresh the mid-sprint checkpoint numbers (#36 was computed on stand-ins).\n\n## Scope\n- One entry path: assets → per-vendor cached/live pulls → CVE→asset join → `score_dataframe` → `assign_remediation_effort` → `greedy_optimize` / `severity_baseline` / `improvement_metric`.\n- Re-run the checkpoint on the real mappings; record the new optimizer-vs-baseline headline (magnitude expected to shift from +66.5%; direction should hold).\n\n## Acceptance criteria\n- [ ] End-to-end run produces a scored + planned frame from `assets.csv` with no manual tier/pool injection\n- [ ] New checkpoint numbers recorded (comment on #36 / note in the ADR)\n- [ ] Full suite green\n"
+    },
+    {
+        "number":  53,
+        "title":  "Dashboard: live custom-input ingestion (\u0027show me \u003cvendor\u003e\u0027)",
+        "state":  "open",
+        "labels":  "story, dashboard, priority-medium, sprint-3",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-09T22:52:49Z",
+        "body":  "Part of #6 (Dashboard) · related to #47\n\n## What to build\nThe demo\u0027s headline interaction: a dashboard input where the presenter types a vendor/product (and optional CVE count) and the tool live-fetches, scores, and produces the optimized-vs-naive plan in front of the audience.\n\n## Scope\n- Streamlit input (vendor/product keyword + count) calling the Data Source adapter (`fetch_merged`, cached fallback).\n- Runs the real pipeline: fetch → join tiers → score → optimize → show findings table + naive-vs-optimized + headline metric.\n- Graceful offline behavior: if network/key absent, serve the cached pull and label it.\n\n## Acceptance criteria\n- [ ] Entering a vendor produces a live (or cached) scored plan without code changes\n- [ ] Clear indicator of live-vs-cached and of the modeled-environment caveat\n- [ ] No business logic in the view — calls existing scoring/optimizer/capacity modules\n"
+    },
+    {
+        "number":  54,
+        "title":  "ADR: POC modeling assumptions (real vs. modeled inputs)",
+        "state":  "closed",
+        "labels":  "story, docs, priority-low, sprint-3",
+        "assignees":  "",
+        "milestone":  null,
+        "created":  "2026-08-09T22:52:50Z",
+        "body":  "Part of #47\n\n## What to build\nAn ADR recording the modeling assumptions so the POC\u0027s realism is defensible at the capstone review.\n\n## Content\n- **What is real:** NVD/EPSS/KEV feeds (live), scoring formula, optimizer.\n- **What is modeled and why:** the asset environment is a fictional mid-sized company standing in for the customer-supplied inventory; documented as the one legitimately-modeled input.\n- **CVE→asset method:** vendor-keyword matching (chosen over hand-curation and full-CPE); its coarseness (vendor-level, not version-level) and implications noted.\n- **Pool/effort heuristic:** asset-role-derived pool, effort constant per pool; the constant-effort choice and its link to the optimizer≥baseline guarantee (#34) and the ILP gap (#35).\n\n## Acceptance criteria\n- [ ] ADR added under `docs/adr/`\n- [ ] Each modeling assumption stated with its rationale and limitation\n"
+    }
+]

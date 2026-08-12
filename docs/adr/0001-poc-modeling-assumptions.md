@@ -39,6 +39,10 @@ are defensible rather than "everything looks synthetic."
   It is intentionally coarse — broader than a real CPE inventory match — which is
   acceptable for a bounded POC and keeps the demo deterministic. CPE-precise
   matching is the more general production path (see #9).
+- **Confirmed for the console (epic #6, 2026-08-11):** the shipped dashboard runs
+  on this vendor-keyword match by decision — the scan is scoped to the assets'
+  vendors (not the whole NVD feed) but not pinned to installed versions. CPE-
+  precise matching stays deferred as future work, not a blocker for the POC.
 
 ### Pool / effort heuristic
 - The capacity **pool** a fix draws from is derived from the software's work-type

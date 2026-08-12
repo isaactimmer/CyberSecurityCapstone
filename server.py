@@ -1,0 +1,232 @@
+"""
+Scryxen remediation console — FastAPI server (epic #6 UI reshape).
+
+Serves the console front end in `web/` and exposes the real engine over a small
+JSON API. The design is a bespoke web app (ported from the approved v2 artifact);
+this server is the seam between it and the Python engine, so the front end never
+re-implements scoring — it renders what `dashboard.plan_payload` returns.
+
+    GET  /                     the console (web/index.html)
+    GET  /api/environment      one-time: asset map, presets, defaults, bounds
+    POST /api/plan             recompute for the current controls (the hot path)
+    POST /api/asset/{id}       one system's drill-in for a clicked map node
+    POST /api/finding/{cve}    a finding's score breakdown for the modal
+    POST /api/override         record a security-lead override (audited)
+    POST /api/override/clear   drop the override on a CVE
+
+The environment is scanned once (cached NVD/EPSS/KEV pulls, offline) and held in
+memory; every recompute is pure pandas over that cache.
+
+Run:
+    uvicorn server:app --port 8000
+"""
+from __future__ import annotations
+
+from dataclasses import dataclass
+from pathlib import Path
+
+import pandas as pd
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel, Field
+
+import asset_graph
+import capacity
+import dashboard
+import overrides
+import pipeline
+import scoring
+
+WEB_DIR = Path(__file__).parent / "web"
+
+# Intake defaults — the console opens on these until the user changes a control.
+DEFAULT_CAPACITY = {"patching": 40.0, "appsec": 16.0, "change_window": 8.0}
+
+
+@dataclass
+class ConsoleState:
+    """The scanned environment held in memory for the session, plus the audit log
+    of security-lead overrides. Built once by `load_state`."""
+
+    env: pd.DataFrame
+    asset_table: pd.DataFrame | None
+    override_log: overrides.OverrideLog
+
+
+def load_state() -> ConsoleState:
+    """Scan the sample environment (cached, offline) — the one I/O step, run once."""
+    asset_table = asset_graph.build_asset_table(asset_graph.DEFAULT_ASSET_CSV)
+    env = pipeline.scan_environment(asset_table=asset_table, use_cache=True)
+    return ConsoleState(env=env, asset_table=asset_table,
+                        override_log=overrides.OverrideLog())
+
+
+_state: ConsoleState | None = None
+
+
+def state() -> ConsoleState:
+    """The cached console state, scanning on first use. Tests may pre-set `_state`
+    to a fixture to avoid the scan."""
+    global _state
+    if _state is None:
+        _state = load_state()
+    return _state
+
+
+# --- request models ---------------------------------------------------------
+
+class Controls(BaseModel):
+    """The console's live controls, sent with every recompute."""
+
+    weights: dict[str, float] | None = None       # cvss/epss/kev/importance, raw
+    capacity: dict[str, float] | None = None       # patching/appsec/change_window
+    kev_sim: list[str] = Field(default_factory=list)  # CVEs flipped to KEV
+
+
+class OverrideRequest(Controls):
+    """An override plus the controls to recompute the board against."""
+
+    cve_id: str
+    score: float
+    user: str
+    reason: str
+
+
+def _weights(controls: Controls) -> scoring.ScoringWeights:
+    w = controls.weights or {}
+    d = scoring.DEFAULT_WEIGHTS
+    return dashboard.normalize_weights(
+        cvss=w.get("cvss", d.cvss), epss=w.get("epss", d.epss),
+        kev=w.get("kev", d.kev), importance=w.get("importance", d.importance),
+    )
+
+
+def _pools(controls: Controls) -> dict[str, capacity.CapacityPool]:
+    c = controls.capacity or {}
+    return dashboard.build_pools(
+        patching=c.get("patching", DEFAULT_CAPACITY["patching"]),
+        appsec=c.get("appsec", DEFAULT_CAPACITY["appsec"]),
+        change_window=c.get("change_window", DEFAULT_CAPACITY["change_window"]),
+    )
+
+
+def _env(controls: Controls) -> pd.DataFrame:
+    env = state().env
+    return dashboard.inject_kev(env, controls.kev_sim) if controls.kev_sim else env
+
+
+# --- app --------------------------------------------------------------------
+
+app = FastAPI(title="Scryxen remediation console")
+
+
+@app.get("/")
+def index() -> FileResponse:
+    return FileResponse(WEB_DIR / "index.html")
+
+
+@app.get("/api/environment")
+def environment() -> dict:
+    """Everything static about the environment the console needs on first paint."""
+    st = state()
+    layout = dashboard.asset_map_layout(st.asset_table) if st.asset_table is not None \
+        else dashboard.AssetMapLayout(nodes=pd.DataFrame(), edges=pd.DataFrame())
+    bounds = dashboard.year_bounds(st.env)
+    d = scoring.DEFAULT_WEIGHTS
+    return {
+        "source": "Sample environment",
+        "finding_count": int(len(st.env)),
+        "year_bounds": list(bounds) if bounds else None,
+        "presets": dashboard.presets(),
+        "default_weights": {"cvss": d.cvss, "epss": d.epss, "kev": d.kev,
+                            "importance": d.importance},
+        "default_capacity": DEFAULT_CAPACITY,
+        "pools": {name: pool.unit
+                  for name, pool in capacity.default_pools().items()},
+        "asset_map": {
+            "nodes": layout.nodes.to_dict("records"),
+            "edges": layout.edges.to_dict("records"),
+        },
+    }
+
+
+@app.post("/api/plan")
+def recompute(controls: Controls) -> dict:
+    """Recompute the whole board for the current controls — the hot path."""
+    st = state()
+    return dashboard.plan_payload(
+        _env(controls), weights=_weights(controls), pools=_pools(controls),
+        asset_table=st.asset_table, override_log=st.override_log,
+    )
+
+
+@app.post("/api/asset/{asset_id}")
+def asset(asset_id: str, controls: Controls) -> dict:
+    """One system's drill-in for a clicked map node, against the current plan."""
+    st = state()
+    result = dashboard.plan(_env(controls), weights=_weights(controls),
+                            pools=_pools(controls))
+    detail = dashboard.asset_detail(asset_id, st.asset_table, result)
+    detail.pop("scheduled", None)   # a DataFrame — the ids list is what the UI needs
+    return detail
+
+
+@app.post("/api/finding/{cve_id}")
+def finding(cve_id: str, controls: Controls) -> dict:
+    """A finding's plain-English breakdown + weighted score split for the modal."""
+    st = state()
+    env = _env(controls)
+    weights = _weights(controls)
+    result = dashboard.plan(env, weights=weights, pools=_pools(controls))
+    items = dashboard.annotate_plan(result.scored, st.asset_table)
+    match = items[items["cve_id"] == cve_id]
+    if match.empty:
+        raise HTTPException(status_code=404, detail=f"No finding {cve_id!r}")
+    row = match.iloc[0]
+    detail = dashboard.plan_item_detail(row)
+    detail["breakdown"] = dashboard.score_breakdown(row, weights)
+    detail["scheduled"] = cve_id in set(result.optimized.items["cve_id"]) \
+        if "cve_id" in result.optimized.items.columns else False
+    return detail
+
+
+@app.post("/api/override")
+def add_override(req: OverrideRequest) -> dict:
+    """Record an audited security-lead override, then return the re-ranked board."""
+    st = state()
+    env = _env(req)
+    weights = _weights(req)
+    scored = dashboard.plan(env, weights=weights, pools=_pools(req)).scored
+    match = scored[scored["cve_id"] == req.cve_id]
+    computed = float(match.iloc[0]["composite_score"]) if not match.empty else 0.0
+    try:
+        st.override_log.record(req.cve_id, computed_score=computed,
+                               override_score=req.score, user=req.user,
+                               reason=req.reason)
+    except ValueError as exc:               # blank user/reason — the audit guard
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    return dashboard.plan_payload(env, weights=weights, pools=_pools(req),
+                                  asset_table=st.asset_table,
+                                  override_log=st.override_log)
+
+
+@app.post("/api/override/clear")
+def clear_override(req: OverrideRequest) -> dict:
+    """Revert a CVE to its computed score. The audit log is append-only and has no
+    delete, so we rebuild it without this CVE's entries — `latest()` then drops it
+    and the finding reverts (its prior audit lines go with it, as in the design)."""
+    st = state()
+    fresh = overrides.OverrideLog()
+    for e in st.override_log.history():
+        if e.key != req.cve_id:
+            fresh.record(e.key, e.computed_score, e.override_score,
+                         e.user, e.reason, e.timestamp)
+    st.override_log = fresh
+    return dashboard.plan_payload(_env(req), weights=_weights(req), pools=_pools(req),
+                                  asset_table=st.asset_table,
+                                  override_log=st.override_log)
+
+
+# Static assets (app.js, styles.css). Mounted last so it never shadows the API.
+app.mount("/static", StaticFiles(directory=WEB_DIR), name="static")

@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Scryxen — Remediation Console</title>
+<link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <div class="brand">
+    <svg class="glyph" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <circle cx="16" cy="16" r="13" stroke="var(--accent)" stroke-width="2"/>
+      <circle cx="16" cy="16" r="5.4" stroke="var(--accent)" stroke-width="2"/>
+      <circle cx="16" cy="16" r="1.9" fill="var(--accent)"/>
+      <path d="M16 3v4M16 25v4M3 16h4M25 16h4" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    Scryxen
+  </div>
+  <span class="tag">Capacity-aware remediation planning</span>
+  <span class="spacer"></span>
+  <button class="tbtn" id="editBtn" style="display:none" onclick="showIntake()">◀ Edit scan</button>
+  <button class="tbtn" onclick="toggleTheme()" aria-label="Toggle theme"><span id="themeIcon">◑</span> Theme</button>
+</div></div>
+
+<!-- INTAKE -->
+<section id="intake"><div class="wrap">
+  <div class="hero">
+    <div class="eyebrow">Set up your scan</div>
+    <h1>Fix what protects the most, first.</h1>
+    <p>Scryxen scores every vulnerability on your real attack surface, then packs the fixes that remove the most risk per hour of your team's time. Press Build — everything has a sensible default.</p>
+  </div>
+  <div class="setup card">
+    <div class="setup-h"><h2 style="font-size:15px">Scan setup</h2><span class="pill t-medium"><span class="dot bg-medium"></span><span id="setupMeta">sample environment</span></span></div>
+    <div class="step">
+      <div class="step-lab"><span class="step-num">1</span><span class="t">Your assets</span><span class="h">what to look at</span></div>
+      <div class="seg" role="group" aria-label="Asset source">
+        <button aria-pressed="true" onclick="segPick(this)">Use the sample environment</button>
+        <button aria-pressed="false" onclick="segPick(this)" title="CSV upload is a later story">Upload your assets</button>
+      </div>
+      <div class="drop">Modelled mid-sized company from <b>assets.csv</b>. Scored against the cached NVD · EPSS · CISA&nbsp;KEV feeds — runs fully offline.</div>
+    </div>
+    <div class="step">
+      <div class="step-lab"><span class="step-num">2</span><span class="t">Team capacity</span><span class="h">this cycle</span></div>
+      <div class="caps">
+        <div class="cap"><div class="l">Patching</div><div class="v"><input id="ci_pat" value="40"><span class="u">hrs</span></div></div>
+        <div class="cap"><div class="l">AppSec</div><div class="v"><input id="ci_app" value="16"><span class="u">hrs</span></div></div>
+        <div class="cap"><div class="l">Change-window</div><div class="v"><input id="ci_cw" value="8"><span class="u">slots</span></div></div>
+      </div>
+    </div>
+    <div class="build">
+      <button class="primary" onclick="showBoard()">Build my plan&nbsp;&nbsp;▶</button>
+      <span class="note">Nothing is computed until you build. Runs offline off the cached NVD · EPSS · KEV feeds.</span>
+    </div>
+  </div>
+</div></section>
+
+<!-- BOARD -->
+<section id="board"><div class="wrap">
+  <div class="board-head">
+    <div><h2>Remediation console</h2><div class="meta"><span id="metaSource">Sample environment</span> · <span id="metaFindings">—</span> findings scored · greedy capacity packer</div></div>
+    <span class="src"><span class="live"></span> Feeds: <b style="color:var(--good);font-weight:640">cached</b> · NVD · EPSS · CISA&nbsp;KEV</span>
+  </div>
+
+  <nav class="tabs" id="tabs">
+    <button data-tab="dash" class="active">Dashboard</button>
+    <button data-tab="map">Attack surface <span class="pip">graph</span></button>
+    <button data-tab="engine">Risk engine <span class="pip">weights</span></button>
+    <button data-tab="plan">Plan <span class="pip">capacity</span></button>
+  </nav>
+
+  <!-- DASHBOARD -->
+  <div class="view active" id="view-dash">
+    <div class="kpis" id="kpis"></div>
+    <div class="ov-grid">
+      <div class="card">
+        <div class="card-h">Top optimizer picks <span class="sub">— what it schedules first</span></div>
+        <div id="topPicks"></div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:18px">
+        <div class="card">
+          <div class="card-h">Critical-asset coverage</div>
+          <div class="donut"><svg width="96" height="96" viewBox="0 0 42 42" id="donut"></svg>
+            <div class="lgd" id="donutLgd"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-h">Where the fixes land</div>
+          <div style="padding:14px 16px" id="tierSpread"></div>
+        </div>
+      </div>
+    </div>
+    <div class="caveat"><b>Note:</b> the score, weighting and capacity packing here are the real shipped engine (<code>scoring.py</code> · <code>capacity.py</code> · <code>optimizer.py</code>) running on the modelled asset environment (<code>assets.csv</code>) against real cached NVD/EPSS/KEV data.</div>
+  </div>
+
+  <!-- ATTACK SURFACE -->
+  <div class="view" id="view-map">
+    <p class="sec-note">The asset graph from <b>assets.csv</b>, laid out by connection. Distance from the crown jewel sets each system's <b>importance tier</b>, which feeds the score. <b>Click a node</b> to drill in — its findings, neighbours, and whether the plan covers it.</p>
+    <div class="mapgrid">
+      <div class="card mapcard"><svg class="net" id="net" viewBox="0 0 940 600" role="img" aria-label="Asset connection graph"></svg></div>
+      <div class="side">
+        <div class="card" style="padding:14px 16px">
+          <h3>Importance tiers</h3>
+          <div class="legend" id="legend"></div>
+          <div class="detail" id="detail"><div class="empty">Click a node to inspect it.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISK ENGINE -->
+  <div class="view" id="view-engine">
+    <p class="sec-note">The composite score, live. Drag the <b>weights</b> to match a risk appetite — the list re-ranks across the whole console. Every input is normalized 0–1, weighted, scaled to 0–100. Hit <b>⚖</b> on any row to override a score by hand; it's logged with who, when and why.</p>
+    <div class="enginegrid">
+      <div class="card controls">
+        <h3>Weights <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--ink-3)">· normalized</span></h3>
+        <div class="presets" id="presets"></div>
+        <div id="sliders" style="margin-top:10px"></div>
+        <h3>Filters</h3>
+        <div class="fld"><label>Search CVE</label><input type="text" id="search" placeholder="e.g. 2024-3400"></div>
+        <div class="fld"><label>Asset importance tier</label>
+          <select id="ftier"><option value="">All tiers</option><option>critical</option><option>high</option><option>medium</option><option>low</option></select></div>
+        <label class="togg"><input type="checkbox" id="fkev"> Known-exploited (KEV) only</label>
+      </div>
+      <div>
+        <div class="tablehead"><div class="count" id="count"></div><div class="count" id="wsum"></div></div>
+        <div class="card scroll">
+          <table><thead><tr><th>#</th><th>CVE</th><th class="r">CVSS</th><th class="r">EPSS</th><th>KEV</th><th>Asset · tier</th><th class="r">Score</th><th></th></tr></thead>
+          <tbody id="rows"></tbody></table>
+        </div>
+        <div class="card audit">
+          <h3>Override audit log <span style="font-weight:400;color:var(--ink-3);font-size:11px">· overrides.py</span></h3>
+          <div id="auditlog"><div class="aud-empty">No overrides yet — hit ⚖ on any row.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLAN -->
+  <div class="view" id="view-plan">
+    <p class="sec-note">Two ways to spend the same hours. <b>Severity-first</b> fixes by CVSS order; <b>capacity-optimized</b> packs the most risk removed per hour into your real pools. Move a capacity slider and both re-pack. <b>Click a finding</b> for its breakdown.</p>
+    <div class="plangrid">
+      <div class="card controls" style="position:sticky;top:70px">
+        <h3>Team capacity</h3>
+        <div class="slider"><div class="row"><span>Patching</span><span class="vv"><b id="pv_pat">40</b> hrs</span></div>
+          <input type="range" min="0" max="160" value="40" id="cap_pat" oninput="setCap('patching',this.value)"></div>
+        <div class="slider"><div class="row"><span>AppSec</span><span class="vv"><b id="pv_app">16</b> hrs</span></div>
+          <input type="range" min="0" max="80" value="16" id="cap_app" oninput="setCap('appsec',this.value)"></div>
+        <div class="slider"><div class="row"><span>Change-window</span><span class="vv"><b id="pv_cw">8</b> slots</span></div>
+          <input type="range" min="0" max="30" value="8" id="cap_cw" oninput="setCap('change_window',this.value)"></div>
+        <h3>Pool utilisation</h3>
+        <div class="poolbars" id="poolbars"></div>
+        <h3 style="margin-bottom:8px">Simulate</h3>
+        <p style="font-size:12px;color:var(--ink-2);margin:0 0 8px">Flip a CVE to known-exploited and re-pack.</p>
+        <div class="fld"><select id="kevSim"></select></div>
+        <button class="ghost" style="width:100%" onclick="toggleKevSim()">Add to KEV ▸</button>
+      </div>
+      <div class="card"><div style="padding:15px 16px">
+        <div class="plans">
+          <div>
+            <div class="plan-h"><span class="name">Severity-first</span><span class="sub">CVSS order</span></div>
+            <div class="rows" id="baseRows"></div>
+            <div class="plan-foot" id="baseFoot"></div>
+          </div>
+          <div>
+            <div class="plan-h opt"><span class="name">Capacity-optimized</span><span class="sub">risk / hour</span></div>
+            <div class="rows" id="optRows"></div>
+            <div class="plan-foot"><span style="color:var(--accent-ink);font-weight:640">▎</span> = the optimizer's pick over severity order.</div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+</div></section>
+
+<div class="footnote">
+  <b>Scryxen console</b> — unified tabbed console (Dashboard · Attack surface · Risk engine · Plan) served by <code>server.py</code> (FastAPI) over the real engine. Asset environment is the modelled <code>assets.csv</code>; NVD/EPSS/KEV data is real (cached).
+</div>
+
+<div class="scrim" id="scrim" onclick="if(event.target===this)closeModal()"><div class="modal" id="modal" role="dialog" aria-modal="true"></div></div>
+<div class="tip" id="tip"></div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

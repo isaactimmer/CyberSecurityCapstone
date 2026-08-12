@@ -4,9 +4,10 @@ pandas
 python-dotenv
 networkx
 
-# Dashboard (epic #6) — the Streamlit view over pipeline.py. `app.py` is the
-# entry point (`streamlit run app.py`); tested headless via streamlit.testing.
-streamlit
+# Web console (epic #6) — the Scryxen remediation console. `server.py` (FastAPI)
+# serves web/ and exposes the engine over a JSON API; run with uvicorn.
+fastapi
+uvicorn
 
 # Optional: ILP optimal-comparison stretch (epic #5, #35). Not needed for the
 # core optimizer; optimizer_ilp.py and its tests skip when it is absent.

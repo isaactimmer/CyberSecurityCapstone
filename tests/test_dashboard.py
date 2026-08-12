@@ -305,6 +305,13 @@ def test_plan_item_detail_explains_a_kev_finding():
     assert detail["reason_sentence"].endswith(".")
 
 
+def test_plan_item_detail_resolves_tier_color_in_the_seam():
+    # The view must not re-derive "unknown tier ⇒ low" inline; the seam paints it.
+    items = dashboard.annotate_plan(_scored_with_assets(), _asset_table())
+    detail = dashboard.plan_item_detail(items.iloc[0])  # critical
+    assert detail["tier_color"] == dashboard.TIER_COLORS["critical"]
+
+
 def test_plan_item_detail_handles_a_row_with_no_asset():
     row = pd.Series({"cve_id": "CVE-L1", "cvss_score": 8.0, "epss_score": 0.1,
                      "kev_flag": False, "importance_tier": "high", "composite_score": 40.0})
@@ -338,6 +345,7 @@ def test_asset_detail_summarizes_one_system_and_its_fixes():
     assert detail["importance_tier"] == "critical"
     assert detail["hop_distance"] == 0
     assert detail["crown_jewel"] is True
+    assert detail["tier_color"] == dashboard.TIER_COLORS["critical"]
     assert "mid" in detail["connections"]
     # crown carries CVE-2021-1, which fits the generous capacity, so it's scheduled.
     assert "CVE-2021-1" in detail["scheduled_cves"]
@@ -352,3 +360,86 @@ def test_asset_detail_handles_an_unknown_asset():
     assert detail["name"] is None
     assert detail["scheduled_cves"] == []
     assert detail["connections"] == []
+
+
+# --- tabbed console seams (Dashboard / Attack surface / Risk engine / Plan) --
+
+def _generous_result() -> pipeline.PlanResult:
+    # Capacity large enough to schedule every fix, so the derived shapers have
+    # a full, deterministic plan to read.
+    return dashboard.plan(_scored_with_assets(),
+                          pools=dashboard.build_pools(100, 100, 100))
+
+
+def test_tier_color_defaults_unknown_and_missing_to_low():
+    assert dashboard.tier_color("critical") == dashboard.TIER_COLORS["critical"]
+    assert dashboard.tier_color("HIGH") == dashboard.TIER_COLORS["high"]
+    assert dashboard.tier_color(None) == dashboard.TIER_COLORS["low"]
+    assert dashboard.tier_color("nonsense") == dashboard.TIER_COLORS["low"]
+
+
+def test_tier_spread_counts_scheduled_fixes_by_tier():
+    spread = dashboard.tier_spread(_generous_result())
+    # crown + mid are critical, edge is high; all three scheduled.
+    assert spread["critical"] == 2
+    assert spread["high"] == 1
+    assert spread["medium"] == 0 and spread["low"] == 0
+
+
+def test_top_picks_limits_and_annotates_with_asset_name():
+    picks = dashboard.top_picks(_generous_result(), _asset_table(), limit=2)
+    assert len(picks) == 2
+    assert "asset_name" in picks.columns
+    # Risk-first order: the highest composite score leads.
+    assert picks.iloc[0]["cve_id"] == "CVE-2021-1"
+
+
+def test_pool_utilization_reports_used_capacity_and_unit():
+    util = dashboard.pool_utilization(_generous_result())
+    # One change-window fix (effort 1), one appsec (effort 2), one patching (1).
+    assert util["change_window"]["used"] == 1
+    assert util["appsec"]["used"] == 2
+    assert util["patching"]["capacity"] == 100
+    assert util["change_window"]["unit"] == "slots"
+
+
+def test_plan_delta_reports_adds_and_drops():
+    from optimizer import RemediationPlan
+    base = RemediationPlan(items=pd.DataFrame({"cve_id": ["A", "B"]}),
+                           total_risk_reduction=0.0, consumed={}, pools={})
+    opt = RemediationPlan(items=pd.DataFrame({"cve_id": ["B", "C"]}),
+                          total_risk_reduction=0.0, consumed={}, pools={})
+    delta = dashboard.plan_delta(base, opt)
+    assert delta["added"] == {"C"}
+    assert delta["dropped"] == {"A"}
+
+
+def test_asset_map_layout_positions_nodes_and_pairs_edges():
+    layout = dashboard.asset_map_layout(_asset_table())
+    assert set(layout.nodes["asset_id"]) == {"crown", "mid", "edge"}
+    x_by_id = dict(zip(layout.nodes["asset_id"], layout.nodes["x"]))
+    assert x_by_id["crown"] == 0 and x_by_id["edge"] == 2  # x = hop distance
+    assert "tier_color" in layout.nodes.columns
+    # crown-mid and mid-edge, de-duped and endpoint-resolved.
+    assert len(layout.edges) == 2
+    assert {"x", "y", "x2", "y2"} <= set(layout.edges.columns)
+
+
+def test_asset_map_layout_flags_planned_nodes():
+    layout = dashboard.asset_map_layout(_asset_table(), _generous_result())
+    in_plan = dict(zip(layout.nodes["asset_id"], layout.nodes["in_plan"]))
+    assert bool(in_plan["crown"]) is True  # crown carries a scheduled fix
+
+
+def test_rank_table_numbers_rows_in_order():
+    ranked = dashboard.rank_table(_scored_with_assets())
+    assert list(ranked["rank"]) == [1, 2, 3]
+    assert list(ranked["cve_id"]) == ["CVE-2021-1", "CVE-2023-2", "CVE-2024-3"]
+
+
+def test_rank_table_filters_are_independent():
+    scored = _scored_with_assets()
+    assert set(dashboard.rank_table(scored, kev_only=True)["cve_id"]) == {"CVE-2021-1"}
+    assert set(dashboard.rank_table(scored, tier="critical")["cve_id"]) == {
+        "CVE-2021-1", "CVE-2023-2"}
+    assert list(dashboard.rank_table(scored, search="2024")["cve_id"]) == ["CVE-2024-3"]

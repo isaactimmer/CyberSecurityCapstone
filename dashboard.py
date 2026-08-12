@@ -56,6 +56,41 @@ TIER_COLORS: dict[str, str] = {
     "low": "#888780",
 }
 
+# Tier order, most important first — shared by the tier-spread bars and any
+# control that lists tiers.
+TIER_ORDER: tuple[str, ...] = ("critical", "high", "medium", "low")
+
+# Risk-appetite presets for the Risk-engine tab: named (cvss, epss, kev,
+# importance) weight sets a user can apply in one click to re-rank the whole
+# console. "Default" mirrors scoring.DEFAULT_WEIGHTS; the others lean the
+# emphasis toward one signal. Single source shared by the API and the view.
+WEIGHT_PRESETS: dict[str, tuple[float, float, float, float]] = {
+    "Default": (0.25, 0.30, 0.20, 0.25),
+    "Exploit-first": (0.15, 0.50, 0.20, 0.15),
+    "Severity-first": (0.55, 0.20, 0.10, 0.15),
+    "Asset-first": (0.20, 0.20, 0.15, 0.45),
+}
+
+
+def presets() -> dict[str, dict[str, float]]:
+    """The risk-appetite presets as JSON-ready `{cvss,epss,kev,importance}` dicts
+    (each summing to 1.0). One source for the API's preset buttons and any test."""
+    keys = ("cvss", "epss", "kev", "importance")
+    return {name: dict(zip(keys, values)) for name, values in WEIGHT_PRESETS.items()}
+
+
+def tier_color(tier: object) -> str:
+    """
+    Resolve an importance-tier label to its accent colour.
+
+    The single home of the "unknown / missing tier ⇒ low" domain rule: the view
+    used to hand-roll this fallback inline (epic #6 said business logic belongs in
+    the seam, not the widget), so the map, the plan breakdown, and the system
+    drill-in all resolve their colour here.
+    """
+    key = str(tier).strip().lower() if tier is not None and pd.notna(tier) else ""
+    return TIER_COLORS.get(key, TIER_COLORS["low"])
+
 
 # --- #38 slider -> real backend parameter ----------------------------------
 
@@ -247,7 +282,7 @@ def asset_map_data(asset_table: pd.DataFrame) -> AssetMap:
     seen: set[tuple[str, str]] = set()
     for row in rows:
         src = str(row["asset_id"])
-        conns = asset_graph._parse_connections(row.get("connections"))
+        conns = asset_graph.parse_connections(row.get("connections"))
         for dst in conns:
             if dst not in ids:
                 continue
@@ -389,6 +424,31 @@ def annotate_plan(items: pd.DataFrame, asset_table: pd.DataFrame | None = None) 
     return out
 
 
+def score_breakdown(
+    row: pd.Series, weights: scoring.ScoringWeights = scoring.DEFAULT_WEIGHTS
+) -> dict[str, float]:
+    """
+    The four weighted contributions (cvss / epss / kev / importance) behind a
+    finding's composite score, each already scaled to the 0-100 composite so they
+    sum to `scoring.compute_score`. Drives the finding modal's breakdown bar —
+    the one bit of the composite formula the other seams don't expose. Tolerant of
+    missing signals (they contribute 0) and unknown tiers (weight 0) so a live
+    vendor scan doesn't raise.
+    """
+    cvss = float(row.get("cvss_score")) if pd.notna(row.get("cvss_score")) else 0.0
+    epss = float(row.get("epss_score")) if pd.notna(row.get("epss_score")) else 0.0
+    kev = bool(row.get("kev_flag"))
+    tier = row.get("importance_tier")
+    tier_key = str(tier).strip().lower() if pd.notna(tier) else None
+    tier_w = weights.tier_weights.get(tier_key, 0.0) if tier_key else 0.0
+    return {
+        "cvss": round(100.0 * weights.cvss * (max(0.0, min(cvss, 10.0)) / 10.0), 2),
+        "epss": round(100.0 * weights.epss * max(0.0, min(epss, 1.0)), 2),
+        "kev": round(100.0 * weights.kev * (1.0 if kev else 0.0), 2),
+        "importance": round(100.0 * weights.importance * tier_w, 2),
+    }
+
+
 def plan_item_detail(
     row: pd.Series,
     *,
@@ -431,6 +491,7 @@ def plan_item_detail(
         "epss_score": epss,
         "kev_flag": kev,
         "importance_tier": tier_key,
+        "tier_color": tier_color(tier_key),
         "tier_weight": tier_weights.get(tier_key) if tier_key else None,
         "hop_distance": int(hop) if has_hop else None,
         "pool": row.get("pool"),
@@ -494,12 +555,15 @@ def asset_detail(
 
     connections: list[str] = []
     if row is not None and "connections" in row.index:
-        connections = list(asset_graph._parse_connections(row["connections"]))
+        connections = list(asset_graph.parse_connections(row["connections"]))
 
     return {
         "asset_id": asset_id,
         "name": str(row["name"]) if row is not None else None,
         "importance_tier": str(row["importance_tier"]) if row is not None else None,
+        "tier_color": tier_color(
+            row["importance_tier"] if row is not None else None
+        ),
         "hop_distance": (int(row["hop_distance"])
                          if row is not None and pd.notna(row["hop_distance"]) else None),
         "criticality": (str(row["criticality"])
@@ -585,3 +649,304 @@ def live_environment(
     return LiveScan(
         env=env, source="cached" if cached else "live", vendor=vendor, tier=tier
     )
+
+
+# --- tabbed console seams (epic #6 reshape) --------------------------------
+#
+# The console splits the old single page into four tabs (Dashboard · Attack
+# surface · Risk engine · Plan). These are the extra pure shapers the tabs need
+# on top of the ones above — each still view-free so the layout stays testable.
+
+def tier_spread(result: pipeline.PlanResult) -> dict[str, int]:
+    """
+    Count the optimized plan's scheduled fixes per importance tier ("Where the
+    fixes land", most-important first). Tiers with no fix report 0; rows carrying
+    an unknown/absent tier are ignored rather than bucketed.
+    """
+    counts = {t: 0 for t in TIER_ORDER}
+    items = result.optimized.items
+    if "importance_tier" in items.columns:
+        for value in items["importance_tier"]:
+            key = str(value).strip().lower() if pd.notna(value) else ""
+            if key in counts:
+                counts[key] += 1
+    return counts
+
+
+def top_picks(
+    result: pipeline.PlanResult,
+    asset_table: pd.DataFrame | None = None,
+    *,
+    limit: int = 8,
+) -> pd.DataFrame:
+    """
+    The optimizer's first `limit` scheduled fixes, annotated with asset name and
+    hop-distance — the Dashboard tab's "Top optimizer picks" list. Thin wrapper
+    over `annotate_plan` so the view keeps no shaping logic.
+    """
+    return annotate_plan(result.optimized.items.head(limit), asset_table)
+
+
+def pool_utilization(result: pipeline.PlanResult) -> dict[str, dict]:
+    """
+    Per-pool `{used, capacity, unit}` for the Plan tab's utilisation bars, read
+    straight off the optimized plan's consumed effort and the pools it was built
+    against — no re-derivation of the packing.
+    """
+    plan = result.optimized
+    out: dict[str, dict] = {}
+    for name, pool in plan.pools.items():
+        out[name] = {
+            "used": float(plan.consumed.get(name, 0.0)),
+            "capacity": float(pool.capacity),
+            "unit": pool.unit,
+        }
+    return out
+
+
+def plan_delta(
+    baseline: pipeline.RemediationPlan, optimized: pipeline.RemediationPlan
+) -> dict[str, set]:
+    """
+    Which CVEs the optimized plan schedules that the severity baseline does not
+    (`added`), and which the baseline schedules that the optimizer drops
+    (`dropped`) — drives the Plan tab's new-pick / dropped-row highlighting.
+    """
+    def ids(plan: pipeline.RemediationPlan) -> set:
+        return set(plan.items["cve_id"]) if "cve_id" in plan.items.columns else set()
+
+    base, opt = ids(baseline), ids(optimized)
+    return {"added": opt - base, "dropped": base - opt}
+
+
+@dataclass
+class AssetMapLayout:
+    """The asset graph laid out as two frames Altair can draw directly: one row
+    per node (positioned, coloured, flagged) and one per edge (endpoints)."""
+
+    nodes: pd.DataFrame   # asset_id, name, tier, tier_color, x, y, hop, crown, in_plan
+    edges: pd.DataFrame   # source, target, x, y, x2, y2
+
+
+def asset_map_layout(
+    asset_table: pd.DataFrame, result: pipeline.PlanResult | None = None
+) -> AssetMapLayout:
+    """
+    Lay the asset graph out for the clickable Altair graph on the Attack-surface
+    tab: reuse `asset_map_data`'s hop-column geometry, then centre each column
+    vertically and resolve per-node colour / plan-membership. When a `result` is
+    given, nodes the optimized plan schedules a fix for are flagged `in_plan`.
+    """
+    amap = asset_map_data(asset_table)
+    in_plan = in_plan_assets(result.optimized) if result is not None else set()
+
+    node_rows = []
+    for node in amap.nodes:
+        # Centre the column: slots run 0..col_size-1, shift so the column is
+        # balanced around y=0 (nicer than top-anchored for a free layout).
+        y = node["slot"] - (node["col_size"] - 1) / 2.0
+        node_rows.append({
+            "asset_id": node["asset_id"],
+            "name": node["name"],
+            "tier": node["tier"],
+            "tier_color": tier_color(node["tier"]),
+            "x": float(node["col"]),
+            "y": float(y),
+            "hop": node["hop"],
+            "crown": bool(node["crown"]),
+            "in_plan": node["asset_id"] in in_plan,
+        })
+    nodes = pd.DataFrame(
+        node_rows,
+        columns=["asset_id", "name", "tier", "tier_color", "x", "y",
+                 "hop", "crown", "in_plan"],
+    )
+
+    pos = {r["asset_id"]: (r["x"], r["y"]) for r in node_rows}
+    edge_rows = []
+    for src, dst in amap.edges:
+        if src in pos and dst in pos:
+            x, y = pos[src]
+            x2, y2 = pos[dst]
+            edge_rows.append({"source": src, "target": dst,
+                              "x": x, "y": y, "x2": x2, "y2": y2})
+    edges = pd.DataFrame(edge_rows, columns=["source", "target", "x", "y", "x2", "y2"])
+    return AssetMapLayout(nodes=nodes, edges=edges)
+
+
+def rank_table(
+    scored: pd.DataFrame,
+    *,
+    search: str | None = None,
+    tier: str | None = None,
+    kev_only: bool = False,
+) -> pd.DataFrame:
+    """
+    Filter the scored findings for the Risk-engine table and number them in their
+    current (risk-first) order. Filters, all optional and independent: a CVE-id
+    substring, an exact importance tier, and known-exploited-only. A `rank` column
+    (1..n) is prepended so the table shows position after filtering.
+    """
+    view = scored
+    if search:
+        needle = str(search).strip().lower()
+        if needle and "cve_id" in view.columns:
+            view = view[view["cve_id"].astype(str).str.lower().str.contains(needle)]
+    if tier and "importance_tier" in view.columns:
+        want = str(tier).strip().lower()
+        view = view[view["importance_tier"].astype(str).str.lower() == want]
+    if kev_only and "kev_flag" in view.columns:
+        view = view[view["kev_flag"].astype(bool)]
+
+    view = view.reset_index(drop=True)
+    view.insert(0, "rank", range(1, len(view) + 1))
+    return view
+
+
+# --- /api/plan payload: the whole recompute, JSON-ready ---------------------
+#
+# The FastAPI console recomputes the entire board on every control change, so one
+# seam assembles the response the endpoint returns. It only *composes* the seams
+# above (headline, top_picks, tier_spread, coverage, pool_utilization, plan_delta,
+# rank_table + overrides) into native Python types the JSON layer can serialise —
+# no scoring/packing logic lives here.
+
+def _opt_num(value: object) -> float | None:
+    """A pandas/NumPy scalar as a plain float, or None when missing — JSON-safe."""
+    return float(value) if value is not None and pd.notna(value) else None
+
+
+def _opt_str(value: object) -> str | None:
+    return str(value) if value is not None and pd.notna(value) else None
+
+
+def _finding_dict(row: pd.Series, **extra: object) -> dict:
+    """One finding row as a JSON-ready dict for the plan lists and top picks."""
+    has = row.index
+    out = {
+        "cve_id": _opt_str(row.get("cve_id")),
+        "asset_id": _opt_str(row.get("asset_id")) if "asset_id" in has else None,
+        "asset_name": _opt_str(row.get("asset_name")) if "asset_name" in has else None,
+        "importance_tier": _opt_str(row.get("importance_tier")),
+        "tier_color": tier_color(row.get("importance_tier")),
+        "cvss_score": _opt_num(row.get("cvss_score")),
+        "epss_score": _opt_num(row.get("epss_score")),
+        "kev_flag": bool(row.get("kev_flag")),
+        "pool": _opt_str(row.get("pool")),
+        "effort": _opt_num(row.get("effort")),
+        "composite_score": _opt_num(row.get("composite_score")),
+        "hop_distance": (int(row["hop_distance"])
+                         if "hop_distance" in has and pd.notna(row.get("hop_distance"))
+                         else None),
+    }
+    out.update(extra)
+    return out
+
+
+def plan_payload(
+    env: pd.DataFrame,
+    *,
+    weights: scoring.ScoringWeights = scoring.DEFAULT_WEIGHTS,
+    pools: dict[str, capacity.CapacityPool] | None = None,
+    asset_table: pd.DataFrame | None = None,
+    override_log: "object | None" = None,
+    top_limit: int = 8,
+) -> dict:
+    """
+    Recompute the whole console for the current controls and shape it for the
+    `/api/plan` endpoint. Runs the plan once, overlays any human overrides (which
+    re-rank by `final_score`), and assembles KPIs, the top-picks list, the coverage
+    donut, tier spread, the ranked findings table, pool utilisation, both plan
+    columns with new/dropped markers, and the set of assets the plan touches.
+
+    Pure over `env` (no I/O): the caller scans once and passes the cached frame.
+    """
+    result = plan(env, weights=weights, pools=pools)
+    scored = result.scored
+
+    # Overlay overrides so the table's final_score / ranking reflect human calls.
+    if override_log is not None:
+        import overrides
+        final = overrides.apply_overrides(scored, override_log)
+    else:
+        final = scored.copy()
+        final["final_score"] = final["composite_score"]
+        final["is_overridden"] = False
+        final["override_user"] = pd.NA
+        final["override_reason"] = pd.NA
+
+    name_by_id: dict[str, str] = {}
+    if asset_table is not None and "asset_id" in asset_table.columns:
+        name_by_id = dict(zip(asset_table["asset_id"], asset_table["name"]))
+
+    ranked = final.reset_index(drop=True)
+    ranked.insert(0, "rank", range(1, len(ranked) + 1))
+    rank_rows = [
+        {
+            "rank": int(r["rank"]),
+            "cve_id": _opt_str(r.get("cve_id")),
+            "vendor": _opt_str(r.get("vendor")),
+            "cvss_score": _opt_num(r.get("cvss_score")),
+            "epss_score": _opt_num(r.get("epss_score")),
+            "kev_flag": bool(r.get("kev_flag")),
+            "importance_tier": _opt_str(r.get("importance_tier")),
+            "tier_color": tier_color(r.get("importance_tier")),
+            "asset_id": _opt_str(r.get("asset_id")) if "asset_id" in r.index else None,
+            "asset_name": name_by_id.get(r.get("asset_id")) if "asset_id" in r.index else None,
+            "composite_score": _opt_num(r.get("composite_score")),
+            "final_score": _opt_num(r.get("final_score")),
+            "is_overridden": bool(r.get("is_overridden")),
+            "override_user": _opt_str(r.get("override_user")),
+            "override_reason": _opt_str(r.get("override_reason")),
+        }
+        for _, r in ranked.iterrows()
+    ]
+
+    audit = []
+    if override_log is not None:
+        for e in reversed(override_log.history()):
+            audit.append({
+                "cve_id": e.key, "from": e.computed_score, "to": e.override_score,
+                "user": e.user, "reason": e.reason, "timestamp": e.timestamp,
+            })
+
+    head = headline(result)
+    coverage = (asset_coverage(asset_table, result.optimized)
+                if asset_table is not None else {"covered": 0, "total": 0})
+    kev_count = int(scored["kev_flag"].astype(bool).sum()) if "kev_flag" in scored else 0
+
+    delta = plan_delta(result.baseline, result.optimized)
+    opt_items = annotate_plan(result.optimized.items, asset_table)
+    base_items = annotate_plan(result.baseline.items, asset_table)
+    optimized_rows = [
+        _finding_dict(r, is_new=(r.get("cve_id") in delta["added"]))
+        for _, r in opt_items.iterrows()
+    ]
+    baseline_rows = [
+        _finding_dict(r, dropped=(r.get("cve_id") in delta["dropped"]))
+        for _, r in base_items.iterrows()
+    ]
+
+    picks = top_picks(result, asset_table, limit=top_limit)
+    pick_rows = [_finding_dict(r) for _, r in picks.iterrows()]
+
+    return {
+        "kpis": {
+            **head,
+            "critical_covered": coverage["covered"],
+            "critical_total": coverage["total"],
+            "kev_count": kev_count,
+        },
+        "coverage": {
+            **coverage,
+            "pct": (coverage["covered"] / coverage["total"]
+                    if coverage["total"] else 0.0),
+        },
+        "top_picks": pick_rows,
+        "tier_spread": tier_spread(result),
+        "pool_utilization": pool_utilization(result),
+        "rank_table": rank_rows,
+        "plans": {"baseline": baseline_rows, "optimized": optimized_rows},
+        "in_plan_assets": sorted(in_plan_assets(result.optimized)),
+        "audit": audit,
+    }

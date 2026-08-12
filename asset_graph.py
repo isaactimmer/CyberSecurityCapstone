@@ -39,11 +39,16 @@ DEFAULT_TIER_CUTOFFS: tuple[tuple[int, str], ...] = (
 DEFAULT_TIER_LABEL = "low"
 
 
-def _parse_connections(raw: object) -> list[str]:
+def parse_connections(raw: object) -> list[str]:
     """Split a pipe-separated connections cell into a clean list of asset ids."""
     if raw is None or (isinstance(raw, float) and pd.isna(raw)):
         return []
     return [part.strip() for part in str(raw).split(CONNECTION_SEP) if part.strip()]
+
+
+# Back-compat alias: the parser was private before the dashboard needed it (the
+# view/logic split — see dashboard.asset_map_data). Keep the old name working.
+_parse_connections = parse_connections
 
 
 # ---------------------------------------------------------------------------
@@ -60,7 +65,7 @@ def load_assets(csv_path: str | Path = DEFAULT_ASSET_CSV) -> pd.DataFrame:
     df["crown_jewel"] = (
         df["crown_jewel"].str.strip().str.lower().isin(("true", "1", "yes"))
     )
-    df["connections"] = df["connections"].apply(_parse_connections)
+    df["connections"] = df["connections"].apply(parse_connections)
     return df
 
 
