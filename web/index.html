@@ -36,10 +36,15 @@
     <div class="step">
       <div class="step-lab"><span class="step-num">1</span><span class="t">Your assets</span><span class="h">what to look at</span></div>
       <div class="seg" role="group" aria-label="Asset source">
-        <button aria-pressed="true" onclick="segPick(this)">Use the sample environment</button>
-        <button aria-pressed="false" onclick="segPick(this)" title="CSV upload is a later story">Upload your assets</button>
+        <button aria-pressed="true" onclick="segPick(this,'sample')">Use the sample environment</button>
+        <button aria-pressed="false" onclick="segPick(this,'upload')">Upload your assets</button>
       </div>
-      <div class="drop">Modelled mid-sized company from <b>assets.csv</b>. Scored against the cached NVD · EPSS · CISA&nbsp;KEV feeds — runs fully offline.</div>
+      <div class="drop" id="dropSample">Modelled mid-sized company from <b>assets.csv</b>. Scored against the cached NVD · EPSS · CISA&nbsp;KEV feeds — runs fully offline.</div>
+      <div class="drop drop-up" id="dropUpload" style="display:none" onclick="$('assetFile').click()" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="onDropFile(event)">
+        <input type="file" id="assetFile" accept=".csv,text/csv" hidden onchange="onPickFile(event)">
+        <div id="uploadIdle"><b>Choose a CSV</b> or drag one here.<br><span class="up-hint">Needs columns: asset_id, name, criticality, crown_jewel, connections, vendor. Scored offline against the cached feeds.</span></div>
+        <div id="uploadStatus" class="up-status" style="display:none"></div>
+      </div>
     </div>
     <div class="step">
       <div class="step-lab"><span class="step-num">2</span><span class="t">Team capacity</span><span class="h">this cycle</span></div>

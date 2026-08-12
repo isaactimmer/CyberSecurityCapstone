@@ -37,8 +37,10 @@ const effortLabel = f => `${f.effort}${f.pool === "change_window" ? " slots" : "
 const num = v => (v == null ? 0 : v);
 
 // ---------------- init ----------------
-async function init() {
-  ENV = await apiGet("/api/environment");
+// Apply an /api/environment (or /api/upload, /api/reset) payload to the console:
+// reset the controls to the environment's defaults and repaint the intake meta.
+function applyEnv(env) {
+  ENV = env;
   W = { ...ENV.default_weights };
   cap = { ...ENV.default_capacity };
   $("metaFindings").textContent = ENV.finding_count;
@@ -49,6 +51,10 @@ async function init() {
   renderPresets();
   renderSliders();
   buildLegend();
+}
+
+async function init() {
+  applyEnv(await apiGet("/api/environment"));
 }
 
 // ---------------- risk-engine controls ----------------
@@ -356,6 +362,10 @@ function gotoTab(name) {
   if (name === "map" && BOARD) buildMap();
 }
 async function showBoard() {
+  if (sourceMode === "upload" && !uploaded) {
+    flashUpload("Choose a CSV first, or switch to the sample environment.");
+    return;
+  }
   cap.patching = +$("ci_pat").value || 0;
   cap.appsec = +$("ci_app").value || 0;
   cap.change_window = +$("ci_cw").value || 0;
@@ -367,7 +377,55 @@ async function showBoard() {
   await refresh();
 }
 function showIntake() { $("board").classList.remove("on"); $("intake").style.display = "block"; $("editBtn").style.display = "none"; window.scrollTo(0, 0); }
-function segPick(b) { b.parentNode.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", "false")); b.setAttribute("aria-pressed", "true"); }
+
+// ---------------- asset source / upload ----------------
+let sourceMode = "sample";   // "sample" | "upload"
+let uploaded = false;        // a user CSV has been validated + scanned this session
+
+async function segPick(b, mode) {
+  b.parentNode.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", "false"));
+  b.setAttribute("aria-pressed", "true");
+  sourceMode = mode;
+  $("dropSample").style.display = mode === "sample" ? "block" : "none";
+  $("dropUpload").style.display = mode === "upload" ? "block" : "none";
+  // Leaving an uploaded environment for the sample: restore it server-side.
+  if (mode === "sample" && uploaded) {
+    uploaded = false;
+    applyEnv((await apiPost("/api/reset")).body);
+  }
+}
+
+function onPickFile(e) { const f = e.target.files && e.target.files[0]; if (f) uploadAssets(f); }
+function onDropFile(e) {
+  e.preventDefault();
+  $("dropUpload").classList.remove("over");
+  const f = e.dataTransfer.files && e.dataTransfer.files[0];
+  if (f) uploadAssets(f);
+}
+
+function setUploadStatus(html, cls) {
+  $("uploadIdle").style.display = "none";
+  const s = $("uploadStatus");
+  s.style.display = "block"; s.className = "up-status" + (cls ? " " + cls : ""); s.innerHTML = html;
+}
+function flashUpload(msg) { setUploadStatus(esc(msg), "err"); }
+
+async function uploadAssets(file) {
+  setUploadStatus(`Scanning <b>${esc(file.name)}</b> against the cached feeds…`, "busy");
+  const fd = new FormData();
+  fd.append("file", file);
+  let r, body;
+  try {
+    r = await fetch("/api/upload", { method: "POST", body: fd });
+    body = await r.json().catch(() => null);
+  } catch (err) { flashUpload("Upload failed — is the server running?"); return; }
+  if (!r.ok) { flashUpload((body && body.detail) || "That file could not be read as an asset CSV."); return; }
+  uploaded = true;
+  applyEnv(body);
+  setUploadStatus(
+    `<b>${esc(file.name)}</b> loaded — ${ENV.finding_count} findings across ` +
+    `${(ENV.asset_map.nodes || []).length} systems. Press Build.`, "ok");
+}
 function toggleTheme() {
   const r = document.documentElement;
   const cur = r.getAttribute("data-theme") || (matchMedia("(prefers-color-scheme:dark)").matches ? "dark" : "light");

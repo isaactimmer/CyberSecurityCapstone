@@ -1,68 +1,86 @@
-# Handoff — Scryxen console is now a **FastAPI web app** (Streamlit retired)
+# Handoff — CSV upload wired into the Scryxen console
 
 **Date:** 2026-08-12
-**Repo:** `C:\Users\sylhe\WorkProjects\CyberSecurityCapstone` · GitHub `isaactimmer/CyberSecurityCapstone`
-**Branch:** merged to **`main`** (fast-forward). `epic-6-dashboard-intake-reshape` points at the same commit and can be deleted.
-**Next session's job:** polish/edit the console (the user plans more UI edits). It works and is on `main`.
+**Repo:** `C:\Users\rocketboy\Desktop\Projects\CyberSecurityCapstone` · GitHub `isaactimmer/CyberSecurityCapstone`
+**Branch:** `main` (== `origin/main` at pull time, commit `0616467`).
+**Next session's job:** commit this session's work (if not already), then continue the
+console polish list — the asset-map force-directed layout is the top remaining item.
 
-## What changed this session — the UI shifted off Streamlit
-The approved v2 design (artifact `8fcd343b-…`) is a bespoke web app that Streamlit
-can't reproduce pixel-exact. So the console was **rebuilt as a FastAPI app** that
-serves the real design and drives it from the existing engine. Decision + rationale
-in **`docs/adr/0002-web-console-over-fastapi.md`**. The Streamlit `app.py` (and
-`tests/test_app.py`, and the `streamlit` dependency) are **deleted**.
+## What this session did
 
-### New / changed files
-- **`server.py`** — FastAPI app. `GET /` serves `web/index.html`; `GET /api/environment`
-  (one-time asset map + presets + defaults); `POST /api/plan` (the whole board,
-  recomputed per controls — the hot path); `POST /api/asset/{id}`,
-  `POST /api/finding/{cve}`, `POST /api/override`, `POST /api/override/clear`.
-  Scans once (cached, offline), holds the env + `OverrideLog` in memory (`_state`).
-- **`web/index.html` · `web/styles.css` · `web/app.js`** — the artifact's design,
-  split out. `app.js` is a **pure renderer**: it POSTs controls and draws the JSON;
-  no scoring/packing in the view.
-- **`dashboard.py`** — three new pure seams (tested): `plan_payload` (assembles the
-  whole `/api/plan` response), `score_breakdown` (the modal's 4-way weighted split),
-  `presets` (the risk-appetite weight sets, moved out of the old `app.py`).
-- **`tests/test_console_payload.py`** (6) + **`tests/test_server.py`** (7) — new.
-- **`requirements.txt`** — `+fastapi +uvicorn`, `-streamlit`.
-- **`docs/adr/0002-…`**, **`CLAUDE.md`** ("Running the console"), this handoff.
+1. **Pulled `main`** (`911d20b..0616467`, fast-forward). The one code-bearing change
+   from the prior session was the FastAPI console rebuild; `0616467` itself was a
+   docs-only handoff update.
+2. **Stood up the environment on this machine.** There was **no `.venv`** here (the
+   prior handoff was written on a different machine). Created `.venv`, installed
+   `requirements.txt`. Two missing deps surfaced and were **added to
+   `requirements.txt`**: `httpx` (FastAPI `TestClient` needs it — `test_server.py`
+   wouldn't even collect without it) and `python-multipart` (FastAPI file uploads).
+3. **Built CSV upload** — the "Upload your assets" intake path, previously a stub.
+   This closes open item #2 from the prior handoff.
 
-## State — COMMITTED + PUSHED + MERGED TO MAIN
-Commit **`6d4374c`** ("Rebuild console as a FastAPI web app; retire Streamlit").
-Fast-forwarded onto `main` (`911d20b..6d4374c`) and pushed — `main` == `origin/main`,
-working tree clean. Full suite: **237 passing** (was 259 before removing the 22
-Streamlit `test_app.py` tests). The `dashboard.py` pure-seam tests and the whole
-engine test set are intact. Verified in the browser: intake, all four tabs, the
-working SVG node graph + node drill-in, the risk table, presets/weights, and the
-override flow. No PR opened (merged directly by fast-forward).
+### CSV upload — what changed (uncommitted; see `git diff`)
+- **`server.py`** — new `POST /api/upload` (validate via `dashboard.load_asset_table`
+  → rescan offline → swap `_state` with a fresh `OverrideLog` → return the standard
+  environment payload; bad file ⇒ **422 with a plain-English reason**). New
+  `POST /api/reset` (restore the sample env when the user switches back after an
+  upload — otherwise the server keeps serving the uploaded env). Refactored the
+  environment payload into a shared `_environment_payload()`; added a `source` field
+  to `ConsoleState`.
+- **`web/index.html` · `web/app.js` · `web/styles.css`** — the "Upload your assets"
+  segment now reveals a click/drag drop zone (required-columns hint, busy/ok/err
+  states). `segPick(btn, mode)` toggles source; `uploadAssets()` POSTs multipart;
+  switching back to sample calls `/api/reset`; Build is guarded against an empty
+  upload. Env-application refactored into `applyEnv()` and reused after upload/reset.
+- **`tests/test_server.py`** — 3 new tests (upload happy path, column-validation 422,
+  reset). Scan is monkeypatched so tests stay offline.
+
+## State — UNCOMMITTED
+Working tree has **6 modified files** (`requirements.txt`, `server.py`,
+`tests/test_server.py`, `web/app.js`, `web/index.html`, `web/styles.css`). Nothing
+committed or pushed yet. Suggested commit message:
+*"Wire CSV upload: /api/upload + /api/reset, intake drop zone (epic #6)"* — mention
+the `httpx` + `python-multipart` requirements fix.
+
+Full suite: **240 passing** (237 prior + 3 new). Verified end-to-end in the browser:
+uploaded a 5-asset CSV → scanned offline to 928 findings → built the board (KPIs +
+coverage recomputed) → reset back to the sample 37 systems / 4523 CVEs. No console
+errors.
 
 ## Run it
 ```
 .\.venv\Scripts\python.exe -m uvicorn server:app --port 8000    # http://localhost:8000
-.\.venv\Scripts\python.exe -m pytest -q                         # 237 passed
+.\.venv\Scripts\python.exe -m pytest -q                         # 240 passed
 ```
-`gh`: prepend `$env:Path += ";$env:LOCALAPPDATA\GitHubCLI\bin"`. Network commands
-(pip / any fetch) need `dangerouslyDisableSandbox`; the app itself runs offline off
-`data/cache/`.
+Notes for this machine: the `py` launcher works too (`py -m pytest -q`). `pip`/any
+fetch needs `dangerouslyDisableSandbox`; the app runs offline off `data/cache/`.
+**Browser file-upload gotcha:** the Chrome `file_upload` tool only accepts files
+under a session-shared/project dir — the scratchpad is rejected. Write the test CSV
+inside the repo, upload, then delete it (don't commit it).
 
 ## Open for the next session (all polish, nothing broken)
-1. **Asset-map layout.** Currently the engine's hop-distance columns, not the
-   artifact's organic scatter. `networkx` (already a dep) can do a force-directed
-   layout — the most-noticeable visual gap from the artifact.
-2. **CSV upload** is a stub in intake (sample environment only). The `/api` layer is
-   ready for it (`dashboard.load_asset_table` already validates an uploaded CSV) —
-   wire an upload endpoint if wanted.
-3. **Reweight latency** — the slider recompute is a ~180 ms debounced server call.
-   Fine, but if it feels heavy on the full 4,523-row set, consider caching the
-   scanned/scored frame per-weight or trimming the payload.
-4. **JS has no automated tests** — verified by driving the app. A Playwright smoke
-   test is the honest gap to close if this grows.
-5. Minor: `use_container_width` deprecation is gone with Streamlit; ignore old notes.
+1. **Asset-map layout** — still the engine's hop-distance columns, not the artifact's
+   organic scatter. `networkx` (already a dep) can do a force-directed layout. Top
+   visual gap.
+2. **Reweight latency** — ~180 ms debounced server call on the full 4,523-row set;
+   consider caching the scored frame per-weight or trimming the payload if it feels
+   heavy.
+3. **JS has no automated tests** — a Playwright smoke test is the honest gap.
+4. **CSV upload follow-ups (optional):** a downloadable sample-CSV template; a client
+   size/row guard; surfacing skipped/uncached vendors from the scan back to the user
+   (right now they're silently dropped, warned only to server stderr).
 
-## Memory (`~/.claude/projects/.../memory/`)
-- **`ui-architecture-shift.md`** — the decision + that it's now implemented.
-- `dashboard-design-direction.md`, `dashboard-intake-reshape-wip.md` — prior design
-  track (the Streamlit port they describe is retired).
-- `environment-setup.md` — gh portable path, venv python, network-sandbox quirk.
-Index in `MEMORY.md`.
+## Reference (don't duplicate here)
+- ADR: `docs/adr/0002-web-console-over-fastapi.md` (why FastAPI, not Streamlit).
+- Run instructions live in `CLAUDE.md` ("Running the console").
+- Engine seams the upload leans on: `dashboard.load_asset_table` (validation),
+  `pipeline.scan_environment` (offline scan), `cve_asset_map.build_environment_vulnerabilities`
+  (degrades gracefully — uncached vendors skipped, not fatal).
+- Memory index: `~/.claude/projects/.../memory/MEMORY.md`.
+
+## Suggested skills for the next session
+- **`/code-review`** — review this session's uncommitted diff before committing.
+- **`run`** — launch the console to confirm a change in the real app.
+- **`prototype`** — for the force-directed asset-map layout, sanity-check the
+  networkx layout output before wiring it into the SVG builder.
+- **`tdd`** — if adding the Playwright JS smoke tests or new engine seams.

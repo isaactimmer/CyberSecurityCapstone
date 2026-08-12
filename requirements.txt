@@ -8,6 +8,7 @@ networkx
 # serves web/ and exposes the engine over a JSON API; run with uvicorn.
 fastapi
 uvicorn
+python-multipart    # required by FastAPI for the /api/upload multipart form (CSV upload)
 
 # Optional: ILP optimal-comparison stretch (epic #5, #35). Not needed for the
 # core optimizer; optimizer_ilp.py and its tests skip when it is absent.
@@ -15,3 +16,4 @@ pulp
 
 # Dev / test
 pytest
+httpx        # required by fastapi.testclient (starlette TestClient) in tests/test_server.py

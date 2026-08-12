@@ -22,11 +22,12 @@ Run:
 """
 from __future__ import annotations
 
+import io
 from dataclasses import dataclass
 from pathlib import Path
 
 import pandas as pd
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
@@ -52,6 +53,7 @@ class ConsoleState:
     env: pd.DataFrame
     asset_table: pd.DataFrame | None
     override_log: overrides.OverrideLog
+    source: str = "Sample environment"
 
 
 def load_state() -> ConsoleState:
@@ -126,16 +128,16 @@ def index() -> FileResponse:
     return FileResponse(WEB_DIR / "index.html")
 
 
-@app.get("/api/environment")
-def environment() -> dict:
-    """Everything static about the environment the console needs on first paint."""
-    st = state()
+def _environment_payload(st: ConsoleState) -> dict:
+    """Everything static about the environment the console needs on first paint.
+    Shared by `/api/environment` (sample) and `/api/upload` (user CSV) so both
+    hand the front end the same shape."""
     layout = dashboard.asset_map_layout(st.asset_table) if st.asset_table is not None \
         else dashboard.AssetMapLayout(nodes=pd.DataFrame(), edges=pd.DataFrame())
     bounds = dashboard.year_bounds(st.env)
     d = scoring.DEFAULT_WEIGHTS
     return {
-        "source": "Sample environment",
+        "source": st.source,
         "finding_count": int(len(st.env)),
         "year_bounds": list(bounds) if bounds else None,
         "presets": dashboard.presets(),
@@ -149,6 +151,49 @@ def environment() -> dict:
             "edges": layout.edges.to_dict("records"),
         },
     }
+
+
+@app.get("/api/environment")
+def environment() -> dict:
+    """The sample environment payload for first paint."""
+    return _environment_payload(state())
+
+
+@app.post("/api/reset")
+def reset() -> dict:
+    """Restore the sample environment — used when the user switches back to it
+    after uploading their own assets. Cheap: the sample scan is cached/offline."""
+    global _state
+    _state = load_state()
+    return _environment_payload(_state)
+
+
+@app.post("/api/upload")
+def upload(file: UploadFile = File(...)) -> dict:
+    """Replace the sample environment with an uploaded asset CSV.
+
+    Validates the CSV (schema + graph integrity) via `dashboard.load_asset_table`,
+    rescans offline against the cached feeds, and swaps the in-memory state for a
+    fresh one (new override log). Returns the same shape as `/api/environment` so
+    the front end can re-paint without a second round trip. A bad file yields a
+    422 with the plain-English reason the loader raised."""
+    global _state
+    raw = file.file.read()
+    try:
+        asset_table = dashboard.load_asset_table(io.BytesIO(raw))
+    except ValueError as exc:                     # missing columns, bad graph, etc.
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    except Exception as exc:                       # not a CSV / unparseable bytes
+        raise HTTPException(
+            status_code=422,
+            detail=f"Could not read that file as a CSV: {exc}",
+        ) from exc
+
+    env = pipeline.scan_environment(asset_table=asset_table, use_cache=True)
+    source = f"Uploaded: {file.filename}" if file.filename else "Uploaded assets"
+    _state = ConsoleState(env=env, asset_table=asset_table,
+                          override_log=overrides.OverrideLog(), source=source)
+    return _environment_payload(_state)
 
 
 @app.post("/api/plan")
