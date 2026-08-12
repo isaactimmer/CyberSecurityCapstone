@@ -417,12 +417,23 @@ def test_plan_delta_reports_adds_and_drops():
 def test_asset_map_layout_positions_nodes_and_pairs_edges():
     layout = dashboard.asset_map_layout(_asset_table())
     assert set(layout.nodes["asset_id"]) == {"crown", "mid", "edge"}
-    x_by_id = dict(zip(layout.nodes["asset_id"], layout.nodes["x"]))
-    assert x_by_id["crown"] == 0 and x_by_id["edge"] == 2  # x = hop distance
+    pos = {r["asset_id"]: (r["x"], r["y"]) for _, r in layout.nodes.iterrows()}
+    # Force-directed layout: the crown jewel is pinned to the centre of the unit
+    # box, and every node sits inside [0, 1] on both axes.
+    assert pos["crown"] == (0.5, 0.5)
+    assert all(0.0 <= x <= 1.0 and 0.0 <= y <= 1.0 for x, y in pos.values())
     assert "tier_color" in layout.nodes.columns
     # crown-mid and mid-edge, de-duped and endpoint-resolved.
     assert len(layout.edges) == 2
     assert {"x", "y", "x2", "y2"} <= set(layout.edges.columns)
+
+
+def test_asset_map_layout_is_deterministic():
+    # Fixed seed -> identical coordinates across calls, so the map doesn't jitter
+    # between reloads.
+    a = dashboard.asset_map_layout(_asset_table())
+    b = dashboard.asset_map_layout(_asset_table())
+    assert a.nodes[["asset_id", "x", "y"]].equals(b.nodes[["asset_id", "x", "y"]])
 
 
 def test_asset_map_layout_flags_planned_nodes():

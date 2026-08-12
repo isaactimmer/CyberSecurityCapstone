@@ -24,6 +24,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
+import networkx as nx
 import pandas as pd
 
 import asset_graph
@@ -728,29 +729,88 @@ class AssetMapLayout:
     edges: pd.DataFrame   # source, target, x, y, x2, y2
 
 
+# Fixed RNG seed for the force-directed layout so the map is stable across reloads
+# (a jittering scatter reads as "something changed" — it hasn't).
+ASSET_MAP_SEED = 42
+
+
+def _force_directed_positions(amap: AssetMap) -> dict[str, tuple[float, float]]:
+    """Force-directed (spring) node positions in a unit box, with the crown jewel
+    pinned to the centre (0.5, 0.5) as the visual anchor.
+
+    A spring layout gives the organic scatter that reads far better than rigid
+    hop columns, but the crown jewel — the thing the whole map is *about* — drifts
+    wherever the physics settles. So we run the layout with the crown fixed at the
+    origin, then scale each side of each axis independently so the crown lands dead
+    centre and the furthest node on every side reaches the box edge. That keeps the
+    crown centred even when the graph's mass is lopsided (which it usually is), and
+    means the front end's own min/max normalisation can't push it back off-centre.
+    """
+    graph = nx.Graph()
+    graph.add_nodes_from(n["asset_id"] for n in amap.nodes)
+    graph.add_edges_from(amap.edges)
+    if graph.number_of_nodes() == 0:
+        return {}
+
+    crown = amap.crown_jewels[0] if amap.crown_jewels else None
+    if crown is not None:
+        raw = nx.spring_layout(
+            graph, pos={crown: (0.0, 0.0)}, fixed=[crown],
+            seed=ASSET_MAP_SEED, iterations=200,
+        )
+    else:  # no crown jewel (shouldn't happen — build_graph enforces one) — free layout
+        raw = nx.spring_layout(graph, seed=ASSET_MAP_SEED, iterations=200)
+        crown = min(raw, key=lambda n: raw[n][0] ** 2 + raw[n][1] ** 2)
+
+    cx, cy = raw[crown]
+    xs = [p[0] - cx for p in raw.values()]
+    ys = [p[1] - cy for p in raw.values()]
+    right = max((x for x in xs if x > 0), default=0.0)
+    left = max((-x for x in xs if x < 0), default=0.0)
+    up = max((y for y in ys if y > 0), default=0.0)
+    down = max((-y for y in ys if y < 0), default=0.0)
+    # If a side is empty, borrow the opposite side's span so we never divide by
+    # zero and the crown still sits at the centre.
+    right = right or left or 1.0
+    left = left or right
+    up = up or down or 1.0
+    down = down or up
+
+    def to_unit(value: float, pos_span: float, neg_span: float) -> float:
+        return 0.5 + 0.5 * value / pos_span if value >= 0 \
+            else 0.5 - 0.5 * (-value) / neg_span
+
+    return {
+        n: (to_unit(raw[n][0] - cx, right, left),
+            to_unit(raw[n][1] - cy, up, down))
+        for n in graph.nodes
+    }
+
+
 def asset_map_layout(
     asset_table: pd.DataFrame, result: pipeline.PlanResult | None = None
 ) -> AssetMapLayout:
     """
-    Lay the asset graph out for the clickable Altair graph on the Attack-surface
-    tab: reuse `asset_map_data`'s hop-column geometry, then centre each column
-    vertically and resolve per-node colour / plan-membership. When a `result` is
-    given, nodes the optimized plan schedules a fix for are flagged `in_plan`.
+    Lay the asset graph out for the clickable graph on the Attack-surface tab:
+    a force-directed (spring) scatter with the crown jewel pinned to the centre
+    (see `_force_directed_positions`), then resolve per-node colour and
+    plan-membership. When a `result` is given, nodes the optimized plan schedules
+    a fix for are flagged `in_plan`. Hop distance still rides along on each node
+    (for the click-detail panel and tier colour) — it just no longer drives the x.
     """
     amap = asset_map_data(asset_table)
     in_plan = in_plan_assets(result.optimized) if result is not None else set()
+    positions = _force_directed_positions(amap)
 
     node_rows = []
     for node in amap.nodes:
-        # Centre the column: slots run 0..col_size-1, shift so the column is
-        # balanced around y=0 (nicer than top-anchored for a free layout).
-        y = node["slot"] - (node["col_size"] - 1) / 2.0
+        x, y = positions[node["asset_id"]]
         node_rows.append({
             "asset_id": node["asset_id"],
             "name": node["name"],
             "tier": node["tier"],
             "tier_color": tier_color(node["tier"]),
-            "x": float(node["col"]),
+            "x": float(x),
             "y": float(y),
             "hop": node["hop"],
             "crown": bool(node["crown"]),
