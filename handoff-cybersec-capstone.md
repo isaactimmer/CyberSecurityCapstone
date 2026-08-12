@@ -1,103 +1,141 @@
-# Handoff — Scope-mode toggle + typed per-pool capacity max
+# Handoff — CVE finding-modal enrichment (rec #1 of the Recommendations doc)
 
 **Date:** 2026-08-12
 **Repo:** `C:\Users\rocketboy\Desktop\Projects\CyberSecurityCapstone` · GitHub `isaactimmer/CyberSecurityCapstone`
 **Branch:** `main` (tracks `origin/main`).
-**Commit this session:** `47e4b92` — committed to `main` **and pushed** (`dd7ea4d..47e4b92`).
-**Next session's job:** no open design questions this time. Pick from the standing
-polish list below, or whatever the user brings.
+**Commit this session:** `2ab853c` — committed to `main` **and pushed** (`aee1275..2ab853c`).
+**Next session's job:** work the remaining five recommendations (#2–#6 below) from
+`Recommendations for the Capacity Optimization Tool .md`. No blocking design
+questions except the one asset-description choice noted under rec #4.
 
 ## What this session did
 
-Closed the **two open questions** the prior handoff left for the user (they answered
-both this session), then ran `/code-review` and fixed what it found before committing.
+The user brought a 6-item recommendations doc (now committed at repo root:
+`Recommendations for the Capacity Optimization Tool .md`). We triaged all six,
+then **built and shipped rec #1** — the CVE finding modal enrichment.
 
-See `git show 47e4b92` for the full diff. Summary:
+### The architecture decision behind rec #1 (don't relitigate — see memory)
+The app runs **offline off `data/cache/*.csv`**, which held no description or
+remediation text. We chose the **realistic "sync-to-store" pattern** (how real
+tools like Tenable/Qualys work: a sync job pulls feeds into a local store, the UI
+serves from it) over a live per-click fetch. Saved as memory
+`enrichment-sync-to-store.md`.
 
-1. **Scope-mode toggle — "scope the plan, or just the display?"** (user chose
-   *"Both, user-toggle"*). Default `"plan"` keeps the old behaviour: the top-N cut
-   runs **before** optimization, so "list 25" shrinks the remediation universe and
-   changes the KPIs. New `"display"` mode demotes the count to a **table-only cap**
-   (`dashboard.plan_payload(display_limit=...)`): the optimizer, KPIs, and both plan
-   columns still weigh the whole universe, while the **year range stays a real
-   pre-optimization scope in both modes**. Wired through
-   `server._display_only`/`_scope`/`_display_limit`, `Controls.scope_mode`
-   (a `Literal["plan","display"]`), `app.js` `scope.mode`, and the intake **step-2
-   checkbox** ("List the top N only — let the optimizer still weigh every finding").
-2. **Typed per-pool capacity max** (user chose *"Yes, add max field"*). Each Plan-tab
-   slider now has a small `max` number input. Blank tracks the adaptive ceiling (shown
-   as the input's placeholder); a typed value sets the slider ceiling explicitly and
-   **clamps the budget down** if it now exceeds the ceiling. Pure front-end
-   (`app.js` `capMax`/`setCapMax`/`applyCapBounds` + `CAP_SLIDER`/`CAP_MAX_IN`/
-   `CAP_DEFAULT_CEIL`, `.capmax` CSS, three `cm_*` inputs) — no engine change.
-
-### `/code-review` fixes applied before the commit
-- **Spec (real gap):** `/api/override` and `/api/override/clear` weren't forwarding
-  `scope`/`display_limit`, so recording/clearing an override **silently un-trimmed the
-  display cap** until the next `/api/plan`. Both now forward them. Regression test:
-  `test_override_endpoint_keeps_the_display_cap`.
-- **Standards (judgement call taken):** `scope_mode` is now `Literal["plan","display"]`
-  (validation + self-documentation); `_display_only` simplified accordingly.
-- Reviewer also noted the diff bundles two independent features (Divergent Change) —
-  left as one commit because both features edit `app.js`/`index.html`, so a split
-  would scatter half-features across commits (no interactive `git add -p` here).
+### Rec #1 as built (see `git show 2ab853c`)
+1. **Ingestion keeps more fields.** `combine_feeds_with_custom_inputs.py`:
+   `fetch_nvd_cves` now keeps NVD's English `description`; `fetch_kev_flags` keeps
+   CISA `kev_vuln_name` / `kev_short_description` / `kev_required_action`;
+   `combine_feeds`'s empty-KEV fallback lists the new columns.
+2. **`enrich_cache.py`** (new) back-filled the 30 warm cache CSVs **in place** —
+   description on all 4,611 rows (100% id coverage), CISA `requiredAction` on the
+   48 KEV rows — **without shifting the dataset** (env still 4,523 findings, KPIs
+   unchanged). It re-pulls each vendor's NVD keyword page at the cache's own depth
+   (200 = one page, rate-limit-safe with the built-in 6 s spacing; no API key) and
+   maps descriptions onto the existing ids; KEV text comes from one catalog fetch.
+   Re-runnable; `--dry-run` reports coverage.
+3. **Engine helpers (pure, view-free), in `dashboard.py`:**
+   - `finding_references(cve_id, kev_flag)` → deterministic authoritative links
+     (NVD, MITRE/CVE.org, FIRST/EPSS; + CISA KEV **only** when exploited). Returns
+     `[]` for a malformed id (regex-gated).
+   - `finding_recommendation(row)` → CISA's `required_action` for KEV CVEs
+     (`source="CISA KEV"`, `authoritative=True`, with a "known-exploited since"
+     urgency line) **or** honest *derived* guidance otherwise
+     (`source="derived"`, `authoritative=False`) — never fabricated fix steps.
+     KEV-flagged-but-no-action falls back to derived (never a blank authoritative).
+   - Both + `description` surfaced through `plan_item_detail`. **No `server.py`
+     change** — the finding endpoint already returns `plan_item_detail`, so the new
+     keys flow through automatically.
+4. **Front end** (`web/app.js` `recommendationHtml`/`referencesHtml` + the
+   `openFinding` modal body; `web/styles.css` `.cve-desc`/`.rec`/`.rec.auth`/
+   `.rec.derived`/`.refs`/`.ref-link`): modal now shows **"What this is"**
+   (description), a source-badged **Recommendation** (authoritative = KEV-red wash;
+   derived = muted), and a **"Look it up"** link list (new tab, `rel=noopener`).
+   `index.html` unchanged.
 
 ## State
-- **251 tests passing** (246 prior + 5 new: 2 engine `display_limit` in
-  `tests/test_console_payload.py`, 3 API in `tests/test_server.py` — two `scope_mode`,
-  one override-cap).
-- Verified end-to-end in the browser **and** via the API: display mode → "15 of 4523"
-  listed but 56 optimizer fixes (weighed everything); plan mode → 10 listed, 9 fixes
-  (optimizer saw only top 10); year range still scopes in display mode; typed max 300
-  raises the ceiling, max 20 clamps the 40 budget to 20; override in display mode keeps
-  the table capped with the overridden CVE floated to rank 1; **no JS console errors**.
-- A fresh `uvicorn` (started **after** the review fixes) is running on port 8000.
+- **259 tests passing** (251 prior + 8 new in `tests/test_dashboard.py` covering
+  `finding_references`, `finding_recommendation`, and `plan_item_detail`'s new
+  fields).
+- Verified **live in the browser, light *and* dark theme**: top pick `CVE-2012-1823`
+  (KEV) shows the NVD description, CISA "Apply updates per vendor instructions." with
+  the 2022-03-25 exploited-since line, and all four links (NVD/MITRE/FIRST/CISA); a
+  non-KEV finding shows derived guidance and three links. **No JS console errors.**
+- A `uvicorn` on port 8000 was left running from verification (may be stale by next
+  session — see the stale-server trap below).
+
+## Remaining recommendations (#2–#6) — triaged, not yet started
+From `Recommendations for the Capacity Optimization Tool .md`. Suggested order:
+the quick wins (#2), then the feature work (#4, #3, #6), then the theme (#5) last.
+
+- **#2 — Max box/font design (QUICK, pure CSS).** The Plan-tab per-pool `max`
+  number input (`.capmax` in `web/styles.css`; markup in `index.html` `cm_*`) looks
+  awkward next to the sliders. Restyle to sit cleanly. No engine change.
+- **#4 — Richer asset detail on click (MODERATE).** The Attack-surface map click
+  (`app.js` `selectAsset`) draws from a thin client-side node set (name/tier/hop)
+  and does **not** call `/api/asset/{id}` — which already returns `vendor`,
+  `criticality`, `crown_jewel`, `connections` via `dashboard.asset_detail`. Wire
+  the richer data in (or fold it into the `ENV.asset_map.nodes`). **OPEN DECISION:**
+  `assets.csv` has no free-text description column — the "small description" the user
+  wants is either **(a) synthesized** from vendor + criticality + hops + connections
+  (my recommendation — no data entry, works for uploads) or **(b) a new hand-authored
+  `description` column** on `assets.csv` + the upload schema. Ask before building.
+- **#3 — Dashboard mini asset-map (MODERATE).** A small "zoomed" asset-map card on
+  the Dashboard centred on the crown jewel; clicking it jumps to the Attack-surface
+  tab (`gotoTab('map')`). Reuses `ENV.asset_map` already shipped to the front end.
+- **#6 — ⓘ hover-tooltips per section (MODERATE, mostly copy).** A circled-i icon on
+  each area (Dashboard, Attack surface, Risk engine, Plan, Team capacity, Patching,
+  AppSec, Change-window) with a hover explanation. Tooltip plumbing already exists
+  (`app.js` `showTip`/`hideTip`, `.tip` in CSS) — mostly writing good short copy.
+- **#5 — Dark theme → purple, not green (QUICK, CSS, do last).** Current dark theme
+  (`:root[data-theme="dark"]` in `web/styles.css`) is a greenish-teal; the user wants
+  a **dark purple-ish** background. Retune the ~20 dark-mode CSS vars (`--bg`,
+  `--panel*`, `--accent*`, washes). The rec #1 modal blocks are theme-var-driven, so
+  they follow automatically.
 
 ## Standing polish list (carried forward — not blocking)
-- **Reweight latency:** ~180 ms debounced `/api/plan` on 4,523 rows — cache the scored
-  frame per-weight or trim the payload.
-- **No JS automated tests:** a Playwright smoke test (toggle, max field, override flow)
-  is the honest gap. All UI verification is still manual.
+- **Reweight latency:** ~180 ms debounced `/api/plan` on 4,523 rows.
+- **No JS automated tests:** a Playwright smoke test remains the honest gap; all UI
+  verification is manual.
 - **CSV-upload follow-ups:** sample template, client size guard, surface
   silently-dropped vendors.
-- **Year-filter silent-drop (latent):** `dashboard.filter_findings` uses `years.notna()`,
-  so narrowing drops CVEs whose id has no parseable year. Harmless on the sample data
-  (all ids parse); could bite an uploaded CSV with malformed ids.
-- **Stale `AssetMapLayout` docstring** still says "Altair can draw directly" (stale
-  post-rebuild).
-- **GitHub issues stale/closeable:** #37 (Streamlit skeleton — obsolete), #38/#39/#40
-  effectively delivered by the rebuild. Offer to close with a note.
-- **Two features / one commit:** if the user cares about clean history, the scope-mode
-  and capacity-max features could be split retroactively — but they're pushed now.
+- **Year-filter silent-drop (latent):** `dashboard.filter_findings` uses
+  `years.notna()`; narrowing drops CVEs whose id has no parseable year (harmless on
+  the sample data — all ids parse).
+- **Stale `AssetMapLayout` docstring** still says "Altair can draw directly".
+- **GitHub issues stale/closeable:** #37 (Streamlit skeleton), #38/#39/#40
+  (delivered by the rebuild). Offer to close.
 
 ## Run it
 ```
 .\.venv\Scripts\python.exe -m uvicorn server:app --port 8000    # http://localhost:8000
-.\.venv\Scripts\python.exe -m pytest -q                         # 251 passed
+.\.venv\Scripts\python.exe -m pytest -q                         # 259 passed
+python enrich_cache.py --dry-run                                # re-check enrichment coverage
 ```
 `py` launcher works too (`py -m pytest -q`). App runs offline off `data/cache/`.
-**Stale-server trap:** if the UI looks dead or serves old behaviour, a leftover uvicorn
-is holding port 8000 with old code — kill the PID (`netstat -ano | grep :8000`), relaunch,
-hard-refresh (Ctrl+Shift+R). Python changes need a server restart (no `--reload`); static
-`web/` changes just need a hard refresh. Verify the API before debugging the UI, e.g.
-`curl -X POST localhost:8000/api/plan -d '{"max_findings":3,"scope_mode":"display"}' -H "Content-Type: application/json"`
-(should list 3 but report a much larger `optimized_fixes`).
+**Stale-server trap:** if the UI looks dead or serves old behaviour, a leftover
+uvicorn holds port 8000 with old code — kill the PID
+(`Get-NetTCPConnection -LocalPort 8000 -State Listen` → `Stop-Process`), relaunch,
+hard-refresh (Ctrl+Shift+R). Python changes need a server restart (no `--reload`);
+static `web/` changes just need a hard refresh. Verify the API before the UI, e.g.
+`POST /api/finding/CVE-2012-1823` should return `description`, `recommendation`
+(`source:"CISA KEV"`), and four `references`.
 
 ## Reference (don't duplicate here)
+- Recs doc: `Recommendations for the Capacity Optimization Tool .md` (repo root).
 - ADR: `docs/adr/0002-web-console-over-fastapi.md` (FastAPI, not Streamlit).
-- Run instructions: `CLAUDE.md` ("Running the console"). Key rule: `web/app.js` is a
-  **pure renderer** — all scoring/packing lives in the Python engine.
-- Engine seams touched: `dashboard.plan_payload` (new `display_limit`); `server.py`
-  (`Controls.scope_mode`, `_display_only`/`_scope`/`_display_limit`, override endpoints
-  now forward `scope`+`display_limit`).
-- Front end: `web/index.html` (intake step-2 toggle; three `cm_*` max inputs on the
-  Plan tab), `web/app.js` (`scope.mode`, `capMax`/`setCapMax`, `applyCapBounds`,
-  `readScope`), `web/styles.css` (`.capmax`).
+- Run rule: `CLAUDE.md` — `web/app.js` is a **pure renderer**; all scoring/packing
+  lives in the Python engine.
+- Enrichment approach: memory `enrichment-sync-to-store.md`. Feeds live-reachable:
+  memory `data-feeds-live.md`. Tool renamed Scryxen (code not renamed): memory
+  `tool-rename-scryxen.md`.
+- Engine seams touched this session: `combine_feeds_with_custom_inputs.py`
+  (`fetch_nvd_cves`, `fetch_kev_flags`, `combine_feeds`); `dashboard.py`
+  (`finding_references`, `finding_recommendation`, `plan_item_detail`);
+  `enrich_cache.py` (new); front end `web/app.js` + `web/styles.css`.
 - Memory index: `~/.claude/projects/.../memory/MEMORY.md`.
 
 ## Suggested skills for the next session
-- **`run`** — launch the console to confirm changes in the real app (sidesteps the
-  stale-server trap: start fresh, verify the API before debugging the UI).
-- **`tdd`** — for any new engine seam, or the Playwright JS smoke tests.
-- **`/code-review`** — review the diff on both axes before committing (worked well again
-  this session — caught the override-cap gap).
+- **`run`** — launch the console to confirm UI changes (sidesteps the stale-server
+  trap: start fresh, verify the API before debugging the UI).
+- **`tdd`** — for any new engine seam (e.g. rec #4's asset-detail wiring).
+- **`/code-review`** — review the diff on both axes before committing.
