@@ -21,6 +21,7 @@ Run:
 
 import os
 import re
+import sys
 import time
 import argparse
 from pathlib import Path
@@ -52,6 +53,61 @@ def get_api_key() -> str | None:
 # ---------------------------------------------------------------------------
 # 1. NVD client — pulls CVE records + CVSS scores
 # ---------------------------------------------------------------------------
+# NVD's published rate limits: 5 requests / rolling 30s without an API key,
+# 50 / 30s with one. NVD explicitly recommends spacing requests ~6s apart
+# without a key. We enforce a minimum interval between *every* NVD request
+# (across vendors, not just pagination pages) so an environment scan over many
+# vendors doesn't fire a burst that trips a 429 cascade.
+_NVD_MIN_INTERVAL_NO_KEY = 6.0
+_NVD_MIN_INTERVAL_WITH_KEY = 0.6
+_last_nvd_request_ts = 0.0
+
+
+def _nvd_get(headers: dict, params: dict, *, max_retries: int = 5) -> requests.Response:
+    """
+    GET the NVD API with a global throttle and 429/503 retry+backoff.
+
+    Enforces a minimum gap since the previous NVD call (module-global, so the
+    throttle spans every vendor in a scan) and, on a 429/503, honours the
+    server's Retry-After header, falling back to exponential backoff. This turns
+    a transient rate-limit into a slower-but-complete pull instead of a skipped
+    vendor.
+    """
+    global _last_nvd_request_ts
+    min_interval = _NVD_MIN_INTERVAL_WITH_KEY if headers.get("apiKey") else _NVD_MIN_INTERVAL_NO_KEY
+
+    for attempt in range(max_retries + 1):
+        wait = min_interval - (time.monotonic() - _last_nvd_request_ts)
+        if wait > 0:
+            time.sleep(wait)
+
+        resp = requests.get(NVD_BASE_URL, headers=headers, params=params, timeout=30)
+        _last_nvd_request_ts = time.monotonic()
+
+        if resp.status_code in (429, 503) and attempt < max_retries:
+            retry_after = resp.headers.get("Retry-After")
+            try:
+                backoff = float(retry_after) if retry_after else 0.0
+            except ValueError:
+                backoff = 0.0
+            # Exponential backoff floor if the server didn't tell us how long.
+            backoff = max(backoff, min_interval * (2 ** attempt))
+            print(
+                f"  [nvd] {resp.status_code} rate-limited; backing off {backoff:.0f}s "
+                f"(attempt {attempt + 1}/{max_retries})",
+                file=sys.stderr,
+            )
+            time.sleep(backoff)
+            continue
+
+        resp.raise_for_status()
+        return resp
+
+    # Exhausted retries — surface the last status so the caller can skip/report.
+    resp.raise_for_status()
+    return resp
+
+
 def fetch_nvd_cves(keyword: str = None, results_per_page: int = 200, max_results: int = 2000):
     """
     Fetch CVE records from the NVD 2.0 API.
@@ -72,8 +128,7 @@ def fetch_nvd_cves(keyword: str = None, results_per_page: int = 200, max_results
         if keyword:
             params["keywordSearch"] = keyword
 
-        resp = requests.get(NVD_BASE_URL, headers=headers, params=params, timeout=30)
-        resp.raise_for_status()
+        resp = _nvd_get(headers, params)
         data = resp.json()
 
         vulns = data.get("vulnerabilities", [])
@@ -120,8 +175,6 @@ def fetch_nvd_cves(keyword: str = None, results_per_page: int = 200, max_results
         start_index += results_per_page
         if start_index >= total_results:
             break
-
-        time.sleep(0.6)  # stay under NVD rate limits even with an API key
 
     return pd.DataFrame(records)
 

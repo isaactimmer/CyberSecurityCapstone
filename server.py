@@ -39,10 +39,11 @@ import capacity
 import dashboard
 import overrides
 import pipeline
+import runtime_paths
 import scoring
 import store
 
-WEB_DIR = Path(__file__).parent / "web"
+WEB_DIR = runtime_paths.resource_dir() / "web"
 
 # Intake defaults — the console opens on these until the user changes a control.
 DEFAULT_CAPACITY = {"patching": 40.0, "appsec": 16.0, "change_window": 8.0}

@@ -1,0 +1,38 @@
+asset_id,name,criticality,crown_jewel,connections,vendor
+patient-records-db,Patient Records Database,Critical,true,ehr-app|backup-node|dba-workstation|billing-system,postgresql
+ehr-app,EHR Application,Critical,false,api-gateway|referral-portal|patient-records-db|lab-service-cluster|monitoring-stack,spring
+backup-node,Backup Node,Critical,false,patient-records-db|monitoring-stack|nas-storage,commvault
+dba-workstation,DBA Workstation,Critical,false,ci-cd|patient-records-db,redhat
+billing-system,Billing System,Critical,false,patient-records-db|hr-system,oracle
+api-gateway,Internal API Gateway,High,false,ehr-app|reverse-proxy,traefik
+lab-service-cluster,Lab Services Cluster,High,false,ehr-app|container-registry|monitoring-stack,openshift
+referral-portal,Referral Portal,High,false,ehr-app|directory-service,liferay
+monitoring-stack,Monitoring Stack,High,false,ehr-app|backup-node|ops-dashboards|ids-sensor|lab-service-cluster|log-archive,prometheus
+nas-storage,NAS Storage Array,Medium,false,backup-node|file-server,qnap
+ci-cd,CI/CD Pipeline,High,false,wiki|container-registry|dba-workstation|dev-server|issue-tracker|staging-server,gitlab
+hr-system,HR System,Medium,false,directory-service|billing-system,peoplesoft
+reverse-proxy,Reverse Proxy,Medium,false,api-gateway|waf,envoy
+container-registry,Container Registry,Medium,false,ci-cd|lab-service-cluster,harbor
+directory-service,Directory Service,Critical,false,referral-portal|dhcp-server|dns-server|employee-ws|file-server|hr-system|mail-server|intranet-portal,samba
+ids-sensor,IDS Sensor,Medium,false,dmz-firewall|monitoring-stack,suricata
+log-archive,Log Archive,Low,false,monitoring-stack,graylog
+ops-dashboards,Ops Dashboards,Low,false,monitoring-stack,kibana
+dev-server,Development Server,Low,false,ci-cd|wiki|issue-tracker|staging-server,debian
+issue-tracker,Issue Tracker,Low,false,ci-cd|dev-server,redmine
+wiki,Internal Wiki,Low,false,ci-cd|dev-server,mediawiki
+staging-server,Staging Server,Low,false,ci-cd|dev-server,centos
+waf,Web Application Firewall,Medium,false,load-balancer|reverse-proxy,modsecurity
+file-server,File Server,Medium,false,directory-service|nas-storage|intranet-portal,nextcloud
+mail-server,Mail Server,Medium,false,directory-service,zimbra
+intranet-portal,Intranet Portal,Medium,false,directory-service|file-server,wordpress
+dns-server,DNS Server,High,false,directory-service|edge-router,powerdns
+dhcp-server,DHCP Server,Medium,false,directory-service,dnsmasq
+employee-ws,Employee Workstations,Low,false,directory-service|vpn-gateway|wireless-controller,macos
+load-balancer,Load Balancer,Medium,false,waf|patient-portal-web,netscaler
+edge-router,Edge Router,High,false,dmz-firewall|dns-server|vpn-gateway|wireless-controller,juniper
+vpn-gateway,VPN Gateway,Medium,false,edge-router|employee-ws,pulse secure
+wireless-controller,Wireless LAN Controller,Medium,false,edge-router|employee-ws|guest-wifi|iot-gateway,ubiquiti
+patient-portal-web,Public Patient Portal,High,false,dmz-firewall|load-balancer,iis
+dmz-firewall,DMZ Firewall,High,false,edge-router|ids-sensor|patient-portal-web,checkpoint
+iot-gateway,IoT Gateway,Low,false,wireless-controller,node-red
+guest-wifi,Guest WiFi Access Point,Low,false,wireless-controller,ruckus

@@ -1,0 +1,1072 @@
+cve_id,cvss_score,cvss_severity,published,description,epss_score,epss_percentile,kev_flag,kev_date_added,kev_ransomware_use,kev_vuln_name,kev_short_description,kev_required_action
+CVE-2000-0779,7.5,HIGH,2000-10-20T04:00:00.000,Checkpoint Firewall-1 with the RSH/REXEC setting enabled allows remote attackers to bypass access restrictions and connect to a RSH/REXEC client via malformed connection requests.,0.01626,0.73993,False,,,,,
+CVE-2002-0173,7.2,HIGH,2002-05-16T04:00:00.000,Buffer overflow in cpr for the eoe.sw.cpr SGI Checkpoint-Restart Software package on SGI IRIX 6.5.10 and earlier may allow local users to gain root privileges.,0.00392,0.32245,False,,,,,
+CVE-2003-0679,2.1,LOW,2003-08-27T04:00:00.000,Unknown vulnerability in the libcpr library for the Checkpoint/Restart (cpr) system on SGI IRIX 6.5.21f and earlier allows local users to truncate or overwrite certain files.,0.003,0.22435,False,,,,,
+CVE-2004-0134,7.2,HIGH,2004-08-18T04:00:00.000,cpr (libcpr) in SGI IRIX before 6.5.25 allows local users to gain privileges by loading a user provided library while restarting the checkpointed process.,0.00337,0.26435,False,,,,,
+CVE-2006-3628,10.0,HIGH,2006-07-21T14:03:00.000,"Multiple format string vulnerabilities in Wireshark (aka Ethereal) 0.10.x to 0.99.0 allow remote attackers to cause a denial of service and possibly execute arbitrary code via the (1) ANSI MAP, (2) Checkpoint FW-1, (3) MQ, (4) XML, and (5) NTP dissectors.",0.05931,0.92587,False,,,,,
+CVE-2008-0662,7.8,HIGH,2008-02-08T02:00:00.000,"The Auto Local Logon feature in Check Point VPN-1 SecuRemote/SecureClient NGX R60 and R56 for Windows caches credentials under the Checkpoint\SecuRemote registry key, which has Everyone/Full Control permissions, which allows local users to gain privileges by reading and reusing the credentials.",0.00337,0.26503,False,,,,,
+CVE-2008-1593,7.2,HIGH,2008-03-31T23:44:00.000,"The checkpoint and restart feature in the kernel in IBM AIX 5.2, 5.3, and 6.1 does not properly protect kernel memory, which allows local users to read and modify portions of memory and gain privileges via unspecified vectors involving a restart of a 64-bit process, probably related to the as_getadsp64 function.",0.00376,0.30627,False,,,,,
+CVE-2012-3288,9.3,HIGH,2012-06-14T20:55:01.420,"VMware Workstation 7.x before 7.1.6 and 8.x before 8.0.4, VMware Player 3.x before 3.1.6 and 4.x before 4.0.4, VMware Fusion 4.x before 4.1.3, VMware ESXi 3.5 through 5.0, and VMware ESX 3.5 through 4.1 allow user-assisted remote attackers to execute arbitrary code on the host OS or cause a denial of service (memory corruption) on the host OS via a crafted Checkpoint file.",0.03842,0.89172,False,,,,,
+CVE-2020-5215,5.0,MEDIUM,2020-01-28T22:15:11.090,"In TensorFlow before 1.15.2 and 2.0.1, converting a string (from Python) to a tf.float16 value results in a segmentation fault in eager mode as the format checks for this use case are only in the graph mode. This issue can lead to denial of service in inference/training where a malicious attacker can send a data point which contains a string instead of a tf.float16 value. Similar effects can be obtained by manipulating saved models and checkpoints whereby replacing a scalar tf.float16 value with a scalar string will trigger this issue due to automatic conversions. This can be easily reproduced by tf.constant(""hello"", tf.float16), if eager execution is enabled. This issue is patched in TensorFlow 1.15.1 and 2.0.1 with this vulnerability patched. TensorFlow 2.1.0 was released after we fixed the issue, thus it is not affected. Users are encouraged to switch to TensorFlow 1.15.1, 2.0.1 or 2.1.0.",0.00588,0.45145,False,,,,,
+CVE-2021-41203,7.8,HIGH,2021-11-05T21:15:08.613,"TensorFlow is an open source platform for machine learning. In affected versions an attacker can trigger undefined behavior, integer overflows, segfaults and `CHECK`-fail crashes if they can change saved checkpoints from outside of TensorFlow. This is because the checkpoints loading infrastructure is missing validation for invalid file formats. The fixes will be included in TensorFlow 2.7.0. We will also cherrypick these commits on TensorFlow 2.6.1, TensorFlow 2.5.2, and TensorFlow 2.4.4, as these are also affected and still in supported range.",0.00183,0.0805,False,,,,,
+CVE-2022-20750,5.3,MEDIUM,2022-02-17T15:15:09.517,"A vulnerability in the checkpoint manager implementation of Cisco Redundancy Configuration Manager (RCM) for Cisco StarOS Software could allow an unauthenticated, remote attacker to cause the checkpoint manager process to restart upon receipt of malformed TCP data. This vulnerability is due to improper input validation of an ingress TCP packet. An attacker could exploit this vulnerability by sending crafted TCP data to the affected application. A successful exploit could allow the attacker to cause a denial of service (DoS) condition due to the checkpoint manager process restarting.",0.01142,0.638,False,,,,,
+CVE-2022-1531,9.8,CRITICAL,2022-04-29T09:15:08.903,SQL injection vulnerability in ARAX-UI Synonym Lookup functionality in GitHub repository rtxteam/rtx prior to checkpoint_2022-04-20 . This vulnerability is critical as it can lead to remote code execution and thus complete server takeover.,0.03587,0.88375,False,,,,,
+CVE-2022-1806,6.1,MEDIUM,2022-05-20T09:15:10.327,Cross-site Scripting (XSS) - Reflected in GitHub repository rtxteam/rtx prior to checkpoint_2022-05-18.,0.0077,0.52384,False,,,,,
+CVE-2023-39913,8.8,HIGH,2023-11-08T08:15:08.883,"Deserialization of Untrusted Data, Improper Input Validation vulnerability in Apache UIMA Java SDK, Apache UIMA Java SDK, Apache UIMA Java SDK, Apache UIMA Java SDK.This issue affects Apache UIMA Java SDK: before 3.5.0.
+
+Users are recommended to upgrade to version 3.5.0, which fixes the issue.
+
+There are several locations in the code where serialized Java objects are deserialized without verifying the data. This affects in particular:
+  *  the deserialization of a Java-serialized CAS, but also other binary CAS formats that include TSI information using the CasIOUtils class;
+  *  the CAS Editor Eclipse plugin which uses the the CasIOUtils class to load data;
+  *  the deserialization of a Java-serialized CAS of the Vinci Analysis Engine service which can receive using Java-serialized CAS objects over network connections;
+  *  the CasAnnotationViewerApplet and the CasTreeViewerApplet;
+  *  the checkpointing feature of the CPE module.
+
+Note that the UIMA framework by default does not start any remotely accessible services (i.e. Vinci) that would be vulnerable to this issue. A user or developer would need to make an active choice to start such a service. However, users or developers may use the CasIOUtils in their own applications and services to parse serialized CAS data. They are affected by this issue unless they ensure that the data passed to CasIOUtils is not a serialized Java object.
+
+When using Vinci or using CasIOUtils in own services/applications, the unrestricted deserialization of Java-serialized CAS files may allow arbitrary (remote) code execution.
+
+As a remedy, it is possible to set up a global or context-specific ObjectInputFilter (cf.  https://openjdk.org/jeps/290  and  https://openjdk.org/jeps/415 ) if running UIMA on a Java version that supports it. 
+
+Note that Java 1.8 does not support the ObjectInputFilter, so there is no remedy when running on this out-of-support platform. An upgrade to a recent Java version is strongly recommended if you need to secure an UIMA version that is affected by this issue.
+
+To mitigate the issue on a Java 9+ platform, you can configure a filter pattern through the ""jdk.serialFilter"" system property using a semicolon as a separator:
+
+To allow deserializing Java-serialized binary CASes, add the classes:
+  *  org.apache.uima.cas.impl.CASCompleteSerializer
+  *  org.apache.uima.cas.impl.CASMgrSerializer
+  *  org.apache.uima.cas.impl.CASSerializer
+  *  java.lang.String
+
+To allow deserializing CPE Checkpoint data, add the following classes (and any custom classes your application uses to store its checkpoints):
+  *  org.apache.uima.collection.impl.cpm.CheckpointData
+  *  org.apache.uima.util.ProcessTrace
+  *  org.apache.uima.util.impl.ProcessTrace_impl
+  *  org.apache.uima.collection.base_cpm.SynchPoint
+
+Make sure to use ""!*"" as the final component to the filter pattern to disallow deserialization of any classes not listed in the pattern.
+
+Apache UIMA 3.5.0 uses tightly scoped ObjectInputFilters when reading Java-serialized data depending on the type of data being expected. Configuring a global filter is not necessary with this version.",0.01471,0.71431,False,,,,,
+CVE-2021-47004,7.1,HIGH,2024-02-28T09:15:38.353,"In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: fix to avoid touching checkpointed data in get_victim()
+
+In CP disabling mode, there are two issues when using LFS or SSR | AT_SSR
+mode to select victim:
+
+1. LFS is set to find source section during GC, the victim should have
+no checkpointed data, since after GC, section could not be set free for
+reuse.
+
+Previously, we only check valid chpt blocks in current segment rather
+than section, fix it.
+
+2. SSR | AT_SSR are set to find target segment for writes which can be
+fully filled by checkpointed and newly written blocks, we should never
+select such segment, otherwise it can cause panic or data corruption
+during allocation, potential case is described as below:
+
+ a) target segment has 'n' (n < 512) ckpt valid blocks
+ b) GC migrates 'n' valid blocks to other segment (segment is still
+    in dirty list)
+ c) GC migrates '512 - n' blocks to target segment (segment has 'n'
+    cp_vblocks and '512 - n' vblocks)
+ d) If GC selects target segment via {AT,}SSR allocator, however there
+    is no free space in targe segment.",0.00236,0.14731,False,,,,,
+CVE-2023-52588,7.3,HIGH,2024-03-06T07:15:07.820,"In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: fix to tag gcing flag on page during block migration
+
+It needs to add missing gcing flag on page during block migration,
+in order to garantee migrated data be persisted during checkpoint,
+otherwise out-of-order persistency between data and node may cause
+data corruption after SPOR.
+
+Similar issue was fixed by commit 2d1fe8a86bf5 (""f2fs: fix to tag
+gcing flag on page during file defragment"").",0.00254,0.17032,False,,,,,
+CVE-2024-3568,9.6,CRITICAL,2024-04-10T17:15:58.160,"The huggingface/transformers library is vulnerable to arbitrary code execution through deserialization of untrusted data within the `load_repo_checkpoint()` function of the `TFPreTrainedModel()` class. Attackers can execute arbitrary code and commands by crafting a malicious serialized payload, exploiting the use of `pickle.load()` on data from potentially untrusted sources. This vulnerability allows for remote code execution (RCE) by deceiving victims into loading a seemingly harmless checkpoint during a normal training process, thereby enabling attackers to execute arbitrary code on the targeted machine.",0.02067,0.79682,False,,,,,
+CVE-2024-27035,7.3,HIGH,2024-05-01T13:15:49.360,"In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: compress: fix to guarantee persisting compressed blocks by CP
+
+If data block in compressed cluster is not persisted with metadata
+during checkpoint, after SPOR, the data may be corrupted, let's
+guarantee to write compressed page by checkpoint.",0.00276,0.19823,False,,,,,
+CVE-2024-34027,7.8,HIGH,2024-06-24T14:15:11.887,"In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: compress: fix to cover {reserve,release}_compress_blocks() w/ cp_rwsem lock
+
+It needs to cover {reserve,release}_compress_blocks() w/ cp_rwsem lock
+to avoid racing with checkpoint, otherwise, filesystem metadata including
+blkaddr in dnode, inode fields and .total_valid_block_count may be
+corrupted after SPO case.",0.00237,0.148,False,,,,,
+CVE-2024-39467,7.8,HIGH,2024-06-25T15:15:15.190,"In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: fix to do sanity check on i_xattr_nid in sanity_check_inode()
+
+syzbot reports a kernel bug as below:
+
+F2FS-fs (loop0): Mounted with checkpoint version = 48b305e4
+==================================================================
+BUG: KASAN: slab-out-of-bounds in f2fs_test_bit fs/f2fs/f2fs.h:2933 [inline]
+BUG: KASAN: slab-out-of-bounds in current_nat_addr fs/f2fs/node.h:213 [inline]
+BUG: KASAN: slab-out-of-bounds in f2fs_get_node_info+0xece/0x1200 fs/f2fs/node.c:600
+Read of size 1 at addr ffff88807a58c76c by task syz-executor280/5076
+
+CPU: 1 PID: 5076 Comm: syz-executor280 Not tainted 6.9.0-rc5-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/27/2024
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x241/0x360 lib/dump_stack.c:114
+ print_address_description mm/kasan/report.c:377 [inline]
+ print_report+0x169/0x550 mm/kasan/report.c:488
+ kasan_report+0x143/0x180 mm/kasan/report.c:601
+ f2fs_test_bit fs/f2fs/f2fs.h:2933 [inline]
+ current_nat_addr fs/f2fs/node.h:213 [inline]
+ f2fs_get_node_info+0xece/0x1200 fs/f2fs/node.c:600
+ f2fs_xattr_fiemap fs/f2fs/data.c:1848 [inline]
+ f2fs_fiemap+0x55d/0x1ee0 fs/f2fs/data.c:1925
+ ioctl_fiemap fs/ioctl.c:220 [inline]
+ do_vfs_ioctl+0x1c07/0x2e50 fs/ioctl.c:838
+ __do_sys_ioctl fs/ioctl.c:902 [inline]
+ __se_sys_ioctl+0x81/0x170 fs/ioctl.c:890
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf5/0x240 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+The root cause is we missed to do sanity check on i_xattr_nid during
+f2fs_iget(), so that in fiemap() path, current_nat_addr() will access
+nat_bitmap w/ offset from invalid i_xattr_nid, result in triggering
+kasan bug report, fix it.",0.00239,0.15038,False,,,,,
+CVE-2024-46781,7.8,HIGH,2024-09-18T08:15:05.527,"In the Linux kernel, the following vulnerability has been resolved:
+
+nilfs2: fix missing cleanup on rollforward recovery error
+
+In an error injection test of a routine for mount-time recovery, KASAN
+found a use-after-free bug.
+
+It turned out that if data recovery was performed using partial logs
+created by dsync writes, but an error occurred before starting the log
+writer to create a recovered checkpoint, the inodes whose data had been
+recovered were left in the ns_dirty_files list of the nilfs object and
+were not freed.
+
+Fix this issue by cleaning up inodes that have read the recovery data if
+the recovery routine fails midway before the log writer starts.",0.00251,0.16656,False,,,,,
+CVE-2024-47669,7.3,HIGH,2024-10-09T15:15:15.590,"In the Linux kernel, the following vulnerability has been resolved:
+
+nilfs2: fix state management in error path of log writing function
+
+After commit a694291a6211 (""nilfs2: separate wait function from
+nilfs_segctor_write"") was applied, the log writing function
+nilfs_segctor_do_construct() was able to issue I/O requests continuously
+even if user data blocks were split into multiple logs across segments,
+but two potential flaws were introduced in its error handling.
+
+First, if nilfs_segctor_begin_construction() fails while creating the
+second or subsequent logs, the log writing function returns without
+calling nilfs_segctor_abort_construction(), so the writeback flag set on
+pages/folios will remain uncleared.  This causes page cache operations to
+hang waiting for the writeback flag.  For example,
+truncate_inode_pages_final(), which is called via nilfs_evict_inode() when
+an inode is evicted from memory, will hang.
+
+Second, the NILFS_I_COLLECTED flag set on normal inodes remain uncleared. 
+As a result, if the next log write involves checkpoint creation, that's
+fine, but if a partial log write is performed that does not, inodes with
+NILFS_I_COLLECTED set are erroneously removed from the ""sc_dirty_files""
+list, and their data and b-tree blocks may not be written to the device,
+corrupting the block mapping.
+
+Fix these issues by uniformly calling nilfs_segctor_abort_construction()
+on failure of each step in the loop in nilfs_segctor_do_construct(),
+having it clean up logs and segment usages according to progress, and
+correcting the conditions for calling nilfs_redirty_inodes() to ensure
+that the NILFS_I_COLLECTED flag is cleared.",0.00215,0.12033,False,,,,,
+CVE-2024-47690,7.8,HIGH,2024-10-21T12:15:05.800,"In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: get rid of online repaire on corrupted directory
+
+syzbot reports a f2fs bug as below:
+
+kernel BUG at fs/f2fs/inode.c:896!
+RIP: 0010:f2fs_evict_inode+0x1598/0x15c0 fs/f2fs/inode.c:896
+Call Trace:
+ evict+0x532/0x950 fs/inode.c:704
+ dispose_list fs/inode.c:747 [inline]
+ evict_inodes+0x5f9/0x690 fs/inode.c:797
+ generic_shutdown_super+0x9d/0x2d0 fs/super.c:627
+ kill_block_super+0x44/0x90 fs/super.c:1696
+ kill_f2fs_super+0x344/0x690 fs/f2fs/super.c:4898
+ deactivate_locked_super+0xc4/0x130 fs/super.c:473
+ cleanup_mnt+0x41f/0x4b0 fs/namespace.c:1373
+ task_work_run+0x24f/0x310 kernel/task_work.c:228
+ ptrace_notify+0x2d2/0x380 kernel/signal.c:2402
+ ptrace_report_syscall include/linux/ptrace.h:415 [inline]
+ ptrace_report_syscall_exit include/linux/ptrace.h:477 [inline]
+ syscall_exit_work+0xc6/0x190 kernel/entry/common.c:173
+ syscall_exit_to_user_mode_prepare kernel/entry/common.c:200 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:205 [inline]
+ syscall_exit_to_user_mode+0x279/0x370 kernel/entry/common.c:218
+ do_syscall_64+0x100/0x230 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0010:f2fs_evict_inode+0x1598/0x15c0 fs/f2fs/inode.c:896
+
+Online repaire on corrupted directory in f2fs_lookup() can generate
+dirty data/meta while racing w/ readonly remount, it may leave dirty
+inode after filesystem becomes readonly, however, checkpoint() will
+skips flushing dirty inode in a state of readonly mode, result in
+above panic.
+
+Let's get rid of online repaire in f2fs_lookup(), and leave the work
+to fsck.f2fs.",0.00245,0.15889,False,,,,,
+CVE-2024-8676,7.4,HIGH,2024-11-26T20:15:34.260,"A vulnerability was found in CRI-O, where it can be requested to take a checkpoint archive of a container and later be asked to restore it. When it does that restoration, it attempts to restore the mounts from the restore archive instead of the pod request. As a result, the validations run on the pod spec, verifying that the pod has access to the mounts it specifies are not applicable to a restored container. This flaw allows a malicious user to trick CRI-O into restoring a pod that doesn't have access to host mounts. The user needs access to the kubelet or cri-o socket to call the restore endpoint and trigger the restore.",0.00773,0.52503,False,,,,,
+CVE-2024-54140,,,2024-12-05T22:15:20.400,"sigstore-java is a sigstore java client for interacting with sigstore infrastructure. sigstore-java has insufficient verification for a situation where a bundle provides a invalid signature for a checkpoint. This bug impacts clients using any variation of KeylessVerifier.verify(). Currently checkpoints are only used to ensure the root hash of an inclusion proof was provided by the log in question. Failing to validate that means a bundle may provide an inclusion proof that doesn't actually correspond to the log in question. This may eventually lead a monitor/witness being unable to detect when a compromised logs are providing different views of themselves to different clients. There are other mechanisms right now that mitigate this, such as the signed entry timestamp. Sigstore-java currently requires a valid signed entry timestamp. By correctly verifying the signed entry timestamp we can make certain assertions about the log signing the log entry (like the log was aware of the artifact signing event and signed it). Therefore the impact on clients that are not monitors/witnesses is very low. This vulnerability is fixed in 1.2.0.",0.00209,0.11257,False,,,,,
+CVE-2024-53220,7.8,HIGH,2024-12-27T14:15:30.077,"In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: fix to account dirty data in __get_secs_required()
+
+It will trigger system panic w/ testcase in [1]:
+
+------------[ cut here ]------------
+kernel BUG at fs/f2fs/segment.c:2752!
+RIP: 0010:new_curseg+0xc81/0x2110
+Call Trace:
+ f2fs_allocate_data_block+0x1c91/0x4540
+ do_write_page+0x163/0xdf0
+ f2fs_outplace_write_data+0x1aa/0x340
+ f2fs_do_write_data_page+0x797/0x2280
+ f2fs_write_single_data_page+0x16cd/0x2190
+ f2fs_write_cache_pages+0x994/0x1c80
+ f2fs_write_data_pages+0x9cc/0xea0
+ do_writepages+0x194/0x7a0
+ filemap_fdatawrite_wbc+0x12b/0x1a0
+ __filemap_fdatawrite_range+0xbb/0xf0
+ file_write_and_wait_range+0xa1/0x110
+ f2fs_do_sync_file+0x26f/0x1c50
+ f2fs_sync_file+0x12b/0x1d0
+ vfs_fsync_range+0xfa/0x230
+ do_fsync+0x3d/0x80
+ __x64_sys_fsync+0x37/0x50
+ x64_sys_call+0x1e88/0x20d0
+ do_syscall_64+0x4b/0x110
+ entry_SYSCALL_64_after_hwframe+0x76/0x7e
+
+The root cause is if checkpoint_disabling and lfs_mode are both on,
+it will trigger OPU for all overwritten data, it may cost more free
+segment than expected, so f2fs must account those data correctly to
+calculate cosumed free segments later, and return ENOSPC earlier to
+avoid run out of free segment during block allocation.
+
+[1] https://lore.kernel.org/fstests/20241015025106.3203676-1-chao@kernel.org/",0.00232,0.14158,False,,,,,
+CVE-2024-56586,5.5,MEDIUM,2024-12-27T15:15:17.800,"In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: fix f2fs_bug_on when uninstalling filesystem call f2fs_evict_inode.
+
+creating a large files during checkpoint disable until it runs out of
+space and then delete it, then remount to enable checkpoint again, and
+then unmount the filesystem triggers the f2fs_bug_on as below:
+
+------------[ cut here ]------------
+kernel BUG at fs/f2fs/inode.c:896!
+CPU: 2 UID: 0 PID: 1286 Comm: umount Not tainted 6.11.0-rc7-dirty #360
+Oops: invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+RIP: 0010:f2fs_evict_inode+0x58c/0x610
+Call Trace:
+ __die_body+0x15/0x60
+ die+0x33/0x50
+ do_trap+0x10a/0x120
+ f2fs_evict_inode+0x58c/0x610
+ do_error_trap+0x60/0x80
+ f2fs_evict_inode+0x58c/0x610
+ exc_invalid_op+0x53/0x60
+ f2fs_evict_inode+0x58c/0x610
+ asm_exc_invalid_op+0x16/0x20
+ f2fs_evict_inode+0x58c/0x610
+ evict+0x101/0x260
+ dispose_list+0x30/0x50
+ evict_inodes+0x140/0x190
+ generic_shutdown_super+0x2f/0x150
+ kill_block_super+0x11/0x40
+ kill_f2fs_super+0x7d/0x140
+ deactivate_locked_super+0x2a/0x70
+ cleanup_mnt+0xb3/0x140
+ task_work_run+0x61/0x90
+
+The root cause is: creating large files during disable checkpoint
+period results in not enough free segments, so when writing back root
+inode will failed in f2fs_enable_checkpoint. When umount the file
+system after enabling checkpoint, the root inode is dirty in
+f2fs_evict_inode function, which triggers BUG_ON. The steps to
+reproduce are as follows:
+
+dd if=/dev/zero of=f2fs.img bs=1M count=55
+mount f2fs.img f2fs_dir -o checkpoint=disable:10%
+dd if=/dev/zero of=big bs=1M count=50
+sync
+rm big
+mount -o remount,checkpoint=enable f2fs_dir
+umount f2fs_dir
+
+Let's redirty inode when there is not free segments during checkpoint
+is disable.",0.00241,0.15314,False,,,,,
+CVE-2025-24357,7.5,HIGH,2025-01-27T18:15:41.523,"vLLM is a library for LLM inference and serving. vllm/model_executor/weight_utils.py implements hf_model_weights_iterator to load the model checkpoint, which is downloaded from huggingface. It uses the torch.load function and the weights_only parameter defaults to False. When torch.load loads malicious pickle data, it will execute arbitrary code during unpickling. This vulnerability is fixed in v0.7.0.",0.00707,0.50177,False,,,,,
+CVE-2025-0426,6.2,MEDIUM,2025-02-13T16:16:48.417,A security issue was discovered in Kubernetes where a large number of container checkpoint requests made to the unauthenticated kubelet read-only HTTP endpoint may cause a Node Denial of Service by filling the Node's disk.,0.00364,0.29386,False,,,,,
+CVE-2022-49170,7.8,HIGH,2025-02-26T07:00:54.110,"In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: fix to do sanity check on curseg->alloc_type
+
+As Wenqing Liu reported in bugzilla:
+
+https://bugzilla.kernel.org/show_bug.cgi?id=215657
+
+- Overview
+UBSAN: array-index-out-of-bounds in fs/f2fs/segment.c:3460:2 when mount and operate a corrupted image
+
+- Reproduce
+tested on kernel 5.17-rc4, 5.17-rc6
+
+1. mkdir test_crash
+2. cd test_crash
+3. unzip tmp2.zip
+4. mkdir mnt
+5. ./single_test.sh f2fs 2
+
+- Kernel dump
+[   46.434454] loop0: detected capacity change from 0 to 131072
+[   46.529839] F2FS-fs (loop0): Mounted with checkpoint version = 7548c2d9
+[   46.738319] ================================================================================
+[   46.738412] UBSAN: array-index-out-of-bounds in fs/f2fs/segment.c:3460:2
+[   46.738475] index 231 is out of range for type 'unsigned int [2]'
+[   46.738539] CPU: 2 PID: 939 Comm: umount Not tainted 5.17.0-rc6 #1
+[   46.738547] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.13.0-1ubuntu1.1 04/01/2014
+[   46.738551] Call Trace:
+[   46.738556]  <TASK>
+[   46.738563]  dump_stack_lvl+0x47/0x5c
+[   46.738581]  ubsan_epilogue+0x5/0x50
+[   46.738592]  __ubsan_handle_out_of_bounds+0x68/0x80
+[   46.738604]  f2fs_allocate_data_block+0xdff/0xe60 [f2fs]
+[   46.738819]  do_write_page+0xef/0x210 [f2fs]
+[   46.738934]  f2fs_do_write_node_page+0x3f/0x80 [f2fs]
+[   46.739038]  __write_node_page+0x2b7/0x920 [f2fs]
+[   46.739162]  f2fs_sync_node_pages+0x943/0xb00 [f2fs]
+[   46.739293]  f2fs_write_checkpoint+0x7bb/0x1030 [f2fs]
+[   46.739405]  kill_f2fs_super+0x125/0x150 [f2fs]
+[   46.739507]  deactivate_locked_super+0x60/0xc0
+[   46.739517]  deactivate_super+0x70/0xb0
+[   46.739524]  cleanup_mnt+0x11a/0x200
+[   46.739532]  __cleanup_mnt+0x16/0x20
+[   46.739538]  task_work_run+0x67/0xa0
+[   46.739547]  exit_to_user_mode_prepare+0x18c/0x1a0
+[   46.739559]  syscall_exit_to_user_mode+0x26/0x40
+[   46.739568]  do_syscall_64+0x46/0xb0
+[   46.739584]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+
+The root cause is we missed to do sanity check on curseg->alloc_type,
+result in out-of-bound accessing on sbi->block_count[] array, fix it.",0.0027,0.19085,False,,,,,
+CVE-2025-23132,7.0,HIGH,2025-04-16T15:16:07.630,"In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: quota: fix to avoid warning in dquot_writeback_dquots()
+
+F2FS-fs (dm-59): checkpoint=enable has some unwritten data.
+
+------------[ cut here ]------------
+WARNING: CPU: 6 PID: 8013 at fs/quota/dquot.c:691 dquot_writeback_dquots+0x2fc/0x308
+pc : dquot_writeback_dquots+0x2fc/0x308
+lr : f2fs_quota_sync+0xcc/0x1c4
+Call trace:
+dquot_writeback_dquots+0x2fc/0x308
+f2fs_quota_sync+0xcc/0x1c4
+f2fs_write_checkpoint+0x3d4/0x9b0
+f2fs_issue_checkpoint+0x1bc/0x2c0
+f2fs_sync_fs+0x54/0x150
+f2fs_do_sync_file+0x2f8/0x814
+__f2fs_ioctl+0x1960/0x3244
+f2fs_ioctl+0x54/0xe0
+__arm64_sys_ioctl+0xa8/0xe4
+invoke_syscall+0x58/0x114
+
+checkpoint and f2fs_remount may race as below, resulting triggering warning
+in dquot_writeback_dquots().
+
+atomic write                                    remount
+                                                - do_remount
+                                                 - down_write(&sb->s_umount);
+                                                  - f2fs_remount
+- ioctl
+ - f2fs_do_sync_file
+  - f2fs_sync_fs
+   - f2fs_write_checkpoint
+    - block_operations
+     - locked = down_read_trylock(&sbi->sb->s_umount)
+       : fail to lock due to the write lock was held by remount
+                                                 - up_write(&sb->s_umount);
+     - f2fs_quota_sync
+      - dquot_writeback_dquots
+       - WARN_ON_ONCE(!rwsem_is_locked(&sb->s_umount))
+       : trigger warning because s_umount lock was unlocked by remount
+
+If checkpoint comes from mount/umount/remount/freeze/quotactl, caller of
+checkpoint has already held s_umount lock, calling dquot_writeback_dquots()
+in the context should be safe.
+
+So let's record task to sbi->umount_lock_holder, so that checkpoint can
+know whether the lock has held in the context or not by checking current
+w/ it.
+
+In addition, in order to not misrepresent caller of checkpoint, we should
+not allow to trigger async checkpoint for those callers: mount/umount/remount/
+freeze/quotactl.",0.00158,0.05447,False,,,,,
+CVE-2025-50472,9.8,CRITICAL,2025-08-01T16:15:41.750,"The modelscope/ms-swift library thru 2.6.1 is vulnerable to arbitrary code execution through deserialization of untrusted data within the `load_model_meta()` function of the `ModelFileSystemCache()` class. Attackers can execute arbitrary code and commands by crafting a malicious serialized `.mdl` payload, exploiting the use of `pickle.load()` on data from potentially untrusted sources. This vulnerability allows for remote code execution (RCE) by deceiving victims into loading a seemingly harmless checkpoint during a normal training process, thereby enabling attackers to execute arbitrary code on the targeted machine. Note that the payload file is a hidden file, making it difficult for the victim to detect tampering. More importantly, during the model training process, after the `.mdl` file is loaded and executes arbitrary code, the normal training process remains unaffected'meaning the user remains unaware of the arbitrary code execution.",0.01261,0.66974,False,,,,,
+CVE-2025-58756,8.8,HIGH,2025-09-09T00:15:32.457,"MONAI (Medical Open Network for AI) is an AI toolkit for health care imaging. In versions up to and including 1.5.0, in `model_dict = torch.load(full_path, map_location=torch.device(device), weights_only=True)` in monai/bundle/scripts.py , `weights_only=True` is loaded securely. However, insecure loading methods still exist elsewhere in the project, such as when loading checkpoints. This is a common practice when users want to reduce training time and costs by loading pre-trained models downloaded from other platforms. Loading a checkpoint containing malicious content can trigger a deserialization vulnerability, leading to code execution. As of time of publication, no known fixed versions are available.",0.0074,0.51382,False,,,,,
+CVE-2023-53526,7.8,HIGH,2025-10-01T12:15:57.177,"In the Linux kernel, the following vulnerability has been resolved:
+
+jbd2: check 'jh->b_transaction' before removing it from checkpoint
+
+Following process will corrupt ext4 image:
+Step 1:
+jbd2_journal_commit_transaction
+ __jbd2_journal_insert_checkpoint(jh, commit_transaction)
+ // Put jh into trans1->t_checkpoint_list
+ journal->j_checkpoint_transactions = commit_transaction
+ // Put trans1 into journal->j_checkpoint_transactions
+
+Step 2:
+do_get_write_access
+ test_clear_buffer_dirty(bh) // clear buffer dirty，set jbd dirty
+ __jbd2_journal_file_buffer(jh, transaction) // jh belongs to trans2
+
+Step 3:
+drop_cache
+ journal_shrink_one_cp_list
+  jbd2_journal_try_remove_checkpoint
+   if (!trylock_buffer(bh))  // lock bh, true
+   if (buffer_dirty(bh))     // buffer is not dirty
+   __jbd2_journal_remove_checkpoint(jh)
+   // remove jh from trans1->t_checkpoint_list
+
+Step 4:
+jbd2_log_do_checkpoint
+ trans1 = journal->j_checkpoint_transactions
+ // jh is not in trans1->t_checkpoint_list
+ jbd2_cleanup_journal_tail(journal)  // trans1 is done
+
+Step 5: Power cut, trans2 is not committed, jh is lost in next mounting.
+
+Fix it by checking 'jh->b_transaction' before remove it from checkpoint.",0.00143,0.04118,False,,,,,
+CVE-2022-50519,5.5,MEDIUM,2025-10-07T16:15:35.610,"In the Linux kernel, the following vulnerability has been resolved:
+
+nilfs2: replace WARN_ONs by nilfs_error for checkpoint acquisition failure
+
+If creation or finalization of a checkpoint fails due to anomalies in the
+checkpoint metadata on disk, a kernel warning is generated.
+
+This patch replaces the WARN_ONs by nilfs_error, so that a kernel, booted
+with panic_on_warn, does not panic.  A nilfs_error is appropriate here to
+handle the abnormal filesystem condition.
+
+This also replaces the detected error codes with an I/O error so that
+neither of the internal error codes is returned to callers.",0.0015,0.04716,False,,,,,
+CVE-2025-64104,7.3,HIGH,2025-10-29T19:15:39.220,"LangGraph SQLite Checkpoint is an implementation of LangGraph CheckpointSaver that uses SQLite DB (both sync and async, via aiosqlite). Prior to 2.0.11, LangGraph's SQLite store implementation contains SQL injection vulnerabilities using direct string concatenation without proper parameterization, allowing attackers to inject arbitrary SQL and bypass access controls. This vulnerability is fixed in 2.0.11.",0.00176,0.07307,False,,,,,
+CVE-2025-64439,,,2025-11-07T21:15:41.690,"LangGraph SQLite Checkpoint is an implementation of LangGraph CheckpointSaver that uses SQLite DB (both sync and async, via aiosqlite). In versions 2.1.2 and below, the JsonPlusSerializer (used as the default serialization protocol for all checkpointing) contains a Remote Code Execution (RCE) vulnerability when deserializing payloads saved in the ""json"" serialization mode. By default, the serializer attempts to use ""msgpack"" for serialization. However, prior to version 3.0 of the checkpointer library, if illegal Unicode surrogate values caused serialization to fail, it would fall back to using the ""json"" mode. This issue is fixed in version 3.0.0.",0.00891,0.56243,False,,,,,
+CVE-2025-40143,,,2025-11-12T11:15:44.130,"In the Linux kernel, the following vulnerability has been resolved:
+
+bpf: dont report verifier bug for missing bpf_scc_visit on speculative path
+
+Syzbot generated a program that triggers a verifier_bug() call in
+maybe_exit_scc(). maybe_exit_scc() assumes that, when called for a
+state with insn_idx in some SCC, there should be an instance of struct
+bpf_scc_visit allocated for that SCC. Turns out the assumption does
+not hold for speculative execution paths. See example in the next
+patch.
+
+maybe_scc_exit() is called from update_branch_counts() for states that
+reach branch count of zero, meaning that path exploration for a
+particular path is finished. Path exploration can finish in one of
+three ways:
+a. Verification error is found. In this case, update_branch_counts()
+   is called only for non-speculative paths.
+b. Top level BPF_EXIT is reached. Such instructions are never a part of
+   an SCC, so compute_scc_callchain() in maybe_scc_exit() will return
+   false, and maybe_scc_exit() will return early.
+c. A checkpoint is reached and matched. Checkpoints are created by
+   is_state_visited(), which calls maybe_enter_scc(), which allocates
+   bpf_scc_visit instances for checkpoints within SCCs.
+
+Hence, for non-speculative symbolic execution paths, the assumption
+still holds: if maybe_scc_exit() is called for a state within an SCC,
+bpf_scc_visit instance must exist.
+
+This patch removes the verifier_bug() call for speculative paths.",0.00246,0.16033,False,,,,,
+CVE-2023-53829,7.8,HIGH,2025-12-09T16:17:21.790,"In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: flush inode if atomic file is aborted
+
+Let's flush the inode being aborted atomic operation to avoid stale dirty
+inode during eviction in this call stack:
+
+  f2fs_mark_inode_dirty_sync+0x22/0x40 [f2fs]
+  f2fs_abort_atomic_write+0xc4/0xf0 [f2fs]
+  f2fs_evict_inode+0x3f/0x690 [f2fs]
+  ? sugov_start+0x140/0x140
+  evict+0xc3/0x1c0
+  evict_inodes+0x17b/0x210
+  generic_shutdown_super+0x32/0x120
+  kill_block_super+0x21/0x50
+  deactivate_locked_super+0x31/0x90
+  cleanup_mnt+0x100/0x160
+  task_work_run+0x59/0x90
+  do_exit+0x33b/0xa50
+  do_group_exit+0x2d/0x80
+  __x64_sys_exit_group+0x14/0x20
+  do_syscall_64+0x3b/0x90
+  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+This triggers f2fs_bug_on() in f2fs_evict_inode:
+ f2fs_bug_on(sbi, is_inode_flag_set(inode, FI_DIRTY_INODE));
+
+This fixes the syzbot report:
+
+loop0: detected capacity change from 0 to 131072
+F2FS-fs (loop0): invalid crc value
+F2FS-fs (loop0): Found nat_bits in checkpoint
+F2FS-fs (loop0): Mounted with checkpoint version = 48b305e4
+------------[ cut here ]------------
+kernel BUG at fs/f2fs/inode.c:869!
+invalid opcode: 0000 [#1] PREEMPT SMP KASAN
+CPU: 0 PID: 5014 Comm: syz-executor220 Not tainted 6.4.0-syzkaller-11479-g6cd06ab12d1a #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/27/2023
+RIP: 0010:f2fs_evict_inode+0x172d/0x1e00 fs/f2fs/inode.c:869
+Code: ff df 48 c1 ea 03 80 3c 02 00 0f 85 6a 06 00 00 8b 75 40 ba 01 00 00 00 4c 89 e7 e8 6d ce 06 00 e9 aa fc ff ff e8 63 22 e2 fd <0f> 0b e8 5c 22 e2 fd 48 c7 c0 a8 3a 18 8d 48 ba 00 00 00 00 00 fc
+RSP: 0018:ffffc90003a6fa00 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000000001 RCX: 0000000000000000
+RDX: ffff8880273b8000 RSI: ffffffff83a2bd0d RDI: 0000000000000007
+RBP: ffff888077db91b0 R08: 0000000000000007 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000001 R12: ffff888029a3c000
+R13: ffff888077db9660 R14: ffff888029a3c0b8 R15: ffff888077db9c50
+FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f1909bb9000 CR3: 00000000276a9000 CR4: 0000000000350ef0
+Call Trace:
+ <TASK>
+ evict+0x2ed/0x6b0 fs/inode.c:665
+ dispose_list+0x117/0x1e0 fs/inode.c:698
+ evict_inodes+0x345/0x440 fs/inode.c:748
+ generic_shutdown_super+0xaf/0x480 fs/super.c:478
+ kill_block_super+0x64/0xb0 fs/super.c:1417
+ kill_f2fs_super+0x2af/0x3c0 fs/f2fs/super.c:4704
+ deactivate_locked_super+0x98/0x160 fs/super.c:330
+ deactivate_super+0xb1/0xd0 fs/super.c:361
+ cleanup_mnt+0x2ae/0x3d0 fs/namespace.c:1254
+ task_work_run+0x16f/0x270 kernel/task_work.c:179
+ exit_task_work include/linux/task_work.h:38 [inline]
+ do_exit+0xa9a/0x29a0 kernel/exit.c:874
+ do_group_exit+0xd4/0x2a0 kernel/exit.c:1024
+ __do_sys_exit_group kernel/exit.c:1035 [inline]
+ __se_sys_exit_group kernel/exit.c:1033 [inline]
+ __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1033
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f309be71a09
+Code: Unable to access opcode bytes at 0x7f309be719df.
+RSP: 002b:00007fff171df518 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007f309bef7330 RCX: 00007f309be71a09
+RDX: 000000000000003c RSI: 00000000000000e7 RDI: 0000000000000001
+RBP: 0000000000000001 R08: ffffffffffffffc0 R09: 00007f309bef1e40
+R10: 0000000000010600 R11: 0000000000000246 R12: 00007f309bef7330
+R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000001
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:f2fs_evict_inode+0x172d/0x1e00 fs/f2fs/inode.c:869
+Code: ff df 48 c1 ea 03 80 3c 02 00 0f 85 6a 06 00 00 8b 75 40 ba 01 00 00 00 4c 89 e7 e8 6d ce 06 00 e9 aa fc ff ff e8 63 22 e2 fd <0f> 0b e8 5c 22 e2 fd 48 c7 c0 a8 3a 18 8d 48 ba 00 00 00 00 00 fc
+RSP: 0018:ffffc90003a6fa00 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000
+---truncated---",0.00189,0.08807,False,,,,,
+CVE-2025-67644,7.3,HIGH,2025-12-11T00:16:23.230,"LangGraph SQLite Checkpoint is an implementation of LangGraph CheckpointSaver that uses SQLite DB (both sync and async, via aiosqlite). Versions 3.0.0 and below are vulnerable to SQL injection through the checkpoint implementation. Checkpoint allows attackers to manipulate SQL queries through metadata filter keys, affecting applications that accept untrusted metadata filter keys (not just filter values) in checkpoint search operations. The _metadata_predicate() function constructs SQL queries by interpolating filter keys directly into f-strings without validation. This issue is fixed in version 3.0.1.",0.02254,0.81364,False,,,,,
+CVE-2025-33235,7.8,HIGH,2025-12-16T18:16:11.820,"NVIDIA Resiliency Extension for Linux contains a vulnerability in the checkpointing core, where an attacker may cause a race condition. A successful exploit of this vulnerability might lead to information disclosure, data tampering, denial of service, or escalation of privileges.",0.00123,0.02455,False,,,,,
+CVE-2025-14922,7.8,HIGH,2025-12-23T21:15:47.477,"Hugging Face Diffusers CogView4 Deserialization of Untrusted Data Remote Code Execution Vulnerability. This vulnerability allows remote attackers to execute arbitrary code on affected installations of Hugging Face Diffusers. User interaction is required to exploit this vulnerability in that the target must visit a malicious page or open a malicious file.
+
+The specific flaw exists within the parsing of checkpoints. The issue results from the lack of proper validation of user-supplied data, which can result in deserialization of untrusted data. An attacker can leverage this vulnerability to execute code in the context of the current process. Was ZDI-CAN-27424.",0.00333,0.26098,False,,,,,
+CVE-2025-14924,7.8,HIGH,2025-12-23T21:15:47.600,"Hugging Face Transformers megatron_gpt2 Deserialization of Untrusted Data Remote Code Execution Vulnerability. This vulnerability allows remote attackers to execute arbitrary code on affected installations of Hugging Face Transformers. User interaction is required to exploit this vulnerability in that the target must visit a malicious page or open a malicious file.
+
+The specific flaw exists within the parsing of checkpoints. The issue results from the lack of proper validation of user-supplied data, which can result in deserialization of untrusted data. An attacker can leverage this vulnerability to execute code in the context of the current process. Was ZDI-CAN-27984.",0.00277,0.20056,False,,,,,
+CVE-2025-14925,7.8,HIGH,2025-12-23T21:15:47.730,"Hugging Face Accelerate Deserialization of Untrusted Data Remote Code Execution Vulnerability. This vulnerability allows remote attackers to execute arbitrary code on affected installations of Hugging Face Accelerate. User interaction is required to exploit this vulnerability in that the target must visit a malicious page or open a malicious file.
+
+The specific flaw exists within the parsing of checkpoints. The issue results from the lack of proper validation of user-supplied data, which can result in deserialization of untrusted data. An attacker can leverage this vulnerability to execute code in the context of the current process. Was ZDI-CAN-27985.",0.00333,0.26097,False,,,,,
+CVE-2025-14926,7.8,HIGH,2025-12-23T21:15:47.857,"Hugging Face Transformers SEW convert_config Code Injection Remote Code Execution Vulnerability. This vulnerability allows remote attackers to execute arbitrary code on affected installations of Hugging Face Transformers. User interaction is required to exploit this vulnerability in that the target must convert a malicious checkpoint.
+
+The specific flaw exists within the convert_config function. The issue results from the lack of proper validation of a user-supplied string before using it to execute Python code. An attacker can leverage this vulnerability to execute code in the context of the current user. Was ZDI-CAN-28251.",0.00295,0.2198,False,,,,,
+CVE-2025-14927,7.8,HIGH,2025-12-23T21:15:47.987,"Hugging Face Transformers SEW-D convert_config Code Injection Remote Code Execution Vulnerability. This vulnerability allows remote attackers to execute arbitrary code on affected installations of Hugging Face Transformers. User interaction is required to exploit this vulnerability in that the target must convert a malicious checkpoint.
+
+The specific flaw exists within the convert_config function. The issue results from the lack of proper validation of a user-supplied string before using it to execute Python code. An attacker can leverage this vulnerability to execute code in the context of the current user.
+
+. Was ZDI-CAN-28252.",0.00295,0.2198,False,,,,,
+CVE-2025-14928,7.8,HIGH,2025-12-23T21:15:48.110,"Hugging Face Transformers HuBERT convert_config Code Injection Remote Code Execution Vulnerability. This vulnerability allows remote attackers to execute arbitrary code on affected installations of Hugging Face Transformers. User interaction is required to exploit this vulnerability in that the target must convert a malicious checkpoint.
+
+The specific flaw exists within the convert_config function. The issue results from the lack of proper validation of a user-supplied string before using it to execute Python code. An attacker can leverage this vulnerability to execute code in the context of the current user. Was ZDI-CAN-28253.",0.00295,0.21981,False,,,,,
+CVE-2025-14929,7.8,HIGH,2025-12-23T21:15:48.240,"Hugging Face Transformers X-CLIP Checkpoint Conversion Deserialization of Untrusted Data Remote Code Execution Vulnerability. This vulnerability allows remote attackers to execute arbitrary code on affected installations of Hugging Face Transformers. User interaction is required to exploit this vulnerability in that the target must visit a malicious page or open a malicious file.
+
+The specific flaw exists within the parsing of checkpoints. The issue results from the lack of proper validation of user-supplied data, which can result in deserialization of untrusted data. An attacker can leverage this vulnerability to execute code in the context of the current process. Was ZDI-CAN-28308.",0.00333,0.26098,False,,,,,
+CVE-2023-54151,7.8,HIGH,2025-12-24T13:16:17.113,"In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: Fix system crash due to lack of free space in LFS
+
+When f2fs tries to checkpoint during foreground gc in LFS mode, system
+crash occurs due to lack of free space if the amount of dirty node and
+dentry pages generated by data migration exceeds free space.
+The reproduction sequence is as follows.
+
+ - 20GiB capacity block device (null_blk)
+ - format and mount with LFS mode
+ - create a file and write 20,000MiB
+ - 4k random write on full range of the file
+
+ RIP: 0010:new_curseg+0x48a/0x510 [f2fs]
+ Code: 55 e7 f5 89 c0 48 0f af c3 48 8b 5d c0 48 c1 e8 20 83 c0 01 89 43 6c 48 83 c4 28 5b 41 5c 41 5d 41 5e 41 5f 5d c3 cc cc cc cc <0f> 0b f0 41 80 4f 48 04 45 85 f6 0f 84 ba fd ff ff e9 ef fe ff ff
+ RSP: 0018:ffff977bc397b218 EFLAGS: 00010246
+ RAX: 00000000000027b9 RBX: 0000000000000000 RCX: 00000000000027c0
+ RDX: 0000000000000000 RSI: 00000000000027b9 RDI: ffff8c25ab4e74f8
+ RBP: ffff977bc397b268 R08: 00000000000027b9 R09: ffff8c29e4a34b40
+ R10: 0000000000000001 R11: ffff977bc397b0d8 R12: 0000000000000000
+ R13: ffff8c25b4dd81a0 R14: 0000000000000000 R15: ffff8c2f667f9000
+ FS: 0000000000000000(0000) GS:ffff8c344ec80000(0000) knlGS:0000000000000000
+ CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+ CR2: 000000c00055d000 CR3: 0000000e30810003 CR4: 00000000003706e0
+ DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+ DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+ Call Trace:
+ <TASK>
+ allocate_segment_by_default+0x9c/0x110 [f2fs]
+ f2fs_allocate_data_block+0x243/0xa30 [f2fs]
+ ? __mod_lruvec_page_state+0xa0/0x150
+ do_write_page+0x80/0x160 [f2fs]
+ f2fs_do_write_node_page+0x32/0x50 [f2fs]
+ __write_node_page+0x339/0x730 [f2fs]
+ f2fs_sync_node_pages+0x5a6/0x780 [f2fs]
+ block_operations+0x257/0x340 [f2fs]
+ f2fs_write_checkpoint+0x102/0x1050 [f2fs]
+ f2fs_gc+0x27c/0x630 [f2fs]
+ ? folio_mark_dirty+0x36/0x70
+ f2fs_balance_fs+0x16f/0x180 [f2fs]
+
+This patch adds checking whether free sections are enough before checkpoint
+during gc.
+
+[Jaegeuk Kim: code clean-up]",0.00135,0.03411,False,,,,,
+CVE-2025-67729,8.8,HIGH,2025-12-26T22:15:52.437,"LMDeploy is a toolkit for compressing, deploying, and serving LLMs. Prior to version 0.11.1, an insecure deserialization vulnerability exists in lmdeploy where torch.load() is called without the weights_only=True parameter when loading model checkpoint files. This allows an attacker to execute arbitrary code on the victim's machine when they load a malicious .bin or .pt model file. This issue has been patched in version 0.11.1.",0.00531,0.42222,False,,,,,
+CVE-2025-68769,,,2026-01-13T16:15:56.353,"In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: fix return value of f2fs_recover_fsync_data()
+
+With below scripts, it will trigger panic in f2fs:
+
+mkfs.f2fs -f /dev/vdd
+mount /dev/vdd /mnt/f2fs
+touch /mnt/f2fs/foo
+sync
+echo 111 >> /mnt/f2fs/foo
+f2fs_io fsync /mnt/f2fs/foo
+f2fs_io shutdown 2 /mnt/f2fs
+umount /mnt/f2fs
+mount -o ro,norecovery /dev/vdd /mnt/f2fs
+or
+mount -o ro,disable_roll_forward /dev/vdd /mnt/f2fs
+
+F2FS-fs (vdd): f2fs_recover_fsync_data: recovery fsync data, check_only: 0
+F2FS-fs (vdd): Mounted with checkpoint version = 7f5c361f
+F2FS-fs (vdd): Stopped filesystem due to reason: 0
+F2FS-fs (vdd): f2fs_recover_fsync_data: recovery fsync data, check_only: 1
+Filesystem f2fs get_tree() didn't set fc->root, returned 1
+------------[ cut here ]------------
+kernel BUG at fs/super.c:1761!
+Oops: invalid opcode: 0000 [#1] SMP PTI
+CPU: 3 UID: 0 PID: 722 Comm: mount Not tainted 6.18.0-rc2+ #721 PREEMPT(voluntary)
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+RIP: 0010:vfs_get_tree.cold+0x18/0x1a
+Call Trace:
+ <TASK>
+ fc_mount+0x13/0xa0
+ path_mount+0x34e/0xc50
+ __x64_sys_mount+0x121/0x150
+ do_syscall_64+0x84/0x800
+ entry_SYSCALL_64_after_hwframe+0x76/0x7e
+RIP: 0033:0x7fa6cc126cfe
+
+The root cause is we missed to handle error number returned from
+f2fs_recover_fsync_data() when mounting image w/ ro,norecovery or
+ro,disable_roll_forward mount option, result in returning a positive
+error number to vfs_get_tree(), fix it.",0.00179,0.07677,False,,,,,
+CVE-2026-24747,8.8,HIGH,2026-01-27T22:15:56.470,"PyTorch is a Python package that provides tensor computation. Prior to version 2.10.0, a vulnerability in PyTorch's `weights_only` unpickler allows an attacker to craft a malicious checkpoint file (`.pth`) that, when loaded with `torch.load(..., weights_only=True)`, can corrupt memory and potentially lead to arbitrary code execution. Version 2.10.0 fixes the issue.",0.00695,0.49762,False,,,,,
+CVE-2026-27022,6.5,MEDIUM,2026-02-20T22:16:28.480,"@langchain/langgraph-checkpoint-redis is the Redis checkpoint and store implementation for LangGraph. A query injection vulnerability exists in the @langchain/langgraph-checkpoint-redis package's filter handling. The RedisSaver and ShallowRedisSaver classes construct RediSearch queries by directly interpolating user-provided filter keys and values without proper escaping. RediSearch has special syntax characters that can modify query behavior, and when user-controlled data contains these characters, the query logic can be manipulated to bypass intended access controls. This vulnerability is fixed in 1.0.2.",0.03726,0.88812,False,,,,,
+CVE-2026-27794,6.6,MEDIUM,2026-02-25T18:23:40.980,"LangGraph Checkpoint defines the base interface for LangGraph checkpointers. Prior to version 4.0.0, a Remote Code Execution vulnerability exists in LangGraph's caching layer when applications enable cache backends that inherit from `BaseCache` and opt nodes into caching via `CachePolicy`. Prior to `langgraph-checkpoint` 4.0.0, `BaseCache` defaults to `JsonPlusSerializer(pickle_fallback=True)`. When msgpack serialization fails, cached values can be deserialized via `pickle.loads(...)`. Caching is not enabled by default. Applications are affected only when the application explicitly enables a cache backend (for example by passing `cache=...` to `StateGraph.compile(...)` or otherwise configuring a `BaseCache` implementation), one or more nodes opt into caching via `CachePolicy`, and the attacker can write to the cache backend (for example a network-accessible Redis instance with weak/no auth, shared cache infrastructure reachable by other tenants/services, or a writable SQLite cache file). An attacker must be able to write attacker-controlled bytes into the cache backend such that the LangGraph process later reads and deserializes them. This typically requires write access to a networked cache (for example a network-accessible Redis instance with weak/no auth or shared cache infrastructure reachable by other tenants/services) or write access to local cache storage (for example a writable SQLite cache file via permissive file permissions or a shared writable volume). Because exploitation requires write access to the cache storage layer, this is a post-compromise / post-access escalation vector. LangGraph Checkpoint 4.0.0 patches the issue.",0.00698,0.49881,False,,,,,
+CVE-2026-28277,6.8,MEDIUM,2026-03-05T20:16:15.677,"LangGraph SQLite Checkpoint is an implementation of LangGraph CheckpointSaver that uses SQLite DB (both sync and async, via aiosqlite). In version 1.0.9 and prior, LangGraph checkpointers can load msgpack-encoded checkpoints that reconstruct Python objects during deserialization. If an attacker can modify checkpoint data in the backing store (for example, after a database compromise or other privileged write access to the persistence layer), they can potentially supply a crafted payload that triggers unsafe object reconstruction when the checkpoint is loaded. No known patch is public.",0.04928,0.91352,False,,,,,
+CVE-2026-23267,5.5,MEDIUM,2026-03-18T18:16:25.573,"In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: fix IS_CHECKPOINTED flag inconsistency issue caused by concurrent atomic commit and checkpoint writes
+
+During SPO tests, when mounting F2FS, an -EINVAL error was returned from
+f2fs_recover_inode_page. The issue occurred under the following scenario
+
+Thread A                                     Thread B
+f2fs_ioc_commit_atomic_write
+ - f2fs_do_sync_file // atomic = true
+  - f2fs_fsync_node_pages
+    : last_folio = inode folio
+    : schedule before folio_lock(last_folio) f2fs_write_checkpoint
+                                              - block_operations// writeback last_folio
+                                              - schedule before f2fs_flush_nat_entries
+    : set_fsync_mark(last_folio, 1)
+    : set_dentry_mark(last_folio, 1)
+    : folio_mark_dirty(last_folio)
+    - __write_node_folio(last_folio)
+      : f2fs_down_read(&sbi->node_write)//block
+                                              - f2fs_flush_nat_entries
+                                                : {struct nat_entry}->flag |= BIT(IS_CHECKPOINTED)
+                                              - unblock_operations
+                                                : f2fs_up_write(&sbi->node_write)
+                                             f2fs_write_checkpoint//return
+      : f2fs_do_write_node_page()
+f2fs_ioc_commit_atomic_write//return
+                                             SPO
+
+Thread A calls f2fs_need_dentry_mark(sbi, ino), and the last_folio has
+already been written once. However, the {struct nat_entry}->flag did not
+have the IS_CHECKPOINTED set, causing set_dentry_mark(last_folio, 1) and
+write last_folio again after Thread B finishes f2fs_write_checkpoint.
+
+After SPO and reboot, it was detected that {struct node_info}->blk_addr
+was not NULL_ADDR because Thread B successfully write the checkpoint.
+
+This issue only occurs in atomic write scenarios. For regular file
+fsync operations, the folio must be dirty. If
+block_operations->f2fs_sync_node_pages successfully submit the folio
+write, this path will not be executed. Otherwise, the
+f2fs_write_checkpoint will need to wait for the folio write submission
+to complete, as sbi->nr_pages[F2FS_DIRTY_NODES] > 0. Therefore, the
+situation where f2fs_need_dentry_mark checks that the {struct
+nat_entry}->flag /wo the IS_CHECKPOINTED flag, but the folio write has
+already been submitted, will not occur.
+
+Therefore, for atomic file fsync, sbi->node_write should be acquired
+through __write_node_folio to ensure that the IS_CHECKPOINTED flag
+correctly indicates that the checkpoint write has been completed.",0.00114,0.01753,False,,,,,
+CVE-2026-24150,7.8,HIGH,2026-03-24T21:16:27.357,"NVIDIA Megatron-LM contains a vulnerability in checkpoint loading where an Attacker may cause an RCE by convincing a user to load a maliciously crafted file. A successful exploit of this vulnerability may lead to code execution, escalation of privileges, information disclosure, and data tampering.",0.00208,0.11076,False,,,,,
+CVE-2026-24152,7.8,HIGH,2026-03-24T21:16:27.670,"NVIDIA Megatron-LM contains a vulnerability in checkpoint loading where an Attacker may cause an RCE by convincing a user to load a maliciously crafted file. A successful exploit of this vulnerability may lead to code execution, escalation of privileges, information disclosure, and data tampering.",0.00208,0.11076,False,,,,,
+CVE-2026-24157,7.8,HIGH,2026-03-24T21:16:27.823,"NVIDIA NeMo Framework contains a vulnerability in checkpoint loading where an attacker could cause remote code execution. A successful exploit of this vulnerability might lead to code execution, escalation of privileges, information disclosure and data tampering.",0.00654,0.48162,False,,,,,
+CVE-2026-29870,7.6,HIGH,2026-03-31T15:16:12.733,"A directory traversal vulnerability in the agentic-context-engine project versions up to 0.7.1 allows arbitrary file writes via the checkpoint_dir parameter in OfflineACE.run. The save_to_file method in ace/skillbook.py fails to normalize or validate filesystem paths, allowing traversal sequences to escape the intended checkpoint directory. This vulnerability allows attackers to overwrite arbitrary files accessible to the application process, potentially leading to application corruption, privilege escalation, or code execution depending on the deployment context.",0.00578,0.44628,False,,,,,
+CVE-2026-1839,7.8,HIGH,2026-04-07T06:16:41.490,"A vulnerability in the HuggingFace Transformers library, specifically in the `Trainer` class, allows for arbitrary code execution. The `_load_rng_state()` method in `src/transformers/trainer.py` at line 3059 calls `torch.load()` without the `weights_only=True` parameter. This issue affects all versions of the library supporting `torch>=2.2` when used with PyTorch versions below 2.6, as the `safe_globals()` context manager provides no protection in these versions. An attacker can exploit this vulnerability by supplying a malicious checkpoint file, such as `rng_state.pth`, which can execute arbitrary code when loaded. The issue is resolved in version v5.0.0rc3.",0.00349,0.27783,False,,,,,
+CVE-2026-43046,5.5,MEDIUM,2026-05-01T15:16:50.933,"In the Linux kernel, the following vulnerability has been resolved:
+
+btrfs: reject root items with drop_progress and zero drop_level
+
+[BUG]
+When recovering relocation at mount time, merge_reloc_root() and
+btrfs_drop_snapshot() both use BUG_ON(level == 0) to guard against
+an impossible state: a non-zero drop_progress combined with a zero
+drop_level in a root_item, which can be triggered:
+
+------------[ cut here ]------------
+kernel BUG at fs/btrfs/relocation.c:1545!
+Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
+CPU: 1 UID: 0 PID: 283 ... Tainted: 6.18.0+ #16 PREEMPT(voluntary)
+Tainted: [O]=OOT_MODULE, [E]=UNSIGNED_MODULE
+Hardware name: QEMU Ubuntu 24.04 PC v2, BIOS 1.16.3-debian-1.16.3-2
+RIP: 0010:merge_reloc_root+0x1266/0x1650 fs/btrfs/relocation.c:1545
+Code: ffff0000 00004589 d7e9acfa ffffe8a1 79bafebe 02000000
+Call Trace:
+ merge_reloc_roots+0x295/0x890 fs/btrfs/relocation.c:1861
+ btrfs_recover_relocation+0xd6e/0x11d0 fs/btrfs/relocation.c:4195
+ btrfs_start_pre_rw_mount+0xa4d/0x1810 fs/btrfs/disk-io.c:3130
+ open_ctree+0x5824/0x5fe0 fs/btrfs/disk-io.c:3640
+ btrfs_fill_super fs/btrfs/super.c:987 [inline]
+ btrfs_get_tree_super fs/btrfs/super.c:1951 [inline]
+ btrfs_get_tree_subvol fs/btrfs/super.c:2094 [inline]
+ btrfs_get_tree+0x111c/0x2190 fs/btrfs/super.c:2128
+ vfs_get_tree+0x9a/0x370 fs/super.c:1758
+ fc_mount fs/namespace.c:1199 [inline]
+ do_new_mount_fc fs/namespace.c:3642 [inline]
+ do_new_mount fs/namespace.c:3718 [inline]
+ path_mount+0x5b8/0x1ea0 fs/namespace.c:4028
+ do_mount fs/namespace.c:4041 [inline]
+ __do_sys_mount fs/namespace.c:4229 [inline]
+ __se_sys_mount fs/namespace.c:4206 [inline]
+ __x64_sys_mount+0x282/0x320 fs/namespace.c:4206
+ ...
+RIP: 0033:0x7f969c9a8fde
+Code: 0f1f4000 48c7c2b0 fffffff7 d8648902 b8ffffff ffc3660f
+---[ end trace 0000000000000000 ]---
+
+The bug is reproducible on 7.0.0-rc2-next-20260310 with our dynamic
+metadata fuzzing tool that corrupts btrfs metadata at runtime.
+
+[CAUSE]
+A non-zero drop_progress.objectid means an interrupted
+btrfs_drop_snapshot() left a resume point on disk, and in that case
+drop_level must be greater than 0 because the checkpoint is only
+saved at internal node levels.
+
+Although this invariant is enforced when the kernel writes the root
+item, it is not validated when the root item is read back from disk.
+That allows on-disk corruption to provide an invalid state with
+drop_progress.objectid != 0 and drop_level == 0.
+
+When relocation recovery later processes such a root item,
+merge_reloc_root() reads drop_level and hits BUG_ON(level == 0). The
+same invalid metadata can also trigger the corresponding BUG_ON() in
+btrfs_drop_snapshot().
+
+[FIX]
+Fix this by validating the root_item invariant in tree-checker when
+reading root items from disk: if drop_progress.objectid is non-zero,
+drop_level must also be non-zero. Reject such malformed metadata with
+-EUCLEAN before it reaches merge_reloc_root() or btrfs_drop_snapshot()
+and triggers the BUG_ON.
+
+After the fix, the same corruption is correctly rejected by tree-checker
+and the BUG_ON is no longer triggered.",0.00114,0.01745,False,,,,,
+CVE-2026-43126,7.8,HIGH,2026-05-06T12:16:29.597,"In the Linux kernel, the following vulnerability has been resolved:
+
+ALSA: mixer: oss: Add card disconnect checkpoints
+
+ALSA OSS mixer layer calls the kcontrol ops rather individually, and
+pending calls might be not always caught at disconnecting the device.
+
+For avoiding the potential UAF scenarios, add sanity checks of the
+card disconnection at each entry point of OSS mixer accesses.  The
+rwsem is taken just before that check, hence the rest context should
+be covered by that properly.",0.00129,0.02911,False,,,,,
+CVE-2026-31250,7.3,HIGH,2026-05-11T17:16:19.950,"CosyVoice thru commit 6e01309e01bc93bbeb83bdd996b1182a81aaf11e (2025-30-21) contains an insecure deserialization vulnerability (CWE-502) in its average_model.py model averaging tool. The script loads PyTorch checkpoint files (epoch_*.pt) for model averaging using torch.load() without enabling the weights_only=True security parameter. This allows the deserialization of arbitrary Python objects via the pickle module. An attacker can exploit this by providing malicious checkpoint files within a directory. When a victim uses the tool to average models from this directory, arbitrary code is executed on the victim's system.",0.00222,0.12974,False,,,,,
+CVE-2026-31253,7.3,HIGH,2026-05-11T17:16:20.307,"The flash-attention training framework thru commit e724e2588cbe754beb97cf7c011b5e7e34119e62 (2025-13-04) contains an insecure deserialization vulnerability (CWE-502) in its checkpoint loading mechanism. The load_checkpoint() function in checkpoint.py and the checkpoint loading code in eval.py use torch.load() without enabling the security-restrictive weights_only=True parameter. This allows the deserialization of arbitrary Python objects via the pickle module. An attacker can exploit this by providing a maliciously crafted checkpoint file. When a victim loads this checkpoint during model warmstarting or evaluation, arbitrary code is executed on the victim's system.",0.00218,0.1243,False,,,,,
+CVE-2026-31214,9.8,CRITICAL,2026-05-12T16:16:13.270,"The torch-checkpoint-shrink.py script in the ml-engineering project in commit 0099885db36a8f06556efe1faf552518852cb1e0 (2025-20-27) contains an insecure deserialization vulnerability (CWE-502). The script uses torch.load() to process PyTorch checkpoint files (.pt) without enabling the security-restrictive weights_only=True parameter. This oversight allows the deserialization of arbitrary Python objects via the pickle module. A remote attacker can exploit this by providing a maliciously crafted checkpoint file, leading to arbitrary code execution in the context of the user running the script.",0.00486,0.39564,False,,,,,
+CVE-2026-31221,7.8,HIGH,2026-05-12T16:16:14.020,"PyTorch-Lightning versions 2.6.0 and earlier contain an insecure deserialization vulnerability (CWE-502) in the checkpoint loading mechanism. The LightningModule.load_from_checkpoint() method, which is commonly used to load saved model states, internally calls torch.load() without setting the security-restrictive weights_only=True parameter. This default behavior allows the deserialization of arbitrary Python objects via the Pickle module. A remote attacker can exploit this by providing a maliciously crafted checkpoint file, leading to arbitrary code execution on the victim's system when the file is loaded.",0.00385,0.31508,False,,,,,
+CVE-2026-31222,8.8,HIGH,2026-05-12T16:16:14.120,"The snorkel library thru v0.10.0 contains an insecure deserialization vulnerability (CWE-502) in the Trainer.load() method of the Trainer class. The method loads model checkpoint files using torch.load() without enabling the security-restrictive weights_only=True parameter. This default behavior allows the deserialization of arbitrary Python objects via the Pickle module. A remote attacker can exploit this by providing a maliciously crafted model file, leading to arbitrary code execution on the victim's system when the file is loaded via the vulnerable method.",0.00392,0.32234,False,,,,,
+CVE-2026-44504,,,2026-05-14T16:16:24.380,"Aegra is a drop-in replacement for LangSmith Deployments. Prior to 0.9.7, with multiple authenticated users on a shared instance are vulnerable to a cross-tenant IDOR. Any authenticated attacker, given another user's thread_id, can execute graph runs against the user's thread, read the user's full checkpoint state, and inject arbitrary messages into the user's conversation history. This vulnerability is fixed in 0.9.7.",0.00285,0.20881,False,,,,,
+CVE-2026-46175,7.1,HIGH,2026-05-28T10:16:33.130,"In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: fix fsck inconsistency caused by FGGC of node block
+
+During FGGC node block migration, fsck may incorrectly treat the
+migrated node block as fsync-written data.
+
+The reproduction scenario:
+root@vm:/mnt/f2fs# seq 1 2048 | xargs -n 1 ./test_sync // write inline inode and sync
+root@vm:/mnt/f2fs# rm -f 1
+root@vm:/mnt/f2fs# sync
+root@vm:/mnt/f2fs# f2fs_io gc_range // move data block in sync mode and not write CP
+  SPO, ""fsck --dry-run"" find inode has already checkpointed but still
+  with DENT_BIT_SHIFT set
+
+The root cause is that GC does not clear the dentry mark and fsync mark
+during node block migration, leading fsck to misinterpret them as
+user-issued fsync writes.
+
+In BGGC mode, node block migration is handled by f2fs_sync_node_pages(),
+which guarantees the dentry and fsync marks are cleared before writing.
+
+This patch move the set/clear of the fsync|dentry marks into
+__write_node_folio to make the logic clearer, and ensures the
+fsync|dentry mark is cleared in FGGC.",0.00124,0.02528,False,,,,,
+CVE-2026-38950,7.8,HIGH,2026-06-01T17:16:59.257,An issue in ESA AnomalyMatch before 1.3.1 allow attackers to execute arbitrary code via crafted model checkpoint files. The affected components load model files from session directories using torch.load() with unrestricted deserialization.,0.00144,0.04178,False,,,,,
+CVE-2026-47748,5.5,MEDIUM,2026-06-16T19:16:55.720,"stable-diffusion.cpp is a pure C/C++ library for running diffusion model (Stable Diffusion, Flux, Wan, Qwen Image, Z-Image, and more) inference. Versions prior to master-584-0a7ae07 are vulnerable to an out-of-bounds reads error through PyTorch checkpoint pickle opcode parsing. The pickle .ckpt parser in src/model.cpp did not consistently check that enough input remained before reading opcode arguments or advancing the parser buffer with a crafted or truncated .ckpt file. Throughout the pickle parser, opcode handlers advanced the parser position with expressions such as buffer += N without first checking that buffer + N <= buffer_end. A truncated file could therefore cause reads past the end of the metadata buffer. LibFuzzer found crashes in under one second using malformed checkpoint inputs. Any application using affected stable-diffusion.cpp releases to load untrusted .ckpt model files could be vulnerable. The attack requires the victim or application to load a .ckpt file from an untrusted source, such as a downloaded model from a model sharing site. This issue has been fixed in version master-584-0a7ae07. If developers are unable to immediately update their applications, they can work around this issue by ensuring they do not load .ckpt checkpoint files from untrusted sources. They should prefer trusted model sources and safer formats such as .safetensors where possible.",0.00163,0.05979,False,,,,,
+CVE-2026-47749,7.8,HIGH,2026-06-16T19:16:55.867,"stable-diffusion.cpp is a pure C/C++ library for running diffusion model (Stable Diffusion, Flux, Wan, Qwen Image, Z-Image, and more) inference. Versions prior to master-584-0a7ae07 are vulnerable to heap buffer overflow in SHORT_BINUNICODE parsing for PyTorch checkpoint files. The pickle .ckpt parser in src/model.cpp contained a heap buffer overflow vulnerability in the SHORT_BINUNICODE opcode handler. The issue was caused by sign confusion on the opcode length field. A crafted .ckpt file could trigger memcpy with a very large length derived from a negative signed value, causing immediate heap corruption. Any application using affected stable-diffusion.cpp releases to load untrusted .ckpt model files could be vulnerable. A malicious checkpoint file could cause heap corruption through memcpy with an attacker-controlled length. This may lead to process crash and could potentially be leveraged for code execution depending on heap layout. The attack requires the victim or application to load a .ckpt file from an untrusted source, such as a downloaded model from a model sharing site. The issue has been resolved in version master-584-0a7ae07. If developers are unable to immediately update their applications they can work around this issue by not loading .ckpt checkpoint files from untrusted sources, and referring to trusted model sources and safer formats such as .safetensors where possible.",0.00203,0.10483,False,,,,,
+CVE-2026-48775,6.8,MEDIUM,2026-06-16T19:16:58.880,"LangGraph SQLite Checkpoint is an implementation of LangGraph CheckpointSaver that uses SQLite DB (both sync and async, via aiosqlite). In versions 4.1.0 and prior, the JsonPlusSerializer can reconstruct Python objects from JSON checkpoint payloads. Under conditions where someone could modify checkpoint bytes at rest in the backing store, the deserialization path could reconstruct objects beyond what the application expects, which could in turn result in code execution at checkpoint load time. This is a defense-in-depth issue. The affected behavior is reachable only when checkpoint bytes at rest in the backing store can be modified by an unauthorized party. In most deployments that prerequisite already implies a serious incident; the additional concern is turning ""checkpoint-store write access"" into code execution in the application runtime. This issue has been fixed in version 4.1.1.",0.00232,0.14175,False,,,,,
+CVE-2026-47747,7.8,HIGH,2026-06-16T20:16:44.163,"stable-diffusion.cpp is a pure C/C++ library for running diffusion model (Stable Diffusion, Flux, Wan, Qwen Image, Z-Image, and more) inference. In versions prior to master-584-0a7ae07, the pickle .ckpt parser in src/model.cpp contained a heap buffer overflow vulnerability in the BINUNICODE opcode handler. The issue was caused by sign confusion on the opcode length field. A crafted .ckpt file could trigger memcpy with a very large length derived from a negative signed value, causing immediate heap corruption.
+The issue has been resolved in version master-584-0a7ae07. If developers are unable to immediately update their applications they can work around this issue by only loading .ckpt checkpoint files from trusted sources and preferring trusted model sources and safer formats such as .safetensors where possible.",0.0018,0.07806,False,,,,,
+CVE-2026-47750,7.8,HIGH,2026-06-16T20:16:44.413,"stable-diffusion.cpp is a pure C/C++ library for running diffusion model (Stable Diffusion, Flux, Wan, Qwen Image, Z-Image, and more) inference. In versions prior to master-584-0a7ae07,  the pickle .ckpt parser in src/model.cpp contained a heap buffer overflow vulnerability in the GLOBAL opcode handler. The issue was caused by missing validation when searching for newline-delimited fields. A crafted .ckpt file without the expected newline could cause the parser to use -1 as a copy length, resulting in immediate heap corruption. The attack requires the victim or application to load a .ckpt file from an untrusted source, such as a downloaded model from a model sharing site. The issue has been resolved in version master-584-0a7ae07. If developers are unable to immediately update their applications they can work around this issue by following these instructions: do not load .ckpt checkpoint files from untrusted sources, and prefer trusted model sources and safer formats such as .safetensors where possible.",0.0018,0.07805,False,,,,,
+CVE-2026-52923,7.8,HIGH,2026-06-24T08:16:22.300,"In the Linux kernel, the following vulnerability has been resolved:
+
+ipc: limit next_id allocation to the valid ID range
+
+The checkpoint/restore sysctl path can request the next SysV IPC id
+through ids->next_id.  ipc_idr_alloc() currently forwards that request to
+idr_alloc() with an open-ended upper bound.
+
+If the valid tail of the SysV IPC id space is full, the allocation can
+spill beyond ipc_mni.  The returned SysV IPC id still uses the normal
+index encoding, so later lookup and removal can target the wrong slot. 
+This leaves the real IDR entry behind and breaks the IDR state for the
+object.
+
+The bug is in ipc_idr_alloc() in the checkpoint/restore path.
+
+1. ids->next_id is passed to:
+
+       idr_alloc(&ids->ipcs_idr, new, ipcid_to_idx(next_id), 0, ...)
+
+2. The zero upper bound makes the allocation effectively open-ended.
+   Once the valid SysV IPC tail is occupied, idr_alloc() can spill past
+   ipc_mni and allocate an entry beyond the valid IPC id range.
+
+3. The new object id is still encoded with the narrower SysV IPC index
+   width:
+
+       new->id = (new->seq << ipcmni_seq_shift()) + idx
+
+4. Later removal goes through ipc_rmid(), which uses:
+
+       ipcid_to_idx(ipcp->id)
+
+   That truncates the real IDR index. An object actually stored at a
+   high index can then be removed as if it lived at a low in-range
+   index.
+
+5. For shared memory, shm_destroy() frees the current object anyway, but
+   the real high IDR slot is left behind as a dangling pointer.
+
+6. A subsequent walk of /proc/sysvipc/shm reaches the stale IDR entry
+   and dereferences freed memory.
+
+Prevent this by bounding the requested allocation to ipc_mni so the
+checkpoint/restore path fails once the valid range is exhausted.",0.00134,0.03354,False,,,,,
+CVE-2026-53017,5.5,MEDIUM,2026-06-24T17:17:13.020,"In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: fix data loss caused by incorrect use of nat_entry flag
+
+Data loss can occur when fsync is performed on a newly created file
+(before any checkpoint has been written) concurrently with a checkpoint
+operation. The scenario is as follows:
+
+create & write & fsync 'file A'                 write checkpoint
+- f2fs_do_sync_file // inline inode
+ - f2fs_write_inode // inode folio is dirty
+                                                - f2fs_write_checkpoint
+                                                 - f2fs_flush_merged_writes
+                                                 - f2fs_sync_node_pages
+                                                 - f2fs_flush_nat_entries
+ - f2fs_fsync_node_pages // no dirty node
+ - f2fs_need_inode_block_update // return false
+ SPO and lost 'file A'
+
+f2fs_flush_nat_entries() sets the IS_CHECKPOINTED and HAS_LAST_FSYNC
+flags for the nat_entry, but this does not mean that the checkpoint has
+actually completed successfully. However, f2fs_need_inode_block_update()
+checks these flags and incorrectly assumes that the checkpoint has
+finished.
+
+The root cause is that the semantics of IS_CHECKPOINTED and
+HAS_LAST_FSYNC are only guaranteed after the checkpoint write fully
+completes.
+
+This patch modifies f2fs_need_inode_block_update() to acquire the
+sbi->node_write lock before reading the nat_entry flags, ensuring that
+once IS_CHECKPOINTED and HAS_LAST_FSYNC are observed to be set, the
+checkpoint operation has already completed.",0.00112,0.01591,False,,,,,
+CVE-2026-10043,7.8,HIGH,2026-06-24T22:16:46.003,"MosaicML Composer Deserialization of Untrusted Data Remote Code Execution Vulnerability. This vulnerability allows remote attackers to execute arbitrary code on affected installations of MosaicML Composer. User interaction is required to exploit this vulnerability in that the target must visit a malicious page or open a malicious file.
+
+The specific flaw exists within the parsing of checkpoints. The issue results from the lack of proper validation of user-supplied data, which can result in deserialization of untrusted data. An attacker can leverage this vulnerability to execute code in the context of the current process. Was ZDI-CAN-27990.",0.00294,0.21773,False,,,,,
+CVE-2026-53143,7.8,HIGH,2026-06-25T09:16:31.607,"In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amdkfd: Fix buffer overflow in SDMA queue checkpoint/restore on GFX11
+
+The v11 MQD manager incorrectly assigned the CP-compute variants of
+checkpoint_mqd/restore_mqd for KFD_MQD_TYPE_SDMA queues. These functions
+use sizeof(struct v11_compute_mqd) (2048 bytes) instead of sizeof(struct
+v11_sdma_mqd) (512 bytes), causing a 1536-byte overflow.
+
+During CRIU checkpoint of an SDMA queue on Navi3x:
+- checkpoint_mqd() reads 2048 bytes from a 512-byte SDMA MQD buffer,
+  leaking 1536 bytes of adjacent GTT memory to userspace
+
+During CRIU restore:
+- restore_mqd() writes 2048 bytes into a 512-byte SDMA MQD buffer,
+  corrupting 1536 bytes of adjacent GTT memory (often the ring buffer
+  or neighboring MQDs)
+
+This is a copy-paste regression unique to v11. All other ASIC backends
+(cik, vi, v9, v10, v12) correctly use the SDMA-specific variants.
+
+Add checkpoint_mqd_sdma() and restore_mqd_sdma() functions that properly
+handle the smaller v11_sdma_mqd structure, matching the pattern used in
+other MQD managers.
+
+(cherry picked from commit 6fa41db7ffdec97d62433adf03b7b9b759af8c2c)",0.00143,0.04031,False,,,,,
+CVE-2026-13493,3.1,LOW,2026-06-28T13:16:51.837,A flaw has been found in AIDC-AI ComfyUI-Copilot up to 2.0.28. This issue affects some unknown processing of the file backend/controller/conversation_api.py of the component Workflow Checkpoint Restore Handler. Executing a manipulation can lead to improper control of resource identifiers. The attack may be performed from remote. A high complexity level is associated with this attack. The exploitability is assessed as difficult. The exploit has been published and may be used. The pull request to fix this issue awaits acceptance.,0.00232,0.14122,False,,,,,
+CVE-2026-50195,9.9,CRITICAL,2026-07-01T19:16:53.333,"containerd is an open-source container runtime. Versions prior to 2.3.2, 2.2.5 and 2.1.9 contain a vulnerability in the CRI checkpoint import process where it fails to validate the image references specified within a checkpoint image's configuration. An attacker with permissions to create pods can use a crafted checkpoint image to force containerd to pull a malicious image and assign it an arbitrary local tag, thereby poisoning the node's local image cache. Subsequently, if other pods on the same node attempt to use the poisoned tag with an IfNotPresent (or Never) pull policy, they will unknowingly execute the attacker's malicious image instead of the legitimate one. This can lead to a compromise of the affected pods, allowing the attacker to execute arbitrary code under the victim pod's identity. This issue has been fixed in versions 2.3.2, 2.2.5 and 2.1.9.",0.00332,0.2601,False,,,,,
+CVE-2026-53489,6.5,MEDIUM,2026-07-01T19:16:54.383,"containerd is an open-source container runtime. Versions prior to 2.3.2, 2.2.5 and 2.1.9 contain a bug where the CRI plugin restores container.log from a checkpoint image without validating a symlinked path. This could result in reading an arbitrary file on the host via kubectl logs. This issue has been fixed in versions 2.3.2, 2.2.5 and 2.1.9.",0.00186,0.08483,False,,,,,
+CVE-2026-53492,9.6,CRITICAL,2026-07-01T19:16:54.510,"containerd is an open-source container runtime. In Versions prior to 2.3.2, 2.2.5 and 2.1.9, the CRI implementation improperly trusts Container Device Interface (CDI) annotations found within untrusted checkpoint image metadata during container restoration. When restoring a container from a checkpoint, containerd preserves CDI-related annotations from the checkpoint archive rather than relying solely on the pod's create-time specification. This allows a user with pod creation permissions to bypass standard Kubernetes resource allocation and device plugin enforcement, injecting arbitrary CDI edits (such as device nodes and host mounts) into the restored container. Successful exploitation requires that the node has CDI enabled and contains a matching host CDI specification for the requested device; environments where CDI is disabled or lacking sensitive device specifications are not affected. This issue has been fixed in versions 2.3.2, 2.2.5 and 2.1.9.",0.00347,0.27613,False,,,,,
+CVE-2026-10659,4.7,MEDIUM,2026-07-07T13:16:29.043,"The Dhara flash translation layer disk driver (drivers/disk/ftl_dhara.c) implemented the dhara_nand_ callbacks so that, on a flash error, the error code was written unconditionally through the caller-supplied dhara_error_t err pointer (e.g. *err = DHARA_E_ECC in dhara_nand_read, and similar in dhara_nand_erase/prog/copy).
+
+The upstream Dhara library calls these callbacks with err == NULL along its journal-resume binary search: find_last_checkblock() invokes find_checkblock(j, mid, &found, NULL), which forwards the NULL pointer into dhara_nand_read(). This path runs during disk_ftl_access_init() -> dhara_map_resume() whenever the FTL disk is mounted/initialised.
+
+If a flash read error (uncorrectable ECC, bad block, controller error) occurs on one of the probed checkpoint pages, the driver dereferences and writes to NULL, faulting the kernel (denial of service). The trigger is conditioned on the NAND medium content/health, which can be influenced by media wear, induced faults, or a corrupted/crafted on-flash image.
+
+The fix routes all error assignments through the library's NULL-safe dhara_set_error() helper. Affects Zephyr v4.4.0, where the driver was introduced.",0.00134,0.0332,False,,,,,
+CVE-2026-15531,5.3,MEDIUM,2026-07-13T06:16:27.217,"A vulnerability has been found in yashbhalgat HashNeRF-pytorch up to 82885e698295982504eb6a26d060a6b2473e3706. Affected by this issue is the function torch.load of the file run_nerf.py of the component Checkpoint File Handler. The manipulation of the argument ckpt_path leads to deserialization. The attack must be carried out locally. The exploit has been disclosed to the public and may be used. This product uses a rolling release model to deliver continuous updates. As a result, specific version information for affected or updated releases is not available. The pull request to fix this issue awaits acceptance.",0.00121,0.0225,False,,,,,
+CVE-2026-58659,7.8,HIGH,2026-07-15T18:16:48.743,"PyTorch Lightning through 2.6.5, fixed in commit d710d68, contains a remote code execution vulnerability in the _load_state function that imports and executes attacker-controlled module names from checkpoint _instantiator hyperparameters. Attackers can craft malicious checkpoint files that bypass weights_only=True protections to execute arbitrary code when LightningModule.load_from_checkpoint is called.",0.00326,0.25276,False,,,,,
+CVE-2026-53368,7.1,HIGH,2026-07-19T09:17:01.903,"In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: fix fsck inconsistency caused by incorrect nat_entry flag usage
+
+f2fs_need_dentry_mark() reads nat_entry flags without mutual exclusion
+with the checkpoint path, which can result in an incorrect inode block
+marking state. The scenario is as follows:
+
+create & write & fsync 'file A'                 write checkpoint
+- f2fs_do_sync_file // inline inode
+ - f2fs_write_inode // inode folio is dirty
+                                                - f2fs_write_checkpoint
+                                                 - f2fs_flush_merged_writes
+                                                 - f2fs_sync_node_pages
+ - f2fs_fsync_node_pages // no dirty node
+ - f2fs_need_inode_block_update // return true
+ - f2fs_fsync_node_pages // inode dirtied
+  - f2fs_need_dentry_mark //return true
+                                                 - f2fs_flush_nat_entries
+                                                - f2fs_write_checkpoint end
+  - __write_node_folio // inode with DENT_BIT_SHIFT set
+  SPO, ""fsck --dry-run"" find inode has already checkpointed but still
+  with DENT_BIT_SHIFT set
+
+The state observed by f2fs_need_dentry_mark() can differ from the state
+observed in __write_node_folio() after acquiring sbi->node_write. The
+root cause is that the semantics of IS_CHECKPOINTED and
+HAS_FSYNCED_INODE are only guaranteed after the checkpoint write has
+fully completed.
+
+This patch moves set_dentry_mark() into __write_node_folio() and
+protects it with the sbi->node_write lock.",0.00116,0.01874,False,,,,,
+CVE-2026-63818,8.4,HIGH,2026-07-19T12:16:54.873,"In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: validate orphan inode entry count
+
+f2fs_recover_orphan_inodes() trusts the orphan block entry_count when
+replaying orphan inodes from the checkpoint pack. A corrupted entry_count
+larger than F2FS_ORPHANS_PER_BLOCK makes the recovery loop read past the
+ino[] array and interpret footer or following data as inode numbers.
+
+On a crafted image, mounting an unpatched kernel can drive orphan recovery
+into f2fs_bug_on() and panic the kernel. Validate entry_count before
+consuming entries so corrupted checkpoint data fails the mount with
+-EFSCORRUPTED and requests fsck instead.
+
+Set ERROR_INCONSISTENT_ORPHAN as well, so the corruption reason can be
+recorded in the superblock s_errors[] field. This gives fsck a persistent
+hint even though mount-time orphan recovery failure may leave no chance to
+persist SBI_NEED_FSCK through a checkpoint.",0.0014,0.03795,False,,,,,
+CVE-2026-61609,7.5,HIGH,2026-07-28T16:19:28.693,"Pterodactyl is a free, open-source game server management panel. From 1.7.0 until 1.13.0, the authentication rate limiter defined in RouteServiceProvider::configureRateLimiting() applied a single global bucket to the login and two-factor checkpoint endpoints instead of keying by IP or account: the fall-through Limit::perMinute(10) covering POST /auth/login and POST /auth/login/checkpoint omitted ->by(), so Laravel derived a constant cache key (md5('authentication')) shared by every request. An unauthenticated attacker sending roughly ten requests per minute from a single IP, most cheaply against the checkpoint endpoint (which has no reCAPTCHA), exhausts the shared counter and causes HTTP 429 for every user attempting to log in or complete two-factor authentication, a panel-wide authentication denial of service that also locks out administrators. This issue is fixed in version 1.13.0.",0.00394,0.324,False,,,,,
+CVE-2026-18107,7.8,HIGH,2026-07-28T19:17:32.420,"A flaw was found in CRIU's handling of restartable sequences (rseq) during checkpoint/restore. A malicious process inside a container can register an rseq critical section that hijacks CRIU's parasite code injection during checkpoint, allowing it to spoof the process credentials saved in the checkpoint image. On restore, the container process gains elevated capabilities and zeroed UIDs/GIDs.
+
+The practical impact on Red Hat products is limited by several factors: checkpoint/restore requires root privileges (podman) or cluster-admin RBAC (OpenShift) to trigger and cannot be initiated from within the container itself; on OpenShift prior to 4.17 the feature required explicit opt-in, and on 4.17+ the kubelet checkpoint API RBAC is not configured by default; OpenShift enforces user namespaces by default for regular workloads (hostUsers is gated behind admin-only SCCs), which makes the spoofed capabilities namespace-scoped and ineffective for privilege escalation; SELinux type enforcement (container_t) blocks privilege transitions independently of capabilities; seccomp filters persist through checkpoint/restore and cannot be corrupted via the parasite; and kernel mount namespace ownership checks on RHEL 9/10 kernels prevent mount-based container escape even with spoofed capabilities.",0.00113,0.01632,False,,,,,
+CVE-2026-48121,6.7,MEDIUM,2026-08-04T17:16:55.267,"@langchain/langgraph-checkpoint-mongodb provides a LangGraph.js CheckpointSaver implementation that uses MongoDB for storage. Versions 1.3.0 and below are vulnerable to NoSQL injection: checkpoint identifiers (thread_id, checkpoint_ns, checkpoint_id) from config.configurable are passed into MongoDB find() queries in MongoDBSaver.getTuple() without type enforcement. If an attacker supplies an object payload (such as MongoDB operators $gt or $ne) instead of a string, it can be interpreted as a query operator, bypassing thread scoping and leaking checkpoints, including pending writes, across tenants. Applications are at risk if they forward untrusted input into config.configurable without coercing it to strings or validating it against a schema, particularly in multi-tenant or user-isolated setups. Apps that only use server-issued, string-typed identifiers with schema validation rejecting non-string fields are not affected. This issue has been fixed in version 1.3.1.",0.00229,0.13839,False,,,,,
+CVE-2026-71433,5.3,MEDIUM,2026-08-06T22:18:30.107,"LangGraph Checkpoint Postgres and SQLite Checkpoint are the Postgres and SQLite implementations of LangGraph's checkpoint saver. Prior to 3.1.1, the langgraph-checkpoint-postgres and langgraph-checkpoint-sqlite packages persisted hierarchical namespaces as a dot joined string and scoped reads by matching that string as a simple prefix pattern, so a read scoped to one namespace could also match a sibling namespace whose flattened form shares the same leading characters, or a namespace label containing unescaped pattern metacharacters, allowing an authenticated caller to retrieve stored items belonging to another tenant or user through an ordinary scoped search or list namespaces call, with no crafted input required. This issue is fixed in versions 3.1.1 of langgraph-checkpoint-postgres and langgraph-checkpoint-sqlite.",0.00225,0.13306,False,,,,,
+CVE-2026-69112,7.1,HIGH,2026-08-10T20:17:31.853,"Hugging Face Accelerate through 1.14.0 contains a path traversal vulnerability in load_checkpoint_in_model and load_checkpoint_and_dispatch functions that fail to sanitize weight_map entries from sharded checkpoint indexes. Attackers can supply relative paths with ../ sequences or absolute paths to read arbitrary files, or point shard entries at named pipes to cause indefinite blocking and denial of service.",0.00148,0.04501,False,,,,,
+CVE-2026-68447,,,2026-08-12T01:17:07.587,"In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amdkfd: clamp v9 CRIU control stack checkpoint copy to BO size
+
+CRIU checkpoint copies the MQD control stack using cp_hqd_cntl_stack_size
+from hardware without bounding it to the allocated BO region. If the HW
+field is larger than the queue's control stack allocation, memcpy reads
+past the BO into adjacent GTT memory and can leak kernel data to userspace.
+
+Store the page-aligned control stack BO size in mqd_manager and clamp
+checkpoint copies and reported checkpoint sizes to
+min(cp_hqd_cntl_stack_size, mm->ctl_stack_size). Apply the same bound
+for multi-XCC v9.4.3 checkpoint layout.
+
+(cherry picked from commit 6c2abd0ec09e86c6323010673766f76050e28aa3)",0.00145,0.04274,False,,,,,
+CVE-2026-73325,7.8,HIGH,2026-08-12T16:17:23.000,"Fujitsu Research's OneCompression library 1.2.0 contains an unsafe deserialization vulnerability that allows attackers to execute arbitrary code by supplying a crafted model.pt checkpoint file, as QuantizedModelLoader.load_quantized_model_pt() unconditionally calls torch.load with weights_only=False, invoking Python's pickle machinery during deserialization. Attackers can embed malicious __reduce__ methods in a crafted model checkpoint to execute arbitrary Python code, including system commands, when the library loads the file from a caller-selected model directory.",0.00258,0.1753,False,,,,,

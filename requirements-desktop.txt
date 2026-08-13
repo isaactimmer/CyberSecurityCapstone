@@ -1,0 +1,11 @@
+# Extra, build-only dependencies for the packaged desktop app.
+# Install alongside the normal requirements.txt:
+#     pip install -r requirements.txt -r requirements-desktop.txt
+#
+# pywebview: the native window the packaged app opens (wraps the OS's own
+#            web view — WebView2/Edge on Windows, which ships with Windows
+#            10/11, so end users don't need to install anything extra).
+# pyinstaller: builds the .exe from scryxen.spec. Not needed at app runtime,
+#              only on the machine doing the build.
+pywebview
+pyinstaller

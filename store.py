@@ -33,7 +33,9 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
-DEFAULT_DB_PATH = Path(__file__).parent / "data" / "scryxen.db"
+import runtime_paths
+
+DEFAULT_DB_PATH = runtime_paths.data_dir() / "scryxen.db"
 
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS runs (

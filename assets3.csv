@@ -1,0 +1,23 @@
+asset_id,name,criticality,crown_jewel,connections,vendor
+payments-db,Payments Database,Critical,true,order-service|ecommerce-web|auth-service|analytics-db|catalog-db,mariadb
+order-service,Order Service,Critical,false,payments-db|message-queue|session-cache|catalog-db,redis
+ecommerce-web,Storefront Web App,Critical,false,payments-db|customer-portal|cms|web-proxy|catalog-db,magento
+auth-service,Authentication Service,Critical,false,payments-db|customer-portal|bastion,keycloak
+catalog-db,Product Catalog DB,High,false,payments-db|order-service|ecommerce-web,mongodb
+analytics-db,Analytics Warehouse,Medium,false,payments-db|monitoring,mysql
+customer-portal,Customer Portal,High,false,ecommerce-web|auth-service|learning-portal,drupal
+cms,Marketing CMS,Medium,false,ecommerce-web|learning-portal,joomla
+learning-portal,Partner Learning Portal,Low,false,customer-portal|cms,moodle
+message-queue,Message Queue,High,false,order-service|monitoring,rabbitmq
+session-cache,Session Cache,Medium,false,order-service,hazelcast
+monitoring,Monitoring Stack,High,false,analytics-db|message-queue|alerting|virtualization-host,zabbix
+alerting,Alerting Service,Low,false,monitoring,nagios
+web-proxy,Outbound Web Proxy,Medium,false,ecommerce-web|perimeter-fw,squid
+perimeter-fw,Perimeter Firewall,High,false,web-proxy|firewall,watchguard
+firewall,Core Firewall,High,false,perimeter-fw|vpn-gateway|endpoint-protection,sonicwall
+vpn-gateway,VPN Gateway,Medium,false,firewall|bastion,openvpn
+endpoint-protection,Endpoint Protection,Medium,false,firewall,sophos
+virtualization-host,Virtualization Host,High,false,monitoring|vdi-broker,vmware
+vdi-broker,VDI Broker,High,false,virtualization-host|it-asset-mgmt,citrix
+bastion,Bastion Host,Medium,false,auth-service|vpn-gateway,openssh
+it-asset-mgmt,IT Asset Management,Low,false,vdi-broker,glpi

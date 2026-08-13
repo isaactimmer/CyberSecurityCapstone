@@ -4,3 +4,7 @@ __pycache__/
 .venv/
 merged_vulnerabilities.csv
 data/scryxen.db
+
+# PyInstaller desktop build artifacts (rebuilt from scryxen.spec; never committed)
+build/
+dist/
