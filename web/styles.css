@@ -10,13 +10,13 @@
   --mono:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Menlo,Consolas,monospace;
 }
 :root[data-theme="dark"]{
-  --bg:#0C1317; --panel:#141E24; --panel-2:#18242B; --panel-3:#1E2C34; --line:#243139; --line-2:#31424C;
-  --ink:#E7EFF2; --ink-2:#9FB1BC; --ink-3:#6B7D88;
-  --accent:#25C4B3; --accent-ink:#7FEDDF; --accent-wash:#123230;
-  --crit:#E85D57; --high:#E1A03B; --med:#4E9FE0; --low:#93A2AE; --good:#1FB57F;
-  --crit-wash:#2A1917; --high-wash:#26200F; --med-wash:#111F2C; --low-wash:#1A242B; --good-wash:#0F2620;
+  --bg:#0E0B18; --panel:#181328; --panel-2:#1D1832; --panel-3:#251E3D; --line:#2C2547; --line-2:#3B3159;
+  --ink:#ECE9F5; --ink-2:#ABA3C4; --ink-3:#736C8C;
+  --accent:#8A6BFF; --accent-ink:#B9A6FF; --accent-wash:#221A3D;
+  --crit:#E85D57; --high:#E1A03B; --med:#4E9FE0; --low:#9A93B4; --good:#1FB57F;
+  --crit-wash:#2A1917; --high-wash:#26200F; --med-wash:#111F2C; --low-wash:#201B30; --good-wash:#0F2620;
   --kev:#FF6B82; --kev-wash:#2A1519;
-  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.55); --on-accent:#04201D;
+  --shadow:0 1px 2px rgba(0,0,0,.45), 0 10px 30px -14px rgba(0,0,0,.6); --on-accent:#FFFFFF;
 }
 *{box-sizing:border-box}
 body{margin:0; background:var(--bg); color:var(--ink); line-height:1.5; -webkit-font-smoothing:antialiased;
