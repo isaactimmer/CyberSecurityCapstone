@@ -331,4 +331,10 @@ tr.formrow td{background:var(--panel-2); padding:0}
 .footnote{max-width:1180px; margin:24px auto 0; padding:0 22px; color:var(--ink-3); font-size:11.5px; line-height:1.6}
 .footnote code{font-family:var(--mono); color:var(--ink-2)}
 .tip{position:fixed; pointer-events:none; background:var(--ink); color:var(--bg); font-size:11px; padding:6px 9px; border-radius:7px;
-  opacity:0; transition:opacity .1s; z-index:60; font-family:var(--mono); white-space:nowrap; box-shadow:var(--shadow)}
+  opacity:0; transition:opacity .1s; z-index:60; font-family:var(--mono); max-width:250px; white-space:normal; line-height:1.5; box-shadow:var(--shadow)}
+.info{display:inline-flex; align-items:center; justify-content:center; width:14px; height:14px; border-radius:50%;
+  border:1.3px solid var(--ink-3); color:var(--ink-3); font-family:var(--mono); font-size:9px; font-style:normal; font-weight:700;
+  line-height:1; cursor:help; vertical-align:middle; margin-left:6px; user-select:none; flex:0 0 auto; transition:border-color .12s, color .12s}
+.info:hover, .info:focus-visible{border-color:var(--accent); color:var(--accent)}
+nav.tabs button .info{margin-left:8px}
+.controls h3 .info{margin-left:5px}

@@ -80,10 +80,10 @@
   </div>
 
   <nav class="tabs" id="tabs">
-    <button data-tab="dash" class="active">Dashboard</button>
-    <button data-tab="map">Attack surface <span class="pip">graph</span></button>
-    <button data-tab="engine">Risk engine <span class="pip">weights</span></button>
-    <button data-tab="plan">Plan <span class="pip">capacity</span></button>
+    <button data-tab="dash" class="active">Dashboard<span class="info" tabindex="0" aria-label="Dashboard: at-a-glance view of the plan — KPIs, the optimizer's top picks, critical-asset coverage, and where the fixes land." data-tip="At-a-glance view of the plan: KPIs, the optimizer's top picks, critical-asset coverage, and where the fixes land.">i</span></button>
+    <button data-tab="map">Attack surface <span class="pip">graph</span><span class="info" tabindex="0" aria-label="Attack surface: your asset graph laid out by connection. Distance from the crown jewel sets each system's importance tier." data-tip="Your asset graph, laid out by connection. Distance from the crown jewel sets each system's importance tier.">i</span></button>
+    <button data-tab="engine">Risk engine <span class="pip">weights</span><span class="info" tabindex="0" aria-label="Risk engine: the ranked findings table. Tune the scoring weights or override any score by hand — the whole console re-ranks." data-tip="The ranked findings table. Tune the scoring weights or override any score by hand — the whole console re-ranks.">i</span></button>
+    <button data-tab="plan">Plan <span class="pip">capacity</span><span class="info" tabindex="0" aria-label="Plan: two ways to spend the same hours — severity-first vs. capacity-optimized — packed into your real team pools." data-tip="Two ways to spend the same hours — severity-first vs. capacity-optimized — packed into your real team pools.">i</span></button>
   </nav>
 
   <!-- DASHBOARD -->
@@ -162,14 +162,14 @@
     <p class="sec-note">Two ways to spend the same hours. <b>Severity-first</b> fixes by CVSS order; <b>capacity-optimized</b> packs the most risk removed per hour into your real pools. Move a capacity slider and both re-pack. <b>Click a finding</b> for its breakdown.</p>
     <div class="plangrid">
       <div class="card controls" style="position:sticky;top:70px">
-        <h3>Team capacity</h3>
-        <div class="slider"><div class="row"><span>Patching</span><span class="vv"><b id="pv_pat">40</b> hrs</span></div>
+        <h3>Team capacity<span class="info" tabindex="0" aria-label="Team capacity: how many hours (or change slots) each team has this cycle. The optimizer packs fixes to fit these limits." data-tip="How many hours (or change slots) each team has this cycle. The optimizer packs fixes to fit these limits.">i</span></h3>
+        <div class="slider"><div class="row"><span>Patching<span class="info" tabindex="0" aria-label="Patching: effort budget for routine patch and update work, in hours." data-tip="Effort budget for routine patch and update work, in hours.">i</span></span><span class="vv"><b id="pv_pat">40</b> hrs</span></div>
           <input type="range" min="0" max="160" value="40" id="cap_pat" oninput="setCap('patching',this.value)">
           <div class="capmax"><label for="cm_pat" title="Highest value this slider allows. Blank tracks the entered budget.">max</label><input id="cm_pat" type="number" min="0" oninput="setCapMax('patching',this.value)"></div></div>
-        <div class="slider"><div class="row"><span>AppSec</span><span class="vv"><b id="pv_app">16</b> hrs</span></div>
+        <div class="slider"><div class="row"><span>AppSec<span class="info" tabindex="0" aria-label="AppSec: effort budget for application-security fixes — code, config, and dependency work — in hours." data-tip="Effort budget for application-security fixes (code, config, dependency work), in hours.">i</span></span><span class="vv"><b id="pv_app">16</b> hrs</span></div>
           <input type="range" min="0" max="80" value="16" id="cap_app" oninput="setCap('appsec',this.value)">
           <div class="capmax"><label for="cm_app" title="Highest value this slider allows. Blank tracks the entered budget.">max</label><input id="cm_app" type="number" min="0" oninput="setCapMax('appsec',this.value)"></div></div>
-        <div class="slider"><div class="row"><span>Change-window</span><span class="vv"><b id="pv_cw">8</b> slots</span></div>
+        <div class="slider"><div class="row"><span>Change-window<span class="info" tabindex="0" aria-label="Change-window: number of scheduled maintenance slots for higher-risk changes that need a controlled window." data-tip="Number of scheduled maintenance slots for higher-risk changes that need a controlled window.">i</span></span><span class="vv"><b id="pv_cw">8</b> slots</span></div>
           <input type="range" min="0" max="30" value="8" id="cap_cw" oninput="setCap('change_window',this.value)">
           <div class="capmax"><label for="cm_cw" title="Highest value this slider allows. Blank tracks the entered budget.">max</label><input id="cm_cw" type="number" min="0" oninput="setCapMax('change_window',this.value)"></div></div>
         <h3>Pool utilisation</h3>

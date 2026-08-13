@@ -384,6 +384,14 @@ function selectAsset(id) {
 function showTip(e, t) { const el = $("tip"); el.textContent = t; el.style.opacity = 1; el.style.left = (e.clientX + 12) + "px"; el.style.top = (e.clientY + 12) + "px"; }
 function hideTip() { $("tip").style.opacity = 0; }
 
+// Circled-ⓘ help tooltips: any [data-tip] element surfaces its copy through the
+// shared tip. Hover follows the cursor; keyboard focus anchors it to the icon.
+document.addEventListener("mouseover", e => { const el = e.target.closest("[data-tip]"); if (el) showTip(e, el.dataset.tip); });
+document.addEventListener("mousemove", e => { const el = e.target.closest("[data-tip]"); if (el) showTip(e, el.dataset.tip); });
+document.addEventListener("mouseout", e => { const el = e.target.closest("[data-tip]"); if (el && !el.contains(e.relatedTarget)) hideTip(); });
+document.addEventListener("focusin", e => { const el = e.target.closest("[data-tip]"); if (el) { const r = el.getBoundingClientRect(); showTip({ clientX: r.right - 12, clientY: r.bottom }, el.dataset.tip); } });
+document.addEventListener("focusout", e => { if (e.target.closest("[data-tip]")) hideTip(); });
+
 // ---------------- finding modal ----------------
 // Remediation callout. CISA-sourced actions read as authoritative (accent, badge
 // "CISA KEV"); derived guidance is muted and labelled as such so a viewer never
@@ -569,7 +577,7 @@ function toggleTheme() {
   if (BOARD) renderAll();
 }
 
-$("tabs").addEventListener("click", e => { const b = e.target.closest("button"); if (b) gotoTab(b.dataset.tab); });
+$("tabs").addEventListener("click", e => { if (e.target.closest(".info")) return; const b = e.target.closest("button"); if (b) gotoTab(b.dataset.tab); });
 ["search", "ftier", "fkev"].forEach(id => $(id).addEventListener("input", () => { if (BOARD) renderTable(); }));
 
 init();
