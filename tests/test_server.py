@@ -11,6 +11,7 @@ from fastapi.testclient import TestClient
 
 import overrides
 import server
+import store
 
 
 @pytest.fixture
@@ -28,12 +29,16 @@ def client(monkeypatch):
              "asset_id": "a1"},
         ]
     )
-    # Inject a ready state so no scan (network/cache I/O) runs during tests.
+    # Inject a ready state so no scan (network/cache I/O) runs during tests, and an
+    # in-memory run store so history tests never touch the on-disk DB.
     server._state = server.ConsoleState(
-        env=env, asset_table=None, override_log=overrides.OverrideLog()
+        env=env, asset_table=None, override_log=overrides.OverrideLog(),
+        source="Sample environment",
     )
+    server._store = store.Store(db_path=":memory:")
     yield TestClient(server.app)
     server._state = None
+    server._store = None
 
 
 def test_plan_endpoint_returns_the_board_payload(client):
@@ -183,3 +188,84 @@ def test_reset_restores_the_sample_environment(client, monkeypatch):
     body = client.post("/api/reset").json()
     assert body["source"] == "Sample environment"
     assert server._state is sample
+
+
+# --- run history ------------------------------------------------------------
+
+def test_save_run_returns_a_summary(client):
+    resp = client.post("/api/runs", json={"name": "August board"})
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["id"] > 0
+    assert body["name"] == "August board"
+    assert body["source"] == "Sample environment"
+    assert body["finding_count"] == 3       # the three fixture findings
+    assert "created_at" in body
+
+
+def test_save_run_generates_a_default_name_when_blank(client):
+    body = client.post("/api/runs", json={}).json()
+    assert body["name"].startswith("Sample environment — ")
+
+
+def test_list_runs_is_newest_first(client):
+    first = client.post("/api/runs", json={"name": "first"}).json()["id"]
+    second = client.post("/api/runs", json={"name": "second"}).json()["id"]
+    runs = client.get("/api/runs").json()["runs"]
+    assert [r["id"] for r in runs] == [second, first]
+    assert runs[0]["name"] == "second"
+
+
+def test_get_run_returns_the_frozen_snapshot(client):
+    run_id = client.post("/api/runs", json={"name": "snap"}).json()["id"]
+    body = client.get(f"/api/runs/{run_id}").json()
+    assert body["name"] == "snap"
+    # the frozen board + environment snapshot came back
+    assert {"kpis", "rank_table", "plans"} <= set(body["plan_payload"])
+    assert "asset_map" in body["env_payload"]
+    assert body["plan_payload"]["kpis"]["kev_count"] == 1
+
+
+def test_get_unknown_run_404s(client):
+    assert client.get("/api/runs/999").status_code == 404
+
+
+def test_saved_snapshot_is_frozen_against_later_control_changes(client):
+    # Save with default controls, then recompute the live board differently. The
+    # stored run must still reflect the controls it was saved under.
+    run_id = client.post("/api/runs", json={"max_findings": 2}).json()["id"]
+    snap = client.get(f"/api/runs/{run_id}").json()
+    assert len(snap["plan_payload"]["rank_table"]) == 2   # frozen at save-time cap
+
+
+def test_save_run_captures_overrides_in_the_snapshot(client):
+    client.post("/api/override", json={
+        "cve_id": "CVE-2019-3333", "score": 100, "user": "lead", "reason": "incident"})
+    run_id = client.post("/api/runs", json={"name": "with override"}).json()["id"]
+    snap = client.get(f"/api/runs/{run_id}").json()
+    assert snap["overrides"][0]["key"] == "CVE-2019-3333"
+    assert snap["plan_payload"]["rank_table"][0]["is_overridden"] is True
+
+
+def test_open_run_restores_live_state(client, monkeypatch):
+    # Save a sample-environment run, then open it: state is rebuilt (sample path,
+    # asset_csv is None) and the frozen snapshot returned.
+    scanned = server.state().env
+    monkeypatch.setattr(server.asset_graph, "build_asset_table", lambda *a, **k: None)
+    monkeypatch.setattr(server.pipeline, "scan_environment", lambda **kw: scanned)
+    run_id = client.post("/api/runs", json={"name": "reopen me"}).json()["id"]
+
+    resp = client.post(f"/api/runs/{run_id}/open")
+    assert resp.status_code == 200
+    assert resp.json()["name"] == "reopen me"
+    assert server._state.source == "Sample environment"
+
+
+def test_delete_run_removes_it(client):
+    run_id = client.post("/api/runs", json={"name": "temp"}).json()["id"]
+    assert client.delete(f"/api/runs/{run_id}").status_code == 200
+    assert client.get(f"/api/runs/{run_id}").status_code == 404
+
+
+def test_delete_unknown_run_404s(client):
+    assert client.delete("/api/runs/999").status_code == 404

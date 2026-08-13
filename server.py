@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import io
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import Literal
 
@@ -39,6 +40,7 @@ import dashboard
 import overrides
 import pipeline
 import scoring
+import store
 
 WEB_DIR = Path(__file__).parent / "web"
 
@@ -55,6 +57,8 @@ class ConsoleState:
     asset_table: pd.DataFrame | None
     override_log: overrides.OverrideLog
     source: str = "Sample environment"
+    asset_csv: bytes | None = None   # raw uploaded CSV, kept as the input of record
+    #                                  for history (None = the sample environment)
 
 
 def load_state() -> ConsoleState:
@@ -75,6 +79,18 @@ def state() -> ConsoleState:
     if _state is None:
         _state = load_state()
     return _state
+
+
+_store: store.Store | None = None
+
+
+def run_store() -> store.Store:
+    """The run-history store, opened on first use. Tests may pre-set `_store` to an
+    in-memory store to avoid touching the on-disk DB."""
+    global _store
+    if _store is None:
+        _store = store.Store()
+    return _store
 
 
 # --- request models ---------------------------------------------------------
@@ -247,19 +263,26 @@ def upload(file: UploadFile = File(...)) -> dict:
     env = pipeline.scan_environment(asset_table=asset_table, use_cache=True)
     source = f"Uploaded: {file.filename}" if file.filename else "Uploaded assets"
     _state = ConsoleState(env=env, asset_table=asset_table,
-                          override_log=overrides.OverrideLog(), source=source)
+                          override_log=overrides.OverrideLog(), source=source,
+                          asset_csv=raw)
     return _environment_payload(_state)
 
 
-@app.post("/api/plan")
-def recompute(controls: Controls) -> dict:
-    """Recompute the whole board for the current controls — the hot path."""
-    st = state()
+def _plan_payload(controls: Controls, st: ConsoleState) -> dict:
+    """The computed board for `controls` against state `st` — shared by the live
+    `/api/plan` hot path and the history-save endpoint so both freeze the same
+    shape."""
     return dashboard.plan_payload(
         _env(controls), weights=_weights(controls), pools=_pools(controls),
         asset_table=st.asset_table, override_log=st.override_log,
         scope=_scope(controls), display_limit=_display_limit(controls),
     )
+
+
+@app.post("/api/plan")
+def recompute(controls: Controls) -> dict:
+    """Recompute the whole board for the current controls — the hot path."""
+    return _plan_payload(controls, state())
 
 
 @app.post("/api/asset/{asset_id}")
@@ -330,6 +353,115 @@ def clear_override(req: OverrideRequest) -> dict:
                                   asset_table=st.asset_table,
                                   override_log=st.override_log,
                                   scope=_scope(req), display_limit=_display_limit(req))
+
+
+# --- run history ------------------------------------------------------------
+
+class SaveRunRequest(Controls):
+    """Save the current environment + these controls as a history entry. `name`
+    is the user's label; blank falls back to a generated default."""
+
+    name: str | None = None
+
+
+def _default_run_name(st: ConsoleState) -> str:
+    """A friendly fallback label when the user doesn't name the run, e.g.
+    'Uploaded: assets.csv — 2026-08-13 14:05'."""
+    stamp = datetime.now().strftime("%Y-%m-%d %H:%M")
+    return f"{st.source} — {stamp}"
+
+
+def _restore_state(rec: dict) -> ConsoleState:
+    """Rebuild a live ConsoleState from a stored run: re-scan its saved asset CSV
+    (or the sample environment) and replay its override audit log, so reopening a
+    run puts the console back into that working state — live controls included."""
+    if rec["asset_csv"] is not None:
+        asset_table = dashboard.load_asset_table(io.BytesIO(rec["asset_csv"]))
+    else:
+        asset_table = asset_graph.build_asset_table(asset_graph.DEFAULT_ASSET_CSV)
+    env = pipeline.scan_environment(asset_table=asset_table, use_cache=True)
+
+    log = overrides.OverrideLog()
+    for e in rec["overrides"]:
+        log.record(e["key"], e["computed_score"], e["override_score"],
+                   e["user"], e["reason"], e["timestamp"])
+
+    return ConsoleState(env=env, asset_table=asset_table, override_log=log,
+                        source=rec["source"], asset_csv=rec["asset_csv"])
+
+
+def _run_view(rec: dict) -> dict:
+    """A stored run shaped for the API — the frozen snapshot the console repaints,
+    minus the raw CSV bytes (an internal input, not JSON)."""
+    return {
+        "id": rec["id"],
+        "created_at": rec["created_at"],
+        "name": rec["name"],
+        "source": rec["source"],
+        "finding_count": rec["finding_count"],
+        "controls": rec["controls"],
+        "env_payload": rec["env_payload"],
+        "plan_payload": rec["plan_payload"],
+        "overrides": rec["overrides"],
+    }
+
+
+@app.post("/api/runs")
+def save_run(req: SaveRunRequest) -> dict:
+    """Save the current environment and these controls as a history entry — the
+    inputs (uploaded CSV + controls) plus a frozen snapshot of the environment and
+    computed board. Returns the new run's summary."""
+    st = state()
+    controls = Controls(**req.model_dump(exclude={"name"}))
+    name = req.name.strip() if req.name and req.name.strip() else _default_run_name(st)
+    run_id = run_store().save_run(
+        name=name,
+        source=st.source,
+        finding_count=int(len(st.env)),
+        controls=req.model_dump(exclude={"name"}),
+        env_payload=_environment_payload(st),
+        plan_payload=_plan_payload(controls, st),
+        asset_csv=st.asset_csv,
+        overrides=[e.to_dict() for e in st.override_log.history()],
+    )
+    rec = run_store().get_run(run_id)
+    return {"id": rec["id"], "created_at": rec["created_at"], "name": rec["name"],
+            "source": rec["source"], "finding_count": rec["finding_count"]}
+
+
+@app.get("/api/runs")
+def list_runs() -> dict:
+    """The history index, newest first — light rows for the History tab list."""
+    return {"runs": [vars(r) for r in run_store().list_runs()]}
+
+
+@app.get("/api/runs/{run_id}")
+def get_run(run_id: int) -> dict:
+    """One run's frozen snapshot for viewing, without disturbing live state."""
+    rec = run_store().get_run(run_id)
+    if rec is None:
+        raise HTTPException(status_code=404, detail=f"No run {run_id}")
+    return _run_view(rec)
+
+
+@app.post("/api/runs/{run_id}/open")
+def open_run(run_id: int) -> dict:
+    """Reopen a run: restore it as the live console state (so controls work again)
+    and return its frozen snapshot to repaint."""
+    global _state
+    rec = run_store().get_run(run_id)
+    if rec is None:
+        raise HTTPException(status_code=404, detail=f"No run {run_id}")
+    _state = _restore_state(rec)
+    return _run_view(rec)
+
+
+@app.delete("/api/runs/{run_id}")
+def delete_run(run_id: int) -> dict:
+    """Remove a history entry."""
+    if not run_store().delete_run(run_id):
+        raise HTTPException(status_code=404, detail=f"No run {run_id}")
+    return {"deleted": run_id}
 
 
 # Static assets (app.js, styles.css). Mounted last so it never shadows the API.

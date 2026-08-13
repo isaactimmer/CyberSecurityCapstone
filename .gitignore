@@ -3,3 +3,4 @@ __pycache__/
 .env
 .venv/
 merged_vulnerabilities.csv
+data/scryxen.db
