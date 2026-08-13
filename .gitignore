@@ -5,6 +5,7 @@ __pycache__/
 merged_vulnerabilities.csv
 data/scryxen.db
 data/nvd_corpus.db
+data/nvd_feeds/
 
 # PyInstaller desktop build artifacts (rebuilt from scryxen.spec; never committed)
 build/

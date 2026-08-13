@@ -158,6 +158,56 @@ class CorpusStore:
         self._conn.commit()
         return len(payload)
 
+    def update_epss(self, rows: Iterable[dict]) -> int:
+        """Attach EPSS scores to already-loaded CVEs (#59). Each dict is
+        {cve_id, epss_score, epss_percentile}. This UPDATEs the two EPSS columns
+        only, leaving the NVD base and KEV data intact — so ingest order (NVD →
+        EPSS → KEV) doesn't clobber earlier feeds. CVEs not in the corpus are
+        silently skipped (the EPSS feed covers CVEs we may not hold). Returns the
+        number of rows supplied."""
+        payload = [
+            (row.get("epss_score"), row.get("epss_percentile"), row["cve_id"])
+            for row in rows
+        ]
+        if not payload:
+            return 0
+        self._conn.executemany(
+            "UPDATE cves SET epss_score = ?, epss_percentile = ? WHERE cve_id = ?",
+            payload,
+        )
+        self._conn.commit()
+        return len(payload)
+
+    def update_kev(self, rows: Iterable[dict]) -> int:
+        """Flag already-loaded CVEs as KEV-listed and attach CISA's fields (#59).
+        Each dict is {cve_id, kev_date_added, kev_ransomware_use, kev_vuln_name,
+        kev_short_description, kev_required_action}. Sets kev_flag=1 and UPDATEs
+        the kev_* columns only. CVEs not in the corpus are silently skipped.
+        Returns the number of rows supplied."""
+        payload = [
+            (
+                row.get("kev_date_added"),
+                row.get("kev_ransomware_use"),
+                row.get("kev_vuln_name"),
+                row.get("kev_short_description"),
+                row.get("kev_required_action"),
+                row["cve_id"],
+            )
+            for row in rows
+        ]
+        if not payload:
+            return 0
+        self._conn.executemany(
+            """UPDATE cves SET
+                   kev_flag = 1,
+                   kev_date_added = ?, kev_ransomware_use = ?, kev_vuln_name = ?,
+                   kev_short_description = ?, kev_required_action = ?
+               WHERE cve_id = ?""",
+            payload,
+        )
+        self._conn.commit()
+        return len(payload)
+
     def set_meta(self, key: str, value: str) -> None:
         """Upsert one bookkeeping value (e.g. set_meta('nvd', <ISO timestamp>))."""
         self._conn.execute(
