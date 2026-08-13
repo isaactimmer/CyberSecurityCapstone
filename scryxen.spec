@@ -15,9 +15,18 @@ ROOT = Path(SPECPATH)
 # Bundled, read-only resources the app needs at runtime.
 datas = [
     (str(ROOT / "web"), "web"),
-    (str(ROOT / "data" / "cache"), "data/cache"),
     (str(ROOT / "assets.csv"), "."),
 ]
+
+# The full NVD corpus (git-ignored, ~480MB) is bundled read-only and seeded into
+# the writable per-user data dir on first launch (launcher._seed_corpus), so the
+# packaged app scans offline with no in-app ingest step. Guarded on existence so
+# a build without a local corpus still succeeds (it just ships without one — run
+# `python nvd_ingest.py --refresh` to build it before packaging). The retired
+# data/cache CSVs are no longer bundled: the scan reads this corpus now.
+_corpus = ROOT / "data" / "nvd_corpus.db"
+if _corpus.exists():
+    datas.append((str(_corpus), "data"))
 # .env (holding NVD_API_KEY) is bundled into the build by choice, so a packaged
 # copy works with a key out of the box — no per-user setup. TRADE-OFFS you accept
 # by shipping this: (1) the key travels inside any zip you hand out, and (2) every

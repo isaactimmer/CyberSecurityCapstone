@@ -11,8 +11,8 @@ the normal way (`uvicorn server:app`, `python pipeline.py`, the test suite):
 
 - **`runtime_paths.py`** (new) — resolves two kinds of paths correctly both
   from source and from a packaged `.exe`: `resource_dir()` for bundled
-  read-only files (`web/`, `data/cache/`, `assets.csv`), `data_dir()` for a
-  writable per-user folder that survives across launches.
+  read-only files (`web/`, `assets.csv`, and the seed `data/nvd_corpus.db`),
+  `data_dir()` for a writable per-user folder that survives across launches.
 - **`store.py`** — `DEFAULT_DB_PATH` now comes from `runtime_paths.data_dir()`
   instead of `Path(__file__).parent / "data"`. From source this resolves to
   the same `data/scryxen.db` as before. Packaged, it resolves to a per-user
@@ -64,9 +64,15 @@ with Windows 10/11 already, so nothing extra to install there either.
 
 ## Data & offline behavior
 
-- The cache under `data/cache/` (NVD/EPSS/KEV pulls) is bundled in, so the
-  packaged app scores the sample environment fully offline on first launch —
-  same as it does from source today.
+- The full local **NVD corpus** (`data/nvd_corpus.db`, ~480MB — NVD + EPSS +
+  KEV merged at ingest, with the FTS description index) is bundled read-only and
+  copied into the writable per-user data dir on first launch
+  (`launcher._seed_corpus`). So the packaged app scores every scan **fully
+  offline** — no in-app ingest, no network at scan time. First launch spends a
+  few seconds on the one-time copy; every launch after is instant. Rebuild the
+  corpus before packaging with `python nvd_ingest.py --refresh` if it's stale.
+- The old per-vendor `data/cache/*.csv` files are gone (retired in epic #56); the
+  scan reads the corpus now, so they're no longer bundled.
 - If you later add a "refresh data" path that calls out to NVD, an
   `NVD_API_KEY` still needs to reach the process the same way it does now
   (`.env`, loaded via `python-dotenv`) — the spec bundles `.env` in if one

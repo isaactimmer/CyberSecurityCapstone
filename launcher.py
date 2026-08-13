@@ -4,13 +4,14 @@ Scryxen desktop launcher — the packaged entry point (see scryxen.spec).
 Not used for normal development — that's still
 `uvicorn server:app --reload`. This is only what `Scryxen.exe` runs:
 
-  1. anchor the process at the bundled resources (web/, data/cache/,
-     assets.csv) so the modules that read them with relative paths
-     (asset_graph, combine_feeds_with_custom_inputs) find them regardless of
-     where the user launched the exe from
-  2. start the existing FastAPI app (server.py, unchanged) on a background
+  1. anchor the process at the bundled resources (web/, assets.csv) so the
+     modules that read them with relative paths (asset_graph) find them
+     regardless of where the user launched the exe from
+  2. seed the bundled NVD corpus into the writable per-user data dir on first
+     launch, so the app has something to scan without an in-app ingest step
+  3. start the existing FastAPI app (server.py, unchanged) on a background
      thread, on a free localhost port
-  3. open a native app window (pywebview) pointed at it — no browser tab,
+  4. open a native app window (pywebview) pointed at it — no browser tab,
      no address bar
 
 Closing the window shuts the server down and exits.
@@ -37,6 +38,23 @@ import webview  # noqa: E402
 HOST = "127.0.0.1"
 
 
+def _seed_corpus() -> None:
+    """First-run: copy the bundled read-only NVD corpus into the writable per-user
+    data dir, so the packaged app has a corpus to scan without an in-app ingest.
+    The scan opens the corpus at data_dir()/nvd_corpus.db (writable, so the FTS
+    backfill can run); the bundle ships it read-only under resource_dir()/data/.
+
+    Idempotent, and a no-op from source: there data_dir() *is* the repo's data/
+    folder, so dest already exists (and src resolves to the same file)."""
+    import shutil
+
+    dest = runtime_paths.data_dir() / "nvd_corpus.db"
+    src = runtime_paths.resource_dir() / "data" / "nvd_corpus.db"
+    if dest.exists() or not src.exists():
+        return
+    shutil.copy2(src, dest)  # ~480MB, a few seconds, once
+
+
 def _free_port() -> int:
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind((HOST, 0))
@@ -55,6 +73,7 @@ def _wait_until_up(port: int, timeout: float = 20.0) -> None:
 
 
 def main() -> None:
+    _seed_corpus()  # ensure a corpus exists before server import opens it
     from server import app  # imported after path setup, deliberately late
 
     port = _free_port()
