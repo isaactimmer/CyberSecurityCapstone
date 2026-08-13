@@ -3,12 +3,10 @@ Resolves file locations correctly whether Scryxen is running from source or as
 the PyInstaller-packaged desktop app (`launcher.py` / `scryxen.spec`).
 
 Two kinds of paths:
-    resource_dir()  bundled, read-only resources (web/, data/cache/, assets.csv)
-                     -- ship with the app; also doubles as the process cwd for
-                     the packaged app, since a couple of modules
-                     (asset_graph.DEFAULT_ASSET_CSV,
-                     combine_feeds_with_custom_inputs.DEFAULT_CACHE_DIR) resolve
-                     their default paths relative to cwd rather than __file__.
+    resource_dir()  bundled, read-only resources (web/, assets.csv) -- ship with
+                     the app; also doubles as the process cwd for the packaged
+                     app, since a module (asset_graph.DEFAULT_ASSET_CSV) resolves
+                     its default path relative to cwd rather than __file__.
     data_dir()       a writable, per-user folder for things that must survive
                      across launches — right now just scryxen.db (run history).
                      Kept outside the bundle so it isn't lost on a onefile

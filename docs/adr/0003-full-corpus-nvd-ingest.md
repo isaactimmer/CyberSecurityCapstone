@@ -1,6 +1,6 @@
 # ADR-0003 — Scan against a full local NVD corpus, not per-vendor live pulls
 
-**Status:** Accepted · **Date:** 2026-08-13 · **Epic:** #TBD (full-corpus ingest)
+**Status:** Accepted · **Date:** 2026-08-13 · **Epic:** #56 (full-corpus ingest)
 
 ## Context
 

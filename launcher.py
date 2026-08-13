@@ -26,8 +26,8 @@ import time
 import runtime_paths
 
 # Bundled resources are read relative to cwd in a couple of modules
-# (asset_graph.DEFAULT_ASSET_CSV, combine_feeds_with_custom_inputs.DEFAULT_CACHE_DIR)
-# rather than relative to __file__ — anchor cwd there before anything imports them.
+# (asset_graph.DEFAULT_ASSET_CSV) rather than relative to __file__ — anchor cwd
+# there before anything imports them.
 os.chdir(runtime_paths.resource_dir())
 sys.path.insert(0, str(runtime_paths.resource_dir()))
 

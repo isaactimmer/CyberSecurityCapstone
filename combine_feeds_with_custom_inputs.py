@@ -38,12 +38,6 @@ NVD_BASE_URL = "https://services.nvd.nist.gov/rest/json/cves/2.0"
 EPSS_BASE_URL = "https://api.first.org/data/v1/epss"
 KEV_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
 
-# Legacy per-vendor CSV cache dir. The scan path no longer reads or writes it
-# (it queries the corpus, below); retained only for the one-off `enrich_cache.py`
-# back-fill script. The `data/cache/*__200.csv` files are retired under epic #56.
-DEFAULT_CACHE_DIR = "data/cache"
-
-
 def get_api_key() -> str | None:
     """
     Return the NVD API key from the environment, or None.
