@@ -2,11 +2,11 @@
 
 **Date:** 2026-08-13
 **Repo:** `C:\Users\rocketboy\Desktop\Projects\CyberSecurityCapstone` · GitHub `isaactimmer/CyberSecurityCapstone`
-**Branch:** `main` (tracks `origin/main`)
+**Branch:** `main` (tracks `origin/main`) — this session's work committed + pushed (`3cbbeea`).
 **Status:** Two things shipped this session — a **fix for the NVD 429 rate-limit
 cascade** and a **double-click Windows desktop build** (`Scryxen.exe`). Both are
-done and verified. The **History tab UI** (back end shipped last session) is still
-the main unbuilt piece. **This session's work is uncommitted** — see "Commit" below.
+done, verified, committed, and pushed. The **History tab UI** (back end shipped last
+session) is still the main unbuilt piece.
 
 ## What's done (no further action needed)
 
@@ -82,12 +82,20 @@ Back end is ready to render against. Keep `web/app.js` a **pure renderer** (per
   silently-dropped vendors in the UI* (the 429 fix stops the cascade at the engine;
   the UI could still show which vendors a scan couldn't reach).
 
-## Commit (this session's work is uncommitted)
-Branch off `main` first. **Include:** `combine_feeds_with_custom_inputs.py`,
-`server.py`, `store.py`, `runtime_paths.py`, `launcher.py`, `scryxen.spec`,
-`requirements-desktop.txt`, `PACKAGING.md`. **Exclude:** `dist/`, `build/`, `.env`,
-and decide whether the new `data/cache/*.csv` pulls and `assets2/assets3.csv` belong
-in the commit. Add `dist/`, `build/` to `.gitignore` if not already.
+## Working on another machine
+Committed + pushed in `3cbbeea` (source, packaging recipe, 89 vendor caches,
+`assets2/assets3.csv`, this handoff). `dist/`/`build/` are now gitignored. After a
+clone/pull:
+```
+py -m venv .venv
+.\.venv\Scripts\pip.exe install -r requirements.txt
+.\.venv\Scripts\python.exe -m uvicorn server:app --port 8000
+```
+Two things don't travel via git and need recreating locally:
+- **`.env` with `NVD_API_KEY`** (gitignored) — app runs fine without it (offline from
+  `data/cache/`, live pulls fall back to safe 6s spacing); recreate it for fast pulls.
+- **The `.exe`** — rebuild with `pip install -r requirements-desktop.txt` then
+  `pyinstaller scryxen.spec`.
 
 ## Run it
 ```
