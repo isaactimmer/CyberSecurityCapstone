@@ -50,6 +50,10 @@ function applyEnv(env) {
   cap = { ...ENV.default_capacity };
   $("metaFindings").textContent = ENV.finding_count;
   $("metaSource").textContent = ENV.source;
+  // Empty-corpus guard: warn (don't silently show a blank board) when the local
+  // NVD corpus has never been ingested. `corpus_loaded` is absent on older
+  // payloads, so only hide-then-show when it is explicitly false.
+  $("corpusNotice").style.display = ENV.corpus_loaded === false ? "" : "none";
   $("setupMeta").textContent = `${(ENV.asset_map.nodes || []).length} systems · ${ENV.finding_count} CVEs`;
   ["ci_pat", "ci_app", "ci_cw"].forEach((id, i) =>
     $(id).value = [cap.patching, cap.appsec, cap.change_window][i]);

@@ -21,9 +21,14 @@ after a mid-download failure skips completed years rather than restarting.
     py nvd_ingest.py            # full ingest: all NVD years + EPSS + KEV
     py nvd_ingest.py --years 2023 2024   # just those years (+ EPSS + KEV)
     py nvd_ingest.py --no-epss --no-kev  # NVD only
+    py nvd_ingest.py --refresh  # full rebuild: re-download every feed, re-ingest
+    py nvd_ingest.py --update   # fast delta: only recently-modified CVEs + EPSS/KEV
 
-Refresh flags (`--refresh` / `--update`) and the server empty-corpus guard are
-Phase 4 (#61); this module provides the ingest primitives they build on.
+`--refresh` and `--update` are the two maintenance modes (Phase 4, #61).
+`--refresh` re-downloads and re-ingests everything (correct but slow); `--update`
+pulls only fkie-cad's `CVE-Modified` delta plus fresh EPSS/KEV, which is much
+faster for a routine top-up. The server's empty-corpus guard (also #61) tells the
+user to run one of these when the corpus has never been ingested.
 """
 from __future__ import annotations
 
@@ -46,6 +51,11 @@ from corpus_store import CorpusStore
 # fkie-cad publishes one release asset per CVE year at a stable "latest" URL.
 _NVD_FEED_URL = (
     "https://github.com/fkie-cad/nvd-json-data-feeds/releases/latest/download/CVE-{year}.json.xz"
+)
+# ...plus a rolling "CVE-Modified" asset — every CVE changed in the last several
+# days, same `{cve_items: [...]}` shape. `--update` ingests just this delta.
+_NVD_MODIFIED_URL = (
+    "https://github.com/fkie-cad/nvd-json-data-feeds/releases/latest/download/CVE-Modified.json.xz"
 )
 _EPSS_FULL_CSV_URL = "https://epss.cyentia.com/epss_scores-current.csv.gz"
 _KEV_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
@@ -167,6 +177,30 @@ def _current_cve_year() -> int:
 # ---------------------------------------------------------------------------
 # Ingest steps
 # ---------------------------------------------------------------------------
+def _upsert_feed_file(store: CorpusStore, path: Path, *, batch_size: int = 5000) -> int:
+    """Parse a downloaded `CVE-*.json.xz` feed file and upsert every CVE (base row
+    + CPE triples) in batches. Shared by the per-year full ingest and the
+    `CVE-Modified` delta. Idempotent (per-CVE INSERT OR REPLACE). Returns the
+    number of CVEs written."""
+    cve_rows: list[dict] = []
+    cpe_triples: list[tuple[str, str, str]] = []
+    count = 0
+    for cve in iter_year_cves(path):
+        row, triples = parse_cve(cve)
+        cve_rows.append(row)
+        cpe_triples.extend(triples)
+        if len(cve_rows) >= batch_size:
+            store.upsert_cves(cve_rows)
+            store.upsert_cpe(cpe_triples)
+            count += len(cve_rows)
+            cve_rows, cpe_triples = [], []
+    if cve_rows:
+        store.upsert_cves(cve_rows)
+        store.upsert_cpe(cpe_triples)
+        count += len(cve_rows)
+    return count
+
+
 def ingest_nvd_years(
     store: CorpusStore,
     years: list[int],
@@ -189,28 +223,32 @@ def ingest_nvd_years(
             print(f"  [skip] CVE-{year}: {exc}", file=sys.stderr)
             continue
 
-        cve_rows: list[dict] = []
-        cpe_triples: list[tuple[str, str, str]] = []
-        year_count = 0
-        for cve in iter_year_cves(path):
-            row, triples = parse_cve(cve)
-            cve_rows.append(row)
-            cpe_triples.extend(triples)
-            if len(cve_rows) >= batch_size:
-                store.upsert_cves(cve_rows)
-                store.upsert_cpe(cpe_triples)
-                year_count += len(cve_rows)
-                cve_rows, cpe_triples = [], []
-        if cve_rows:
-            store.upsert_cves(cve_rows)
-            store.upsert_cpe(cpe_triples)
-            year_count += len(cve_rows)
-
+        year_count = _upsert_feed_file(store, path, batch_size=batch_size)
         total += year_count
         print(f"  CVE-{year}: {year_count} CVEs", file=sys.stderr)
 
     store.set_meta("nvd", datetime.now(timezone.utc).isoformat())
     return total
+
+
+def ingest_modified(
+    store: CorpusStore,
+    *,
+    feeds_dir: Path = FEEDS_DIR,
+    reuse: bool = False,
+    batch_size: int = 5000,
+) -> int:
+    """Ingest only fkie-cad's rolling `CVE-Modified` delta (CVEs changed in the
+    last several days). This is the fast path behind `--update`: one small file
+    upserted over the existing corpus rather than every year re-downloaded. The
+    download defaults to `reuse=False` so an update always fetches today's delta.
+    Returns the number of CVEs written."""
+    path = feeds_dir / "CVE-Modified.json.xz"
+    _download(_NVD_MODIFIED_URL, path, reuse=reuse)
+    count = _upsert_feed_file(store, path, batch_size=batch_size)
+    store.set_meta("nvd_modified", datetime.now(timezone.utc).isoformat())
+    print(f"  CVE-Modified: {count} CVEs", file=sys.stderr)
+    return count
 
 
 def parse_epss_csv(raw: bytes) -> tuple[list[dict], str | None]:
@@ -305,6 +343,19 @@ def run_ingest(
         ingest_kev(store)
 
 
+def run_update(store: CorpusStore) -> None:
+    """Fast top-up: ingest only the `CVE-Modified` delta, then refresh the EPSS
+    and KEV overlays (both are always full-feed pulls, so they stay current). Much
+    cheaper than `run_ingest`, which re-downloads every year file."""
+    print("Ingesting NVD 'modified' delta...", file=sys.stderr)
+    changed = ingest_modified(store)
+    print(f"NVD: {changed} modified CVEs applied ({store.count()} total).", file=sys.stderr)
+    print("Ingesting EPSS scores...", file=sys.stderr)
+    ingest_epss(store)
+    print("Ingesting CISA KEV...", file=sys.stderr)
+    ingest_kev(store)
+
+
 def _parse_args(argv=None):
     p = argparse.ArgumentParser(description="Ingest the full NVD/EPSS/KEV corpus.")
     p.add_argument(
@@ -318,20 +369,33 @@ def _parse_args(argv=None):
         "--no-reuse", action="store_true",
         help="Re-download feed files even if a cached copy exists.",
     )
+    mode = p.add_mutually_exclusive_group()
+    mode.add_argument(
+        "--refresh", action="store_true",
+        help="Full rebuild: re-download every feed (implies --no-reuse) and re-ingest.",
+    )
+    mode.add_argument(
+        "--update", action="store_true",
+        help="Fast delta: ingest only the CVE-Modified feed plus fresh EPSS/KEV.",
+    )
     return p.parse_args(argv)
 
 
 def main(argv=None) -> None:
     args = _parse_args(argv)
     store = CorpusStore()
-    run_ingest(
-        store,
-        years=args.years,
-        do_nvd=not args.no_nvd,
-        do_epss=not args.no_epss,
-        do_kev=not args.no_kev,
-        reuse=not args.no_reuse,
-    )
+    if args.update:
+        run_update(store)
+    else:
+        run_ingest(
+            store,
+            years=args.years,
+            do_nvd=not args.no_nvd,
+            do_epss=not args.no_epss,
+            do_kev=not args.no_kev,
+            # --refresh forces a fresh download of every feed; otherwise reuse cache.
+            reuse=not (args.no_reuse or args.refresh),
+        )
     store.close()
 
 

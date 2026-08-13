@@ -42,6 +42,7 @@ import pipeline
 import runtime_paths
 import scoring
 import store
+from combine_feeds_with_custom_inputs import cache_exists as corpus_loaded
 
 WEB_DIR = runtime_paths.resource_dir() / "web"
 
@@ -210,6 +211,10 @@ def _environment_payload(st: ConsoleState) -> dict:
     d = scoring.DEFAULT_WEIGHTS
     return {
         "source": st.source,
+        # False when the local NVD corpus has never been ingested — every scan
+        # comes back empty, so the console shows a "run ingest first" notice
+        # instead of a silent blank board (epic #56, Phase 4).
+        "corpus_loaded": corpus_loaded(),
         "finding_count": int(len(st.env)),
         "year_bounds": list(bounds) if bounds else None,
         "presets": dashboard.presets(),

@@ -93,6 +93,17 @@ def test_plan_endpoint_display_mode_still_honours_year_range(client):
     assert ids == {"CVE-2020-1111", "CVE-2021-2222"}   # 2019 excluded from universe
 
 
+def test_environment_reports_corpus_loaded(client, monkeypatch):
+    # The console reads this flag to show/suppress the "run ingest first" notice.
+    monkeypatch.setattr(server, "corpus_loaded", lambda: True)
+    assert client.get("/api/environment").json()["corpus_loaded"] is True
+
+
+def test_environment_flags_empty_corpus(client, monkeypatch):
+    monkeypatch.setattr(server, "corpus_loaded", lambda: False)
+    assert client.get("/api/environment").json()["corpus_loaded"] is False
+
+
 def test_override_endpoint_records_and_reranks(client):
     resp = client.post("/api/override", json={
         "cve_id": "CVE-2019-3333", "score": 100, "user": "lead",

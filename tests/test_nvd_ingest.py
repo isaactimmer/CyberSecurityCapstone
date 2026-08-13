@@ -9,6 +9,8 @@ ingest ordering contract is pinned.
 from __future__ import annotations
 
 import gzip
+import json
+import lzma
 
 import pytest
 
@@ -184,3 +186,67 @@ def test_nvd_then_epss_then_kev_compose_on_one_row(store):
     assert hit["cvss_score"] == 9.8
     assert hit["epss_score"] == 0.42
     assert hit["kev_flag"] is True
+
+
+# -- Phase 4: refresh / update maintenance modes (#61) ---------------------
+
+def _write_feed_file(path, cve_objs):
+    """Write a `CVE-*.json.xz` feed file in fkie-cad's shape."""
+    with lzma.open(path, "wt", encoding="utf-8") as fh:
+        json.dump({"cve_items": cve_objs}, fh)
+
+
+def test_upsert_feed_file_loads_a_feed(store, tmp_path):
+    path = tmp_path / "CVE-2024.json.xz"
+    _write_feed_file(path, [_CVE_OBJ])
+    n = ni._upsert_feed_file(store, path)
+    assert n == 1
+    (hit,) = store.query_vendor("purestorage")
+    assert hit["cvss_score"] == 9.8
+
+
+def test_ingest_modified_upserts_the_delta(store, tmp_path, monkeypatch):
+    # A CVE already in the corpus with a stale score, then re-issued in the delta.
+    stale = {**_CVE_OBJ, "metrics": {"cvssMetricV31": [{"cvssData": {"baseScore": 1.0, "baseSeverity": "LOW"}}]}}
+    store.upsert_cves([ni.parse_cve(stale)[0]])
+    store.upsert_cpe(ni.parse_cve(stale)[1])
+
+    feed = tmp_path / "CVE-Modified.json.xz"
+    _write_feed_file(feed, [_CVE_OBJ])  # the fresh 9.8 record
+    # Stub the network download to hand back our local feed file.
+    monkeypatch.setattr(ni, "_download", lambda url, dest, **k: feed)
+
+    n = ni.ingest_modified(store, feeds_dir=tmp_path)
+    assert n == 1
+    (hit,) = store.query_vendor("purestorage")
+    assert hit["cvss_score"] == 9.8            # the delta overwrote the stale row
+    assert store.last_refresh("nvd_modified")  # bookkeeping stamped
+
+
+def test_parse_args_refresh_and_update_are_mutually_exclusive():
+    assert ni._parse_args(["--refresh"]).refresh is True
+    assert ni._parse_args(["--update"]).update is True
+    with pytest.raises(SystemExit):
+        ni._parse_args(["--refresh", "--update"])
+
+
+def test_main_update_takes_the_fast_path(monkeypatch):
+    calls = []
+    monkeypatch.setattr(ni, "CorpusStore", lambda *a, **k: _NoopStore())
+    monkeypatch.setattr(ni, "run_update", lambda store: calls.append("update"))
+    monkeypatch.setattr(ni, "run_ingest", lambda *a, **k: calls.append("ingest"))
+    ni.main(["--update"])
+    assert calls == ["update"]
+
+
+def test_main_refresh_forces_fresh_download(monkeypatch):
+    seen = {}
+    monkeypatch.setattr(ni, "CorpusStore", lambda *a, **k: _NoopStore())
+    monkeypatch.setattr(ni, "run_ingest", lambda store, **k: seen.update(k))
+    ni.main(["--refresh"])
+    assert seen["reuse"] is False  # --refresh re-downloads every feed
+
+
+class _NoopStore:
+    def close(self):
+        pass

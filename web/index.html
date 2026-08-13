@@ -24,6 +24,15 @@
   <button class="tbtn" onclick="toggleTheme()" aria-label="Toggle theme"><span id="themeIcon">◑</span> Theme</button>
 </div></div>
 
+<!-- Empty-corpus notice: shown only when the local NVD corpus has not been ingested. -->
+<div id="corpusNotice" style="display:none;background:#7a1f1f;color:#fff;font-size:13px;line-height:1.5">
+  <div class="wrap" style="padding:10px 0">
+    <strong>No local vulnerability corpus found.</strong>
+    Scans read a one-time local copy of the NVD dataset. Build it (a few minutes, once) with
+    <code>py nvd_ingest.py</code>, then reload — or <code>py nvd_ingest.py --update</code> to refresh an existing one.
+  </div>
+</div>
+
 <!-- INTAKE -->
 <section id="intake"><div class="wrap">
   <div class="hero">
