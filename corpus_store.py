@@ -89,6 +89,32 @@ CREATE TABLE IF NOT EXISTS ingest_meta (
     key   TEXT PRIMARY KEY,
     value TEXT
 );
+
+-- Full-text index over descriptions. The description match is only a *fallback*
+-- (for CVEs with no CPE applicability), but it used to be a `LOWER(description)
+-- LIKE '%kw%'` scan of every row on *every* query — ~0.6s each, so a whole-
+-- environment scan crawled. This external-content FTS5 index reads the text
+-- straight from `cves` (no second copy) and is kept in sync by the triggers
+-- below, so the fallback becomes an indexed MATCH instead of a full scan.
+-- `recursive_triggers` is ON (see __init__) so INSERT OR REPLACE fires the
+-- delete trigger and the index never goes stale on re-ingest.
+CREATE VIRTUAL TABLE IF NOT EXISTS cve_fts USING fts5(
+    description,
+    content='cves',
+    content_rowid='rowid',
+    tokenize='unicode61'
+);
+CREATE TRIGGER IF NOT EXISTS cves_fts_ai AFTER INSERT ON cves BEGIN
+    INSERT INTO cve_fts(rowid, description) VALUES (new.rowid, new.description);
+END;
+CREATE TRIGGER IF NOT EXISTS cves_fts_ad AFTER DELETE ON cves BEGIN
+    INSERT INTO cve_fts(cve_fts, rowid, description) VALUES ('delete', old.rowid, old.description);
+END;
+-- OF description: EPSS/KEV overlays UPDATE other columns; don't re-index for those.
+CREATE TRIGGER IF NOT EXISTS cves_fts_au AFTER UPDATE OF description ON cves BEGIN
+    INSERT INTO cve_fts(cve_fts, rowid, description) VALUES ('delete', old.rowid, old.description);
+    INSERT INTO cve_fts(rowid, description) VALUES (new.rowid, new.description);
+END;
 """
 
 
@@ -97,6 +123,14 @@ def _norm(token: str) -> str:
     '_' and ' ' as the same separator (CPE uses `http_server`, users type
     `http server`)."""
     return str(token).strip().lower().replace("_", " ")
+
+
+def _fts_phrase(kw: str) -> str:
+    """Wrap a keyword as a single FTS5 phrase: internal double-quotes doubled,
+    the whole thing quoted. Quoting matches the keyword as one contiguous phrase
+    (so 'http server' means the phrase, not 'http' AND 'server' anywhere) and
+    neutralizes FTS5 operator characters, so any vendor string is query-safe."""
+    return '"' + kw.replace('"', '""') + '"'
 
 
 class CorpusStore:
@@ -112,7 +146,33 @@ class CorpusStore:
         # are bulk ingest runs, serialized by SQLite's own locking.
         self._conn = sqlite3.connect(str(db_path), check_same_thread=False)
         self._conn.row_factory = sqlite3.Row
+        # REPLACE-driven deletes must fire the FTS delete trigger, or a re-ingested
+        # CVE would orphan its old index row (external-content FTS + new rowid).
+        self._conn.execute("PRAGMA recursive_triggers = ON")
         self._conn.executescript(_SCHEMA)
+        self._conn.commit()
+        self._ensure_fts_backfilled()
+
+    def _ensure_fts_backfilled(self) -> None:
+        """Populate the FTS index for a corpus ingested before the index existed.
+        The sync triggers keep it current from here on, so this runs at most once
+        per corpus. Gated on a tiny indexed `ingest_meta` flag rather than a
+        COUNT over the FTS table — that count is not O(1) on FTS5 and would tax
+        every store open (a scan opens one per query)."""
+        done = self._conn.execute(
+            "SELECT 1 FROM ingest_meta WHERE key = 'fts_backfilled'"
+        ).fetchone()
+        if done:
+            return
+        cve_n = self._conn.execute("SELECT COUNT(*) FROM cves").fetchone()[0]
+        if cve_n == 0:
+            return  # fresh/empty store — triggers will fill the index as CVEs load
+        # Corpus predates the FTS index: build it once from the CVE text, then
+        # stamp the flag so this never runs again.
+        self._conn.execute("INSERT INTO cve_fts(cve_fts) VALUES ('rebuild')")
+        self._conn.execute(
+            "INSERT OR REPLACE INTO ingest_meta (key, value) VALUES ('fts_backfilled', '1')"
+        )
         self._conn.commit()
 
     # -- writes (ingest) -----------------------------------------------------
@@ -222,28 +282,45 @@ class CorpusStore:
         """Every CVE matching `keyword`, one dict per CVE in CVE_COLUMNS order.
 
         Primary match is CPE vendor/product equality (separator-insensitive);
-        the fallback is a description substring, so CVEs with no CPE config
+        the fallback is a full-text description match, so CVEs with no CPE config
         (Rejected / Awaiting Analysis) still surface. Rows are ordered worst
         first — KEV-listed, then higher EPSS, then higher CVSS — so a `limit`
         keeps the most urgent CVEs rather than an arbitrary slice. `limit=None`
-        (default) returns the complete set. `kev_flag` is returned as a bool."""
-        kw = _norm(keyword)
+        (default) returns the complete set. `kev_flag` is returned as a bool.
+
+        Both arms are index-backed: the CPE arm compares the raw (underscore)
+        token against `idx_cpe_vendor`/`idx_cpe_product` — the keyword is folded to
+        that form rather than transforming the column, which would defeat the
+        index — and the description arm is an FTS5 MATCH, not a scanning LIKE. The
+        FTS match is word-granular (a phrase), so it differs slightly from the old
+        substring LIKE at token boundaries (e.g. it won't match `mysql` inside
+        `mysqld`), which is the intended precision trade for the speed."""
+        kw = _norm(keyword)                 # space form, lowercased
+        kw_cpe = kw.replace(" ", "_")       # underscore form: matches stored CPE tokens
         cols = ", ".join(f"c.{col}" for col in CVE_COLUMNS)
+
+        clauses = [
+            "c.cve_id IN (SELECT cve_id FROM cve_cpe "
+            "WHERE vendor = :cpe OR product = :cpe)"
+        ]
+        params: dict = {"cpe": kw_cpe}
+        # Skip the FTS arm for a keyword that tokenizes to nothing (all
+        # punctuation), which would be an FTS5 syntax error rather than a match.
+        if any(ch.isalnum() for ch in kw):
+            clauses.append(
+                "c.rowid IN (SELECT rowid FROM cve_fts WHERE cve_fts MATCH :fts)"
+            )
+            params["fts"] = _fts_phrase(kw)
+
         sql = f"""
             SELECT {cols}
             FROM cves c
-            WHERE c.cve_id IN (
-                SELECT cve_id FROM cve_cpe
-                WHERE REPLACE(vendor, '_', ' ') = :kw
-                   OR REPLACE(product, '_', ' ') = :kw
-            )
-               OR LOWER(c.description) LIKE :like
+            WHERE {" OR ".join(clauses)}
             ORDER BY c.kev_flag DESC,
                      c.epss_score DESC,
                      c.cvss_score DESC,
                      c.cve_id
         """
-        params: dict = {"kw": kw, "like": f"%{kw}%"}
         if limit is not None:
             sql += " LIMIT :limit"
             params["limit"] = int(limit)

@@ -104,23 +104,38 @@ def build_environment_vulnerabilities(
     blip) is warned about and skipped rather than aborting the whole scan — so a
     live demo degrades gracefully to whatever vendors it could reach or cache.
     """
+    own_store = None
     if fetch is None:
         # Imported lazily so importing this module never requires the network
         # stack (requests/dotenv) unless an actual pull is performed.
-        from combine_feeds_with_custom_inputs import fetch_merged as fetch
+        from combine_feeds_with_custom_inputs import fetch_merged
+        from corpus_store import CorpusStore
 
-    frames = []
-    for vendor in sorted(set(asset_table["vendor"].dropna())):
-        try:
-            pulled = fetch(vendor, max_results=max_results, use_cache=use_cache)
-        except Exception as exc:  # noqa: BLE001 - resilience over precision here
-            if not skip_errors:
-                raise
-            print(f"  [skip] vendor {vendor!r} pull failed: {exc}", file=sys.stderr)
-            continue
-        if pulled is None or pulled.empty:
-            continue
-        frames.append(attach_importance_tier(pulled, vendor, asset_table))
+        # One corpus connection for the whole scan, not one per vendor: opening
+        # the ~400MB SQLite file has real per-open overhead, and a scan queries
+        # it once per distinct vendor.
+        own_store = CorpusStore()
+
+        def fetch(vendor, *, max_results, use_cache):
+            return fetch_merged(vendor, max_results=max_results,
+                                use_cache=use_cache, store=own_store)
+
+    try:
+        frames = []
+        for vendor in sorted(set(asset_table["vendor"].dropna())):
+            try:
+                pulled = fetch(vendor, max_results=max_results, use_cache=use_cache)
+            except Exception as exc:  # noqa: BLE001 - resilience over precision here
+                if not skip_errors:
+                    raise
+                print(f"  [skip] vendor {vendor!r} pull failed: {exc}", file=sys.stderr)
+                continue
+            if pulled is None or pulled.empty:
+                continue
+            frames.append(attach_importance_tier(pulled, vendor, asset_table))
+    finally:
+        if own_store is not None:
+            own_store.close()
 
     if not frames:
         return pd.DataFrame(

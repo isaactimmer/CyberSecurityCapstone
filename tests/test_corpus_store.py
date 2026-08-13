@@ -91,6 +91,26 @@ def test_query_no_match_returns_empty(store):
     assert store.query_vendor("nonexistent-vendor") == []
 
 
+def test_description_fallback_matches_whole_word_not_substring(store):
+    # The FTS fallback is word-granular: "widget" matches the token "widget" but
+    # not the token "widgetized" — the intended precision trade vs. the old LIKE.
+    store.upsert_cves([_cve("CVE-2023-1005", description="A flaw in the widget")])
+    store.upsert_cves([_cve("CVE-2023-1006", description="A flaw when widgetized")])
+    assert [r["cve_id"] for r in store.query_vendor("widget")] == ["CVE-2023-1005"]
+
+
+def test_reingest_with_changed_description_reindexes_fallback(store):
+    # Guards the FTS sync on INSERT OR REPLACE: the delete trigger must fire (it
+    # only does with recursive_triggers ON) so the stale text stops matching and
+    # the new text starts. A CPE-less CVE, so the description arm is the only hit.
+    store.upsert_cves([_cve("CVE-2023-1007", description="alpha widget")])
+    assert [r["cve_id"] for r in store.query_vendor("widget")] == ["CVE-2023-1007"]
+
+    store.upsert_cves([_cve("CVE-2023-1007", description="beta gadget")])  # re-ingest
+    assert store.query_vendor("widget") == []                # stale text gone
+    assert [r["cve_id"] for r in store.query_vendor("gadget")] == ["CVE-2023-1007"]
+
+
 # -- contract: shape & ordering -------------------------------------------
 
 def test_query_returns_exact_column_set(store):
