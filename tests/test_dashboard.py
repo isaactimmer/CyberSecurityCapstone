@@ -155,10 +155,12 @@ def test_live_environment_scores_a_vendor_with_no_asset_context():
     # so the real pipeline can still score it.
     assert set(scan.env["importance_tier"]) == {"high"}
     assert set(scan.env["vendor"]) == {"acme waf"}
-    assert scan.source == "cached"
+    assert scan.source == "corpus"
 
 
-def test_live_environment_reports_live_when_not_cached():
+def test_live_environment_reports_live_when_corpus_not_loaded():
+    # cache_probe now answers "is the corpus loaded"; a False probe means the
+    # data did not come from the corpus, so the badge falls back to "live".
     scan = dashboard.live_environment(
         "brand new vendor", fetch=_fake_feed, cache_probe=lambda *a, **k: False
     )

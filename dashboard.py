@@ -34,7 +34,10 @@ import pipeline
 import scoring
 from combine_feeds_with_custom_inputs import cache_exists, fetch_merged
 
-DEFAULT_MAX_RESULTS = 200
+# A scan filters + scores the complete local NVD corpus, so there is no default
+# cap — `None` means "every matching CVE" (epic #56). A caller may still pass an
+# int to keep only the worst-N.
+DEFAULT_MAX_RESULTS = None
 
 # Columns surfaced in the findings / plan tables, in reading order: identity,
 # then the four raw scoring inputs, then the derived pool/effort and composite.
@@ -719,7 +722,7 @@ class LiveScan:
     """One live/cached vendor pull, ready for `plan`."""
 
     env: pd.DataFrame
-    source: str   # "live" (freshly fetched) or "cached" (replayed from disk)
+    source: str   # "corpus" (served from the local NVD corpus) or "live" (fallback)
     vendor: str
     tier: str
 
@@ -742,7 +745,7 @@ def live_environment(
     `cache_probe` are injectable for tests. Returns None when the pull is empty
     (unknown vendor / no CVEs) so the app can say so instead of planning nothing.
     """
-    cached = cache_probe(vendor, max_results)
+    from_corpus = cache_probe(vendor, max_results)
     df = fetch(vendor, max_results=max_results, use_cache=use_cache)
     if df is None or df.empty:
         return None
@@ -751,7 +754,7 @@ def live_environment(
     env["vendor"] = vendor
     env["importance_tier"] = tier
     return LiveScan(
-        env=env, source="cached" if cached else "live", vendor=vendor, tier=tier
+        env=env, source="corpus" if from_corpus else "live", vendor=vendor, tier=tier
     )
 
 
