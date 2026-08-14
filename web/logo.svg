@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Scryxen">
+  <defs>
+    <linearGradient id="lg-cover" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3a3a3d"/>
+      <stop offset="45%" stop-color="#161618"/>
+      <stop offset="100%" stop-color="#020203"/>
+    </linearGradient>
+    <linearGradient id="lg-near" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e2dabf"/>
+      <stop offset="12%" stop-color="#faf6ea"/>
+      <stop offset="55%" stop-color="#f0e7cd"/>
+      <stop offset="100%" stop-color="#d9d0b3"/>
+    </linearGradient>
+    <linearGradient id="lg-far" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d6cba9"/>
+      <stop offset="12%" stop-color="#f4ecd8"/>
+      <stop offset="55%" stop-color="#e9deba"/>
+      <stop offset="100%" stop-color="#cfc19a"/>
+    </linearGradient>
+    <linearGradient id="lg-back" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#151517"/>
+      <stop offset="60%" stop-color="#232326"/>
+      <stop offset="100%" stop-color="#0c0c0d"/>
+    </linearGradient>
+    <linearGradient id="lg-sheen" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="40%" stop-color="#ffffff" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="redMetal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4a0805"/>
+      <stop offset="35%" stop-color="#d8210f"/>
+      <stop offset="55%" stop-color="#ff8a6b"/>
+      <stop offset="75%" stop-color="#c81f0f"/>
+      <stop offset="100%" stop-color="#3a0502"/>
+    </linearGradient>
+    <linearGradient id="redMetalV" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3a0502"/>
+      <stop offset="45%" stop-color="#e2291b"/>
+      <stop offset="55%" stop-color="#ff9478"/>
+      <stop offset="70%" stop-color="#c81f0f"/>
+      <stop offset="100%" stop-color="#4a0805"/>
+    </linearGradient>
+    <radialGradient id="grommet" cx="35%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="35%" stop-color="#cfcfcf"/>
+      <stop offset="68%" stop-color="#9a9a9a"/>
+      <stop offset="100%" stop-color="#616161"/>
+    </radialGradient>
+  </defs>
+
+  <!-- book: cover at x56..456, y56..456; pages peek on the right, spiral on the left -->
+  <!-- back cover strip -->
+  <rect x="276" y="58" width="224" height="396" rx="80" fill="url(#lg-back)"/>
+  <!-- far page -->
+  <rect x="266" y="56" width="228" height="400" rx="80" fill="url(#lg-far)"/>
+  <!-- near page -->
+  <rect x="256" y="56" width="224" height="400" rx="80" fill="url(#lg-near)"/>
+
+  <!-- planner cover -->
+  <rect x="56" y="56" width="400" height="400" rx="88" fill="url(#lg-cover)"/>
+  <!-- glossy sheen over the top of the cover -->
+  <path d="M144 56 h224 a88 88 0 0 1 88 88 v76 h-400 v-76 a88 88 0 0 1 88 -88 z" fill="url(#lg-sheen)"/>
+
+  <!-- dotted compass sigil, centred on the cover (original 260x260 art at offset 126,126) -->
+  <g transform="translate(126,126)" filter="drop-shadow(0 2px 6px rgba(0,0,0,0.6))">
+    <g fill="none" stroke="url(#redMetal)">
+      <circle cx="130" cy="130" r="12" stroke-width="3" stroke-dasharray="1,4"/>
+      <circle cx="130" cy="130" r="26" stroke-width="3" stroke-dasharray="1.5,5"/>
+      <circle cx="130" cy="130" r="40" stroke-width="2.5" stroke-dasharray="2,6"/>
+      <circle cx="130" cy="130" r="56" stroke-width="2.5" stroke-dasharray="3,7" opacity="0.85"/>
+      <circle cx="130" cy="130" r="72" stroke-width="2" stroke-dasharray="1,9" opacity="0.55"/>
+      <line x1="112" y1="42" x2="148" y2="42" stroke-width="2.5"/>
+      <line x1="117" y1="55" x2="143" y2="55" stroke-width="2.5"/>
+      <line x1="108" y1="218" x2="152" y2="218" stroke-width="2.5"/>
+      <line x1="113" y1="205" x2="147" y2="205" stroke-width="2.5"/>
+      <line x1="42" y1="112" x2="42" y2="148" stroke-width="2.5"/>
+      <line x1="55" y1="117" x2="55" y2="143" stroke-width="2.5"/>
+      <line x1="218" y1="108" x2="218" y2="152" stroke-width="2.5"/>
+      <line x1="205" y1="113" x2="205" y2="147" stroke-width="2.5"/>
+    </g>
+    <g fill="url(#redMetalV)">
+      <polygon points="130,2 121,34 130,72 139,34"/>
+      <polygon points="130,258 121,226 130,188 139,226"/>
+    </g>
+    <g fill="url(#redMetal)">
+      <polygon points="2,130 34,121 72,130 34,139"/>
+      <polygon points="258,130 226,121 188,130 226,139"/>
+    </g>
+    <circle cx="130" cy="130" r="6" fill="url(#redMetalV)"/>
+    <circle cx="130" cy="130" r="6" fill="none" stroke="#6b0e07" stroke-width="1"/>
+    <g fill="url(#redMetalV)" stroke="#3a0502" stroke-width="0.75">
+      <polygon points="130,64 125,72 130,80 135,72"/>
+      <polygon points="130,196 125,188 130,180 135,188"/>
+    </g>
+    <g fill="url(#redMetal)" stroke="#3a0502" stroke-width="0.75">
+      <polygon points="64,130 72,125 80,130 72,135"/>
+      <polygon points="196,130 188,125 180,130 188,135"/>
+    </g>
+    <g stroke="#3a0502" stroke-width="1" opacity="0.8">
+      <line x1="124" y1="46" x2="130" y2="52"/>
+      <line x1="136" y1="46" x2="130" y2="52"/>
+      <line x1="124" y1="214" x2="130" y2="208"/>
+      <line x1="136" y1="214" x2="130" y2="208"/>
+      <line x1="46" y1="124" x2="52" y2="130"/>
+      <line x1="46" y1="136" x2="52" y2="130"/>
+      <line x1="214" y1="124" x2="208" y2="130"/>
+      <line x1="214" y1="136" x2="208" y2="130"/>
+    </g>
+    <circle cx="130" cy="130" r="88" fill="none" stroke="url(#redMetal)" stroke-width="1" stroke-dasharray="0.5,10" opacity="0.4"/>
+    <g fill="#8f1f12" opacity="0.75">
+      <circle cx="66" cy="66" r="2.5"/>
+      <circle cx="194" cy="66" r="2.5"/>
+      <circle cx="66" cy="194" r="2.5"/>
+      <circle cx="194" cy="194" r="2.5"/>
+    </g>
+    <g fill="url(#redMetal)" opacity="0.85">
+      <polygon points="130,90 125,108 130,124 135,108" transform="rotate(45 130 130)"/>
+      <polygon points="130,90 125,108 130,124 135,108" transform="rotate(135 130 130)"/>
+      <polygon points="130,90 125,108 130,124 135,108" transform="rotate(225 130 130)"/>
+      <polygon points="130,90 125,108 130,124 135,108" transform="rotate(315 130 130)"/>
+    </g>
+    <g stroke="#8f1f12" stroke-width="1.5" stroke-dasharray="1,4" opacity="0.6">
+      <line x1="66" y1="66" x2="94" y2="94"/>
+      <line x1="194" y1="66" x2="166" y2="94"/>
+      <line x1="66" y1="194" x2="94" y2="166"/>
+      <line x1="194" y1="194" x2="166" y2="166"/>
+    </g>
+    <circle cx="130" cy="130" r="100" fill="none" stroke="url(#redMetal)" stroke-width="1" stroke-dasharray="3,8" opacity="0.3"/>
+    <circle cx="130" cy="130" r="112" fill="none" stroke="url(#redMetal)" stroke-width="0.75" stroke-dasharray="0.5,12" opacity="0.2"/>
+    <g fill="#c81f0f" opacity="0.5">
+      <circle cx="130" cy="96" r="1.2"/>
+      <circle cx="130" cy="164" r="1.2"/>
+      <circle cx="96" cy="130" r="1.2"/>
+      <circle cx="164" cy="130" r="1.2"/>
+      <circle cx="105" cy="105" r="1"/>
+      <circle cx="155" cy="105" r="1"/>
+      <circle cx="105" cy="155" r="1"/>
+      <circle cx="155" cy="155" r="1"/>
+    </g>
+  </g>
+
+  <!-- spiral binder grommets down the left edge of the cover -->
+  <g>
+    <circle cx="81" cy="123" r="13" fill="url(#grommet)"/><circle cx="81" cy="123" r="7" fill="#151517"/>
+    <circle cx="81" cy="173" r="13" fill="url(#grommet)"/><circle cx="81" cy="173" r="7" fill="#151517"/>
+    <circle cx="81" cy="223" r="13" fill="url(#grommet)"/><circle cx="81" cy="223" r="7" fill="#151517"/>
+    <circle cx="81" cy="273" r="13" fill="url(#grommet)"/><circle cx="81" cy="273" r="7" fill="#151517"/>
+    <circle cx="81" cy="323" r="13" fill="url(#grommet)"/><circle cx="81" cy="323" r="7" fill="#151517"/>
+    <circle cx="81" cy="373" r="13" fill="url(#grommet)"/><circle cx="81" cy="373" r="7" fill="#151517"/>
+  </g>
+</svg>

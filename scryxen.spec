@@ -71,6 +71,7 @@ exe = EXE(
     upx=False,
     console=False,  # no console window; flip to True temporarily if a build
                      # needs debugging (prints/tracebacks become visible)
+    icon=str(ROOT / "scryxen.ico"),  # planner-compass app icon (generated from web/logo.svg)
 )
 
 coll = COLLECT(
