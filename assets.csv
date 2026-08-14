@@ -9,7 +9,7 @@ k8s-cluster,Kubernetes Cluster,High,false,app-server|container-registry|monitori
 crm-system,CRM System,High,false,app-server|domain-controller,microsoft
 monitoring-siem,Monitoring / SIEM,High,false,app-server|backup-server|grafana-dashboards|ids-sensor|k8s-cluster|log-archive,splunk
 nas-storage,NAS Storage Array,Medium,false,backup-server|file-server,netapp
-ci-cd,CI/CD Pipeline,High,false,confluence-wiki|container-registry|db-admin-ws|dev-server|jira-tracker|staging-server,jenkins
+ci-cd,CI/CD Pipeline,High,false,confluence-wiki|container-registry|db-admin-ws|dev-server|gitlab-server|jira-tracker|staging-server,jenkins
 hr-system,HR System,Medium,false,domain-controller|finance-system,sap
 reverse-proxy,Reverse Proxy,Medium,false,api-gateway|waf,nginx
 container-registry,Container Registry,Medium,false,ci-cd|k8s-cluster,docker
@@ -36,3 +36,4 @@ web-server,Public Web Server,High,false,dmz-firewall|load-balancer,apache http s
 dmz-firewall,DMZ Firewall,High,false,edge-router|ids-sensor|web-server,palo alto
 iot-gateway,IoT Gateway,Low,false,wireless-controller,eclipse mosquitto
 guest-wifi,Guest WiFi Access Point,Low,false,wireless-controller,aruba
+gitlab-server,GitLab Server,High,false,ci-cd,gitlab
